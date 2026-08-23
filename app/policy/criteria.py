@@ -68,14 +68,23 @@ class SectionLike(Protocol):
 class CriterionType(StrEnum):
     """What role a criterion plays in the policy's own logic.
 
-    ``REQUIRED`` and ``EXCLUSION`` bear on the outcome. ``INFORMATIONAL`` does not -
-    it is recorded because policies state things that are not tests, and dropping
-    them would misrepresent the document.
+    ``REQUIRED`` and ``EXCLUSION`` bear on the outcome directly. ``INFORMATIONAL``
+    does not - it is recorded because policies state things that are not tests, and
+    dropping them would misrepresent the document.
+
+    ``EXCEPTION_CONDITION`` is a condition that appears only inside a policy's
+    declared logic, on an alternative pathway. It is not a requirement: failing it
+    must never deny, because all it means is that the ordinary rule applies after
+    all. 42 CFR 410.32(a)(1) is the case that forced it - a qualified interpreting
+    physician may order a diagnostic mammogram from screening findings "even though
+    the physician does not treat the beneficiary", so the ordering requirement has
+    a route through it that a conjunction cannot express (ADR-023).
     """
 
     REQUIRED = "REQUIRED"
     EXCLUSION = "EXCLUSION"
     INFORMATIONAL = "INFORMATIONAL"
+    EXCEPTION_CONDITION = "EXCEPTION_CONDITION"
 
 
 class CriterionProvenanceError(MedauthError):

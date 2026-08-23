@@ -1,8 +1,9 @@
 """The decision table: per-criterion verdicts in, a recommendation out.
 
-Pure. No I/O, no clock, no randomness, no model. `app.decision` may import only
-`app.core`, and a test asserts it, so this stays exhaustively testable as a truth
-table with nothing loaded (ADR-010).
+Pure. No I/O, no clock, no randomness, no model. `app.decision` may reach
+`app.core` and its own modules and nothing else, and a test asserts it by parsing
+the AST, so this stays exhaustively testable as a truth table with nothing loaded
+(ADR-010).
 
 **Built during the data-foundation phase, deliberately.** ADR-015 requires that a
 gold case's label be computed by *the same* function the system will use - a
@@ -14,22 +15,73 @@ What is **not** here: the abstention gate. It reads calibrated thresholds that d
 not exist until Phase 6 selects them on the dev split, and inventing one now would
 be a fabricated threshold with clinical consequences (ADR-011).
 
-Row order is the safety design. Rows 1-6 are all evaluated before any denial is
-reachable, and row 6 (missing evidence) precedes rows 7 and 8 (evidenced failure).
-That is the difference between "the note does not say" and "the note says
+---
+
+**Phase 4: the conjunction is now declared, not assumed.**
+
+This table used to require that every required criterion hold. That is a rule no
+regulation guarantees, and 42 CFR 410.32(a) disproves it in one sentence: a
+qualified interpreting physician may order a diagnostic mammogram from screening
+findings "even though the physician does not treat the beneficiary". Under the old
+logic that case denied, because the ordering criterion was evidenced NOT_SATISFIED
+- a denial the regulation itself contradicts.
+
+So the shape of a policy's logic is now an input (`app.decision.logic`). When a
+policy declares none, the engine builds a conjunction *explicitly* and stamps it
+`ASSUMED_CONJUNCTION`, which travels on the recommendation and appears in the
+logic inventory. The behaviour for such a policy is unchanged - what changed is
+that the assumption is now visible and reviewable instead of being a property of
+this file that nobody could see.
+
+**Two layers, kept apart.** `logic.evaluate()` says what the *policy* concludes;
+this module says what to *recommend*. They are different claims - "the conditions
+are met" is a statement about a regulation, "approve" is advice to a reviewer that
+also weighs evidence quality, guardrail state and open questions - and a system
+that conflates them cannot say which of the two it got wrong.
+
+**Row order is still the safety design.** Rows 1-6 are all evaluated before any
+denial is reachable, and row 6 (an open question) precedes rows 7 and 8 (evidenced
+failure). That is the difference between "the note does not say" and "the note says
 otherwise", and collapsing it is how automated prior authorization denies people
-for missing paperwork.
+for missing paperwork. Kleene logic alone would not preserve it: a decisive FALSE
+is logically decisive whatever else is unknown. Holding the case anyway is a safety
+choice of this system, made here, where it can be read and tested.
 """
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import date
 from enum import StrEnum
 
 from app.core.types import CriterionKind, ResolutionStatus, Verdict
+from app.decision.logic import (
+    All,
+    Any,
+    AtLeast,
+    Leaf,
+    LogicForm,
+    Node,
+    Not,
+    PolicyEvaluation,
+    PolicyLogic,
+    PolicyTruth,
+    Tri,
+    Unless,
+    When,
+    evaluate,
+    leaf_value,
+)
 from app.decision.models import DecisionRule, Outcome, Recommendation
 
-__all__ = ["CriterionOutcome", "GuardrailState", "ResolutionState", "decide"]
+__all__ = [
+    "CriterionOutcome",
+    "GuardrailState",
+    "ResolutionState",
+    "assumed_conjunction",
+    "decide",
+]
 
 
 class GuardrailState(StrEnum):
@@ -65,16 +117,69 @@ class ResolutionState:
     version_count: int = 0
 
 
+def assumed_conjunction(
+    criteria: tuple[CriterionOutcome, ...],
+    *,
+    policy_id: str = "unspecified",
+    policy_version: str = "unspecified",
+) -> PolicyLogic:
+    """Build the conjunction this engine used to apply silently.
+
+    Every REQUIRED criterion joined by AND, every EXCLUSION joined by OR. It is
+    the right shape for most of the corpus and the wrong shape for at least one
+    policy, which is why it is stamped `ASSUMED_CONJUNCTION` rather than
+    `DECLARED`: the label is the difference between a rule someone checked and a
+    default nobody has.
+    """
+    required = tuple(Leaf(c.criterion_id) for c in criteria if c.kind is CriterionKind.REQUIRED)
+    excluded = tuple(Leaf(c.criterion_id) for c in criteria if c.kind is CriterionKind.EXCLUSION)
+    return PolicyLogic(
+        policy_id=policy_id,
+        policy_version=policy_version,
+        requirements=All(required),
+        exclusions=Any(excluded) if excluded else None,
+        form=LogicForm.ASSUMED_CONJUNCTION,
+    )
+
+
+def _leaf_ids(node: Node) -> tuple[str, ...]:
+    """Every criterion id the tree references, in order, duplicates kept.
+
+    Used to tell "this policy states no requirements" from "this policy states
+    requirements that all happen to hold", which vacuous truth would merge.
+    """
+    match node:
+        case Leaf(criterion_id=cid):
+            return (cid,)
+        case All(children=children) | Any(children=children) | AtLeast(children=children):
+            return tuple(i for c in children for i in _leaf_ids(c))
+        case Not(child=child):
+            return _leaf_ids(child)
+        case Unless(rule=rule, exception=exception):
+            return _leaf_ids(rule) + _leaf_ids(exception)
+        case When(condition=condition, then=then):
+            return _leaf_ids(condition) + _leaf_ids(then)
+
+
 def decide(
     criteria: tuple[CriterionOutcome, ...],
     guardrail: GuardrailState,
     resolution: ResolutionState,
     *,
+    logic: PolicyLogic | None = None,
+    as_of: date | None = None,
     decision_config_version: str = "unset",
 ) -> Recommendation:
-    """Map verdicts to a recommendation. Total: every input yields an outcome."""
-    required = [c for c in criteria if c.kind is CriterionKind.REQUIRED]
-    exclusions = [c for c in criteria if c.kind is CriterionKind.EXCLUSION]
+    """Map verdicts to a recommendation. Total: every input yields an outcome.
+
+    `logic` is the policy's declared shape. Omitted, an explicit conjunction is
+    built and labelled as assumed - see `assumed_conjunction`.
+    """
+    states = {
+        c.criterion_id: leaf_value(c.verdict, has_valid_evidence=c.has_valid_evidence, kind=c.kind)
+        for c in criteria
+    }
+    missing_by_id = {c.criterion_id: c.missing_evidence for c in criteria}
 
     def result(
         outcome: Outcome, rule: DecisionRule, missing: tuple[str, ...] = ()
@@ -108,41 +213,87 @@ def decide(
     if guardrail is GuardrailState.CONTRADICTION:
         return result(Outcome.HUMAN_REVIEW, DecisionRule.CONTRADICTORY_VERDICTS)
 
-    # 6 - Missing evidence on a required criterion. BEFORE any denial row.
-    undecided = [c for c in required if c.verdict is Verdict.INSUFFICIENT_EVIDENCE]
-    if undecided:
+    policy = logic if logic is not None else assumed_conjunction(criteria)
+
+    # 5a - A policy whose logic nobody has established cannot produce a
+    #      recommendation. Fires before any denial, deliberately: guessing the
+    #      shape of a rule is not a safer error than admitting it is unknown.
+    if policy.form is LogicForm.REVIEW_REQUIRED:
+        return result(Outcome.HUMAN_REVIEW, DecisionRule.POLICY_SEMANTICS_UNRESOLVED)
+
+    evaluation = evaluate(policy, states, as_of=as_of)
+
+    # 5b - Out of its temporal window. Version selection is by date of service,
+    #      never "latest" (ADR-004), so an out-of-scope policy decides nothing.
+    if not evaluation.applicable:
+        return result(Outcome.HUMAN_REVIEW, DecisionRule.UNCLASSIFIED)
+
+    # A policy stating no requirements cannot approve anything. 42 CFR 411.15 is
+    # exactly this: an exclusion overlay with nothing to satisfy. Vacuous truth
+    # would turn every such case into an approval, so it is refused explicitly.
+    stated_requirements = bool(_leaf_ids(policy.requirements))
+
+    required_ids = frozenset(c.criterion_id for c in criteria if c.kind is CriterionKind.REQUIRED)
+    return _recommend(evaluation, stated_requirements, required_ids, missing_by_id, result)
+
+
+#: Builds a `Recommendation` with the run's config version already attached.
+Emit = Callable[..., Recommendation]
+
+
+def _recommend(
+    evaluation: PolicyEvaluation,
+    stated_requirements: bool,
+    required_ids: frozenset[str],
+    missing_by_id: dict[str, tuple[str, ...]],
+    emit: Emit,
+) -> Recommendation:
+    """Map a policy evaluation to advice for a reviewer.
+
+    The ordering below is the safety property, and it is not the ordering that
+    pure logic would give. Kleene FALSE is decisive whatever else is unknown -
+    logically, a denial would follow. This system holds the case instead, because
+    an unresolved question is a reason to ask, not a reason to refuse.
+
+    The one place an unknown does *not* hold the case is when the policy is
+    already satisfied without it. That is the Phase 4 improvement: an alternative
+    pathway that succeeds makes the unanswered question moot, and asking for it
+    anyway would be delay dressed as diligence.
+    """
+    # 9/11 - Satisfied. Checked FIRST: if a satisfied pathway exists, remaining
+    #        unknowns cannot change the answer and must not delay it.
+    if evaluation.truth is PolicyTruth.POLICY_SATISFIED and stated_requirements:
+        if evaluation.exclusion_value is Tri.TRUE:
+            return emit(Outcome.DENY_RECOMMENDED, DecisionRule.EXCLUSION_SATISFIED)
+        # Satisfied *despite* a failed requirement means an alternative pathway
+        # carried it. Saying so is not cosmetic: "approved because everything was
+        # met" and "approved because the regulation provides another route" are
+        # different explanations, and a reviewer auditing a denial-adjacent case
+        # needs the second one to be visible rather than inferred.
+        rule = (
+            DecisionRule.EXCEPTION_SATISFIED
+            if set(evaluation.false_criteria) & required_ids
+            else DecisionRule.ALL_REQUIRED_SATISFIED
+        )
+        return emit(Outcome.APPROVE_RECOMMENDED, rule)
+
+    # 6 - An open question on a criterion that still matters. BEFORE any denial.
+    if evaluation.unknown_criteria:
         missing = tuple(
             detail
-            for criterion in undecided
-            for detail in (criterion.missing_evidence or (criterion.criterion_id,))
+            for cid in evaluation.unknown_criteria
+            for detail in (missing_by_id.get(cid) or (cid,))
         )
-        return result(Outcome.NEEDS_INFO, DecisionRule.INSUFFICIENT_EVIDENCE, missing)
+        return emit(Outcome.NEEDS_INFO, DecisionRule.INSUFFICIENT_EVIDENCE, missing)
 
     # 7 - An exclusion positively established by valid evidence.
-    if any(c.verdict is Verdict.SATISFIED and c.has_valid_evidence for c in exclusions):
-        return result(Outcome.DENY_RECOMMENDED, DecisionRule.EXCLUSION_SATISFIED)
+    if evaluation.exclusion_value is Tri.TRUE:
+        return emit(Outcome.DENY_RECOMMENDED, DecisionRule.EXCLUSION_SATISFIED)
 
-    # 8 - A required criterion positively established as NOT met, with evidence.
-    #     Without evidence this is row 6, not a denial.
-    evidenced_failure = [
-        c for c in required if c.verdict is Verdict.NOT_SATISFIED and c.has_valid_evidence
-    ]
-    if evidenced_failure:
-        return result(Outcome.DENY_RECOMMENDED, DecisionRule.REQUIRED_NOT_SATISFIED)
-
-    unevidenced_failure = [
-        c for c in required if c.verdict is Verdict.NOT_SATISFIED and not c.has_valid_evidence
-    ]
-    if unevidenced_failure:
-        return result(
-            Outcome.NEEDS_INFO,
-            DecisionRule.INSUFFICIENT_EVIDENCE,
-            tuple(c.criterion_id for c in unevidenced_failure),
-        )
-
-    # 9 - Everything required is satisfied and nothing excludes.
-    if required and all(c.verdict in (Verdict.SATISFIED, Verdict.NOT_APPLICABLE) for c in required):
-        return result(Outcome.APPROVE_RECOMMENDED, DecisionRule.ALL_REQUIRED_SATISFIED)
+    # 8 - The policy's conditions are established as not met, with evidence, and
+    #     no alternative pathway and no open question remains.
+    if evaluation.truth is PolicyTruth.POLICY_NOT_SATISFIED and stated_requirements:
+        return emit(Outcome.DENY_RECOMMENDED, DecisionRule.REQUIRED_NOT_SATISFIED)
 
     # 10 - Totality guard. Reaching it is a defect signal and is counted.
-    return result(Outcome.HUMAN_REVIEW, DecisionRule.UNCLASSIFIED)
+    return emit(Outcome.HUMAN_REVIEW, DecisionRule.UNCLASSIFIED)

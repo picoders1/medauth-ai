@@ -1,0 +1,68 @@
+# Declared policy logic for 42 CFR 410.32 (revision 2026-08-13).
+#
+# WHY THIS FILE EXISTS
+#
+# Until Phase 4 the decision engine applied one shape to every policy: every
+# required criterion must hold. 410.32 is the counter-example. Paragraph (a)(1)
+# says a qualified interpreting physician may order a diagnostic mammogram from
+# screening findings "even though the physician does not treat the beneficiary" -
+# an explicit route through the requirement in (a). Read conjunctively, such a
+# case denies. The regulation says it should not.
+#
+# WHAT IS DECLARED AND WHAT IS NOT
+#
+# The exception is declared and tested. Two other semantics in this policy are
+# NOT resolved and are recorded below rather than guessed. `form: DECLARED` means
+# the exception structure was established from the text; it does not mean every
+# question about this policy has been answered.
+#
+# Curated by the same non-clinician engineering process as the transcriptions.
+# Structure is read off the regulation's own wording. It is not a clinical
+# judgement and does not close OD-19.
+
+schema_version: "1"
+policy_id: "42 CFR 410.32"
+policy_version: "2026-08-13"
+form: DECLARED
+curator: engineering
+curator_role: Software engineer. Not a clinician, not a coverage analyst.
+curated_at: 2026-08-23
+source_provision: "42 CFR 410.32(a)(1)"
+source_url: https://www.ecfr.gov/current/title-42/section-410.32
+
+requirements:
+  all:
+    # (a) ordered by the treating physician - UNLESS the (a)(1) mammography
+    # exception applies. Both exception conditions must hold together: a
+    # diagnostic mammogram ordered for some other reason is not within it.
+    - unless:
+        rule:
+          leaf: 42_CFR_410_32_2026_08_13_C01
+        exception:
+          all:
+            - leaf: 42_CFR_410_32_2026_08_13_C05
+            - leaf: 42_CFR_410_32_2026_08_13_C06
+    - leaf: 42_CFR_410_32_2026_08_13_C02
+    - leaf: 42_CFR_410_32_2026_08_13_C03
+    - leaf: 42_CFR_410_32_2026_08_13_C04
+
+review_notes:
+  - >
+    UNRESOLVED: C03 (appropriate supervision level) references the supervision
+    levels set out in paragraph (b)(3), which is not transcribed. The criterion
+    therefore cannot be adjudicated on its own evidence - see R-51. Declared here
+    as a plain conjunct because that is what the engine did before; whether it
+    should instead be conditional on the test's designated level is a question for
+    review, not for a guess.
+  - >
+    UNRESOLVED: C04 (portable x-ray general supervision) applies only to portable
+    x-ray services furnished in a place of residence used as the patient's home.
+    That is conditional applicability, which this representation can express with
+    `when`, but there is no transcribed criterion establishing whether a case IS a
+    portable x-ray service. Declared as a plain conjunct, which over-applies it.
+  - >
+    UNRESOLVED: whether the (a)(1) exception also relieves C02 (results used in
+    management). The text relieves only the treating-physician requirement on its
+    face, and it is read narrowly here. A narrow reading is the conservative one
+    for approval and the aggressive one for denial, so it is flagged rather than
+    settled.

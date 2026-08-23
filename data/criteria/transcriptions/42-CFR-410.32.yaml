@@ -59,3 +59,44 @@ criteria:
       used as the patient's home.
     source_section: Portable x-ray services
     applicability: Portable x-ray services only
+
+  # --- 42 CFR 410.32(a)(1): the mammography exception ------------------------
+  #
+  # Added in Phase 4. Phase 3 identified this provision as one of seven confirmed
+  # gaps: it states an alternative route through the ordering requirement in
+  # ordinal 1, and while it was absent the decision logic could only read that
+  # requirement as absolute - denying a case the regulation permits.
+  #
+  # Both conditions are EXCEPTION_CONDITION, not REQUIRED. Failing one does not
+  # deny; it means the ordinary rule in ordinal 1 governs after all. They are
+  # inert unless a policy's declared logic places them on a pathway, and
+  # 42 CFR 410.32's logic does exactly that (see data/policy_logic/).
+  #
+  # Transcribed by the same non-clinician process as everything above, and
+  # span-verified against the same authoritative text. That proves faithfulness,
+  # not clinical correctness, and does not close OD-19.
+
+  - ordinal: 5
+    criterion_type: EXCEPTION_CONDITION
+    fact_key: interpreting_physician_qualified
+    summary: Ordering physician meets the interpreting-physician qualifications
+    authoritative_text: "meets the qualification requirements for an interpreting physician"
+    normalized_interpretation: >
+      The ordering physician satisfies the interpreting-physician qualification
+      requirements of section 354 of the Public Health Service Act as provided in
+      42 CFR 410.34(a)(7). The referenced requirements are NOT transcribed here,
+      so this criterion is not independently checkable - see R-51.
+    source_section: Ordering diagnostic tests
+    applicability: Diagnostic mammography ordered from screening findings
+
+  - ordinal: 6
+    criterion_type: EXCEPTION_CONDITION
+    fact_key: diagnostic_mammogram_from_screening
+    summary: A diagnostic mammogram ordered on screening-mammogram findings
+    authoritative_text: "may order a diagnostic mammogram based on the findings of a screening mammogram"
+    normalized_interpretation: >
+      The order is for a diagnostic mammogram and arises from the findings of a
+      screening mammogram. Both halves must hold: a diagnostic mammogram ordered
+      for some other reason is not within this exception.
+    source_section: Ordering diagnostic tests
+    applicability: Diagnostic mammography ordered from screening findings

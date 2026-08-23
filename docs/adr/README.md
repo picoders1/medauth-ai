@@ -33,6 +33,7 @@ mode is never later presented as a discovery.
 | [020](ADR-020-reviewer-ui.md) | Reviewer console — Next.js | Accepted |
 | [021](ADR-021-authoritative-corpus-and-curated-criteria.md) | Authoritative corpus, curated criteria, verification gate | Accepted |
 | [022](ADR-022-coverage-policy-source.md) | Coverage policy source — 42 CFR, NCDs adopted, LCDs deferred behind the licence gate | Accepted |
+| [023](ADR-023-policy-logic-representation.md) | Policy logic as data — three-valued expressions, declared per policy | Accepted |
 
 ## Reconciliation with the original brief
 

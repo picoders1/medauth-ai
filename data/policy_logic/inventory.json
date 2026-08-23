@@ -1,0 +1,327 @@
+{
+  "by_form": {
+    "ASSUMED_CONJUNCTION": 2,
+    "DECLARED": 1,
+    "NO_CRITERIA": 1,
+    "REVIEW_REQUIRED": 4
+  },
+  "declared": 1,
+  "generated_from": {
+    "coverage_matrix": "data/criteria/coverage_matrix.jsonl",
+    "criteria_inventory": "data/criteria/inventory.jsonl"
+  },
+  "note": "Signals are search terms for a reviewer, not classifications. A policy marked ASSUMED_CONJUNCTION has not been confirmed to be conjunctive - it means no signal was found by a lexical scan that cannot read meaning.",
+  "policies": [
+    {
+      "criteria": {
+        "EXCEPTION_CONDITION": [
+          "42_CFR_410_32_2026_08_13_C05",
+          "42_CFR_410_32_2026_08_13_C06"
+        ],
+        "REQUIRED": [
+          "42_CFR_410_32_2026_08_13_C01",
+          "42_CFR_410_32_2026_08_13_C02",
+          "42_CFR_410_32_2026_08_13_C03",
+          "42_CFR_410_32_2026_08_13_C04"
+        ]
+      },
+      "criteria_count": 6,
+      "declared_in": "data/policy_logic/42-CFR-410.32.yaml",
+      "logic_form": "DECLARED",
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 43,
+      "provisions_total": 58,
+      "signals": {
+        "alternative": [
+          "(b)(3)",
+          "(d)",
+          "(d)(vii)"
+        ],
+        "conditional": [
+          "(b)(3)(ii)",
+          "(c)",
+          "(c)(4)(iii)",
+          "(d)(2)(iii)",
+          "(d)(3)(ii)",
+          "(d)(3)(ii)(C)",
+          "(d)(3)(iii)"
+        ],
+        "exception": [
+          "(a)",
+          "(a)(1)",
+          "(a)(4)",
+          "(b)",
+          "(b)(3)",
+          "(d)(2)(i)",
+          "(d)(2)(ii)",
+          "(d)(3)(i)",
+          "(d)(4)"
+        ],
+        "exclusion": [
+          "(b)(2)",
+          "(d)(4)(ii)"
+        ],
+        "threshold": [
+          "(b)(3)"
+        ]
+      },
+      "unresolved_semantics": [
+        "UNRESOLVED: C03 (appropriate supervision level) references the supervision levels set out in paragraph (b)(3), which is not transcribed. The criterion therefore cannot be adjudicated on its own evidence - see R-51. Declared here as a plain conjunct because that is what the engine did before; whether it should instead be conditional on the test's designated level is a question for review, not for a guess.",
+        "UNRESOLVED: C04 (portable x-ray general supervision) applies only to portable x-ray services furnished in a place of residence used as the patient's home. That is conditional applicability, which this representation can express with `when`, but there is no transcribed criterion establishing whether a case IS a portable x-ray service. Declared as a plain conjunct, which over-applies it.",
+        "UNRESOLVED: whether the (a)(1) exception also relieves C02 (results used in management). The text relieves only the treating-physician requirement on its face, and it is read narrowly here. A narrow reading is the conservative one for approval and the aggressive one for denial, so it is flagged rather than settled."
+      ]
+    },
+    {
+      "criteria": {
+        "EXCLUSION": [
+          "42_CFR_410_33_2026_08_13_C05"
+        ],
+        "REQUIRED": [
+          "42_CFR_410_33_2026_08_13_C01",
+          "42_CFR_410_33_2026_08_13_C02",
+          "42_CFR_410_33_2026_08_13_C03",
+          "42_CFR_410_33_2026_08_13_C04"
+        ]
+      },
+      "criteria_count": 5,
+      "declared_in": null,
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 38,
+      "provisions_total": 59,
+      "signals": {
+        "alternative": [
+          "(e)(2)",
+          "(g)(10)",
+          "(h)"
+        ],
+        "conditional": [
+          "(b)(2)",
+          "(e)(2)"
+        ],
+        "exception": [
+          "(c)",
+          "(g)(15)",
+          "(g)(17)",
+          "(g)(6)(i)",
+          "(g)(8)(i)"
+        ],
+        "exclusion": [
+          "(g)(6)(ii)",
+          "(g)(8)(ii)",
+          "(g)(9)"
+        ],
+        "threshold": [
+          "(b)",
+          "(g)(13)",
+          "(g)(4)(ii)",
+          "(g)(6)",
+          "(g)(6)(i)",
+          "(g)(6)(i)(A)"
+        ]
+      },
+      "unresolved_semantics": [
+        "Provisions in this version carry alternative, conditional, exception, exclusion, threshold language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
+      ]
+    },
+    {
+      "criteria": {
+        "EXCLUSION": [
+          "42_CFR_410_38_2022_01_01_C05"
+        ],
+        "REQUIRED": [
+          "42_CFR_410_38_2022_01_01_C01",
+          "42_CFR_410_38_2022_01_01_C02",
+          "42_CFR_410_38_2022_01_01_C03",
+          "42_CFR_410_38_2022_01_01_C04"
+        ]
+      },
+      "criteria_count": 5,
+      "declared_in": null,
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01",
+      "provisions_awaiting_review": 13,
+      "provisions_total": 30,
+      "signals": {
+        "conditional": [
+          "(a)"
+        ],
+        "exception": [
+          "(e)"
+        ]
+      },
+      "unresolved_semantics": [
+        "Provisions in this version carry conditional, exception language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
+      ]
+    },
+    {
+      "criteria": {
+        "EXCLUSION": [
+          "42_CFR_410_38_2026_08_13_C05"
+        ],
+        "REQUIRED": [
+          "42_CFR_410_38_2026_08_13_C01",
+          "42_CFR_410_38_2026_08_13_C02",
+          "42_CFR_410_38_2026_08_13_C03",
+          "42_CFR_410_38_2026_08_13_C04"
+        ]
+      },
+      "criteria_count": 5,
+      "declared_in": null,
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 13,
+      "provisions_total": 40,
+      "signals": {
+        "alternative": [
+          "(d)(4)"
+        ],
+        "conditional": [
+          "(a)"
+        ],
+        "exception": [
+          "(e)"
+        ]
+      },
+      "unresolved_semantics": [
+        "Provisions in this version carry alternative, conditional, exception language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
+      ]
+    },
+    {
+      "criteria": {},
+      "criteria_count": 0,
+      "declared_in": null,
+      "logic_form": "NO_CRITERIA",
+      "policy_id": "42 CFR 410.43",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 21,
+      "provisions_total": 27,
+      "signals": {
+        "threshold": [
+          "(c)(1)"
+        ]
+      },
+      "unresolved_semantics": [
+        "No criteria transcribed for this version; nothing to evaluate."
+      ]
+    },
+    {
+      "criteria": {
+        "REQUIRED": [
+          "42_CFR_410_61_2019_01_01_C01",
+          "42_CFR_410_61_2019_01_01_C02",
+          "42_CFR_410_61_2019_01_01_C03",
+          "42_CFR_410_61_2019_01_01_C04",
+          "42_CFR_410_61_2019_01_01_C05"
+        ]
+      },
+      "criteria_count": 5,
+      "declared_in": null,
+      "logic_form": "ASSUMED_CONJUNCTION",
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01",
+      "provisions_awaiting_review": 9,
+      "provisions_total": 17,
+      "signals": {},
+      "unresolved_semantics": [
+        "No exception, alternative or conditional wording was found. That is weak evidence, not a finding: the search is lexical and the 9 provisions awaiting review have not been read."
+      ]
+    },
+    {
+      "criteria": {
+        "REQUIRED": [
+          "42_CFR_410_61_2026_08_13_C01",
+          "42_CFR_410_61_2026_08_13_C02",
+          "42_CFR_410_61_2026_08_13_C03",
+          "42_CFR_410_61_2026_08_13_C04",
+          "42_CFR_410_61_2026_08_13_C05"
+        ]
+      },
+      "criteria_count": 5,
+      "declared_in": null,
+      "logic_form": "ASSUMED_CONJUNCTION",
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 9,
+      "provisions_total": 17,
+      "signals": {},
+      "unresolved_semantics": [
+        "No exception, alternative or conditional wording was found. That is weak evidence, not a finding: the search is lexical and the 9 provisions awaiting review have not been read."
+      ]
+    },
+    {
+      "criteria": {
+        "EXCLUSION": [
+          "42_CFR_411_15_2026_08_13_C01",
+          "42_CFR_411_15_2026_08_13_C02",
+          "42_CFR_411_15_2026_08_13_C03",
+          "42_CFR_411_15_2026_08_13_C04"
+        ]
+      },
+      "criteria_count": 4,
+      "declared_in": null,
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 411.15",
+      "policy_version": "2026-08-13",
+      "provisions_awaiting_review": 100,
+      "provisions_total": 108,
+      "signals": {
+        "alternative": [
+          "(3)(E)",
+          "(b)"
+        ],
+        "conditional": [
+          "(k)(10)",
+          "(k)(11)",
+          "(k)(12)",
+          "(k)(13)",
+          "(k)(14)",
+          "(k)(15)",
+          "(k)(16)",
+          "(k)(2)",
+          "(k)(3)",
+          "(k)(4)",
+          "(k)(5)",
+          "(k)(6)",
+          "(k)(7)",
+          "(k)(8)",
+          "(k)(9)",
+          "(q)"
+        ],
+        "exception": [
+          "(2)",
+          "(a)(1)",
+          "(f)",
+          "(g)",
+          "(h)",
+          "(j)",
+          "(l)",
+          "(l)(ii)",
+          "(m)",
+          "(m)(2)",
+          "(n)",
+          "(o)",
+          "(p)",
+          "(p)(3)(iv)",
+          "(r)",
+          "(s)"
+        ],
+        "exclusion": [
+          "(3)",
+          "(3)(ii)",
+          "(c)",
+          "(l)(2)(iii)",
+          "(m)(3)",
+          "(p)(2)"
+        ]
+      },
+      "unresolved_semantics": [
+        "Provisions in this version carry alternative, conditional, exception, exclusion language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "findings": [
+    {
+      "check": "case_id_overlap_between_splits",
+      "detail": "no case_id appears in more than one split",
+      "sizes": {
+        "development": 48,
+        "gold": 156,
+        "validation": 18
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "note_text_overlap_between_splits",
+      "detail": "no normalised note text appears in more than one split",
+      "note": "Checked separately from case ids because a regenerated case can carry a new id and identical text, which is leakage that an id check cannot see.",
+      "status": "PASS"
+    },
+    {
+      "check": "partition_matches_the_deterministic_split_rule",
+      "detail": "all 222 split cases sit where the rule puts them",
+      "note": "The [:8] slice matters: using the full digest reorders every stratum and silently moves cases between partitions.",
+      "rule": "stratified by (policy_id, revision, category); within a stratum order by int(sha256(case_id)[:8], 16) and take dev=0.18, validation=0.1 as exact counts",
+      "status": "PASS"
+    },
+    {
+      "check": "retrieval_queries_reuse_the_linkage_table",
+      "detail": {
+        "v1": {
+          "codes_from_linkage_table": 4,
+          "codes_not_in_linkage_table": [],
+          "distinct_codes": 4,
+          "queries": 23
+        },
+        "v2": {
+          "codes_from_linkage_table": 11,
+          "codes_not_in_linkage_table": [],
+          "distinct_codes": 11,
+          "queries": 52
+        }
+      },
+      "note": "UNAVOIDABLE AND REPORTED. Deterministic resolution is a lookup on the linkage table, so any query that must resolve has to use a code the table contains - there is no code outside it that could resolve to anything. The consequence is precise: **resolution accuracy on either retrieval set measures the table's self-consistency, not whether resolution generalises.** It is not evidence that resolution works on codes nobody curated. Ranking quality is unaffected, because the ranking target is the section, which the linkage table says nothing about.",
+      "status": "KNOWN_LIMITATION"
+    },
+    {
+      "check": "retrieval_query_text_reused_from_gold_cases",
+      "detail": "no retrieval query text appears in any gold case",
+      "status": "PASS"
+    },
+    {
+      "check": "retrieval_v2_is_independent_of_v1",
+      "detail": {
+        "shared_query_text": [],
+        "v1_queries": 20,
+        "v2_queries": 49
+      },
+      "note": "v2 must not inherit v1's queries, or a comparison between the two would measure the shared subset twice and the numbers would not be independent.",
+      "status": "PASS"
+    }
+  ],
+  "overall": "PASS_WITH_KNOWN_LIMITATION"
+}

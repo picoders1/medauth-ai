@@ -51,6 +51,19 @@ class DecisionRule(IntEnum):
     ALL_REQUIRED_SATISFIED = 9
     UNCLASSIFIED = 10
 
+    # Phase 4. The number is the rule's identity, not its position: 11 and 12
+    # are refinements that fire *inside* the ordering above, and where they fire
+    # is stated here so the numbering cannot be misread as a new tail.
+    #
+    #   EXCEPTION_SATISFIED       replaces rule 9 when the policy was satisfied
+    #                             through an alternative pathway rather than by
+    #                             every requirement holding on its own.
+    #   POLICY_SEMANTICS_UNRESOLVED  fires immediately after rule 5 and before
+    #                             any denial: a policy whose logic is not yet
+    #                             established cannot produce a recommendation.
+    EXCEPTION_SATISFIED = 11
+    POLICY_SEMANTICS_UNRESOLVED = 12
+
 
 class Recommendation(BaseModel):
     """The system's output. Produced by ``decide()``, never by a model."""

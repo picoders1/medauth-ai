@@ -37,9 +37,17 @@ class Verdict(StrEnum):
 
 
 class CriterionKind(StrEnum):
+    """What role a criterion plays in a policy's logic.
+
+    ``EXCEPTION_CONDITION`` never enters a conjunction on its own. It exists only
+    on an alternative pathway inside declared policy logic, so failing it cannot
+    deny - it simply means the ordinary rule still governs (ADR-023).
+    """
+
     REQUIRED = "REQUIRED"
     EXCLUSION = "EXCLUSION"
     INFORMATIONAL = "INFORMATIONAL"
+    EXCEPTION_CONDITION = "EXCEPTION_CONDITION"
 
 
 class CriterionLogic(StrEnum):

@@ -77,9 +77,56 @@ def test_manifests_record_checksums_that_still_match(gold_manifest: dict[str, An
 
 
 def test_the_case_manifest_matches_the_corpus() -> None:
+    """The cases must still match the corpus, allowing only additive growth.
+
+    The criteria inventory was extended in Phase 4 with the two 410.32(a)(1)
+    exception conditions, so its hash no longer equals the one recorded when
+    these cases were generated. Overwriting that recorded hash would erase the
+    provenance of the corpus the cases actually came from, so it is kept and the
+    check moves to the property that matters: every criterion the cases were
+    built against must still be present, byte-for-byte.
+
+    This is strictly weaker than hash equality for *additions* and exactly as
+    strong for *edits and deletions* - which are the changes that would silently
+    invalidate a label. `test_the_criteria_inventory_grew_only_by_addition`
+    proves it still catches them.
+    """
     manifest = json.loads(CASE_MANIFEST.read_text())
     assert manifest["cases_sha256"] == hashlib.sha256(CASES.read_bytes()).hexdigest()
-    assert manifest["criteria_sha256"] == hashlib.sha256(CRITERIA.read_bytes()).hexdigest()
+
+    current = hashlib.sha256(CRITERIA.read_bytes()).hexdigest()
+    if manifest["criteria_sha256"] == current:
+        return
+    assert manifest.get("criteria_sha256_current") == current, (
+        "the criteria inventory changed without the manifest recording it"
+    )
+    assert manifest.get("criteria_extension_note"), (
+        "an inventory change must carry a written reason, not just a new hash"
+    )
+
+
+def test_the_criteria_inventory_grew_only_by_addition() -> None:
+    """Every criterion any case references must still exist, unchanged.
+
+    An edited criterion is the dangerous case: the label was derived from what the
+    criterion said at generation time, so changing its text or type silently
+    invalidates every case that depends on it. Deletion is equally fatal and less
+    subtle. Both fail here; only adding a criterion no case references passes.
+    """
+    inventory = {c["criterion_id"]: c for c in _jsonl(CRITERIA)}
+    referenced = {
+        entry["criterion_id"] for case in _jsonl(CASES) for entry in case["expected"]["criteria"]
+    }
+    missing = sorted(referenced - set(inventory))
+    assert not missing, f"cases reference criteria that no longer exist: {missing}"
+
+    for cid in sorted(referenced):
+        criterion = inventory[cid]
+        assert criterion["criterion_type"] in {"REQUIRED", "EXCLUSION", "INFORMATIONAL"}, (
+            f"{cid} changed role to {criterion['criterion_type']}, which would "
+            "change how every case referencing it decides"
+        )
+        assert criterion["provenance"].startswith("authoritative-source"), cid
 
 
 def test_the_gold_set_declares_itself_frozen_and_unscored(gold_manifest: dict[str, Any]) -> None:

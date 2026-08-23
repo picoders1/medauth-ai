@@ -1,0 +1,1021 @@
+# Retrieval ground truth, version 2. INDEPENDENT of retrieval_eval_v1.
+#
+# WHY A NEW SET
+#
+# Phase 3 measured v1 and found it could not fail. 21 of 33 criteria covered, no
+# negative queries, no ambiguous queries, and resolution accuracy of 1.0000 that
+# reflected queries built from the linkage table rather than a solved problem.
+# Recall@3 was 0.9524 across every encoder and reranker arm, which is the real
+# finding: a set on which six configurations tie measures nothing about any of
+# them.
+#
+# v1 is NOT modified and NOT deleted. It remains the record of what was measured
+# in Phase 3, and its numbers stay attached to it.
+#
+# WHAT IS DIFFERENT
+#
+#   * Graded relevance. RELEVANT / PARTIALLY_RELEVANT / NOT_RELEVANT, because a
+#     query whose answer is spread across two sections is not well described by
+#     one binary target.
+#   * Negative queries. Questions the corpus genuinely does not answer. The
+#     system must not assume every query has an answer, and nothing in v1 tested
+#     that.
+#   * Ambiguity. Queries two sections could plausibly answer, labelled so.
+#   * Distractors. Queries whose strongest lexical match is the wrong section.
+#   * All 35 criteria covered, including the two 410.32 exception conditions.
+#
+# AUTHORING RULES, FOLLOWED FOR EVERY ENTRY
+#
+#   1. Query text is written the way a reviewer would ask, NOT lifted from the
+#      regulation. A query copied from its target measures string matching. Word
+#      overlap is asserted by test.
+#   2. Every query states `reason_for_inclusion`. A question with no reason to
+#      exist is padding, and padding inflates a denominator.
+#   3. Relevance is judged from the section's subject matter, not from what any
+#      retriever returned. No label was set or changed after seeing a result.
+#   4. Chunk ids are NOT pinned. They change whenever chunking changes, and
+#      pinning them would measure the chunker against itself.
+#
+# WHAT THIS SET STILL CANNOT DO
+#
+# It is authored by the same non-clinician who transcribed the criteria, against
+# a corpus of five regulations. It cannot establish that retrieval works on real
+# coverage determinations, and its size still bounds the precision of any
+# comparison - see docs/evaluation/retrieval-evaluation-methodology.md.
+
+version: '2'
+corpus: data/cms
+corpus_kind: authoritative
+corpus_source: eCFR API (Office of the Federal Register), public domain
+criteria_inventory: data/criteria/inventory.jsonl
+authored_by: engineering
+authored_by_role: Software engineer. Not a clinician, not a coverage analyst.
+authored_at: '2026-08-23'
+supersedes: null   # v1 remains valid for its own recorded measurements
+
+relevance_labels:
+  RELEVANT: The section answers the question.
+  PARTIALLY_RELEVANT: >
+    The section bears on the question but does not answer it - context a reviewer
+    would want, not the answer they asked for.
+  NOT_RELEVANT: Everything else. The default; not enumerated per query.
+
+questions:
+
+# ===========================================================================
+# DIRECT - the question names what it wants, in ordinary words
+# ===========================================================================
+
+- id: v2-001
+  category: DIRECT
+  text: Who is allowed to order a diagnostic test for a patient?
+  reason_for_inclusion: >
+    The base case for 410.32(a). If this fails nothing else in this policy is
+    interpretable.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C01
+    relevance:
+      - {section_path: Ordering diagnostic tests, label: RELEVANT}
+
+- id: v2-002
+  category: DIRECT
+  text: Does the ordering doctor have to actually use the test result?
+  reason_for_inclusion: >
+    Targets C02, which shares a section with C01. Two criteria in one section is
+    the case where a section-level target is coarsest, and it should be scored.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C02
+    relevance:
+      - {section_path: Ordering diagnostic tests, label: RELEVANT}
+
+- id: v2-003
+  category: DIRECT
+  text: Is a written order required before we hand over the equipment?
+  reason_for_inclusion: The base written-order condition for DMEPOS (410.38 C02).
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C02
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+
+- id: v2-004
+  category: DIRECT
+  text: Must therapy be delivered under a written plan?
+  reason_for_inclusion: >
+    The base requirement for 410.61, and the anchor for the whole plan-of-treatment
+    family. If this fails, none of the plan-content or plan-change results mean anything.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C01
+    relevance:
+      - {section_path: Basic requirement, label: RELEVANT}
+
+- id: v2-005
+  category: DIRECT
+  text: What has to be written down about how often and how long therapy runs?
+  reason_for_inclusion: Targets C03, plan content, distinct from C04 in the same section.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C03
+    relevance:
+      - {section_path: Content of the plan, label: RELEVANT}
+      - {section_path: Establishment of the plan, label: PARTIALLY_RELEVANT}
+
+- id: v2-006
+  category: DIRECT
+  text: Are the staff running the tests required to hold a licence?
+  reason_for_inclusion: Targets 410.33 C04, a section untouched by v1.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C04
+    relevance:
+      - {section_path: Nonphysician personnel, label: RELEVANT}
+
+- id: v2-007
+  category: DIRECT
+  text: Does the order have to say why the test is being done?
+  reason_for_inclusion: Targets 410.33 C02; near-neighbour of C01 in the same section.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C02
+    relevance:
+      - {section_path: Ordering of tests, label: RELEVANT}
+
+# ===========================================================================
+# PARAPHRASED - clinician or biller phrasing, none of the regulation's words
+# ===========================================================================
+
+- id: v2-010
+  category: PARAPHRASED
+  text: The patient was seen in clinic in March. Is that recent enough to bill for a wheelchair in November?
+  reason_for_inclusion: >
+    Tests the face-to-face timing condition (410.38 C04) through a scenario rather
+    than a keyword. Contains no term from the regulation's phrasing.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C04
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+
+- id: v2-011
+  category: PARAPHRASED
+  text: Our radiologist read the screening film and wants further imaging, but she has never met the patient. Can she place that order?
+  reason_for_inclusion: >
+    The mammography exception, asked the way it would actually arise. Deliberately
+    never says "exception", "mammogram" or "interpreting physician" - a retriever
+    that only finds it by those words has not found it.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C06
+    relevance:
+      - {section_path: Ordering diagnostic tests, label: RELEVANT}
+
+- id: v2-012
+  category: PARAPHRASED
+  text: Patient moved into a nursing facility last week. Does the equipment benefit still apply there?
+  reason_for_inclusion: >
+    410.38 C05, the institutional exclusion, in the words a case manager would use.
+  procedure_code: E0270
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C05
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+      - {section_path: General scope, label: PARTIALLY_RELEVANT}
+
+- id: v2-013
+  category: PARAPHRASED
+  text: The therapist wants to increase the number of weekly visits. Does anything have to be signed?
+  reason_for_inclusion: 410.61 C05, plan changes, phrased as an operational question.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C05
+    relevance:
+      - {section_path: Changes in the plan, label: RELEVANT}
+
+- id: v2-014
+  category: PARAPHRASED
+  text: Treatment started on Monday and the paperwork was drawn up on Friday. Is that a problem?
+  reason_for_inclusion: >
+    410.61 C02, timing of plan establishment. States the facts and leaves the rule
+    implicit, which is how the question reaches a reviewer in practice.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C02
+    relevance:
+      - {section_path: Establishment of the plan, label: RELEVANT}
+      - {section_path: Basic requirement, label: PARTIALLY_RELEVANT}
+
+# ===========================================================================
+# PARTIAL_INFORMATION - underspecified, as real queries usually are
+# ===========================================================================
+
+- id: v2-020
+  category: PARTIAL_INFORMATION
+  text: supervision requirements
+  reason_for_inclusion: >
+    Two words, no verb, no context - the shape of a real search box query. 410.32
+    states supervision rules in two places and both are legitimate hits.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C03
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+      - {section_path: Portable x-ray services, label: PARTIALLY_RELEVANT}
+
+- id: v2-021
+  category: PARTIAL_INFORMATION
+  text: what goes in the order
+  reason_for_inclusion: >
+    Underspecified and ambiguous across policies; within 410.38 the answer is the
+    order-elements condition. Tests whether scoping to the resolved policy rescues
+    a query too vague to scope itself.
+  procedure_code: K0012
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C03
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+
+- id: v2-022
+  category: PARTIAL_INFORMATION
+  text: home
+  reason_for_inclusion: >
+    A single common word appearing across several 410.38 sections. Almost no
+    signal; included to see whether ranking degrades gracefully or arbitrarily.
+  procedure_code: E1390
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C01
+    relevance:
+      - {section_path: General scope, label: RELEVANT}
+      - {section_path: Paragraph (b), label: PARTIALLY_RELEVANT}
+      - {section_path: Definitions, label: PARTIALLY_RELEVANT}
+
+# ===========================================================================
+# AMBIGUOUS - more than one section legitimately answers
+# ===========================================================================
+
+- id: v2-030
+  category: AMBIGUOUS
+  text: Who has to be supervising while the test is carried out?
+  reason_for_inclusion: >
+    410.32 sets a general supervision rule in paragraph (b) and a specific one for
+    portable x-ray. Without knowing the modality neither is wrong, so both are
+    RELEVANT. A set where every query has one right answer cannot detect a
+    retriever that is confidently over-specific.
+  procedure_code: Q0092
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C03
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+      - {section_path: Portable x-ray services, label: RELEVANT}
+  ambiguity_note: >
+    Genuinely two-sided. The query does not say whether the test is portable
+    x-ray, and that fact is what selects between the sections.
+
+- id: v2-031
+  category: AMBIGUOUS
+  text: What are the rules about the physician who signs off on this?
+  reason_for_inclusion: >
+    In 410.33 "the physician" is both the ordering physician and the supervising
+    physician, in different sections. The query does not disambiguate and neither
+    reading is wrong.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C03
+    relevance:
+      - {section_path: Supervising physician, label: RELEVANT}
+      - {section_path: Ordering of tests, label: RELEVANT}
+  ambiguity_note: >
+    "Signs off" maps to ordering in one reading and to supervision in the other.
+    Both are in scope for the same procedure code.
+
+- id: v2-032
+  category: AMBIGUOUS
+  text: What does the plan have to say?
+  reason_for_inclusion: >
+    410.61 splits plan requirements across establishment, content and changes.
+    Content is the primary answer; the other two bear on it.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C04
+    relevance:
+      - {section_path: Content of the plan, label: RELEVANT}
+      - {section_path: Establishment of the plan, label: PARTIALLY_RELEVANT}
+      - {section_path: Changes in the plan, label: PARTIALLY_RELEVANT}
+  ambiguity_note: >
+    Three sections describe the same document. Graded labels exist for exactly
+    this shape - binary relevance would have to call two of them wrong.
+
+# ===========================================================================
+# NEGATIVE - the corpus does not answer these, and must not pretend to
+# ===========================================================================
+
+- id: v2-040
+  category: NEGATIVE
+  text: What is the patient's coinsurance percentage for this item?
+  reason_for_inclusion: >
+    410.38 sets conditions of payment; it says nothing about beneficiary cost
+    sharing, which lives in a different part of the regulation entirely. A vector
+    search always returns something, so the question is whether it returns
+    something *confidently*.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    No section of 410.38 addresses coinsurance, deductibles or beneficiary
+    liability. Every chunk in the resolved scope is NOT_RELEVANT.
+
+- id: v2-041
+  category: NEGATIVE
+  text: How many days do we have to appeal a denied claim?
+  reason_for_inclusion: >
+    Appeals are procedurally elsewhere in 42 CFR. The lexical overlap with
+    "denied" and "claim" is high enough to tempt a retriever.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    410.32 covers ordering and supervision of diagnostic tests. It contains no
+    appeal rights, deadlines or procedures.
+
+- id: v2-042
+  category: NEGATIVE
+  text: Which modifier should be appended to this HCPCS code?
+  reason_for_inclusion: >
+    Coding guidance is not regulation. Billing questions are the single most
+    common thing a prior-authorization tool is wrongly asked, so a confident
+    answer here would be a realistic and damaging failure.
+  procedure_code: E1390
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    No modifier, code descriptor or billing instruction appears anywhere in the
+    corpus - by design, since CPT(R) descriptor text is not redistributed here.
+
+- id: v2-043
+  category: NEGATIVE
+  text: What is the reimbursement rate for a power wheelchair in 2026?
+  reason_for_inclusion: >
+    Fee schedules are not in 42 CFR 410.38. Shares "power wheelchair" with the
+    linkage table, so resolution succeeds and only ranking can fail.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    The regulation states conditions of payment, never amounts. No section
+    contains a rate, fee or dollar figure.
+
+- id: v2-044
+  category: NEGATIVE
+  text: Does the patient need a second opinion before this is approved?
+  reason_for_inclusion: >
+    Plausible-sounding prior-authorization requirement that this corpus simply
+    does not impose. Tests whether the retriever invents a requirement by finding
+    the nearest requirement-shaped text.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    410.61 requires a plan of treatment. It imposes no second-opinion, prior
+    authorization or concurrent review condition.
+
+- id: v2-045
+  category: NEGATIVE
+  text: What are the accreditation requirements for the supplier's warehouse?
+  reason_for_inclusion: >
+    Supplier standards live in part 424 and part 486, not here. High topical
+    adjacency with 410.33's certification standards makes this a hard negative
+    rather than an obvious one.
+  procedure_code: K0012
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect_no_relevant: true
+  negative_reason: >
+    410.38 addresses the item and the order, not supplier facilities. The
+    resolved scope contains nothing about premises or accreditation.
+
+# ===========================================================================
+# HISTORICAL_VERSION - the answer is in a superseded revision
+# ===========================================================================
+
+- id: v2-050
+  category: HISTORICAL_VERSION
+  text: For a claim from 2023, how long before the order must the visit have happened?
+  reason_for_inclusion: >
+    The same question as v2-010 at an earlier date of service. Retrieval must
+    apply the same temporal predicate resolution does, or an out-of-scope chunk
+    enters the evidence set as the best semantic match.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2023-06-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    criterion_id: 42_CFR_410_38_2022_01_01_C04
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+  temporal_note: >
+    The 2026 revision must NOT be retrieved. Its text is a near-duplicate, so this
+    cannot be passed by semantic similarity alone.
+
+- id: v2-051
+  category: HISTORICAL_VERSION
+  text: Under the rules in force in 2020, did the therapy plan have to be written before treatment?
+  reason_for_inclusion: >
+    410.61's 2019 revision. Second policy exercising the temporal path, so a
+    passing score cannot come from one lucky document.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2020-05-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    criterion_id: 42_CFR_410_61_2019_01_01_C02
+    relevance:
+      - {section_path: Establishment of the plan, label: RELEVANT}
+
+- id: v2-052
+  category: HISTORICAL_VERSION
+  text: In 2023, could a hospital count as the patient's home for equipment purposes?
+  reason_for_inclusion: >
+    The institutional exclusion at the earlier revision. Targets an EXCLUSION
+    criterion historically, which no v1 query did.
+  procedure_code: E1390
+  code_system: HCPCS
+  as_of: '2023-06-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    criterion_id: 42_CFR_410_38_2022_01_01_C05
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+
+- id: v2-053
+  category: HISTORICAL_VERSION
+  text: What did the 2020 rules say has to be in the therapy plan?
+  reason_for_inclusion: Plan content at the 2019 revision; pairs with v2-005.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2020-05-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    criterion_id: 42_CFR_410_61_2019_01_01_C03
+    relevance:
+      - {section_path: Content of the plan, label: RELEVANT}
+
+# ===========================================================================
+# CROSS_VERSION - same question, different date, different correct revision
+# ===========================================================================
+
+- id: v2-060
+  category: CROSS_VERSION
+  text: Is a written order or prescription needed for this equipment?
+  reason_for_inclusion: >
+    Paired with v2-061: identical text, dates either side of the revision
+    boundary. The pair isolates temporal scoping from every other variable,
+    because nothing else differs.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2023-06-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    criterion_id: 42_CFR_410_38_2022_01_01_C02
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+  pairs_with: v2-061
+
+- id: v2-061
+  category: CROSS_VERSION
+  text: Is a written order or prescription needed for this equipment?
+  reason_for_inclusion: The current-revision half of the pair with v2-060.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C02
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+  pairs_with: v2-060
+
+- id: v2-062
+  category: CROSS_VERSION
+  text: Must changes to the therapy plan be signed?
+  reason_for_inclusion: A second temporal pair, on a different policy.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2020-05-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    criterion_id: 42_CFR_410_61_2019_01_01_C05
+    relevance:
+      - {section_path: Changes in the plan, label: RELEVANT}
+  pairs_with: v2-063
+
+- id: v2-063
+  category: CROSS_VERSION
+  text: Must changes to the therapy plan be signed?
+  reason_for_inclusion: The current-revision half of the pair with v2-062.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_61_2026_08_13_C05
+    relevance:
+      - {section_path: Changes in the plan, label: RELEVANT}
+  pairs_with: v2-062
+
+# ===========================================================================
+# EXCEPTION - alternative pathways and exclusions
+# ===========================================================================
+
+- id: v2-070
+  category: EXCEPTION
+  text: Is there any situation where a doctor who is not treating the patient can still order the test?
+  reason_for_inclusion: >
+    The 410.32(a)(1) exception, asked directly. This is the provision whose
+    absence produced the Phase 3 decision-logic defect, and nothing in v1
+    targeted it.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C05
+    relevance:
+      - {section_path: Ordering diagnostic tests, label: RELEVANT}
+
+- id: v2-071
+  category: EXCEPTION
+  text: How many sites can one supervising physician cover?
+  reason_for_inclusion: >
+    410.33 C05 is an EXCLUSION expressed as a numeric limit. Threshold-shaped
+    criteria retrieve differently from prose conditions.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C05
+    relevance:
+      - {section_path: Supervising physician, label: RELEVANT}
+
+- id: v2-072
+  category: EXCEPTION
+  text: Where the patient is staying in a facility, does that change whether we can bill for the equipment?
+  reason_for_inclusion: >
+    410.38's institutional carve-out at the current revision. Pairs with the
+    historical v2-052 to cover the exclusion in both directions.
+  procedure_code: K0012
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C05
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+      - {section_path: Definitions, label: PARTIALLY_RELEVANT}
+
+- id: v2-073
+  category: EXCEPTION
+  text: Are hearing aids paid for?
+  reason_for_inclusion: >
+    A statutory exclusion in 411.15. UNREACHABLE by resolution and recorded as
+    such: 411.15 declares no covered procedure, so no procedure code can resolve
+    to it. Kept because deleting it would hide a real corpus gap (OD-15), and
+    scored in neither denominator.
+  procedure_code: V5010
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  unreachable_by_resolution: true
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_411_15_2026_08_13_C04
+    relevance:
+      - {section_path: Paragraph (d), label: RELEVANT}
+
+- id: v2-074
+  category: EXCEPTION
+  text: Are glasses covered after cataract surgery?
+  reason_for_inclusion: >
+    Second 411.15 exclusion, also unreachable. Recorded for the same reason.
+  procedure_code: V2020
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  unreachable_by_resolution: true
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_411_15_2026_08_13_C02
+    relevance:
+      - {section_path: Paragraph (b), label: RELEVANT}
+
+# ===========================================================================
+# DISTRACTOR - the strongest lexical match is the wrong section
+# ===========================================================================
+
+- id: v2-080
+  category: DISTRACTOR
+  text: What does the regulation mean by the beneficiary's home?
+  reason_for_inclusion: >
+    "Home" appears in General scope, Definitions and Paragraph (b). The question
+    asks for the definition specifically, so the section that merely *uses* the
+    word is a distractor rather than an answer.
+  procedure_code: E1390
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: null
+    relevance:
+      - {section_path: Definitions, label: RELEVANT}
+      - {section_path: Paragraph (b), label: PARTIALLY_RELEVANT}
+      - {section_path: General scope, label: PARTIALLY_RELEVANT}
+  distractor_note: >
+    General scope states the home-use condition and will match strongly on
+    "home". It is not where the term is defined.
+
+- id: v2-081
+  category: DISTRACTOR
+  text: When does a supplier's billing become effective?
+  reason_for_inclusion: >
+    410.33 has a section named "Effective date of billing privileges" and several
+    others about certification. The named section is the answer; the certification
+    sections are the distractors.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: null
+    relevance:
+      - {section_path: Effective date of billing privileges, label: RELEVANT}
+      - {section_path: Application certification standards, label: PARTIALLY_RELEVANT}
+
+- id: v2-082
+  category: DISTRACTOR
+  text: What happens if an IDTF stops meeting the standards?
+  reason_for_inclusion: >
+    "Standards" appears in both "Application certification standards" and
+    "Failure to meet standards". Only the latter answers a question about
+    consequences, and the former is the stronger keyword match.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: null
+    relevance:
+      - {section_path: Failure to meet standards, label: RELEVANT}
+      - {section_path: Application certification standards, label: PARTIALLY_RELEVANT}
+
+- id: v2-083
+  category: DISTRACTOR
+  text: Does state law override these federal requirements?
+  reason_for_inclusion: >
+    410.33 names a section for this. Nearby sections discuss certification and
+    multi-state entities and will compete on "state".
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: null
+    relevance:
+      - {section_path: Applicability of State law, label: RELEVANT}
+      - {section_path: Multi-State entities, label: PARTIALLY_RELEVANT}
+
+# ===========================================================================
+# CROSS_POLICY - the subject appears in more than one policy; scope decides
+# ===========================================================================
+
+- id: v2-090
+  category: CROSS_POLICY
+  text: Does the test have to be ordered in writing?
+  reason_for_inclusion: >
+    Written-order conditions exist in 410.32, 410.33 and 410.38. Resolution from
+    the procedure code is the only thing that selects between them, which is
+    exactly the separation ADR-004 rests on. Correct answer here is 410.33.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C01
+    relevance:
+      - {section_path: Ordering of tests, label: RELEVANT}
+  cross_policy_note: >
+    A retriever searching the whole corpus would find 410.38's Conditions of
+    Payment at least as convincing. Only version-scoped search can be right here.
+
+- id: v2-091
+  category: CROSS_POLICY
+  text: Does the test have to be ordered in writing?
+  reason_for_inclusion: >
+    Identical text to v2-090 under a different procedure code. If both resolve
+    correctly, scoping is doing the work; if either leaks, it is not.
+  procedure_code: R0070
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C01
+    relevance:
+      - {section_path: Ordering diagnostic tests, label: RELEVANT}
+  pairs_with: v2-090
+
+- id: v2-092
+  category: CROSS_POLICY
+  text: Who has to sign the paperwork before we supply this?
+  reason_for_inclusion: >
+    Signature and ordering requirements appear across 410.32, 410.33 and 410.38.
+    Under a DMEPOS code the answer must come from 410.38.
+  procedure_code: E0270
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_38_2026_08_13_C02
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+  pairs_with: v2-090
+
+- id: v2-093
+  category: CROSS_POLICY
+  text: What level of physician involvement is required while this is delivered?
+  reason_for_inclusion: >
+    Supervision appears in 410.32 and 410.33 with different rules. The IDTF code
+    selects 410.33.
+  procedure_code: R0075
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_33_2026_08_13_C03
+    relevance:
+      - {section_path: Supervising physician, label: RELEVANT}
+      - {section_path: Nonphysician personnel, label: PARTIALLY_RELEVANT}
+
+# ===========================================================================
+# COVERAGE COMPLETION - the remaining criteria, so no criterion is unscored
+# ===========================================================================
+#
+# A criterion with no query cannot have a retrieval failure attributed to it. v1
+# left 12 uncovered; these close the gap for every criterion that resolution can
+# reach. The two 411.15 exclusions stay unreachable and are recorded as such
+# rather than dropped.
+
+- id: v2-100
+  category: DIRECT
+  text: Does a portable x-ray taken at the patient's house need a doctor overseeing it?
+  reason_for_inclusion: 410.32 C04, the only criterion scoped to portable x-ray.
+  procedure_code: Q0092
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_410_32_2026_08_13_C04
+    relevance:
+      - {section_path: Portable x-ray services, label: RELEVANT}
+      - {section_path: Paragraph (b), label: PARTIALLY_RELEVANT}
+
+- id: v2-101
+  category: HISTORICAL_VERSION
+  text: Back in 2023, did the equipment have to be for use at the patient's residence?
+  reason_for_inclusion: 410.38 C01 at the earlier revision; completes that version's coverage.
+  procedure_code: E1390
+  code_system: HCPCS
+  as_of: '2023-06-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    criterion_id: 42_CFR_410_38_2022_01_01_C01
+    relevance:
+      - {section_path: General scope, label: RELEVANT}
+
+- id: v2-102
+  category: HISTORICAL_VERSION
+  text: What details did an order need to contain under the 2023 rules?
+  reason_for_inclusion: >
+    410.38 C03 at the earlier revision. Order-element requirements are near-identical
+    across the two revisions, so this cannot be passed by similarity alone.
+  procedure_code: K0898
+  code_system: HCPCS
+  as_of: '2023-06-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    criterion_id: 42_CFR_410_38_2022_01_01_C03
+    relevance:
+      - {section_path: Conditions of Payment, label: RELEVANT}
+
+- id: v2-103
+  category: HISTORICAL_VERSION
+  text: In 2020, did therapy have to run under a written plan at all?
+  reason_for_inclusion: >
+    410.61 C01 at the 2019 revision, pairing with v2-004 so the base requirement is
+    scored at both revisions rather than only the current one.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2020-05-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    criterion_id: 42_CFR_410_61_2019_01_01_C01
+    relevance:
+      - {section_path: Basic requirement, label: RELEVANT}
+
+- id: v2-104
+  category: HISTORICAL_VERSION
+  text: Under the 2020 rules, did the plan have to record what the treatment was aiming at?
+  reason_for_inclusion: 410.61 C04 at the 2019 revision; goals rather than schedule.
+  procedure_code: G0295
+  code_system: HCPCS
+  as_of: '2020-05-01'
+  jurisdiction: null
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    criterion_id: 42_CFR_410_61_2019_01_01_C04
+    relevance:
+      - {section_path: Content of the plan, label: RELEVANT}
+
+- id: v2-105
+  category: EXCEPTION
+  text: Is an annual wellness check covered?
+  reason_for_inclusion: >
+    411.15 C01. UNREACHABLE by resolution for the same structural reason as
+    v2-073 and v2-074; recorded, not scored, not deleted.
+  procedure_code: V5298
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  unreachable_by_resolution: true
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_411_15_2026_08_13_C01
+    relevance:
+      - {section_path: Paragraph (a), label: RELEVANT}
+
+- id: v2-106
+  category: EXCEPTION
+  text: Is an eye test done only to work out a spectacle prescription covered?
+  reason_for_inclusion: 411.15 C03. Unreachable, recorded for the same reason.
+  procedure_code: V2020
+  code_system: HCPCS
+  as_of: '2026-08-20'
+  jurisdiction: null
+  unreachable_by_resolution: true
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    criterion_id: 42_CFR_411_15_2026_08_13_C03
+    relevance:
+      - {section_path: Paragraph (c), label: RELEVANT}

@@ -27,6 +27,11 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [repository-structure.md](architecture/repository-structure.md) — layout, dependency rules, ports
 - [implementation-roadmap.md](architecture/implementation-roadmap.md) — Phases 0–9
 
+## Decision logic
+
+- [decision/policy-logic-model.md](decision/policy-logic-model.md) — how a policy states its own rule; three-valued, seven nodes, and where the safety ordering lives
+- [decision/policy-logic-inventory.md](decision/policy-logic-inventory.md) — every policy version's logic form and what remains unresolved (**4 of 8 are REVIEW_REQUIRED**)
+
 ## Security
 
 - [security/threat-model.md](security/threat-model.md) — T-01…T-27, each becoming a test in Phase 8
@@ -42,6 +47,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [data/policy-criteria-completeness.md](data/policy-criteria-completeness.md) — **is the criterion set complete?** 356 provisions walked; 247 await review (OD-19)
 - [data/ground-truth-readiness.md](data/ground-truth-readiness.md) — **the twelve-question gate.** Classification: **B, partially ready**
 - [data/ncd-lcd-source-assessment.md](data/ncd-lcd-source-assessment.md) — what coverage material is legitimately obtainable, and what is licence-gated (OD-20)
+- [data/od19-review-package.md](data/od19-review-package.md) — the 246 provisions awaiting qualified review, ranked by consequence
 
 ## Evaluation
 
@@ -52,6 +58,9 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/retrieval-evaluation-assessment.md](evaluation/retrieval-evaluation-assessment.md) — the set is **not difficult enough**, and why 1.0000 is not reassuring
 - [evaluation/ground-truth-review-protocol.md](evaluation/ground-truth-review-protocol.md) — what a qualified reviewer must do, and what may be claimed after
 - [evaluation/gold-set-audit.md](evaluation/gold-set-audit.md) — all 156 cases audited, none modified
+- [evaluation/retrieval-evaluation-methodology.md](evaluation/retrieval-evaluation-methodology.md) — how a benchmark for this corpus is built and scored, and what it cannot support
+- [evaluation/retrieval-evaluation-v2.md](evaluation/retrieval-evaluation-v2.md) — v2 results: discriminates at rank 1, saturates by rank 3
+- [evaluation/gold-set-protection.md](evaluation/gold-set-protection.md) — what freezing gold_v1 means, and what would force a gold_v2
 
 ## Governance
 
@@ -61,7 +70,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 
 ## Decision records
 
-[adr/](adr/) — ADR-001…ADR-022. Each carries Context, Problem, Options, Decision, Rationale,
+[adr/](adr/) — ADR-001…ADR-023. Each carries Context, Problem, Options, Decision, Rationale,
 Consequences and Rejected alternatives. See [adr/README.md](adr/README.md) for the index.
 
 ---

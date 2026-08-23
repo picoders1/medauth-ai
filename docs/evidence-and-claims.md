@@ -102,6 +102,31 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | The system reasons over local coverage policy | LCD/Article corpus ingested | — | **Refused.** LCDs sit behind an AMA/ADA/AHA licence gate that was not crossed. The corpus is statutory regulation only (R-55, ADR-022) |
 | Measured performance transfers to real submissions | An evaluation on real de-identified notes | — | **Refused.** Constructed cases state each fact once, unambiguously, where a reader expects it |
 
+## Policy logic (Phase 4)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Policy logic can express AND, OR, NOT, at-least-n, exceptions, exclusions, conditional applicability and UNKNOWN** | A typed representation with a full Kleene truth table per connective | `pytest tests/unit/test_policy_logic.py` | **Produced** — every connective tested exhaustively, not sampled |
+| **The 410.32 mammography exception is represented and produces the policy-consistent result** | A regression test asserting the old conjunction denies and the declared logic approves | Same | **Produced** — both halves asserted together, so the claim that the old logic was wrong is itself checked |
+| **The rewrite never moves a case toward a denial** | Exhaustive comparison against the pre-Phase-4 table | Same | **Produced** — 512,460 combinations, 3,472 divergences, all `DENY_RECOMMENDED` → `NEEDS_INFO` |
+| **gold_v1 is unchanged and still reproduces** | Byte hash plus label recomputation | `pytest -m evaluation` | **Produced** — 156/156 gold and 222/222 synthetic labels reproduce; gold file byte-identical |
+| **nDCG cannot exceed 1** | Fuzz over random graded rankings | Same | **Produced** — 50 seeds, including degenerate and all-zero rankings |
+| **Every policy version's logic form is recorded** | A generated inventory with unresolved semantics per policy | `scripts/build_logic_inventory.py` | **Produced** — 1 DECLARED, 2 ASSUMED_CONJUNCTION, 4 REVIEW_REQUIRED, 1 NO_CRITERIA |
+| **The decision logic is correct for every policy in the corpus** | Declared logic for each version, confirmed by a qualified reader | — | **NOT produced.** Four versions carry exception wording and have no declared logic; the runtime assumes conjunction for them (R-59, OD-24) |
+| **Passing decision-logic tests demonstrates clinical correctness** | — | — | **Refused permanently.** The tests establish that the code implements the declared logic. Whether the declared logic reads the regulation correctly is a question for a qualified reviewer, and no reviewer has seen it |
+
+## Retrieval (Phase 4)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **A retrieval benchmark exists that discriminates between configurations** | Non-zero spread across arms on a frozen set | `eval/reports/20260823T151741Z__retrieval-v2/` | **Produced at rank 1** — Recall@1 spans 0.6429–0.8095. **Not produced at rank 3**: 0.9762 in every arm, and Recall@5 is 1.0000 in every arm |
+| **The benchmark contains negative, ambiguous, temporal and exception queries** | The frozen set, asserted by test | `pytest -m evaluation` | **Produced** — 6 negative, 3 ambiguous, 8 historical, 4 cross-version pairs, 7 exception |
+| **Every criterion is covered by a retrieval query** | Coverage check against the inventory | Same | **Produced** — 35 of 35 |
+| **`ms-marco-MiniLM` outperforms the shipped reranker** | Separation at this denominator | The report | **NOT produced.** It leads on R@1, MRR and nDCG, but intervals overlap at n=42 and no default was changed |
+| **Encoder choice affects the reranked pipeline** | Separation between encoders sharing a reranker | The report | **Refuted here.** `top_k` (40) exceeds the largest scope (25 chunks), so first-stage retrieval never filters and both reranked pairs are byte-identical across encoders (R-58) |
+| **Resolution generalises to codes outside the linkage table** | A query resolving through a code nobody curated | — | **Refused.** No such code resolves to anything. Resolution accuracy of 1.0000 measures the table's self-consistency; recorded as a `KNOWN_LIMITATION` in the leakage audit |
+| **The system declines to retrieve when nothing is relevant** | An abstention threshold with a calibration report | — | **NOT produced.** False retrieval rate is 1.0000 (6/6) in every arm; dense retrieval has no abstention mechanism and none is implemented |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |
