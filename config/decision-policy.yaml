@@ -1,0 +1,42 @@
+# Decision policy - thresholds and gate configuration.
+#
+# Everything here changes CLINICAL BEHAVIOUR. It is version-controlled,
+# schema-validated at startup, and recorded on every recommendation as
+# `decision_config_version` so that which rules were in force for a given case is
+# an auditable fact rather than a reconstruction.
+#
+# The decision TABLE is not here. Rules live in app/decision/table.py with a
+# truth-table suite, because a deployment must not be able to reorder rows 6 and
+# 8 - turning missing evidence into a denial - without a code review (ADR-010).
+#
+# Secrets are structurally rejected: any key matching *_key / *secret* / *token*
+# / *password* fails the load.
+
+version: "1"
+
+abstention_rules:
+  # Hard constraints, evaluated before anything is scored. Not traded off.
+  require_unique_resolution: true      # exactly one applicable policy version
+  require_all_citations_valid: true    # any invalid citation already means NO_DECISION
+  max_contradictions: 0
+  min_criteria_coverage: 1.0           # every required criterion needs a valid citation
+
+abstention_thresholds:
+  # NOT YET CALIBRATED. Null means the scored stage is inert and the rule stage
+  # alone gates. These are selected in Phase 6 on the DEV split by the
+  # pre-registered rule in ADR-011: the lowest threshold whose dev unsafe-rate
+  # upper Wilson bound sits within the ceiling, iterating upward.
+  #
+  # Writing a plausible number here before calibration would be a fabricated
+  # metric with clinical consequences.
+  approve: null
+  deny: null                           # must exceed `approve` once both are set
+
+retrieval:
+  top_k: 40                            # ANN candidates, scoped to resolved versions
+  rerank_top_n: 8                      # cross-encoder survivors per criterion
+
+adjudication:
+  max_concurrency: 4                   # parallel per-criterion calls
+  max_repair_attempts: 2               # bounded; the repair rate is a reported metric
+  max_criteria_per_case: 64            # bounds cost per case (threat T-24)

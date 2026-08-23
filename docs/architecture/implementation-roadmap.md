@@ -1,7 +1,12 @@
 # Implementation Roadmap
 
-**Status:** Phase 0 not started. This document is written so a future session can execute
-phase by phase without rediscovering the architecture.
+**Status:** **Phase 0 complete.** Phase 1 not started. This document is written so a future
+session can execute phase by phase without rediscovering the architecture.
+
+| Phase | State |
+|---|---|
+| 0 Foundation | **Complete** - 87 tests, ruff + mypy strict clean, stack healthy, OD-1 resolved |
+| 1-9 | Not started |
 
 **Rules that apply to every phase**
 
@@ -52,7 +57,7 @@ first.
 
 ---
 
-# PHASE 0 — Foundation
+# PHASE 0 — Foundation  ✔ COMPLETE
 
 ### Objective
 A runnable, typed, tested skeleton with a verified path to the model through the firewall, and a

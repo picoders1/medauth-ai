@@ -1,0 +1,188 @@
+"""Deployment settings, from the environment only.
+
+One of two deliberately separate configuration systems (ADR-017):
+
+======== ================================ ==========================================
+Settings environment, prefix ``MEDAUTH_``  secrets, URLs, ports, timeouts, flags
+Policy   ``config/decision-policy.yaml``   thresholds, ceilings, gate configuration
+======== ================================ ==========================================
+
+The split exists because the two have different lifecycles and different risks. A
+database URL varies per environment and is uninteresting. An abstention threshold
+is identical everywhere, changes clinical behaviour, and must be reviewable in a
+diff and traceable from an audit row.
+
+Production **refuses to start** rather than degrade. A process running with
+fail-closed disabled, or trusting every peer, is worse than one that will not
+start: the failure is loud and immediate instead of silent and clinical.
+"""
+
+from __future__ import annotations
+
+import ipaddress
+from enum import StrEnum
+from functools import lru_cache
+from typing import Self
+
+from pydantic import Field, SecretStr, field_validator, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from app.core.errors import ConfigurationError
+
+__all__ = ["ClinicalTextLogging", "Environment", "Settings", "get_settings"]
+
+
+class Environment(StrEnum):
+    DEVELOPMENT = "development"
+    PRODUCTION = "production"
+
+
+class ClinicalTextLogging(StrEnum):
+    """How much clinical text may reach a log sink. ``FULL`` is development-only."""
+
+    OFF = "off"
+    HASHED = "hashed"
+    FULL = "full"
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="MEDAUTH_",
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        frozen=True,
+    )
+
+    environment: Environment = Environment.DEVELOPMENT
+
+    # --- Model access (through the LLM Firewall, ADR-016) -------------------
+    # MEDAUTH holds NO model-provider credential. The firewall holds the upstream
+    # key; this is a revocable caller key scoped to that one gateway.
+    llm_base_url: str = "http://localhost:8005/v1"
+    llm_model: str = "example-model-v1"
+    llm_api_key: SecretStr = SecretStr("")
+    llm_fail_closed: bool = True
+    llm_timeout_seconds: float = 60.0
+    llm_max_attempts: int = Field(default=3, ge=1, le=10)
+    llm_streaming_enabled: bool = False
+    llm_max_concurrency: int = Field(default=4, ge=1, le=64)
+
+    # --- Database (ADR-005) --------------------------------------------------
+    database_url: str = "postgresql+asyncpg://medauth:medauth@localhost:5435/medauth"
+    database_command_timeout_seconds: float = 5.0
+
+    # --- Retrieval (local encoders; never traverse the firewall, ADR-006) ----
+    embedding_model: str = "BAAI/bge-base-en-v1.5"
+    reranker_model: str = "BAAI/bge-reranker-base"
+    embedding_device: str = "cpu"
+    retrieval_top_k: int = Field(default=40, ge=1, le=500)
+    rerank_top_n: int = Field(default=8, ge=1, le=100)
+
+    # --- Audit (ADR-013) -----------------------------------------------------
+    # A recommendation that cannot be audited is not issued.
+    audit_required: bool = True
+    retention_enabled: bool = False
+    retention_days: int = Field(default=180, ge=1)
+
+    # --- Observability (ADR-018) --------------------------------------------
+    otel_enabled: bool = False
+    otel_exporter_otlp_endpoint: str = "http://localhost:4317"
+    metrics_enabled: bool = True
+    clinical_text_logging: ClinicalTextLogging = ClinicalTextLogging.OFF
+    log_level: str = "INFO"
+
+    # --- API / reviewer console (ADR-012, ADR-020) ---------------------------
+    api_port: int = Field(default=8010, ge=1, le=65535)
+    ui_origin: str = "http://localhost:3100"
+    trusted_proxies: str = "127.0.0.1/32"
+
+    # --- Policy (ADR-017) ----------------------------------------------------
+    decision_policy_file: str = "config/decision-policy.yaml"
+
+    @field_validator("llm_base_url", "database_url", "otel_exporter_otlp_endpoint")
+    @classmethod
+    def _non_empty(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("must not be empty")
+        return value.strip()
+
+    @field_validator("llm_base_url")
+    @classmethod
+    def _http_scheme(cls, value: str) -> str:
+        if not value.startswith(("http://", "https://")):
+            raise ValueError("llm_base_url must start with http:// or https://")
+        return value.rstrip("/")
+
+    @field_validator("trusted_proxies")
+    @classmethod
+    def _parseable_cidrs(cls, value: str) -> str:
+        for entry in (p.strip() for p in value.split(",") if p.strip()):
+            try:
+                ipaddress.ip_network(entry, strict=False)
+            except ValueError as exc:
+                raise ValueError(f"trusted_proxies entry {entry!r} is not a CIDR: {exc}") from exc
+        return value
+
+    @property
+    def trusted_proxy_networks(self) -> tuple[ipaddress.IPv4Network | ipaddress.IPv6Network, ...]:
+        return tuple(
+            ipaddress.ip_network(p.strip(), strict=False)
+            for p in self.trusted_proxies.split(",")
+            if p.strip()
+        )
+
+    @property
+    def is_production(self) -> bool:
+        return self.environment is Environment.PRODUCTION
+
+    @model_validator(mode="after")
+    def _enforce_production_boundaries(self) -> Self:
+        """Refuse to start rather than serve traffic with a boundary disabled."""
+        if not self.is_production:
+            return self
+
+        failures: list[str] = []
+
+        if not self.llm_fail_closed:
+            failures.append(
+                "llm_fail_closed=false: a blocked or failed model call could then "
+                "reach a clinical outcome instead of a human (ADR-016)"
+            )
+        if self.clinical_text_logging is ClinicalTextLogging.FULL:
+            failures.append("clinical_text_logging=full: clinical text must never reach a log sink")
+        if not self.llm_api_key.get_secret_value():
+            failures.append(
+                "llm_api_key is empty: /v1 requires a firewall caller key in production"
+            )
+        if not self.audit_required:
+            failures.append(
+                "audit_required=false: a recommendation that cannot be audited is not issued "
+                "(ADR-013)"
+            )
+        if self.llm_streaming_enabled:
+            failures.append(
+                "llm_streaming_enabled=true: streaming output cannot be schema-validated"
+            )
+
+        networks = self.trusted_proxy_networks
+        if not networks:
+            failures.append("trusted_proxies is empty: reviewer identity could not be established")
+        for network in networks:
+            if network.prefixlen == 0:
+                failures.append(
+                    f"trusted_proxies contains {network}: trusting every peer means any client "
+                    "can assert any reviewer identity (ADR-012)"
+                )
+
+        if failures:
+            raise ConfigurationError(
+                "refusing to start in production:\n  - " + "\n  - ".join(failures)
+            )
+        return self
+
+
+@lru_cache(maxsize=1)
+def get_settings() -> Settings:
+    """Process-wide settings. Cached: configuration is read once, at startup."""
+    return Settings()

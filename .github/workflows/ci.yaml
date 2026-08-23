@@ -1,0 +1,70 @@
+# Phase 0 subset of the pipeline. Integration, kubeconform, Trivy, gitleaks and
+# the evaluation regression land in Phase 9 (ADR-019).
+#
+# CI must pass from a clean clone with NO API key and NO network egress. Tests
+# that call a model are marked and skipped by default, so a fork does not
+# silently lose coverage.
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.x"
+          enable-cache: true
+
+      - name: Install
+        run: uv sync --all-groups
+
+      - name: Lockfile is fresh
+        run: uv lock --check
+
+      - name: Lint
+        run: uv run ruff check . && uv run ruff format --check .
+
+      - name: Type-check (strict)
+        run: uv run mypy app
+
+      - name: Test
+        run: uv run pytest -m "unit or api or security" -q
+
+      - name: No secrets in the tree
+        run: |
+          set -e
+          # Provider hosts, model ids and credentials are deployment values and
+          # must appear nowhere in the repository (ADR-016, ADR-017).
+          if grep -rIn -E 'sk-[A-Za-z0-9]{16,}' --exclude-dir=.git .; then
+            echo "::error::a credential-shaped literal is committed"; exit 1
+          fi
+          for f in $(git ls-files '*.md' '*.yaml' '*.yml' '*.toml' '*.py'); do
+            if grep -qE '"(APPROVE|DENY)_RECOMMENDED"' "$f" && \
+               echo "$f" | grep -qE '^app/(intake|adjudication)/'; then
+              echo "::error::$f names an outcome in a verdict-only package"; exit 1
+            fi
+          done
+
+      - name: No compliance claims
+        run: |
+          if grep -rIn -iE 'hipaa[ -]compliant|compliant with hipaa' \
+             --exclude-dir=.git --exclude=ci.yaml . | grep -vE 'never write|refused|Refused|must not'; then
+            echo "::error::a compliance claim is present"; exit 1
+          fi

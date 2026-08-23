@@ -1,0 +1,67 @@
+# Development stack.
+#
+# The LLM Firewall is CONSUMED at :8005, never started here - it is a separately
+# deployed, separately versioned service (ADR-016). Ports avoid everything bound
+# on the reference machine; see docs/architecture/repository-structure.md.
+
+name: medauth
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: deploy/docker/api.Dockerfile
+    ports:
+      - "8010:8010"
+    environment:
+      MEDAUTH_ENVIRONMENT: development
+      MEDAUTH_DATABASE_URL: postgresql+asyncpg://medauth:medauth@postgres:5432/medauth
+      # host.docker.internal resolves to the host, where the firewall listens.
+      MEDAUTH_LLM_BASE_URL: http://host.docker.internal:8005/v1
+      MEDAUTH_CLINICAL_TEXT_LOGGING: "off"
+      MEDAUTH_METRICS_ENABLED: "true"
+    env_file:
+      - path: .env
+        required: false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+    # Container hardening. The process cannot write to its own filesystem.
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  postgres:
+    # pgvector is the ONLY vector store. Relational filters and vector search
+    # live in one query because retrieval is always scoped to the policy
+    # versions that resolution selected (ADR-005).
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: medauth
+      POSTGRES_PASSWORD: medauth
+      POSTGRES_DB: medauth
+    volumes:
+      - medauth-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medauth -d medauth"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  medauth-pgdata:

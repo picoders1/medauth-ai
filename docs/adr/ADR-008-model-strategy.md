@@ -1,7 +1,7 @@
 # ADR-008: Model Strategy and the Gateway Contract
 
 **Status:** Accepted · **Date:** 2026-08-23 · **Phase:** Planning
-**Amendment pending:** Phase 0 capability probe (OD-1).
+**Amended:** Phase 0, on evidence. See [Amendment](#amendment-phase-0-capability-probe).
 
 ## Context
 
@@ -95,3 +95,53 @@ calls are independent and parallelise.
 | **D — provider SDK directly** | Bypasses or complicates the firewall boundary. A non-OpenAI shape means either a translation seam or an unscreened model path; both are worse than using a compatible provider. |
 | **A bespoke `LLMGateway` interface (as the brief proposed)** | The OpenAI contract already is that interface. See ADR-016. |
 | **Multiple models in production** | Doubles evaluation cost and makes results ambiguous. One model, measured; alternatives compared later on the same frozen corpus if justified. |
+
+---
+
+## Amendment: Phase 0 capability probe
+
+**OD-1 is resolved.** `scripts/probe_model_capabilities.py` measured the deployment
+through the firewall; the artefact is [`eval/reports/20260823T091726Z__model-capabilities/report.md`](../../eval/reports/20260823T091726Z__model-capabilities/report.md).
+Every figure below comes from it.
+
+### Measured profile (n=5 per arm, temperature 0)
+
+| role | `json_schema` | `tool_call` | `json_object` |
+|---|---|---|---|
+| **primary** (short context) | **supported, 5/5 schema-valid** | rejected | supported, **0/5** schema-valid |
+| **long-context** | rejected | **supported, 5/5 schema-valid** | rejected |
+
+The rejections share one cause, confirmed against the provider directly: the
+long-context model is served with speculative decoding, and that path does not
+support grammar-constrained decoding. It therefore refuses **every** constrained
+mode - including a *forced* tool choice, since forcing a function also requires a
+grammar. `tool_choice: "auto"` works because nothing is constrained.
+
+`json_object` returning 0/5 is not a defect. It guarantees valid JSON, not *our*
+JSON, and measuring it against the real nested verdict schema is what makes the
+distinction visible rather than assumed.
+
+### Decision: route by task
+
+| Step | Role | Mode | Why |
+|---|---|---|---|
+| Intake, per-criterion adjudication | primary | `json_schema` | Grammar-constrained decoding makes conformance **structural** - the decoder enforces the closed schema, so containment does not depend on the model cooperating. |
+| Ingest-time criteria extraction | long-context | `tool_call` | Takes a whole policy version in one pass; runs offline, so validate-and-repair is cheap. |
+
+The short context window is sufficient for adjudication **because** ADR-001 split
+that step per criterion - one criterion, its evidence chunks, the facts. A design
+decision taken for traceability turns out to be what makes the strictly safer
+model usable here.
+
+### What this does not establish
+
+Schema conformance only, on one criterion and one prompt. **No claim is made about
+which model reasons better**; that is measured in Phase 6 against the frozen gold
+corpus. The `retrieval` and `eval` extras remain unaffected.
+
+### Consequence for reproducibility
+
+The primary model is **not byte-deterministic at temperature 0** on the full
+verdict schema. ADR-013's reproducibility claim already scoped itself to the
+deterministic half of the pipeline; that scoping is now evidenced rather than
+precautionary.

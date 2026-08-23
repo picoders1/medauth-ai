@@ -101,7 +101,7 @@ Performance on them is an **upper bound** on performance in the field.
 Byte-exact, reused from the sibling project so both repositories split identically:
 
 ```python
-int(sha256(normalised_key(text).encode()).hexdigest()[:8], 16) % 100   #  < 20 → dev
+int(sha256(normalised_key(text).encode()).hexdigest()[:8], 16) % 100  #  < 20 → dev
 ```
 
 Both the `[:8]` slice and the boundary `20` are load-bearing. Using the full digest, or `21`,

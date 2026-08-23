@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "generated_at": "2026-08-23T09:17:26+00:00",
+    "git_commit": "4b5b411",
+    "samples_per_arm": 5,
+    "temperature": 0.0,
+    "path": "MEDAUTH -> llm-firewall -> provider",
+    "python": "3.12.3",
+    "platform": "Linux x86_64"
+  },
+  "models": [
+    {
+      "role": "primary",
+      "digest": "sha256:31d69bc24c21",
+      "arms": [
+        {
+          "mode": "json_schema",
+          "supported": true,
+          "http_ok": 5,
+          "schema_valid": 5,
+          "samples": 5,
+          "deterministic": false,
+          "median_latency_ms": 1516.2,
+          "failure": null
+        },
+        {
+          "mode": "tool_call",
+          "supported": false,
+          "http_ok": 0,
+          "schema_valid": 0,
+          "samples": 5,
+          "deterministic": null,
+          "median_latency_ms": null,
+          "failure": "UpstreamFailureError: model path failed after 2 attempts: upstream returned 502"
+        },
+        {
+          "mode": "json_object",
+          "supported": true,
+          "http_ok": 5,
+          "schema_valid": 0,
+          "samples": 5,
+          "deterministic": false,
+          "median_latency_ms": 1697.0,
+          "failure": null
+        }
+      ]
+    },
+    {
+      "role": "alternate-1",
+      "digest": "sha256:ae0a6a0b7a54",
+      "arms": [
+        {
+          "mode": "json_schema",
+          "supported": false,
+          "http_ok": 0,
+          "schema_valid": 0,
+          "samples": 5,
+          "deterministic": null,
+          "median_latency_ms": null,
+          "failure": "UpstreamFailureError: model path failed after 2 attempts: upstream returned 502"
+        },
+        {
+          "mode": "tool_call",
+          "supported": true,
+          "http_ok": 5,
+          "schema_valid": 5,
+          "samples": 5,
+          "deterministic": true,
+          "median_latency_ms": 1517.8,
+          "failure": null
+        },
+        {
+          "mode": "json_object",
+          "supported": false,
+          "http_ok": 0,
+          "schema_valid": 0,
+          "samples": 5,
+          "deterministic": null,
+          "median_latency_ms": null,
+          "failure": "UpstreamFailureError: model path failed after 2 attempts: upstream returned 502"
+        }
+      ]
+    }
+  ]
+}

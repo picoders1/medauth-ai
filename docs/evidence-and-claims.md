@@ -65,11 +65,21 @@ is the expected state at the end of the planning phase.
 | **HIPAA compliance** | — | — | **Refused permanently.** Designed with healthcare privacy and security considerations, evaluated exclusively on synthetic data. No compliance claim is made. |
 | Penetration tested | A test report | — | **Refused.** None performed. |
 
+## Model capability
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The primary model constrains output structurally** | Schema-valid rate against the real nested verdict schema, with `n` | `python scripts/probe_model_capabilities.py` | **Produced** (Phase 0) — `json_schema` 5/5 schema-valid; conformance enforced by the decoder, not by cooperation. [`eval/reports/20260823T091726Z__model-capabilities/report.md`](eval/reports/20260823T091726Z__model-capabilities/report.md) |
+| **`json_object` does not guarantee our schema** | The same measurement in that mode | Same run | **Produced** — 0/5 against the verdict schema despite 5/5 valid JSON |
+| **The long-context model rejects grammar-constrained decoding** | Per-mode support with the provider's stated reason | Same run, confirmed against the provider directly | **Produced** — speculative decoding; `tool_choice: auto` works, forced choice does not |
+| The primary model reasons better than the alternate | Decision quality on the frozen gold corpus | — | **NOT produced.** The probe measures schema conformance only. No reasoning claim is made before Phase 6 |
+| Model output is byte-reproducible | Identical payloads at temperature 0 across repeats | Same run | **NOT produced — refused.** The primary model varies on the full verdict schema. Reproducibility is scoped to the deterministic half of the pipeline (ADR-013) |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |
 |---|---|---|---|
-| **The LLM cannot emit a decision** | No approval/denial member in any model schema, plus AST-enforced import boundaries | `pytest tests/unit/test_layer_boundaries.py` | **Pending** (Phase 0/5) — the flagship structural claim |
+| **The LLM cannot emit a decision** | No approval/denial member in any model schema, plus AST-enforced import boundaries | `pytest tests/unit/test_layer_boundaries.py` | **Produced** (Phase 0) — 8 checks over 5 rules; each was shown to fail on a deliberately injected violation before being trusted |
 | **The decision surface is a pure function** | Truth-table suite passing with no model and no network | `pytest tests/unit/test_decision_table.py` | **Pending** (Phase 5) |
 | No policy → never a denial | An assertion over all verdict/guardrail combinations | Same | **Pending** (Phase 5) |
 | Policy resolution is deterministic and reproducible | Same inputs, same versions, across corpus refreshes | `pytest tests/integration/test_resolution_determinism.py` | **Pending** (Phase 1) |
@@ -81,7 +91,7 @@ is the expected state at the end of the planning phase.
 |---|---|---|---|
 | p50 / p95 latency | Measured on stated hardware with `n` | Benchmark run | **Pending** |
 | Cost per case | Token counts with the model id and price basis on the run date | Evaluation run | **Pending** |
-| Runs under Docker Compose | A stack that starts and passes readiness | `docker compose up -d && curl :8010/ready` | **Pending** (Phase 0) |
+| **Runs under Docker Compose** | A stack that starts and passes readiness | `docker compose up -d && curl :8010/ready` | **Produced** (Phase 0) — API and pgvector healthy; all four readiness checks pass; container non-root, read-only rootfs, all capabilities dropped |
 | **Runs on Kubernetes** | A real cluster run producing an artefact | — | **Refused until produced.** No cluster exists on the reference machine (no `kubectl`/`kind`/`minikube`/`helm`). Manifests are *authored and statically validated with `kubeconform`* — that is the permitted claim, and it is a different claim. |
 | Self-hosted on vLLM | A served model with measured latency | — | **Refused.** 4 GB VRAM cannot serve a useful model at the required context. vLLM is a documented target, not a validated one (OD-2). |
 | CI gates on evaluation regression | A workflow that fails on a metric moving beyond tolerance | `.github/workflows/evaluation.yaml` | **Pending** (Phase 9) |
