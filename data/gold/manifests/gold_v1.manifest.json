@@ -1,0 +1,72 @@
+{
+  "counts": {
+    "development": 48,
+    "gold": 156,
+    "total": 222,
+    "validation": 18
+  },
+  "frozen": true,
+  "frozen_at": "2026-08-23T13:24:41+00:00",
+  "gold_distribution": {
+    "borderline": 18,
+    "category": {
+      "BORDERLINE": 18,
+      "CLEARLY_FAILS": 24,
+      "CLEARLY_SATISFIES": 24,
+      "CONFLICTING_EVIDENCE": 12,
+      "EXCLUSION_PRESENT": 18,
+      "INSUFFICIENT_EVIDENCE": 18,
+      "MISSING_DOCUMENTATION": 24,
+      "POLICY_NOT_APPLICABLE": 18
+    },
+    "criterion_state": {
+      "NOT_SATISFIED": 84,
+      "SATISFIED": 505,
+      "UNKNOWN": 78
+    },
+    "decision": {
+      "APPROVE_RECOMMENDED": 51,
+      "DENY_RECOMMENDED": 33,
+      "HUMAN_REVIEW": 12,
+      "NEEDS_INFO": 60
+    },
+    "policy_version": {
+      "42 CFR 410.32:2026-08-13": 26,
+      "42 CFR 410.33:2026-08-13": 26,
+      "42 CFR 410.38:2022-01-01": 26,
+      "42 CFR 410.38:2026-08-13": 26,
+      "42 CFR 410.61:2019-01-01": 26,
+      "42 CFR 410.61:2026-08-13": 26
+    },
+    "temporal_class": {
+      "CURRENT_POLICY": 104,
+      "HISTORICAL_POLICY": 52
+    },
+    "with_missing_information": 42
+  },
+  "gold_set_version": "1",
+  "labelling": {
+    "clinically_validated": false,
+    "human_reviewed": false,
+    "method": "derived by construction via app.decision.table.decide",
+    "note": "Labels are computed from criterion states by the same function the system uses. They are NOT expert clinical judgements."
+  },
+  "partition_rule": {
+    "development_fraction": 0.18,
+    "method": "rank of sha256(case_id)[:8] within (policy_version x category) stratum",
+    "validation_fraction": 0.1
+  },
+  "provenance": "synthetic",
+  "scoring_budget": {
+    "allowed_scorings": 1,
+    "note": "Additional scorings must be declared in an ADR in advance. Re-scoring a frozen split until a number improves is how an evaluation becomes fiction.",
+    "scorings_spent": 0
+  },
+  "sha256": {
+    "development": "fef4960f0630e439e8b2fcb71255c2e4311ffa12a720076f6e27b15f0cfa3c43",
+    "gold": "ca990b804cf8fd38950bb1dc84e9e1f2a100d5cb579d124109b2d13387f2d0c9",
+    "validation": "4062fcaaa51a1a120a4b2cbf762a16f023f005a0a8fab2e4c77f89203e26c3e8"
+  },
+  "source_cases": "data/synthetic/cases/cases.jsonl",
+  "source_cases_sha256": "cc38164861185431dc05e5e9427549c51236e6b7d162433d8219486baf2e9597"
+}

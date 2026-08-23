@@ -1,0 +1,61 @@
+schema_version: "1"
+curator: engineering
+curator_role: >
+  Software engineer, NOT a clinician and NOT a coverage analyst. These are
+  transcriptions of regulatory text, not clinical judgements. Every criterion is
+  span-verified against the authoritative source, which proves the transcription
+  is faithful - it does NOT establish that the criterion set is complete or that
+  the interpretation is clinically correct.
+curated_at: 2026-08-23
+policy_id: "42 CFR 410.32"
+revision_id: "2026-08-13"
+source_url: https://www.ecfr.gov/current/title-42/section-410.32
+notes: >
+  Ordering and supervision conditions for diagnostic tests. Exercises the
+  "who ordered it and were they treating the patient" class of criterion, which
+  imaging prior authorization turns on.
+
+criteria:
+  - ordinal: 1
+    criterion_type: REQUIRED
+    fact_key: ordered_by_treating_physician
+    summary: Ordered by the physician treating the beneficiary
+    authoritative_text: "must be ordered by the physician who is treating the beneficiary"
+    normalized_interpretation: >
+      The ordering physician must be the one furnishing a consultation or treating
+      the beneficiary for the specific medical problem.
+    source_section: Ordering diagnostic tests
+    applicability: All diagnostic x-ray, laboratory and other diagnostic tests
+
+  - ordinal: 2
+    criterion_type: REQUIRED
+    fact_key: results_used_in_management
+    summary: The ordering physician uses the results in managing the problem
+    authoritative_text: "uses the results in the management of the beneficiary's specific medical problem"
+    normalized_interpretation: >
+      The test must inform management of the specific problem, not be ordered
+      without a documented use for the result.
+    source_section: Ordering diagnostic tests
+    applicability: All diagnostic tests
+
+  - ordinal: 3
+    criterion_type: REQUIRED
+    fact_key: appropriate_supervision_level
+    summary: Furnished under the appropriate level of physician supervision
+    authoritative_text: "must be furnished under the appropriate level of supervision"
+    normalized_interpretation: >
+      General, direct or personal supervision as designated for the test.
+      Services furnished without it are not reasonable and necessary.
+    source_section: Paragraph (b)
+    applicability: Diagnostic tests payable under the physician fee schedule
+
+  - ordinal: 4
+    criterion_type: REQUIRED
+    fact_key: portable_xray_general_supervision
+    summary: Portable x-ray furnished under general physician supervision
+    authoritative_text: "furnished under the general supervision of a physician"
+    normalized_interpretation: >
+      Applies only to portable x-ray services furnished in a place of residence
+      used as the patient's home.
+    source_section: Portable x-ray services
+    applicability: Portable x-ray services only

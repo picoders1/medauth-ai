@@ -1,0 +1,79 @@
+schema_version: "1"
+curator: engineering
+curator_role: >
+  Software engineer, NOT a clinician and NOT a coverage analyst. These are
+  transcriptions of regulatory text, not clinical judgements. Every criterion is
+  span-verified against the authoritative source, which proves the transcription
+  is faithful - it does NOT establish that the criterion set is complete or that
+  the interpretation is clinically correct.
+curated_at: 2026-08-23
+policy_id: "42 CFR 410.38"
+revision_id: "2022-01-01"
+source_url: https://www.ecfr.gov/current/title-42/section-410.38
+notes: >
+  Historical revision. These criteria were transcribed against 2026-08-13 and
+  RE-VERIFIED against this revision's text - the spans are unchanged between them.
+  Carrying a transcription across a revision is never assumed; where the text was
+  amended the gate rejects it (42 CFR 410.38 rev 2019-01-01 is such a case).
+  DMEPOS scope and conditions of payment. The closest analogue in this corpus to a
+  prior-authorization workflow: a written order with named elements, a timing
+  requirement, a setting condition and an institutional exclusion.
+
+criteria:
+  - ordinal: 1
+    criterion_type: REQUIRED
+    fact_key: equipment_used_in_home
+    summary: Equipment is used in the patient's home
+    authoritative_text: "if the equipment is used in the patient's home"
+    normalized_interpretation: >
+      The item must be used in the beneficiary's home, or in an institution that
+      qualifies as their home under paragraph (b).
+    source_section: General scope
+    applicability: All DMEPOS items paid under Part B
+
+  - ordinal: 2
+    criterion_type: REQUIRED
+    fact_key: written_order_present
+    summary: A written order or prescription exists
+    authoritative_text: "All DMEPOS items require a written order/prescription for Medicare payment"
+    normalized_interpretation: >
+      A treating practitioner must have issued a written order or prescription
+      documenting the need for the item.
+    source_section: Conditions of Payment
+    applicability: All DMEPOS items
+
+  - ordinal: 3
+    criterion_type: REQUIRED
+    fact_key: order_elements_complete
+    summary: The written order contains all required elements
+    authoritative_text: "A written order/prescription must include the following elements"
+    normalized_interpretation: >
+      Beneficiary name or MBI, item description, quantity where applicable, order
+      date, treating practitioner name or NPI, and practitioner signature.
+    source_section: Conditions of Payment
+    applicability: All DMEPOS items
+
+  - ordinal: 4
+    criterion_type: REQUIRED
+    fact_key: face_to_face_within_months
+    summary: Face-to-face encounter within the 6 months preceding the order
+    authoritative_text: "face-to-face encounter with the beneficiary within the 6 months preceding"
+    normalized_interpretation: >
+      For items on the Required Face-to-Face Encounter list, the treating
+      practitioner must have seen the beneficiary within 6 months before the order.
+    source_section: Conditions of Payment
+    applicability: Items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List
+    comparator: "<="
+    threshold: "6"
+    unit: months
+
+  - ordinal: 5
+    criterion_type: EXCLUSION
+    fact_key: institution_is_hospital_or_snf
+    summary: A hospital, CAH or SNF does not qualify as the patient's home
+    authoritative_text: "may not be a hospital or a CAH or a SNF"
+    normalized_interpretation: >
+      If the beneficiary resides in a hospital, critical access hospital or skilled
+      nursing facility, the home-use condition is not met.
+    source_section: Paragraph (b)
+    applicability: All DMEPOS items

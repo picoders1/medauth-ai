@@ -2,7 +2,9 @@
 
 `docs/` is the source of truth. Code that contradicts it is a bug in one of the two.
 
-**Current state:** planning phase complete. No application code exists. Phase 0 has not started.
+**Current state:** Phases 0, 1 and the data-foundation phases are complete. The policy corpus is
+**authoritative** (42 CFR via the official eCFR API); criteria are human-transcribed and
+span-verified against it; clinical notes remain constructed.
 Every performance, accuracy and grounding figure in this project is **pending evidence**.
 
 ---
@@ -30,9 +32,20 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [security/threat-model.md](security/threat-model.md) — T-01…T-27, each becoming a test in Phase 8
 - [security/llm-firewall-integration.md](security/llm-firewall-integration.md) — the boundary, and what it does **not** cover
 
+## Data
+
+- [data/policy-corpus-scope.md](data/policy-corpus-scope.md) — what policies, why, and how they were obtained
+- [data/criteria-inventory.md](data/criteria-inventory.md) — how a criterion comes to exist, and what it carries
+- [data/dataset-card.md](data/dataset-card.md) — five source categories, never blurred
+- [data/mimic-readiness.md](data/mimic-readiness.md) — real clinical text: **not accessed**, and what would be required
+- [data/data-foundation.md](data/data-foundation.md) — the credibility chain and where it breaks
+
 ## Evaluation
 
 - [evaluation/evaluation-strategy.md](evaluation/evaluation-strategy.md) — metrics, splits, leakage controls, failure families
+- [evaluation/gold-set-labeling-protocol.md](evaluation/gold-set-labeling-protocol.md) — how a case gets its label, and what that label is worth
+- [evaluation/data-partitioning.md](evaluation/data-partitioning.md) — development / validation / gold, and the leakage controls
+- [evaluation/retrieval-dataset.md](evaluation/retrieval-dataset.md) — retrieval ground truth, measured apart from decision quality
 
 ## Governance
 

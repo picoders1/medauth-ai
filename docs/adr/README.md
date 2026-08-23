@@ -31,6 +31,7 @@ mode is never later presented as a discovery.
 | [018](ADR-018-observability.md) | Observability | Accepted |
 | [019](ADR-019-deployment.md) | Deployment strategy | Accepted |
 | [020](ADR-020-reviewer-ui.md) | Reviewer console — Next.js | Accepted |
+| [021](ADR-021-authoritative-corpus-and-curated-criteria.md) | Authoritative corpus, curated criteria, verification gate | Accepted |
 
 ## Reconciliation with the original brief
 

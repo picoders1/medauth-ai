@@ -1,0 +1,284 @@
+# Retrieval ground truth, version 3 - built against the AUTHORITATIVE corpus.
+#
+# Query text is hand-authored in the phrasing a reviewer would use, NOT lifted
+# from the regulation it targets. A query copied from its target makes retrieval
+# look excellent and measures string matching; overlap is asserted by test.
+#
+# Targets are (policy, revision, section, criterion_id). The criterion link is
+# verified against data/criteria/inventory.jsonl by test, so a renamed criterion
+# breaks the build rather than silently invalidating the set.
+#
+# Chunk ids are deliberately NOT pinned: they change whenever chunking changes,
+# and pinning them would measure the chunker against itself.
+
+version: '3'
+corpus: data/cms
+corpus_kind: authoritative
+corpus_source: eCFR API (Office of the Federal Register), public domain
+criteria_inventory: data/criteria/inventory.jsonl
+questions:
+- id: q001
+  text: Does the wheelchair have to be for use inside the house?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    section_path: General scope
+    criterion_id: 42_CFR_410_38_2026_08_13_C01
+- id: q002
+  text: Is a signed prescription needed before we supply the equipment?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    section_path: Conditions of Payment
+    criterion_id: 42_CFR_410_38_2026_08_13_C02
+- id: q003
+  text: What has to be written on the order form itself?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    section_path: Conditions of Payment
+    criterion_id: 42_CFR_410_38_2026_08_13_C03
+- id: q004
+  text: How recently must the doctor have seen the patient in person?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    section_path: Conditions of Payment
+    criterion_id: 42_CFR_410_38_2026_08_13_C04
+- id: q005
+  text: Does a nursing home count as the patient's residence?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2026-08-13'
+    section_path: Paragraph (b)
+    criterion_id: 42_CFR_410_38_2026_08_13_C05
+- id: q006
+  text: How recently must the doctor have seen the patient in person?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2024-03-15'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    section_path: Conditions of Payment
+    criterion_id: 42_CFR_410_38_2022_01_01_C04
+- id: q007
+  text: Is a signed prescription needed before we supply the equipment?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2024-03-15'
+  expect:
+    policy_id: 42 CFR 410.38
+    revision_id: '2022-01-01'
+    section_path: Conditions of Payment
+    criterion_id: 42_CFR_410_38_2022_01_01_C02
+- id: q008
+  text: Who is allowed to request a scan for this patient?
+  procedure_code: R0070
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    section_path: Ordering diagnostic tests
+    criterion_id: 42_CFR_410_32_2026_08_13_C01
+- id: q009
+  text: Does the result actually have to change what we do next?
+  procedure_code: R0070
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    section_path: Ordering diagnostic tests
+    criterion_id: 42_CFR_410_32_2026_08_13_C02
+- id: q010
+  text: Does a doctor need to be present while the test runs?
+  procedure_code: R0070
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    section_path: Paragraph (b)
+    criterion_id: 42_CFR_410_32_2026_08_13_C03
+- id: q011
+  text: What oversight applies when imaging is done at the patient's house?
+  procedure_code: R0070
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.32
+    revision_id: '2026-08-13'
+    section_path: Portable x-ray services
+    criterion_id: 42_CFR_410_32_2026_08_13_C04
+- id: q012
+  text: Can the testing centre act on a phone call from the doctor?
+  procedure_code: R0075
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    section_path: Ordering of tests
+    criterion_id: 42_CFR_410_33_2026_08_13_C01
+- id: q013
+  text: Does the request slip need to say why the test is wanted?
+  procedure_code: R0075
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    section_path: Ordering of tests
+    criterion_id: 42_CFR_410_33_2026_08_13_C02
+- id: q014
+  text: What qualifications must the overseeing doctor hold?
+  procedure_code: R0075
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    section_path: Supervising physician
+    criterion_id: 42_CFR_410_33_2026_08_13_C03
+- id: q015
+  text: Do the technicians need a licence or certificate?
+  procedure_code: R0075
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    section_path: Nonphysician personnel
+    criterion_id: 42_CFR_410_33_2026_08_13_C04
+- id: q016
+  text: How many locations can one doctor oversee at once?
+  procedure_code: R0075
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.33
+    revision_id: '2026-08-13'
+    section_path: Supervising physician
+    criterion_id: 42_CFR_410_33_2026_08_13_C05
+- id: q017
+  text: Do we need a therapy plan on paper before starting?
+  procedure_code: G0295
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    section_path: Basic requirement
+    criterion_id: 42_CFR_410_61_2026_08_13_C01
+- id: q018
+  text: Can the plan be written up after therapy has begun?
+  procedure_code: G0295
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    section_path: Establishment of the plan
+    criterion_id: 42_CFR_410_61_2026_08_13_C02
+- id: q019
+  text: What details about the sessions must the plan spell out?
+  procedure_code: G0295
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    section_path: Content of the plan
+    criterion_id: 42_CFR_410_61_2026_08_13_C03
+- id: q020
+  text: Does the plan need to say what we are aiming for?
+  procedure_code: G0295
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2026-08-13'
+    section_path: Content of the plan
+    criterion_id: 42_CFR_410_61_2026_08_13_C04
+- id: q021
+  text: What details about the sessions must the plan spell out?
+  procedure_code: G0295
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2024-03-15'
+  expect:
+    policy_id: 42 CFR 410.61
+    revision_id: '2019-01-01'
+    section_path: Content of the plan
+    criterion_id: 42_CFR_410_61_2019_01_01_C03
+- id: q022
+  unreachable_by_resolution: true
+  note: >
+    42 CFR 411.15 is an EXCLUSION_OVERLAY: it declares only exclusions, so no
+    procedure code resolves TO it and applicability cannot be established from a
+    request. Excluded from the denominator with the reason stated, not dropped.
+    Same class as OD-15.
+  text: Will the plan cover a device to help someone who cannot hear well?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    section_path: Paragraph (d)
+    criterion_id: 42_CFR_411_15_2026_08_13_C04
+- id: q023
+  unreachable_by_resolution: true
+  note: >
+    42 CFR 411.15 is an EXCLUSION_OVERLAY: it declares only exclusions, so no
+    procedure code resolves TO it and applicability cannot be established from a
+    request. Excluded from the denominator with the reason stated, not dropped.
+    Same class as OD-15.
+  text: Is an appointment to work out a new lens prescription covered?
+  procedure_code: K0898
+  code_system: HCPCS
+  jurisdiction: null
+  as_of: '2026-08-20'
+  expect:
+    policy_id: 42 CFR 411.15
+    revision_id: '2026-08-13'
+    section_path: Paragraph (c)
+    criterion_id: 42_CFR_411_15_2026_08_13_C03

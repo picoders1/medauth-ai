@@ -1,0 +1,74 @@
+schema_version: "1"
+curator: engineering
+curator_role: >
+  Software engineer, NOT a clinician and NOT a coverage analyst. These are
+  transcriptions of regulatory text, not clinical judgements. Every criterion is
+  span-verified against the authoritative source, which proves the transcription
+  is faithful - it does NOT establish that the criterion set is complete or that
+  the interpretation is clinically correct.
+curated_at: 2026-08-23
+policy_id: "42 CFR 410.33"
+revision_id: "2026-08-13"
+source_url: https://www.ecfr.gov/current/title-42/section-410.33
+notes: >
+  Independent diagnostic testing facility requirements. The most criteria-dense
+  section in the corpus: personnel qualification, supervision limits, and an
+  order-content requirement that is directly checkable against a submission.
+
+criteria:
+  - ordinal: 1
+    criterion_type: REQUIRED
+    fact_key: idtf_order_in_writing
+    summary: Procedures specifically ordered in writing by the treating physician
+    authoritative_text: "must be specifically ordered in writing by the physician who is treating the beneficiary"
+    normalized_interpretation: >
+      A verbal or standing order is insufficient; the order must be written and
+      from the physician treating the specific problem.
+    source_section: Ordering of tests
+    applicability: All procedures performed by an IDTF
+
+  - ordinal: 2
+    criterion_type: REQUIRED
+    fact_key: order_specifies_diagnosis
+    summary: The order specifies the diagnosis or other basis for testing
+    authoritative_text: "The order must specify the diagnosis or other basis for the testing"
+    normalized_interpretation: >
+      An order naming only the procedure, without the diagnosis or clinical basis,
+      does not satisfy this.
+    source_section: Ordering of tests
+    applicability: All IDTF procedures
+
+  - ordinal: 3
+    criterion_type: REQUIRED
+    fact_key: supervising_physician_proficiency
+    summary: Supervising physician demonstrates proficiency for each procedure type
+    authoritative_text: "must evidence proficiency in the performance and interpretation of each type of diagnostic procedure"
+    normalized_interpretation: >
+      Documented by specialty certification, or by criteria the carrier accepts,
+      for every procedure type the IDTF performs.
+    source_section: Supervising physician
+    applicability: IDTF supervising physicians
+
+  - ordinal: 4
+    criterion_type: REQUIRED
+    fact_key: nonphysician_personnel_qualified
+    summary: Nonphysician personnel are licensed or certified for the tests performed
+    authoritative_text: "must demonstrate the basic qualifications to perform the tests in question"
+    normalized_interpretation: >
+      Evidenced by State licensure or certification, or by a national credentialing
+      body where no State board exists.
+    source_section: Nonphysician personnel
+    applicability: Nonphysician personnel used by an IDTF
+
+  - ordinal: 5
+    criterion_type: EXCLUSION
+    fact_key: supervisor_exceeds_site_limit
+    summary: A supervising physician may not cover more than three IDTF sites
+    authoritative_text: "must be limited to providing general supervision to no more than three IDTF sites"
+    normalized_interpretation: >
+      Supervising a fourth concurrent site breaches the limit for all of them.
+    source_section: Supervising physician
+    applicability: IDTF supervising physicians
+    comparator: "<="
+    threshold: "3"
+    unit: sites

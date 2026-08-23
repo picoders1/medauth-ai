@@ -1,0 +1,178 @@
+{
+  "cases": {
+    "by_category": {
+      "BORDERLINE": 24,
+      "CLEARLY_FAILS": 36,
+      "CLEARLY_SATISFIES": 36,
+      "CONFLICTING_EVIDENCE": 18,
+      "EXCLUSION_PRESENT": 24,
+      "INSUFFICIENT_EVIDENCE": 24,
+      "MISSING_DOCUMENTATION": 36,
+      "POLICY_NOT_APPLICABLE": 24
+    },
+    "by_decision": {
+      "APPROVE_RECOMMENDED": 72,
+      "DENY_RECOMMENDED": 48,
+      "HUMAN_REVIEW": 18,
+      "NEEDS_INFO": 84
+    },
+    "by_policy_version": {
+      "42 CFR 410.32:2026-08-13": 37,
+      "42 CFR 410.33:2026-08-13": 37,
+      "42 CFR 410.38:2022-01-01": 37,
+      "42 CFR 410.38:2026-08-13": 37,
+      "42 CFR 410.61:2019-01-01": 37,
+      "42 CFR 410.61:2026-08-13": 37
+    },
+    "by_temporal_class": {
+      "CURRENT_POLICY": 148,
+      "HISTORICAL_POLICY": 74
+    },
+    "criterion_states": {
+      "NOT_SATISFIED": 123,
+      "SATISFIED": 726,
+      "UNKNOWN": 108
+    },
+    "development": 48,
+    "gold": 156,
+    "gold_frozen": true,
+    "gold_scorings_spent": 0,
+    "gold_sha256": "ca990b804cf8fd38",
+    "total": 222,
+    "validation": 18,
+    "with_missing_information": 60
+  },
+  "code_linkage": {
+    "by_confidence": {
+      "high": 10,
+      "low": 2,
+      "medium": 4
+    },
+    "by_type": {
+      "COVERED_PROCEDURE": 11,
+      "EXCLUDED": 3,
+      "SUPPORTING_DIAGNOSIS": 2
+    },
+    "class": "HUMAN_CURATED_ENGINEERING_LINKAGE",
+    "codes_verified_against_nlm": 12,
+    "hcpcs_links": 14,
+    "icd10cm_links": 2
+  },
+  "corpus": {
+    "authority": "Office of the Federal Register (eCFR API)",
+    "kind": "authoritative",
+    "policies": 5,
+    "policy_versions": 7
+  },
+  "criteria": {
+    "by_policy": {
+      "42 CFR 410.32": 4,
+      "42 CFR 410.33": 5,
+      "42 CFR 410.38": 10,
+      "42 CFR 410.61": 10,
+      "42 CFR 411.15": 4
+    },
+    "by_type": {
+      "EXCLUSION": 7,
+      "REQUIRED": 26
+    },
+    "failed_verifications": 0,
+    "inventory_sha256": "27eeac315da55dbb",
+    "total": 33,
+    "verified": 33,
+    "with_numeric_threshold": 3
+  },
+  "exclusions": [
+    {
+      "excluded_from": "case generation",
+      "item": "42 CFR 411.15",
+      "reason": "EXCLUSION_OVERLAY - declares only exclusions and no required criteria, so it cannot support a standalone decision"
+    },
+    {
+      "excluded_from": "criterion transcription",
+      "item": "42 CFR 410.38 rev 2019-01-01",
+      "reason": "section restructured; 2026 criteria do not locate in it, and carrying a transcription across an amendment is refused"
+    },
+    {
+      "excluded_from": "criterion transcription",
+      "item": "42 CFR 410.43",
+      "reason": "too few headed paragraphs to anchor criteria reliably"
+    }
+  ],
+  "generated_at": "2026-08-23T14:03:09+00:00",
+  "limitations": [
+    "42 CFR is regulation, not an NCD or LCD - a criterion here is not a coverage determination",
+    "code linkage is a human-curated engineering artefact and is authoritative for nothing",
+    "transcription completeness is unverified: nothing checks the right criteria were chosen",
+    "no clinician has reviewed any criterion, case or label",
+    "inter-annotator agreement is not measurable - one labeller, and it is a program",
+    "clinical notes are constructed; measured performance is an upper bound",
+    "MIMIC-IV-Note is NOT accessed and NOT available to this project"
+  ],
+  "retrieval_dataset": {
+    "criterion_linked": 23,
+    "queries": 23,
+    "revisions_covered": [
+      "2019-01-01",
+      "2022-01-01",
+      "2026-08-13"
+    ],
+    "version": "3"
+  },
+  "retrieval_metrics": [
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "latency_p50_ms": 24.6,
+      "mrr": 0.8429,
+      "n": 21,
+      "recall_at_1": 0.7619047619047619,
+      "recall_at_5": 1.0,
+      "reranker": null
+    },
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "latency_p50_ms": 2612.16,
+      "mrr": 0.7528,
+      "n": 21,
+      "recall_at_1": 0.5714285714285714,
+      "recall_at_5": 0.9523809523809523,
+      "reranker": "BAAI/bge-reranker-base"
+    },
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "latency_p50_ms": 529.98,
+      "mrr": 0.8825,
+      "n": 21,
+      "recall_at_1": 0.8095238095238095,
+      "recall_at_5": 1.0,
+      "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "latency_p50_ms": 14.74,
+      "mrr": 0.8349,
+      "n": 21,
+      "recall_at_1": 0.7142857142857143,
+      "recall_at_5": 1.0,
+      "reranker": null
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "latency_p50_ms": 2589.9,
+      "mrr": 0.7528,
+      "n": 21,
+      "recall_at_1": 0.5714285714285714,
+      "recall_at_5": 0.9523809523809523,
+      "reranker": "BAAI/bge-reranker-base"
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "latency_p50_ms": 459.96,
+      "mrr": 0.8825,
+      "n": 21,
+      "recall_at_1": 0.8095238095238095,
+      "recall_at_5": 1.0,
+      "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    }
+  ]
+}

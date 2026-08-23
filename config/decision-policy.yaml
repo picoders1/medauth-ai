@@ -32,6 +32,12 @@ abstention_thresholds:
   approve: null
   deny: null                           # must exceed `approve` once both are set
 
+resolution:
+  # Applicability rules (ADR-004). Resolution is deterministic; these decide only
+  # what happens when more than one policy legitimately applies.
+  ncd_governs_over_lcd: true          # national outranks local; both still recorded
+  multiple_lcds_are_conflicting: true # two local determinations -> a human decides
+
 retrieval:
   top_k: 40                            # ANN candidates, scoped to resolved versions
   rerank_top_n: 8                      # cross-encoder survivors per criterion

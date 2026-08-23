@@ -16,6 +16,8 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.config.settings import get_settings
+from app.database.base import Base
+from app.policy import models as _policy_models  # noqa: F401  - registers the tables
 
 config = context.config
 if config.config_file_name is not None:
@@ -23,8 +25,10 @@ if config.config_file_name is not None:
 
 config.set_main_option("sqlalchemy.url", get_settings().database_url)
 
-# Populated as models land in later phases; no autogenerate target yet.
-target_metadata = None
+# Importing the model modules above registers their tables on this metadata.
+# Autogenerate is a drafting aid only; migrations are written and reviewed by hand,
+# because a schema change here is a change to what the audit trail can record.
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:

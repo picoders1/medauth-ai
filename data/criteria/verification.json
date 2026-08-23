@@ -1,0 +1,11 @@
+{
+  "verified_at": "2026-08-23T14:04:48+00:00",
+  "corpus": "data/cms",
+  "transcriptions": 7,
+  "documents": 8,
+  "criteria_verified": 33,
+  "criteria_written": 33,
+  "failures": [],
+  "passed": true,
+  "inventory_sha256": "27eeac315da55dbb9bbb58cf1c87f60b9df8be21d9b243b4faf8a338f3a78929"
+}

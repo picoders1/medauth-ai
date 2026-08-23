@@ -5,8 +5,9 @@ session can execute phase by phase without rediscovering the architecture.
 
 | Phase | State |
 |---|---|
-| 0 Foundation | **Complete** - 87 tests, ruff + mypy strict clean, stack healthy, OD-1 resolved |
-| 1-9 | Not started |
+| 0 Foundation | **Complete** - ruff + mypy strict clean, stack healthy, OD-1 resolved |
+| 1 Policy corpus & RAG | **Complete** - four mandatory temporal tests pass, corpus ingests end to end, OD-10 addressed on evidence |
+| 2-9 | Not started |
 
 **Rules that apply to every phase**
 
@@ -147,7 +148,7 @@ Skeleton, compose stack, capability report, layer-boundary test.
 
 ---
 
-# PHASE 1 — Policy corpus and RAG
+# PHASE 1 — Policy corpus and RAG  ✔ COMPLETE
 
 ### Objective
 CMS documents ingested with full provenance and versioning; deterministic policy resolution

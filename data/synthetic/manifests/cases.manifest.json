@@ -1,0 +1,91 @@
+{
+  "case_count": 222,
+  "case_schema_version": "1",
+  "cases_sha256": "cc38164861185431dc05e5e9427549c51236e6b7d162433d8219486baf2e9597",
+  "category_distribution": {
+    "BORDERLINE": 24,
+    "CLEARLY_FAILS": 36,
+    "CLEARLY_SATISFIES": 36,
+    "CONFLICTING_EVIDENCE": 18,
+    "EXCLUSION_PRESENT": 24,
+    "INSUFFICIENT_EVIDENCE": 24,
+    "MISSING_DOCUMENTATION": 36,
+    "POLICY_NOT_APPLICABLE": 24
+  },
+  "corpus": "data/cms",
+  "corpus_digest": "00b5144a24486f15903eff267fe3cd5f3e29f051679703fe9ed13745e0a04c5f",
+  "corpus_kind": "synthetic",
+  "criteria_count": 33,
+  "criteria_sha256": "27eeac315da55dbb9bbb58cf1c87f60b9df8be21d9b243b4faf8a338f3a78929",
+  "decision_distribution": {
+    "APPROVE_RECOMMENDED": 72,
+    "DENY_RECOMMENDED": 48,
+    "HUMAN_REVIEW": 18,
+    "NEEDS_INFO": 84
+  },
+  "generated_at": "2026-08-23T13:24:41+00:00",
+  "generator_seed": 20260823,
+  "policy_versions": [
+    {
+      "chunks": 11,
+      "criteria": 4,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.32",
+      "revision_id": "2026-08-13"
+    },
+    {
+      "chunks": 13,
+      "criteria": 5,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.33",
+      "revision_id": "2026-08-13"
+    },
+    {
+      "chunks": 7,
+      "criteria": 5,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.38",
+      "revision_id": "2022-01-01"
+    },
+    {
+      "chunks": 8,
+      "criteria": 5,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.38",
+      "revision_id": "2026-08-13"
+    },
+    {
+      "chunks": 3,
+      "criteria": 0,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.43",
+      "revision_id": "2026-08-13"
+    },
+    {
+      "chunks": 4,
+      "criteria": 5,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.61",
+      "revision_id": "2019-01-01"
+    },
+    {
+      "chunks": 4,
+      "criteria": 5,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 410.61",
+      "revision_id": "2026-08-13"
+    },
+    {
+      "chunks": 25,
+      "criteria": 4,
+      "document_type": "REGULATION",
+      "policy_id": "42 CFR 411.15",
+      "revision_id": "2026-08-13"
+    }
+  ],
+  "template_version": "2",
+  "temporal_distribution": {
+    "CURRENT_POLICY": 148,
+    "HISTORICAL_POLICY": 74
+  }
+}

@@ -72,6 +72,23 @@ class AbstentionThresholds(BaseModel):
         return self
 
 
+class ResolutionPolicy(BaseModel):
+    """How applicability is decided when several policies apply (ADR-004).
+
+    These are behaviour, not constants, which is why they live in versioned policy
+    rather than in code: changing whether two LCDs constitute a conflict changes
+    which cases reach a human.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    #: An NCD outranks an LCD; both are still recorded, and the LCD may add detail.
+    ncd_governs_over_lcd: bool = True
+    #: Two distinct local determinations governing one request is a genuine
+    #: conflict, not something to settle by ranking.
+    multiple_lcds_are_conflicting: bool = True
+
+
 class RetrievalPolicy(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -99,6 +116,7 @@ class DecisionPolicy(BaseModel):
     version: str
     abstention_rules: AbstentionRules = Field(default_factory=AbstentionRules)
     abstention_thresholds: AbstentionThresholds = Field(default_factory=AbstentionThresholds)
+    resolution: ResolutionPolicy = Field(default_factory=ResolutionPolicy)
     retrieval: RetrievalPolicy = Field(default_factory=RetrievalPolicy)
     adjudication: AdjudicationPolicy = Field(default_factory=AdjudicationPolicy)
 

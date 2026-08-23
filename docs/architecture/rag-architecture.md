@@ -1,7 +1,9 @@
 # RAG Architecture
 
-**Status:** Planning phase. No ingestion or retrieval code exists; no CMS document has been
-downloaded.
+**Status:** **Implemented in Phase 1.** No real CMS document has been acquired - CMS is
+unreachable from the development network (a geographic edge block, not a crawl policy;
+see [phase-1-implementation.md](phase-1-implementation.md) section 6). The pipeline runs
+against CMS-*shaped* fixtures, and real documents drop into `data/cms/` with no code change.
 **Authoritative for:** ingestion, policy resolution, retrieval, reranking, citation generation,
 policy versioning.
 
@@ -274,3 +276,57 @@ errors are ranking defects. Details in
 [evaluation-strategy.md](../evaluation/evaluation-strategy.md).
 
 No retrieval metric may be stated until its report artefact exists.
+
+---
+
+## 9. Implementation notes (Phase 1)
+
+Where the built pipeline goes beyond what this document specified, and why.
+
+### Acquisition is an adapter, not a fetcher
+
+`app/policy/acquire.py` exposes `LocalDirectorySource` (the default) and `HttpSource`
+(present, opt-in). Provenance is recorded identically either way, including a
+`synthetic` flag that travels into every report derived from the corpus. CI has no CMS
+access and never will, so network-free ingestion is a permanent requirement rather than
+a temporary accommodation.
+
+### Structure detection needs structural evidence, not lexical
+
+The first implementation matched headings lexically - short, title-cased, unpunctuated -
+and filled the section tree with body text, because **a wrapped prose line satisfies
+every one of those tests**. "Total knee arthroplasty is considered reasonable and
+necessary when" is thirteen words, capitalised, and unpunctuated only because the line
+wrapped.
+
+Canonical CMS headings are now matched exactly and need no further evidence. A
+document-local heading additionally requires a preceding blank line and following
+content. Recorded as R-34.
+
+### Chunking has a last-resort word split
+
+ADR-006 specified splitting oversized sections at sentence boundaries. Policy documents
+contain enumerations and code tables with no terminal punctuation at all, and such a
+section produced a single chunk wider than the encoder's context - silently truncated at
+embedding time, where the loss reads as a retrieval-quality problem. `chunk.py` now falls
+back to word boundaries, never mid-word, only when no sentence boundary exists. Recorded
+as R-35.
+
+### Retrieval re-applies the temporal predicate
+
+`search_chunks` filters on `in_force_on(as_of)` even though resolution has already
+applied it. That is deliberate defence in depth against a caller supplying a scope from
+somewhere other than `resolve()` - a cache, or a hand-built list. The two call **one
+shared function**, never two copies, and a test asserts the identity.
+
+The redundancy has a testing consequence worth stating: a test that exercises only the
+happy path passes with *either* filter deleted, and the first version of the scoping
+suite did exactly that. Each filter is now tested on the path where it alone is
+load-bearing (R-36).
+
+### Known gap: Billing & Coding Articles are unreachable by resolution
+
+An Article declares no covered procedure of its own, so no request resolves to it from a
+procedure code, and its content - notably the diagnosis codes that support medical
+necessity - cannot be retrieved. Recorded as **OD-15** and excluded from the retrieval
+denominator with the reason stated, rather than dropped.

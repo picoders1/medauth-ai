@@ -1,0 +1,98 @@
+# ============================================================================
+# HUMAN-CURATED ENGINEERING LINKAGE
+# ============================================================================
+#
+# THIS IS NOT CMS POLICY LANGUAGE. It must never be presented as such.
+#
+# 42 CFR states conditions of payment; it does not enumerate procedure codes the
+# way a Local Coverage Determination does. The mapping below is therefore an
+# ENGINEERING ARTEFACT: a judgement by a non-clinician about which codes plausibly
+# fall within a regulation's subject matter, made so that deterministic policy
+# resolution has something to resolve on.
+#
+# What each part is authoritative for:
+#
+#   code + description   NLM Clinical Tables. Authoritative for EXISTENCE only.
+#   regulation text      eCFR. Authoritative.
+#   THIS MAPPING         Curated. Authoritative for NOTHING.
+#
+# A code appearing here does not mean the item is covered. Coverage depends on the
+# criteria, which are adjudicated per case. `confidence` records how defensible the
+# subject-matter match is, and `low` entries exist deliberately so the corpus
+# contains linkage the system should be sceptical of.
+#
+# Codes are Level II HCPCS (public domain). No AMA CPT code appears here.
+
+schema_version: "1"
+linkage_class: HUMAN_CURATED_ENGINEERING_LINKAGE
+curator: engineering
+curator_role: Software engineer. Not a clinician, not a certified coder.
+curated_at: 2026-08-23
+code_authority: NLM Clinical Tables API (existence and description only)
+
+links:
+  # --- 42 CFR 410.38 : DMEPOS scope and conditions -------------------------
+  - {policy_id: "42 CFR 410.38", policy_version: "2026-08-13", code: K0898, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Power wheelchair; DMEPOS item subject to the written order and face-to-face conditions."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2026-08-13", code: K0012, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Lightweight portable power wheelchair; same DMEPOS conditions."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2026-08-13", code: E1390, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Oxygen concentrator; named DME in paragraph (a)."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2026-08-13", code: E0270, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Hospital bed; named DME in paragraph (a)."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2026-08-13", code: J44.0, code_system: ICD10CM,
+     linkage_type: SUPPORTING_DIAGNOSIS, confidence: medium,
+     rationale: "COPD commonly underlies an oxygen concentrator request. Subject-matter plausibility only."}
+
+  # --- 42 CFR 410.32 : diagnostic test ordering and supervision -------------
+  - {policy_id: "42 CFR 410.32", policy_version: "2026-08-13", code: R0070, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Transport of portable x-ray equipment; paragraph (c) addresses portable x-ray directly."}
+  - {policy_id: "42 CFR 410.32", policy_version: "2026-08-13", code: Q0092, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: medium,
+     rationale: "Set-up of portable x-ray equipment; same subject matter, ordering conditions apply."}
+
+  # --- 42 CFR 410.33 : independent diagnostic testing facility --------------
+  - {policy_id: "42 CFR 410.33", policy_version: "2026-08-13", code: R0075, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: medium,
+     rationale: "Portable x-ray transport, multiple patients; an IDTF may furnish it."}
+
+  # --- 42 CFR 410.61 : outpatient rehabilitation plan of treatment ----------
+  - {policy_id: "42 CFR 410.61", policy_version: "2026-08-13", code: G0295, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: low,
+     rationale: "Electromagnetic therapy. LOW confidence: the regulation governs the plan of
+       treatment rather than naming modalities, and most therapy procedures are CPT-coded and
+       therefore absent from a public-domain code set."}
+
+  # --- 42 CFR 411.15 : excluded services ------------------------------------
+  - {policy_id: "42 CFR 411.15", policy_version: "2026-08-13", code: V2020, code_system: HCPCS,
+     linkage_type: EXCLUDED, confidence: high,
+     rationale: "Eyeglass frames; paragraph (b) excludes lens-based vision aids."}
+  - {policy_id: "42 CFR 411.15", policy_version: "2026-08-13", code: V5010, code_system: HCPCS,
+     linkage_type: EXCLUDED, confidence: high,
+     rationale: "Assessment for hearing aid; paragraph (d) excludes fitting examinations."}
+  - {policy_id: "42 CFR 411.15", policy_version: "2026-08-13", code: V5298, code_system: HCPCS,
+     linkage_type: EXCLUDED, confidence: high,
+     rationale: "Hearing aid not otherwise classified; paragraph (d) exclusion."}
+
+  # --- historical revisions -------------------------------------------------
+  # The same codes, linked to the revision that governed earlier dates of service.
+  # Linkage is per REVISION, not per policy: a code list that silently spanned
+  # revisions would defeat the point of resolving by date of service.
+  - {policy_id: "42 CFR 410.38", policy_version: "2022-01-01", code: K0898, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Power wheelchair; DMEPOS conditions as they stood under the 2022 revision."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2022-01-01", code: E1390, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     rationale: "Oxygen concentrator; named DME under the 2022 revision."}
+  - {policy_id: "42 CFR 410.38", policy_version: "2022-01-01", code: J44.0, code_system: ICD10CM,
+     linkage_type: SUPPORTING_DIAGNOSIS, confidence: medium,
+     rationale: "COPD as a plausible basis for an oxygen request. Subject-matter plausibility only."}
+  - {policy_id: "42 CFR 410.61", policy_version: "2019-01-01", code: G0295, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: low,
+     rationale: "Electromagnetic therapy. LOW confidence for the same reason as the current revision:
+       the regulation governs the plan of treatment rather than naming modalities."}

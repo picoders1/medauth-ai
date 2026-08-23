@@ -1,0 +1,3696 @@
+{
+  "meta": {
+    "generated_at": "2026-08-23T13:58:25+00:00",
+    "git_commit": "038d1b2",
+    "dataset": "eval/datasets/retrieval/questions.yaml",
+    "dataset_sha256": "0026a812276a3e2e",
+    "dataset_version": "3",
+    "corpus": "data/cms",
+    "corpus_kind": "authoritative",
+    "questions": 23,
+    "scored_questions": 21,
+    "device": "cpu",
+    "python": "3.12.3",
+    "platform": "Linux x86_64"
+  },
+  "arms": [
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "reranker": null,
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 16,
+        "total": 21,
+        "lower": 0.5490882629913595,
+        "upper": 0.8937198698423572
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "mrr": 0.8429,
+      "ndcg_at_5": 0.8403,
+      "latency_p50_ms": 24.6,
+      "latency_p95_ms": 27.96,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Definitions",
+              "Paragraph (b)",
+              "General scope"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "General scope",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Paragraph (d)",
+              "Ordering diagnostic tests",
+              "Paragraph (d)"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Paragraph (d)",
+              "Paragraph (d)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 5,
+            "top_sections": [
+              "Ordering diagnostic tests",
+              "Ordering diagnostic tests",
+              "Paragraph (d)"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Paragraph (b)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering of tests",
+              "General rule",
+              "Supervising physician"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering of tests",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Nonphysician personnel",
+              "Multi-State entities"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "General rule"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Establishment of the plan",
+              "Content of the plan",
+              "Basic requirement"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Changes in the plan",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    },
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "reranker": "BAAI/bge-reranker-base",
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 12,
+        "total": 21,
+        "lower": 0.36546554354474087,
+        "upper": 0.7553003108644546
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "mrr": 0.7528,
+      "ndcg_at_5": 0.7561,
+      "latency_p50_ms": 2612.16,
+      "latency_p95_ms": 3624.81,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "General scope",
+              "Definitions",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Definitions",
+              "General scope",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Definitions",
+              "Conditions of Payment",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "General scope",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Definitions",
+              "Conditions of Payment",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Definitions",
+              "General scope",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Portable x-ray services"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering diagnostic tests",
+              "Paragraph (b)",
+              "Paragraph (d)"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "Paragraph (b)",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Paragraph (b)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 7,
+            "top_sections": [
+              "Application certification standards",
+              "General rule",
+              "Supervising physician"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Application certification standards",
+              "Ordering of tests",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "General rule",
+              "Supervising physician",
+              "Nonphysician personnel"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Multi-State entities",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "General rule",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Changes in the plan",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    },
+    {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 17,
+        "total": 21,
+        "lower": 0.5999943529128688,
+        "upper": 0.9233243495269782
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "mrr": 0.8825,
+      "ndcg_at_5": 0.8756,
+      "latency_p50_ms": 529.98,
+      "latency_p95_ms": 827.99,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "General scope",
+              "Paragraph (b)",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Paragraph (e)",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "General scope",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Paragraph (d)",
+              "Paragraph (d)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Diagnostic laboratory tests furnished in hospitals and CAHs",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 5,
+            "top_sections": [
+              "Application certification standards",
+              "General rule",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering of tests",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "Nonphysician personnel"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Multi-State entities",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "General rule"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Basic requirement",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Basic requirement",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "reranker": null,
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 15,
+        "total": 21,
+        "lower": 0.5004361926666723,
+        "upper": 0.8618613705609143
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "mrr": 0.8349,
+      "ndcg_at_5": 0.8478,
+      "latency_p50_ms": 14.74,
+      "latency_p95_ms": 17.54,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "General scope",
+              "Paragraph (b)",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Paragraph (e)",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "Definitions",
+              "General scope"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering diagnostic tests",
+              "Paragraph (d)",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Paragraph (d)",
+              "Paragraph (b)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Ordering diagnostic tests",
+              "Paragraph (b)",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Paragraph (b)",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 5,
+            "top_sections": [
+              "General rule",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering of tests",
+              "Application certification standards",
+              "Failure to meet standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Nonphysician personnel",
+              "Ordering of tests"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "General rule"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Changes in the plan",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Basic requirement",
+              "Content of the plan",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Changes in the plan",
+              "Basic requirement"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Basic requirement",
+              "Content of the plan",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "reranker": "BAAI/bge-reranker-base",
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 12,
+        "total": 21,
+        "lower": 0.36546554354474087,
+        "upper": 0.7553003108644546
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "mrr": 0.7528,
+      "ndcg_at_5": 0.7561,
+      "latency_p50_ms": 2589.9,
+      "latency_p95_ms": 3524.79,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "General scope",
+              "Definitions",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Definitions",
+              "General scope",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Definitions",
+              "Conditions of Payment",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "General scope",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Definitions",
+              "Conditions of Payment",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Definitions",
+              "General scope",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Portable x-ray services"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering diagnostic tests",
+              "Paragraph (b)",
+              "Paragraph (d)"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "Paragraph (b)",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Paragraph (b)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 7,
+            "top_sections": [
+              "Application certification standards",
+              "General rule",
+              "Supervising physician"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Application certification standards",
+              "Ordering of tests",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "General rule",
+              "Supervising physician",
+              "Nonphysician personnel"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Multi-State entities",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "General rule",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Changes in the plan",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    },
+    {
+      "embedder": "BAAI/bge-small-en-v1.5",
+      "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+      "resolution_accuracy": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "recall_at_1": {
+        "successes": 17,
+        "total": 21,
+        "lower": 0.5999943529128688,
+        "upper": 0.9233243495269782
+      },
+      "recall_at_3": {
+        "successes": 20,
+        "total": 21,
+        "lower": 0.7733063990584849,
+        "upper": 0.9915440121997533
+      },
+      "recall_at_5": {
+        "successes": 21,
+        "total": 21,
+        "lower": 0.8453609808643684,
+        "upper": 1.0
+      },
+      "mrr": 0.8825,
+      "ndcg_at_5": 0.8756,
+      "latency_p50_ms": 459.96,
+      "latency_p95_ms": 860.73,
+      "per_question": [
+        {
+          "id": "q001",
+          "text": "Does the wheelchair have to be for use inside the house?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "General scope",
+              "Paragraph (b)",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q002",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q003",
+          "text": "What has to be written on the order form itself?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Paragraph (e)",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q004",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Conditions of Payment",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q005",
+          "text": "Does a nursing home count as the patient's residence?",
+          "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "General scope",
+              "Definitions"
+            ]
+          }
+        },
+        {
+          "id": "q006",
+          "text": "How recently must the doctor have seen the patient in person?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q007",
+          "text": "Is a signed prescription needed before we supply the equipment?",
+          "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.38",
+              "2022-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.38",
+                "2022-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Conditions of Payment",
+              "Definitions",
+              "Conditions of Payment"
+            ]
+          }
+        },
+        {
+          "id": "q008",
+          "text": "Who is allowed to request a scan for this patient?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 3,
+            "top_sections": [
+              "Paragraph (d)",
+              "Paragraph (d)",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q009",
+          "text": "Does the result actually have to change what we do next?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q010",
+          "text": "Does a doctor need to be present while the test runs?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Paragraph (b)",
+              "Ordering diagnostic tests",
+              "Ordering diagnostic tests"
+            ]
+          }
+        },
+        {
+          "id": "q011",
+          "text": "What oversight applies when imaging is done at the patient's house?",
+          "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.32",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.32",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Portable x-ray services",
+              "Diagnostic laboratory tests furnished in hospitals and CAHs",
+              "Paragraph (b)"
+            ]
+          }
+        },
+        {
+          "id": "q012",
+          "text": "Can the testing centre act on a phone call from the doctor?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 5,
+            "top_sections": [
+              "Application certification standards",
+              "General rule",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q013",
+          "text": "Does the request slip need to say why the test is wanted?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Ordering of tests",
+              "Application certification standards",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q014",
+          "text": "What qualifications must the overseeing doctor hold?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "Nonphysician personnel"
+            ]
+          }
+        },
+        {
+          "id": "q015",
+          "text": "Do the technicians need a licence or certificate?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Nonphysician personnel",
+              "Multi-State entities",
+              "Application certification standards"
+            ]
+          }
+        },
+        {
+          "id": "q016",
+          "text": "How many locations can one doctor oversee at once?",
+          "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.33",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.33",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Supervising physician",
+              "Multi-State entities",
+              "General rule"
+            ]
+          }
+        },
+        {
+          "id": "q017",
+          "text": "Do we need a therapy plan on paper before starting?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C01",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 2,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Content of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q018",
+          "text": "Can the plan be written up after therapy has begun?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C02",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Establishment of the plan",
+              "Basic requirement",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q019",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Basic requirement",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q020",
+          "text": "Does the plan need to say what we are aiming for?",
+          "criterion_id": "42_CFR_410_61_2026_08_13_C04",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2026-08-13"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2026-08-13"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ]
+          }
+        },
+        {
+          "id": "q021",
+          "text": "What details about the sessions must the plan spell out?",
+          "criterion_id": "42_CFR_410_61_2019_01_01_C03",
+          "resolution": {
+            "status": "RESOLVED",
+            "expected": [
+              "42 CFR 410.61",
+              "2019-01-01"
+            ],
+            "resolved": [
+              [
+                "42 CFR 410.61",
+                "2019-01-01"
+              ]
+            ],
+            "correct": true
+          },
+          "ranking": {
+            "rank_of_correct_section": 1,
+            "top_sections": [
+              "Content of the plan",
+              "Basic requirement",
+              "Establishment of the plan"
+            ]
+          }
+        },
+        {
+          "id": "q022",
+          "text": "Will the plan cover a device to help someone who cannot hear well?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C04",
+          "excluded": "not reachable by resolution from a procedure code"
+        },
+        {
+          "id": "q023",
+          "text": "Is an appointment to work out a new lens prescription covered?",
+          "criterion_id": "42_CFR_411_15_2026_08_13_C03",
+          "excluded": "not reachable by resolution from a procedure code"
+        }
+      ]
+    }
+  ]
+}

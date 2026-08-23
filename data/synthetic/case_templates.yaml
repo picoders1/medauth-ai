@@ -1,0 +1,137 @@
+# Case templates: how a criterion state becomes a clinical fact and note text.
+#
+#   Policy -> Criteria -> CASE TEMPLATE -> synthetic facts -> note -> states
+#
+# Keys are `fact_key` values declared in the curated transcriptions, so a template
+# with no criterion, or a criterion with no template, is a detectable error rather
+# than a silent gap. A test asserts the correspondence.
+#
+# `unknown` is an OMISSION, never a statement. A note saying "duration unknown"
+# hands the system a hint no real submission contains; a real one simply does not
+# mention it, and the system must notice the absence.
+#
+# `distractors` are clinically plausible sentences that bear on NO criterion. They
+# exist to stop retrieval and adjudication succeeding by picking the only sentence
+# present. They must never be decision-relevant, or ground truth stops being
+# deterministic.
+
+version: "2"
+
+distractors:
+  - "Allergies: penicillin (rash), no known food allergies."
+  - "Social history: lives with spouse, former smoker, quit 12 years ago."
+  - "Immunizations up to date including influenza and pneumococcal."
+  - "BP 132/78, HR 74, afebrile at today's visit."
+  - "Patient reports adequate pain control on current regimen."
+  - "Family history significant for type 2 diabetes in a sibling."
+  - "Reviewed medication list; no changes this visit."
+  - "Pt ambulatory to clinic w/ spouse. NAD."
+  - "Last CBC and CMP within normal limits, drawn 3 weeks ago."
+  - "Advance directive on file. No changes requested."
+
+templates:
+  # --- 42 CFR 410.38 : DMEPOS ------------------------------------------------
+  equipment_used_in_home:
+    satisfied: "Equipment will be used in the beneficiary's private residence."
+    not_satisfied: "Equipment is requested for use at a day program facility, not the residence."
+    unknown: null
+  written_order_present:
+    satisfied: "Signed written order for the requested item is enclosed, dated prior to delivery."
+    not_satisfied: "No written order has been issued; request submitted on a verbal instruction."
+    unknown: null
+  order_elements_complete:
+    satisfied: "Order includes beneficiary name and MBI, item description, quantity, order date, practitioner NPI and signature."
+    not_satisfied: "Order lists the item and date only; practitioner NPI and signature are absent."
+    unknown: null
+  face_to_face_within_months:
+    satisfied: "Treating practitioner conducted a face-to-face mobility evaluation {value} months before the order."
+    not_satisfied: "Most recent face-to-face evaluation was {value} months before the order."
+    unknown: null
+    satisfied_value: "{threshold_minus}"
+    not_satisfied_value: "{threshold_plus}"
+  institution_is_hospital_or_snf:
+    satisfied: "Beneficiary is a long-stay resident of a skilled nursing facility."
+    not_satisfied: "Beneficiary resides in a single-storey private home."
+    unknown: null
+
+  # --- 42 CFR 410.32 : diagnostic tests --------------------------------------
+  ordered_by_treating_physician:
+    satisfied: "Ordered by Dr. Almeida, who has managed this problem since the initial consultation."
+    not_satisfied: "Ordered by the imaging facility's staff radiologist, who has not evaluated the patient."
+    unknown: null
+  results_used_in_management:
+    satisfied: "Result will determine whether to escalate to surgical referral or continue conservative care."
+    not_satisfied: "Study requested for completeness; no management decision is pending on the result."
+    unknown: null
+  appropriate_supervision_level:
+    satisfied: "Study performed under direct physician supervision as required for this procedure."
+    not_satisfied: "No supervising physician was present or immediately available during the study."
+    unknown: null
+  portable_xray_general_supervision:
+    satisfied: "Portable study furnished under general supervision of the medical director."
+    not_satisfied: "Portable study furnished with no physician supervision arrangement documented."
+    unknown: null
+
+  # --- 42 CFR 410.33 : IDTF ---------------------------------------------------
+  idtf_order_in_writing:
+    satisfied: "Written order from the treating physician is on file at the testing facility."
+    not_satisfied: "Testing proceeded on a telephoned request; no written order was obtained."
+    unknown: null
+  order_specifies_diagnosis:
+    satisfied: "Order states the working diagnosis and the clinical question to be answered."
+    not_satisfied: "Order names the procedure only, with no diagnosis or clinical basis recorded."
+    unknown: null
+  supervising_physician_proficiency:
+    satisfied: "Supervising physician holds board certification covering each procedure type performed."
+    not_satisfied: "Supervising physician has no documented proficiency for this procedure type."
+    unknown: null
+  nonphysician_personnel_qualified:
+    satisfied: "Technologist holds current State licensure and national registry certification."
+    not_satisfied: "Technologist's certification lapsed and has not been renewed."
+    unknown: null
+  supervisor_exceeds_site_limit:
+    satisfied: "Supervising physician currently covers {value} concurrent testing sites."
+    not_satisfied: "Supervising physician covers {value} sites."
+    unknown: null
+    satisfied_value: "{threshold_plus}"
+    not_satisfied_value: "{threshold_minus}"
+
+  # --- 42 CFR 410.61 : outpatient rehabilitation -------------------------------
+  written_plan_of_treatment:
+    satisfied: "A written plan of treatment is enclosed with this request."
+    not_satisfied: "No written plan of treatment has been prepared; therapy began on referral alone."
+    unknown: null
+  plan_established_before_treatment:
+    satisfied: "Plan established and signed prior to the first treatment session."
+    not_satisfied: "Plan was written after the fourth session had already been delivered."
+    unknown: null
+  plan_prescribes_parameters:
+    satisfied: "Plan prescribes type (gait training), amount (45 min), frequency (3x weekly) and duration (8 weeks)."
+    not_satisfied: "Plan names the therapy type but omits amount, frequency and duration."
+    unknown: null
+  plan_states_diagnosis_and_goals:
+    satisfied: "Plan records the treating diagnosis and anticipated functional goals."
+    not_satisfied: "Plan records the diagnosis but states no anticipated goals."
+    unknown: null
+  plan_changes_in_writing:
+    satisfied: "Frequency change documented in writing and countersigned by the therapist."
+    not_satisfied: "Frequency was reduced verbally; no written amendment was filed."
+    unknown: null
+
+  # --- 42 CFR 411.15 : exclusions ---------------------------------------------
+  routine_physical_checkup:
+    satisfied: "Visit was an annual routine physical with no presenting complaint."
+    not_satisfied: "Visit was prompted by a specific presenting complaint under investigation."
+    unknown: null
+  eyeglasses_or_low_vision_aid:
+    satisfied: "Request is for eyeglass frames and corrective lenses."
+    not_satisfied: "Request does not involve eyeglasses or a low vision aid."
+    unknown: null
+  refractive_eye_examination:
+    satisfied: "Examination was performed to determine refractive error and prescribe lenses."
+    not_satisfied: "Examination was performed to evaluate suspected retinal pathology."
+    unknown: null
+  hearing_aid_or_fitting:
+    satisfied: "Request is for a hearing aid assessment and fitting."
+    not_satisfied: "Request is unrelated to hearing aids or their fitting."
+    unknown: null

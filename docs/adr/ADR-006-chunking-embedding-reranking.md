@@ -1,6 +1,6 @@
 # ADR-006: Section-Aware Chunking, Embedding and Reranking
 
-**Status:** Accepted (model selections **provisional**, pending Phase 1 measurement)
+**Status:** Accepted · **Amended in Phase 1 on evidence** - see [Amendment](#amendment-phase-1-retrieval-baseline)
 **Date:** 2026-08-23 · **Phase:** Planning
 
 ## Context
@@ -106,3 +106,107 @@ matters not at all at this corpus size.
 | **Hosted embedding API** | Bypasses the firewall boundary, adds egress and cost, and solves nothing that local inference does not. |
 | **Skipping reranking** | The candidate pool is homogeneous, which is the case where bi-encoder ranking is weakest — and it would remove a deterministic abstention feature. |
 | **Hybrid BM25 + dense** | Plausible and reconsidered if Phase 1 shows lexical matching helps on code-heavy passages. Not adopted before measurement. |
+
+---
+
+## Amendment: Phase 1 retrieval baseline
+
+Measured against the frozen retrieval set; the artefact is the `retrieval-baseline`
+report under `eval/reports/`. Two of this ADR's positions survive and one does not.
+
+### Chunking: confirmed, and it found two defects
+
+Section-aware chunking held, and building it surfaced two failures this ADR had not
+anticipated:
+
+* **Wrapped prose reads as a heading.** The first structure detector matched headings
+  lexically and filled the section tree with body text, because a thirteen-word wrapped
+  sentence satisfies every lexical test for a heading. Local headings now require
+  *structural* evidence - a preceding blank line and following content (R-34).
+* **Some sections cannot be split at a sentence boundary.** Enumerations and code tables
+  carry no terminal punctuation, and produced a chunk wider than the encoder's context,
+  silently truncated at embedding time. A word-boundary split is now the last resort,
+  never mid-word (R-35).
+
+### Encoder: the default stands, but not because it is best
+
+Two encoders were compared. `bge-base-en-v1.5` led on recall@1, but at n=11 every arm's
+interval overlaps every other and paired exact McNemar does not distinguish them. The
+default therefore stands as **adequate and unrefuted**. The word "best" is still not
+used, and OD-10 is closed on that basis rather than on a demonstrated ordering.
+
+`bge-small-en-v1.5` emits 384 dimensions. Adopting it is a migration plus a full
+re-embed, not a configuration change.
+
+### Reranking: the argument in this ADR is **not supported** by the measurement
+
+This ADR argued that reranking "earns its cost here specifically", because sections
+within one determination share almost all their vocabulary and a bi-encoder separates
+them poorly.
+
+**Reranking reduced recall@1 for both encoders.** Recall@5 was unaffected, so the
+reranker is not losing the correct section - it is demoting it. On this corpus the
+bi-encoder already separates the sections, and the cross-encoder appears to reward
+passages that restate the question's wording over the one that answers it.
+
+Consequences, recorded rather than tuned away:
+
+1. **The claim that reranking earns its cost is withdrawn** until it is measured on a
+   corpus where this ADR's premise - long, repetitive, lexically similar sections -
+   actually holds. The constructed corpus does not have that property, so the result
+   does not refute the argument either; it leaves it unevidenced.
+2. **The shipped default is unchanged.** Switching it on 11 questions whose intervals
+   all overlap would be tuning on noise, and the constructed corpus is the wrong
+   evidence for a decision about real policy prose.
+3. `rerank_margin` remains available as an abstention feature (ADR-011), but its value
+   is now explicitly unmeasured.
+
+### What the amendment does not establish
+
+Nothing about real CMS prose. The corpus is CMS-*shaped* (R-33), and the claim that
+these figures transfer is refused.
+
+---
+
+## Amendment 2: Phase 2B, measured on the authoritative corpus
+
+Re-measured against real 42 CFR with a corrected nDCG (the earlier implementation
+assumed one relevant chunk per query and returned values above 1.0, which is
+impossible - a target *section* spans several chunks).
+
+| encoder | no reranker | `bge-reranker-base` | `ms-marco-MiniLM-L-6-v2` |
+|---|---|---|---|
+| `bge-base-en-v1.5` | 0.7619 | **0.5714** | **0.8095** |
+| `bge-small-en-v1.5` | 0.7143 | **0.5714** | **0.8095** |
+
+Recall@1, n=21, resolution accuracy 1.0000 [0.8454, 1.0000].
+
+### The earlier finding was too broad and is corrected
+
+Amendment 1 recorded that "reranking reduced recall@1 for both encoders" and
+withdrew this ADR's claim that reranking earns its cost. On the authoritative
+corpus that statement is **wrong as a general claim about reranking**:
+
+* `bge-reranker-base` **hurts** - 0.5714 against a 0.7619 baseline, consistent
+  across both encoders and consistent with the earlier corpus.
+* `ms-marco-MiniLM-L-6-v2` **helps** - 0.8095, above baseline on both encoders.
+
+So the effect is a property of the *specific reranker*, not of reranking. The
+earlier measurement was not wrong; the generalisation drawn from it was.
+
+### What is still not claimed
+
+At n=21 the intervals overlap heavily: `none` [0.5491, 0.8937] against `ms-marco`
+[0.6000, 0.9233]. **No configuration change is made on this evidence.** Switching
+the shipped default on twenty-one questions whose intervals overlap would be tuning
+on noise, which is the failure this project's evaluation discipline exists to
+prevent.
+
+What the measurement does establish is narrower and worth having: **a reranker can
+actively degrade retrieval on this corpus**, and `bge-reranker-base` does. That is
+a reason to measure any reranker before shipping it, not a reason to ship a
+different one now.
+
+Recall@3 is identical (0.9524) across every arm, and recall@5 differs only for
+`bge-reranker-base`. The rerankers are reordering the top of a list that already
+contains the answer.

@@ -142,21 +142,41 @@ def test_app_tree_is_non_empty() -> None:
 
 # --------------------------------------------------------------------------- 1
 def test_core_imports_nothing_from_app() -> None:
-    """`app.core` is the base of the dependency graph and depends on no layer."""
+    """`app.core` is the base of the dependency graph and depends on no layer.
+
+    Its own modules may compose - `hashing` builds on `normalize` - so the rule is
+    "no *other* app package", not "no app import at all". Phase 0 wrote the stricter
+    form because core had no internal imports yet; Phase 1 added one and exposed it.
+    """
     for module in _in("core"):
-        offenders = {i for i in module.imports if i == "app" or i.startswith("app.")}
-        assert not offenders, f"{module.rel} imports from app/: {sorted(offenders)}"
+        offenders = {
+            i
+            for i in module.imports
+            if (i == "app" or i.startswith("app.")) and not i.startswith("app.core")
+        }
+        assert not offenders, (
+            f"{module.rel} imports another app package: {sorted(offenders)}. "
+            "app.core is the base of the dependency graph."
+        )
 
 
 # --------------------------------------------------------------------------- 2
 def test_decision_imports_only_core() -> None:
-    """`app.decision` may reach `app.core` and nothing else in the application."""
+    """`app.decision` may reach `app.core` and its own modules, nothing else.
+
+    A package composing its own modules is not a layer violation - the rule is about
+    which *other* layers may be reached. Phase 0 wrote this as "nothing but core"
+    because every package was then a single module. Phase 1 exposed the same
+    oversight in rule 1, and the data-foundation phase exposed it here.
+    """
     for module in _in("decision"):
         offenders = {
-            i for i in module.imports if i.startswith("app.") and not i.startswith("app.core")
+            i
+            for i in module.imports
+            if i.startswith("app.") and not i.startswith(("app.core", "app.decision"))
         }
         assert not offenders, (
-            f"{module.rel} imports outside app.core: {sorted(offenders)}. "
+            f"{module.rel} reaches another layer: {sorted(offenders)}. "
             "The decision surface must stay a pure function of its arguments."
         )
 

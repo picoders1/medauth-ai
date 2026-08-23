@@ -1,0 +1,71 @@
+schema_version: "1"
+curator: engineering
+curator_role: >
+  Software engineer, NOT a clinician and NOT a coverage analyst. These are
+  transcriptions of regulatory text, not clinical judgements. Every criterion is
+  span-verified against the authoritative source, which proves the transcription
+  is faithful - it does NOT establish that the criterion set is complete or that
+  the interpretation is clinically correct.
+curated_at: 2026-08-23
+policy_id: "42 CFR 411.15"
+revision_id: "2026-08-13"
+source_url: https://www.ecfr.gov/current/title-42/section-411.15
+policy_role: EXCLUSION_OVERLAY
+notes: >
+  ROLE: exclusion overlay, not a standalone coverage policy. 411.15 only removes
+  coverage; it never establishes it, and it declares no required criteria. Generating
+  standalone cases against it drove every case to decision-table row 10 (the totality
+  guard), which is the table correctly reporting that it cannot classify a request
+  with no requirements to satisfy. The finding is the useful part: a corpus can
+  contain a policy that is real, authoritative and still not a basis for a decision
+  on its own.
+
+  Particular services excluded from coverage. Included because a corpus of
+  requirements alone cannot exercise the exclusion path of the decision table -
+  row 7 needs an exclusion that is positively evidenced.
+
+criteria:
+  - ordinal: 1
+    criterion_type: EXCLUSION
+    fact_key: routine_physical_checkup
+    summary: Routine physical checkups are excluded
+    authoritative_text: "Routine physical checkups such as"
+    normalized_interpretation: >
+      Examinations performed for a purpose other than treatment or diagnosis of a
+      specific illness, symptom, complaint or injury - subject to the enumerated
+      screening exceptions.
+    source_section: Paragraph (a)
+    applicability: Any service billed as a routine examination
+
+  - ordinal: 2
+    criterion_type: EXCLUSION
+    fact_key: eyeglasses_or_low_vision_aid
+    summary: Eyeglasses and low vision aids are excluded
+    authoritative_text: "The scope of the eyeglass exclusion encompasses all devices"
+    normalized_interpretation: >
+      All lens-based vision aids regardless of form or technology, except
+      post-surgical prosthetic lenses and prosthetic intraocular lenses.
+    source_section: Paragraph (b)
+    applicability: Vision devices
+
+  - ordinal: 3
+    criterion_type: EXCLUSION
+    fact_key: refractive_eye_examination
+    summary: Eye examinations for refractive error only are excluded
+    authoritative_text: "for refractive error only"
+    normalized_interpretation: >
+      Excluded even when performed alongside otherwise covered diagnosis or
+      treatment.
+    source_section: Paragraph (c)
+    applicability: Eye examinations
+
+  - ordinal: 4
+    criterion_type: EXCLUSION
+    fact_key: hearing_aid_or_fitting
+    summary: Hearing aids and fitting examinations are excluded
+    authoritative_text: "Hearing aids or examinations for the purpose of prescribing, fitting, or changing hearing aids"
+    normalized_interpretation: >
+      Covers air conduction and bone conduction aids and the examinations performed
+      to prescribe or fit them.
+    source_section: Paragraph (d)
+    applicability: Hearing devices and related examinations

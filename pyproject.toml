@@ -57,6 +57,16 @@ dev = [
     "aiosqlite>=0.20,<1.0",
 ]
 
+# CPU-only torch. The GPU wheels are ~2.4 GB and this project never uses them:
+# encoders run on CPU by default, and no generative model is served locally.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -98,7 +108,9 @@ known-first-party = ["app", "eval"]
 "tests/unit/test_normalize.py" = ["RUF001", "RUF002", "RUF003"]
 # Tests legitimately use assert and fake credentials.
 "tests/**" = ["S101", "S105", "S106", "S311"]
-"eval/**" = ["S101"]
+# S311: `random` seeds deterministic corpus construction, not cryptography.
+# The seed is pinned so the corpus rebuilds byte-identically.
+"eval/**" = ["S101", "S311"]
 "scripts/**" = ["S603", "S607"]
 
 [tool.mypy]

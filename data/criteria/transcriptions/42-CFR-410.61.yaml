@@ -1,0 +1,72 @@
+schema_version: "1"
+curator: engineering
+curator_role: >
+  Software engineer, NOT a clinician and NOT a coverage analyst. These are
+  transcriptions of regulatory text, not clinical judgements. Every criterion is
+  span-verified against the authoritative source, which proves the transcription
+  is faithful - it does NOT establish that the criterion set is complete or that
+  the interpretation is clinically correct.
+curated_at: 2026-08-23
+policy_id: "42 CFR 410.61"
+revision_id: "2026-08-13"
+source_url: https://www.ecfr.gov/current/title-42/section-410.61
+notes: >
+  Plan-of-treatment requirements for outpatient rehabilitation. Exercises
+  documentation-content and timing criteria, and is the closest analogue here to
+  therapy prior authorization.
+
+criteria:
+  - ordinal: 1
+    criterion_type: REQUIRED
+    fact_key: written_plan_of_treatment
+    summary: Services furnished under a written plan of treatment
+    authoritative_text: "must be furnished under a written plan of treatment"
+    normalized_interpretation: >
+      A written plan meeting paragraphs (b) through (e) must exist before services
+      are furnished.
+    source_section: Basic requirement
+    applicability: Outpatient physical, occupational and speech-language therapy
+
+  - ordinal: 2
+    criterion_type: REQUIRED
+    fact_key: plan_established_before_treatment
+    summary: The plan is established before treatment begins
+    authoritative_text: "The plan is established before treatment is begun"
+    normalized_interpretation: >
+      Established by a physician, the treating therapist, or an NP, CNS or PA -
+      before the first treatment, not retrospectively.
+    source_section: Establishment of the plan
+    applicability: Outpatient rehabilitation services
+
+  - ordinal: 3
+    criterion_type: REQUIRED
+    fact_key: plan_prescribes_parameters
+    summary: The plan prescribes type, amount, frequency and duration
+    authoritative_text: "prescribes the type, amount, frequency, and duration"
+    normalized_interpretation: >
+      All four parameters must be present. A plan naming only the modality is
+      incomplete.
+    source_section: Content of the plan
+    applicability: Outpatient rehabilitation services
+
+  - ordinal: 4
+    criterion_type: REQUIRED
+    fact_key: plan_states_diagnosis_and_goals
+    summary: The plan states the diagnosis and anticipated goals
+    authoritative_text: "indicates the diagnosis and anticipated goals"
+    normalized_interpretation: >
+      The plan must record both the diagnosis being treated and the anticipated
+      functional goals.
+    source_section: Content of the plan
+    applicability: Outpatient rehabilitation services
+
+  - ordinal: 5
+    criterion_type: REQUIRED
+    fact_key: plan_changes_in_writing
+    summary: Changes to the plan are made in writing and signed
+    authoritative_text: "Are made in writing and signed by one of the following"
+    normalized_interpretation: >
+      Any change must be written, signed by an authorised person, and incorporated
+      into the plan immediately.
+    source_section: Changes in the plan
+    applicability: Where the plan is amended during treatment

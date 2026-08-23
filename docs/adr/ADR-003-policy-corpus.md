@@ -86,3 +86,32 @@ is reported as a denominator, not hidden.
 | **C — synthetic policy** | Removes the difficulty that makes the problem interesting. Real policy prose is ambiguous, cross-referential and inconsistently structured; a synthetic corpus would validate a parser against itself. |
 | **D — clinical guidelines** | Guidelines state what is clinically indicated; coverage policy states what is covered. Conflating the two is precisely the error this system must not make. |
 | **Both CMS and a commercial payer** | Doubles ingestion work before either is validated. The architecture supports it; Phase 1 does not attempt it. |
+
+---
+
+## Amendment: Phase 1 acquisition
+
+The corpus decision is unchanged - CMS Medicare Coverage Database material, payer-agnostic
+below the document tables. What changed is **how documents arrive**.
+
+CMS is unreachable from the development network. Every CMS property returns 403 at an
+Akamai edge, `robots.txt` included, while other US government sites answer normally from
+the same host: a geographic edge block, not a crawl policy. A search of all 20,470 HHS
+`healthdata.gov` datasets found no NCD or LCD documents either - the Coverage Database is
+a separate application, not open data. There is therefore no sanctioned programmatic
+route from here, and none is manufactured: presenting as a browser to get past an access
+control is not something this pipeline does.
+
+**Acquisition is therefore a source adapter** (`app/policy/acquire.py`):
+`LocalDirectorySource` reads documents an operator placed on disk, and `HttpSource` exists
+for environments where the origin is reachable. Provenance is recorded identically either
+way.
+
+This is not a temporary accommodation. CI has no CMS access and never will, so
+network-free ingestion is a permanent requirement that the real corpus sits alongside.
+
+**Phase 1 ran against CMS-shaped fixtures**, faithful to real NCD, LCD and Billing &
+Coding Article structure, carrying code *values* only - no AMA CPT descriptor text is
+reproduced. `registry.yaml` marks them `synthetic: true`, and that flag is carried into
+every report derived from the corpus, so a figure measured on constructed policy text can
+never be presented as one measured on CMS prose (R-33).
