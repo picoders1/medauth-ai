@@ -1,0 +1,58 @@
+# --- Secrets -----------------------------------------------------------------
+# Nothing matching these may ever be committed. The model-provider credential
+# lives in the llm-firewall deployment, not here (see docs/security/llm-firewall-integration.md).
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+deploy/secrets/
+deploy/certs/
+
+# --- Third-party corpora -----------------------------------------------------
+# CMS material is downloaded, never committed (ADR-003). Embedded CPT(R) code
+# descriptors are AMA-copyrighted; provenance is recorded in data/cms/registry.yaml,
+# which IS committed. The documents themselves are not.
+data/cms/**
+!data/cms/registry.yaml
+!data/cms/.gitkeep
+
+# Synthea output is generated, never committed (ADR-015). The frozen, hashed
+# evaluation corpus lives under eval/datasets/ and IS committed.
+data/synthea/**
+!data/synthea/.gitkeep
+
+# --- Model artefacts ---------------------------------------------------------
+# Weights never enter the app tree.
+artifacts/
+*.onnx
+*.safetensors
+*.gguf
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Node / Next.js (ui/) ----------------------------------------------------
+node_modules/
+.next/
+out/
+.npm/
+*.tsbuildinfo
+
+# --- Tooling / OS ------------------------------------------------------------
+.DS_Store
+*.swp
+.idea/
+.vscode/
