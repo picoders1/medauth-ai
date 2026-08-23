@@ -13,7 +13,9 @@ import pytest
 
 from app.core.types import CriterionKind, ResolutionStatus, Verdict
 from app.decision.models import DecisionRule, Outcome
+from app.decision.semantics import PolicySemantics
 from app.decision.table import CriterionOutcome, GuardrailState, ResolutionState, decide
+from tests.support import attested_assumption
 
 pytestmark = pytest.mark.unit
 
@@ -105,7 +107,7 @@ EXC_PRESENT = _c("e2", CriterionKind.EXCLUSION, Verdict.SATISFIED)
     ],
 )
 def test_each_row_fires(criteria, guardrail, resolution, outcome, rule) -> None:
-    result = decide(criteria, guardrail, resolution)
+    result = decide(criteria, guardrail, resolution, attested_assumption(criteria))
     assert result.outcome is outcome
     assert result.rule is rule
 
@@ -123,7 +125,7 @@ def test_no_applicable_policy_can_never_deny() -> None:
     for size in range(len(pool) + 1):
         for combination in itertools.combinations(pool, size):
             for guardrail in GuardrailState:
-                result = decide(combination, guardrail, empty)
+                result = decide(combination, guardrail, empty, attested_assumption(combination))
                 assert result.outcome is not Outcome.DENY_RECOMMENDED, (
                     f"resolution was empty yet the table denied: {combination}, {guardrail}"
                 )
@@ -137,7 +139,8 @@ def test_missing_evidence_outranks_evidenced_failure() -> None:
     Collapsing them is how automated prior authorization denies people for missing
     paperwork - here it is structurally unreachable.
     """
-    result = decide((REQ_UNKNOWN, REQ_FAIL, EXC_PRESENT), OK, RESOLVED)
+    criteria = (REQ_UNKNOWN, REQ_FAIL, EXC_PRESENT)
+    result = decide(criteria, OK, RESOLVED, attested_assumption(criteria))
     assert result.outcome is Outcome.NEEDS_INFO
     assert result.rule is DecisionRule.INSUFFICIENT_EVIDENCE
 
@@ -146,27 +149,41 @@ def test_a_failure_without_evidence_is_not_a_denial() -> None:
     """A verdict of NOT_SATISFIED backed by nothing is missing evidence wearing a
     verdict's clothes."""
     unevidenced = _c("r9", CriterionKind.REQUIRED, Verdict.NOT_SATISFIED, evidence=False)
-    result = decide((REQ_OK, unevidenced), OK, RESOLVED)
+    criteria = (REQ_OK, unevidenced)
+    result = decide(criteria, OK, RESOLVED, attested_assumption(criteria))
     assert result.outcome is Outcome.NEEDS_INFO
     assert result.rule is DecisionRule.INSUFFICIENT_EVIDENCE
 
 
 def test_an_exclusion_without_evidence_does_not_deny() -> None:
     unevidenced = _c("e9", CriterionKind.EXCLUSION, Verdict.SATISFIED, evidence=False)
-    assert decide((REQ_OK, unevidenced), OK, RESOLVED).outcome is Outcome.APPROVE_RECOMMENDED
+    criteria = (REQ_OK, unevidenced)
+    assert (
+        decide(criteria, OK, RESOLVED, attested_assumption(criteria)).outcome
+        is Outcome.APPROVE_RECOMMENDED
+    )
 
 
 def test_an_invalid_citation_stops_the_case_whatever_the_verdicts() -> None:
     pool = [REQ_OK, REQ_FAIL, REQ_UNKNOWN, EXC_PRESENT]
     for size in range(len(pool) + 1):
         for combination in itertools.combinations(pool, size):
-            result = decide(combination, GuardrailState.INVALID_CITATION, RESOLVED)
+            result = decide(
+                combination,
+                GuardrailState.INVALID_CITATION,
+                RESOLVED,
+                attested_assumption(combination),
+            )
             assert result.outcome is Outcome.NO_DECISION
 
 
 def test_informational_criteria_never_change_the_outcome() -> None:
     info = _c("i1", CriterionKind.INFORMATIONAL, Verdict.NOT_SATISFIED)
-    assert decide((REQ_OK,), OK, RESOLVED).outcome is decide((REQ_OK, info), OK, RESOLVED).outcome
+    bare, with_info = (REQ_OK,), (REQ_OK, info)
+    assert (
+        decide(bare, OK, RESOLVED, attested_assumption(bare)).outcome
+        is decide(with_info, OK, RESOLVED, attested_assumption(with_info)).outcome
+    )
 
 
 # --------------------------------------------------------------- totality
@@ -179,13 +196,18 @@ def test_decide_is_total_over_generated_inputs() -> None:
     for kind, verdict, evidence in itertools.product(kinds, verdicts, [True, False]):
         for guardrail in GuardrailState:
             for status in ResolutionStatus:
-                result = decide(
-                    (_c("x", kind, verdict, evidence=evidence),),
-                    guardrail,
-                    ResolutionState(status, 1),
-                )
-                assert isinstance(result.outcome, Outcome)
-                seen_rules.add(result.rule)
+                criteria = (_c("x", kind, verdict, evidence=evidence),)
+                resolution = ResolutionState(status, 1)
+                # Both semantics states, so the two Phase 5 refusal rows are
+                # reachable here rather than only in their own file.
+                for semantics in (
+                    attested_assumption(criteria),
+                    PolicySemantics.unconsulted(),
+                    PolicySemantics.review_required(policy_id="p", policy_version="v"),
+                ):
+                    result = decide(criteria, guardrail, resolution, semantics)
+                    assert isinstance(result.outcome, Outcome)
+                    seen_rules.add(result.rule)
 
     # The generated space must actually exercise the interesting rows, or this
     # test would pass while covering nothing.
@@ -197,23 +219,22 @@ def test_decide_is_total_over_generated_inputs() -> None:
         DecisionRule.EXCLUSION_SATISFIED,
         DecisionRule.REQUIRED_NOT_SATISFIED,
         DecisionRule.ALL_REQUIRED_SATISFIED,
+        DecisionRule.POLICY_SEMANTICS_UNRESOLVED,
+        DecisionRule.POLICY_SEMANTICS_UNVERIFIED,
     ):
         assert required in seen_rules, f"{required.name} was never reached"
 
 
 def test_missing_evidence_detail_reaches_the_recommendation() -> None:
     """A NEEDS_INFO that does not say what is missing is not actionable."""
-    result = decide(
-        (
-            _c(
-                "r5",
-                CriterionKind.REQUIRED,
-                Verdict.INSUFFICIENT_EVIDENCE,
-                evidence=False,
-                missing=("conservative therapy duration",),
-            ),
+    criteria = (
+        _c(
+            "r5",
+            CriterionKind.REQUIRED,
+            Verdict.INSUFFICIENT_EVIDENCE,
+            evidence=False,
+            missing=("conservative therapy duration",),
         ),
-        OK,
-        RESOLVED,
     )
+    result = decide(criteria, OK, RESOLVED, attested_assumption(criteria))
     assert result.missing_evidence == ("conservative therapy duration",)

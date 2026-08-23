@@ -1,0 +1,34 @@
+{
+  "criterion_assessments": [],
+  "evidence_mappings": [],
+  "expected_abstention": "UNRESOLVED_POLICY_SEMANTICS",
+  "fixture": "06-unresolved-policy",
+  "input": {
+    "case_id": "06-unresolved-policy",
+    "clinical_note": "Therapy furnished under a written plan.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "06-unresolved-policy",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "plan",
+        "span_end": 7,
+        "span_start": 0,
+        "value": "written plan"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "UNRESOLVED_POLICY_SEMANTICS",
+  "why_this_fixture_exists": "A REVIEW_REQUIRED policy cannot adjudicate however complete the evidence is. Fixed at the semantics gate, before any denial or approval is reachable."
+}

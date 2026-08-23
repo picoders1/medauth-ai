@@ -1,0 +1,96 @@
+{
+  "criterion_assessments": [
+    {
+      "assessment": "SATISFIED",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence_ids": [
+        "E1"
+      ],
+      "rationale_summary": "the ordering physician is treating the beneficiary for the stated problem"
+    },
+    {
+      "assessment": "SATISFIED",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+      "evidence_ids": [
+        "E2"
+      ],
+      "rationale_summary": "the note states the result will guide management"
+    }
+  ],
+  "evidence_mappings": [
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F1"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence": [
+        {
+          "chunk_id": "chunk-1",
+          "evidence_id": "E1",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "must be ordered by the physician who is treating the beneficiary",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "SUPPORTED"
+    },
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F2"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+      "evidence": [
+        {
+          "chunk_id": "chunk-2",
+          "evidence_id": "E2",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "uses the results in the management of the beneficiary's specific medical problem",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "SUPPORTED"
+    }
+  ],
+  "expected_abstention": null,
+  "fixture": "01-complete",
+  "input": {
+    "case_id": "01-complete",
+    "clinical_note": "Ordered by Dr Chen, who is treating the patient for the abdominal pain. Result will guide the management plan for that problem.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "01-complete",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "order",
+        "span_end": 11,
+        "span_start": 0,
+        "value": "ordered by treating physician"
+      },
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F2",
+        "kind": "use",
+        "span_end": 78,
+        "span_start": 72,
+        "value": "guides management"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "ALL_EVIDENCE_PRESENT",
+  "why_this_fixture_exists": "The positive control. Without a fixture that reaches a decision, every abstention fixture below would pass on a pipeline that never decides anything."
+}

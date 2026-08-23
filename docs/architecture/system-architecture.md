@@ -1,6 +1,9 @@
 # System Architecture
 
-**Status:** Planning phase (Phase 0 not yet started). No application code exists.
+**Status:** Phase 9 complete. The deterministic layers, contracts and gates are built and
+tested; **no agent, prompt or model call exists**, and production inference is `BLOCKED`
+pending one external domain decision (FOCUS-001). See
+[phase9-transition.md](phase9-transition.md).
 **Authoritative for:** end-to-end flow, layer boundaries, invariants, failure semantics.
 
 ---
@@ -78,6 +81,19 @@ offending module is never executed.
 ## 4. End-to-end flow
 
 ```
+   ┌─────────────────────────────────────────────────────────────────┐
+   │ 0. PRODUCTION GATE                            [code, fail-closed]│
+   │    app/production_gate.py - the SINGLE authority.                │
+   │      domain_decisions_accepted   ← FOCUS-001 must be ACCEPTED    │
+   │      admissibility_gate_readable ← unreadable is NOT permission  │
+   │      policy_slice_admissible     ← ≥1 policy passes all eleven   │
+   │      admissibility_status_ready                                  │
+   │      semantics_executable                                        │
+   │    Any read error ⇒ None ⇒ BLOCKED. require() raises.            │
+   │                                                                  │
+   │    ══ TODAY: BLOCKED ══  Nothing below this line runs.           │
+   └──────────────────────────────┬──────────────────────────────────┘
+                                  ▼
                         Clinical case  (synthetic only)
                                   │
    ┌──────────────────────────────▼──────────────────────────────────┐
@@ -94,11 +110,34 @@ offending module is never executed.
    │    No embeddings. No model. Reproducible.                        │
    │    0 resolved  → NEEDS_INFO                                      │
    │    conflicting → HUMAN_REVIEW                                    │
+   │                                                                  │
+   │    TWO LAYERS OF AUTHORITY, PARTITIONED — NEVER MERGED (ADR-024) │
+   │      REGULATION  42 CFR · statutory conditions of payment        │
+   │      NCD         is this item covered nationally?                │
+   │      LCD/ARTICLE deferred behind a licence gate (OD-21)          │
+   │                                                                  │
+   │    `scope_for(document_type)` yields one scope per layer. There  │
+   │    is no value meaning "both". A version whose effective date    │
+   │    CMS never published is unreachable by date of service.        │
+   └──────────────────────────────┬──────────────────────────────────┘
+                                  ▼
+   ┌─────────────────────────────────────────────────────────────────┐
+   │ 2b. COVERAGE RESOLUTION (NCD layer)           [deterministic]    │
+   │    Which determination version governs this date of service?     │
+   │      RESOLVED · NO_APPLICABLE_VERSION                            │
+   │      TEMPORALLY_UNRESOLVABLE · AMBIGUOUS · UNKNOWN               │
+   │    What does it establish?                                       │
+   │      COVERED · NOT_COVERED · CONDITIONAL                         │
+   │      NOT_ESTABLISHED · NOT_APPLICABLE · UNKNOWN                  │
+   │    ✗ No APPROVE or DENY member exists here.                      │
+   │    ✗ Absence of an NCD is NOT_ESTABLISHED, never NOT_COVERED.    │
+   │    ✗ Satisfying a regulation is not coverage.                    │
+   │    (future: clinical evidence joins as a third input)            │
    └──────────────────────────────┬──────────────────────────────────┘
                                   ▼
    ┌─────────────────────────────────────────────────────────────────┐
    │ 3. EVIDENCE RETRIEVAL          [local models, no firewall]       │
-   │    Scoped to the resolved policy versions ONLY.                  │
+   │    Scoped to ONE policy type's resolved versions ONLY.           │
    │    pgvector ANN → metadata + temporal filter → cross-encoder     │
    │    rerank → evidence set with full citation metadata.            │
    └──────────────────────────────┬──────────────────────────────────┘
@@ -146,6 +185,73 @@ offending module is never executed.
 
 Steps 1 and 4 are the **only** steps that call a model. Steps 2, 5, 6 are deterministic. Step 3
 uses local encoder models but no generative model and no network.
+
+### What is built, and what is a contract
+
+| step | today |
+|---|---|
+| 0 · production gate | **built** — `app/production_gate.py`, currently `BLOCKED` |
+| 1 · intake | **contract only** — `IntakeResult` in `app/contracts/slice.py`; no prompt, no call |
+| 2 · resolution | **built** — deterministic SQL, `PolicyIdentity`, `RetrievalScope` |
+| 2b · coverage | **built** — NCD acquisition, temporal derivation, `CoverageStatus` |
+| 3 · retrieval | **built** — pgvector + local encoders; benchmark `NOT_READY` (OD-28) |
+| 4 · adjudication | **contract only** — `CriterionAssessment`; no prompt, no call |
+| 5 · guardrail | **built** — span verification |
+| 6 · decision | **built** — pure, `PolicySemantics` required, 9 abstention states |
+| 7 · console | not started |
+| 8 · audit | schema built; `AuditEvent` carries no clinical text |
+
+The **runtime boundary** is between steps 3 and 4, and between 0 and 1: everything
+deterministic exists, and every model-calling step is a closed schema with nothing behind
+it. That is the intended order — the code that constrains the model was written before the
+code that calls it, so the constraints are not retrofitted around a working demo.
+
+### Two verdict vocabularies, and how they relate
+
+`Verdict` (`app/core/types.py`) has four members and is what `decide()` consumes and what
+gold_v1's labels were computed against. `AssessmentState` (`app/contracts/slice.py`) has
+three and is what the slice permits a model to return.
+
+| slice returns | reaches `decide()` as |
+|---|---|
+| `SATISFIED` | `SATISFIED` |
+| `NOT_SATISFIED` | `NOT_SATISFIED` |
+| `UNKNOWN` | `INSUFFICIENT_EVIDENCE` |
+| — | `NOT_APPLICABLE` — produced by `When` in the declared logic, **never by a model** |
+
+The narrowing is total and injective, pinned by
+`test_the_slice_vocabulary_narrows_the_adjudication_vocabulary_totally`. A slice state
+mapping nowhere would be a value `decide()` cannot receive, and would be discovered at the
+first slice run rather than in the suite.
+
+### Historical replay is a separate path
+
+`eval/replay.py::gold_v1_semantics()` reproduces gold_v1's 222 labels under semantics that
+**production refuses on two independent grounds** — origin (`GOLD_V1_REPLAY` is outside
+`PRODUCTION_ORIGINS`) and inventory digest. It lives outside `app/` entirely; two AST rules
+assert no module under `app/` imports `eval`, and that the token `GOLD_V1_REPLAY` appears
+under `app/` only at the refusal that names it.
+
+The production gate has no input through which replay could reach it, and a boundary test
+asserts the gate neither imports nor names the replay constructor. Replay keeps every
+committed report interpretable; it says nothing about production, and it is built so it
+cannot be made to.
+
+### Clinical validation is unresolved and unrepresented
+
+Three different things are easy to conflate, so they are kept apart by name:
+
+| | means |
+|---|---|
+| `SOURCE_VERIFIED` | an engineering fact — the text is where the record says it is |
+| `QUALIFIED_REVIEWED` | a qualified reader agrees this is the right criterion |
+| *clinical validation* | adjudicating this way produces clinically correct outcomes |
+
+The third **has no representation anywhere in this codebase** — no enum member, no field,
+no flag — and `tests/evaluation/test_phase7_gate.py::test_clinical_validation_has_no_member_anywhere`
+asserts that no enum member anywhere under `app/` contains "CLINICAL". A field for it would be an invitation to set it, and setting
+it is not an engineering act. Nothing in Phase 0–9 establishes it, and no committed report
+claims it.
 
 ---
 
@@ -287,7 +393,7 @@ committed evidence says so explicitly:
 |---|---|---|
 | Indirect-injection recall | 0.1423 (n=520) | `eval/results/20260817T130736Z__indirect-delivery-shape/report.md` |
 | Recall on *planted* content vs *user-requested* | 0.0938 (n=480) vs 0.7250 (n=40) | same report |
-| "The firewall protects RAG applications" | **claim refused** | `docs/22-evidence-and-claims.md` |
+| "The firewall protects RAG applications" | **claim refused** | [evidence-and-claims.md](../evidence-and-claims.md) |
 
 The detector classifies the user's turn, not retrieved content. MEDAUTH's corpus *is* retrieved
 content. Therefore **indirect-injection containment is MEDAUTH's own architectural

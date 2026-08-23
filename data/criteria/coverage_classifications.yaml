@@ -1,15 +1,10 @@
 schema_version: '1'
-generated_at: '2026-08-23T14:27:09+00:00'
+generated_at: '2026-08-23T17:28:22+00:00'
 classifier: engineering (non-clinician), rule-assisted with manual overrides
 caveat: These classifications are a non-clinician's judgement about what bears on a prior-authorization
   decision. That judgement is what OD-19 identifies as unverified. REQUIRES_HUMAN_REVIEW entries are not
   deferred work items - they are the honest state of the analysis.
 provisions:
-  42_CFR_410_32_20260813_Orderingdiagnosticte_a1:
-    classification: REQUIRES_HUMAN_REVIEW
-    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
-      because the cost of a wrong dismissal is an invisible gap.
-    method: rule
   42_CFR_410_32_20260813_Orderingdiagnosticte_a2:
     classification: REQUIRES_HUMAN_REVIEW
     reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
@@ -86,12 +81,6 @@ provisions:
     reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
       because the cost of a wrong dismissal is an invisible gap.
     method: rule
-  42_CFR_410_32_20260813_Paragraphb_b3:
-    classification: REQUIRES_HUMAN_REVIEW
-    reason: 'GAP: defines the supervision LEVELS (general, direct, personal). Criterion C03 requires ''the
-      appropriate level'' without capturing which level applies to which test - so the criterion is not
-      checkable on its own.'
-    method: manual
   42_CFR_410_32_20260813_Paragraphb_b3i:
     classification: NON_DECISION_RELEVANT
     reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
@@ -106,11 +95,6 @@ provisions:
     classification: NON_DECISION_RELEVANT
     reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
       submission could satisfy or fail on its own.
-    method: rule
-  42_CFR_410_32_20260813_Paragraphb_b4:
-    classification: REQUIRES_HUMAN_REVIEW
-    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
-      because the cost of a wrong dismissal is an invisible gap.
     method: rule
   42_CFR_410_32_20260813_Portablexrayservices_c:
     classification: REQUIRES_HUMAN_REVIEW

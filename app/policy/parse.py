@@ -113,7 +113,11 @@ def _identity(header: dict[str, object]) -> DocumentIdentity:
             revision_id=_as_str(header, "revision_id") or "",
             scope=scope,
             jurisdiction=_as_str(header, "jurisdiction", required=False),
-            effective_date=_as_date(header.get("effective_date"), "effective_date") or date.min,
+            # No `or date.min` fallback. `_as_date(required=True)` raises on a
+            # missing date, so the fallback was unreachable - and it was one
+            # relaxed `required=` away from turning "we do not know when this took
+            # effect" into "it has always been in effect".
+            effective_date=_as_date(header.get("effective_date"), "effective_date"),
             end_date=_as_date(header.get("end_date"), "end_date", required=False),
             revision_date=_as_date(header.get("revision_date"), "revision_date", required=False),
             contractor=_as_str(header, "contractor", required=False),

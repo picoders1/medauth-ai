@@ -9,6 +9,7 @@ that catches it.
 
 from __future__ import annotations
 
+import uuid
 from datetime import date
 
 import pytest
@@ -16,9 +17,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.policy import ResolutionPolicy
 from app.core.types import CodeSystem, ResolutionStatus
-from app.policy.models import DocumentType, LinkType, PolicyScope
-from app.policy.resolve import ResolutionRequest, resolve
-from tests.integration.conftest import CorpusBuilder
+from app.policy.models import DocumentType, LinkType, PolicyScope, TemporalStatus
+from app.policy.resolve import ResolutionRequest, ResolutionResult, resolve
+from app.policy.temporal import in_force_on
+from app.retrieval.scope import RetrievalScope
+from app.retrieval.search import search_chunks
+from tests.integration.conftest import CorpusBuilder, DeterministicEmbedder
 
 pytestmark = [pytest.mark.integration, pytest.mark.asyncio]
 
@@ -175,7 +179,9 @@ async def test_no_applicable_policy_is_not_a_denial(
 
     assert result.status is ResolutionStatus.NONE_APPLICABLE
     assert result.status is not ResolutionStatus.CONFLICTING
-    assert result.version_ids == ()
+    # No resolved version means no retrieval scope of any type - there is nothing
+    # to hand to a search, which is stronger than handing it an empty set.
+    assert result.scopes() == ()
 
 
 async def test_jurisdiction_is_not_assumed(session: AsyncSession, corpus: CorpusBuilder) -> None:
@@ -329,7 +335,11 @@ async def test_supporting_diagnoses_are_reported_but_do_not_decide_applicability
     assert without.versions[0].supporting_diagnoses == ()
     # Applicability is identical in all three cases.
     assert unsupported.status is ResolutionStatus.RESOLVED
-    assert with_diagnosis.version_ids == without.version_ids == unsupported.version_ids
+
+    def _ids(result: ResolutionResult) -> frozenset[uuid.UUID]:
+        return frozenset(i for scope in result.scopes() for i in scope.policy_version_ids)
+
+    assert _ids(with_diagnosis) == _ids(without) == _ids(unsupported)
 
 
 async def test_resolution_explains_itself(session: AsyncSession, corpus: CorpusBuilder) -> None:
@@ -341,3 +351,104 @@ async def test_resolution_explains_itself(session: AsyncSession, corpus: CorpusB
 
     for expected in ("L34567", "R4", "27447", "covered_procedure", "J6", "effective"):
         assert expected in why, f"{expected!r} missing from explanation: {why}"
+
+
+# ------------------------------------------------------- undated determinations
+async def test_an_undated_version_is_unreachable_by_resolution(
+    session: AsyncSession, corpus: CorpusBuilder
+) -> None:
+    """A version whose start date the source never published cannot be resolved.
+
+    Not by being absent - it is stored, indexed, and carries its provenance - but
+    because `in_force_on` admits only DATED versions. 14 of 24 NCDs sampled from the
+    CMS Coverage API publish prose where a date belongs, so this is the majority
+    case for that corpus, not an edge one.
+
+    The positive control is in the same test: a dated sibling with the *same code*
+    resolves, so the emptiness above is the temporal status and not a broken
+    fixture.
+    """
+    undated_doc = await corpus.document("NCD 150.1", DocumentType.NCD, title="Manipulation")
+    await corpus.version(
+        undated_doc,
+        "1",
+        None,
+        temporal_status=TemporalStatus.UNDATED,
+        effective_date_source=(
+            "This is a longstanding national coverage determination. The effective "
+            "date of this version has not been posted."
+        ),
+        codes=(("A9999", "HCPCS", LinkType.COVERED_PROCEDURE),),
+    )
+    dated_doc = await corpus.document("NCD 310.1", DocumentType.NCD, title="Clinical Trials")
+    await corpus.version(
+        dated_doc, "1", date(2020, 1, 1), codes=(("A9999", "HCPCS", LinkType.COVERED_PROCEDURE),)
+    )
+    await corpus.commit()
+
+    for as_of in (date(1990, 1, 1), date(2024, 6, 1), date(2099, 1, 1)):
+        result = await resolve(session, ResolutionRequest("A9999", CodeSystem.HCPCS, as_of), POLICY)
+        resolved = {v.policy_id for v in result.versions}
+        assert "NCD 150.1" not in resolved, (
+            f"the undated determination resolved for {as_of}; no date of service may "
+            "reach a version whose effective date was never published"
+        )
+
+    current = await resolve(
+        session, ResolutionRequest("A9999", CodeSystem.HCPCS, date(2024, 6, 1)), POLICY
+    )
+    assert {v.policy_id for v in current.versions} == {"NCD 310.1"}
+
+
+async def test_an_undated_version_is_unreachable_by_retrieval(
+    session: AsyncSession, corpus: CorpusBuilder, embedder: DeterministicEmbedder
+) -> None:
+    """Retrieval applies the same predicate, so an undated chunk is not evidence.
+
+    An undated version stored but retrievable would be worse than not storing it:
+    its text would enter an evidence set and be cited, with an effective date the
+    citation could not show.
+    """
+    document = await corpus.document("NCD 250.1", DocumentType.NCD, title="Psoriasis")
+    version = await corpus.version(
+        document,
+        "1",
+        None,
+        temporal_status=TemporalStatus.UNDATED,
+        effective_date_source="the effective date of this version has not been posted.",
+        codes=(("A8888", "HCPCS", LinkType.COVERED_PROCEDURE),),
+    )
+    text = "Treatment is covered when documented as medically necessary."
+    await corpus.chunk(
+        version, 1, "Indications", text, embedding=embedder.encode_passages([text])[0]
+    )
+    await corpus.commit()
+
+    scope = RetrievalScope(
+        document_type=DocumentType.NCD,
+        policy_version_ids=frozenset({uuid.UUID(str(version.id))}),
+        as_of=date(2024, 6, 1),
+    )
+    assert await search_chunks(session, embedder.encode_query(text), scope) == ()
+
+
+async def test_the_temporal_predicate_names_the_status_it_depends_on() -> None:
+    """`in_force_on` must not rely on SQL NULL semantics alone.
+
+    An undated version is excluded today by three-valued logic - `NULL <= as_of` is
+    NULL - so the `temporal_status` conjunct changes no result and deleting it
+    breaks no test. That is measured, not assumed.
+
+    It earns its place against the next edit. Making the date comparison
+    NULL-tolerant, which looks like a reasonable accommodation for a nullable
+    column, would put every undated version in force for every date of service. The
+    conjunct catches that; without it, `test_an_undated_version_is_unreachable_*`
+    both fail. This test pins the conjunct's presence so it cannot be removed as
+    dead weight by someone who checks only that the suite is green.
+    """
+    rendered = str(in_force_on(date(2024, 1, 1)))
+    assert "temporal_status" in rendered, (
+        "in_force_on no longer names temporal_status. It is not redundant: it is "
+        "what stops a NULL-tolerant effective_date comparison from making undated "
+        "versions universally applicable."
+    )

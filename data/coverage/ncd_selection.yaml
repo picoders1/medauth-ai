@@ -1,0 +1,155 @@
+# NCD selection record. WRITTEN AND COMMITTED BEFORE ACQUISITION.
+#
+# WHY A SELECTION RECORD EXISTS
+#
+# The CMS Coverage API (MCIM) has no index or listing endpoint - every documented
+# path requires an `ncdid`, and `/v1/data/ncd` without one returns 400. So a corpus
+# can only be assembled from an explicit list of ids, and the list is a judgement
+# about what to include.
+#
+# Writing it down first is the same discipline OD-11 applied to the CFR corpus: a
+# selection made after seeing results is a selection ON results. The particular
+# hazard here is concrete rather than theoretical - 14 of 24 NCDs sampled during
+# planning publish PROSE where an effective date belongs, and those NCDs are
+# unresolvable by date of service. "Exclude the undated ones" would quietly become
+# "select the datable ones", and this file would then describe a biased sample
+# without saying so.
+#
+# THE SELECTION RULE
+#
+#   Include an NCD if it exercises a structural property the coverage layer must
+#   handle, and prefer subject matter adjacent to the existing HCPCS linkage
+#   (DMEPOS, diagnostic testing, therapy plans).
+#
+#   Do NOT select on whether the effective date parses. The datable fraction is a
+#   MEASURED PROPERTY of this selection, reported after acquisition, not a
+#   criterion for it.
+#
+# WHAT IS NOT HERE
+#
+#   LCDs and Billing & Coding Articles. Their endpoints return 401 behind an
+#   AMA/ADA/AHA licence gate. No agreement was accepted and no gated endpoint was
+#   requested (ADR-022, OD-21).
+#
+# PROVENANCE
+#
+#   Every acquired record carries source URL, acquisition timestamp, content hash
+#   and version identity. Documents are downloaded, never committed (ADR-003);
+#   `registry.yaml` beside this file records what was fetched.
+
+schema_version: "1"
+source: CMS Medicare Coverage Information Model (MCIM) API
+source_base_url: https://api.coverage.cms.gov/v1/data
+endpoints_used:
+  - /ncd?ncdid={id}&ncdver={version}
+  - /ncd/other-versions?ncdid={id}
+endpoints_refused:
+  - path: /lcd
+    reason: 401 behind an AMA/ADA/AHA licence gate; not requested (OD-21)
+  - path: /article
+    reason: 401 behind an AMA/ADA/AHA licence gate; not requested (OD-21)
+curator: engineering
+curator_role: Software engineer. Not a clinician, not a coverage analyst.
+selected_at: 2026-08-23
+selection_rule: >
+  Exercises a structural property the coverage layer must handle, with a
+  preference for subject matter adjacent to the existing HCPCS linkage. NOT
+  selected on whether the effective date parses.
+
+ncds:
+  - ncdid: 1
+    display_id: "310.1"
+    title: Routine Costs in Clinical Trials
+    reason: >
+      Three published versions with parseable dates - the only clean multi-version
+      history found in the sample. Exercises sequence-derived version windows and
+      the `superseded_by` chain, which nothing else in the corpus does.
+
+  - ncdid: 3
+    display_id: "150.1"
+    title: Manipulation
+    reason: >
+      Effective date is PROSE, not a date. Exercises the UNDATED path: stored,
+      indexed, provenance preserved, and unreachable by date of service. Included
+      deliberately - without an undated NCD the fail-closed temporal behaviour
+      would be untested against real data.
+
+  - ncdid: 20
+    display_id: "30.4"
+    title: Electrosleep Therapy (RETIRED)
+    reason: >
+      A retired determination whose `effective_end_date` (01/01/2021) PRECEDES its
+      own effective date (04/10/2023) and is identical across all three versions.
+      This is the record that proves `effective_end_date` is document-level
+      retirement rather than a version window. Expected to be REFUSED by the
+      acquisition adapter's coherence check; the refusal is the evidence.
+
+  - ncdid: 60
+    display_id: "10.1"
+    title: Use of Visual Tests Prior to Surgery and General Anesthesia
+    reason: >
+      A single-version NCD with a real, very old effective date (1992). Exercises
+      the ordinary DATED path with an open-ended window.
+
+  - ncdid: 88
+    display_id: "250.1"
+    title: Treatment of Psoriasis
+    reason: Second UNDATED record, so that path is not proven by one document.
+
+  - ncdid: 130
+    display_id: "190.28"
+    title: Tumor Antigen by Immunoassay - CA 125
+    reason: >
+      Diagnostic laboratory testing - the subject matter of 42 CFR 410.32, so the
+      regulation and coverage layers address adjacent ground. That adjacency is
+      what the cross-layer retrieval test needs to be a real risk rather than a
+      contrived one.
+
+  - ncdid: 175
+    display_id: "160.12"
+    title: Neuromuscular Electrical Stimulation (NMES)
+    reason: >
+      Durable medical equipment used in the home - adjacent to 42 CFR 410.38 and to
+      the existing HCPCS linkage (E-codes, K-codes). Two published versions.
+
+  - ncdid: 210
+    display_id: "290.2"
+    title: Home Health Nurses' Visits to Patients Requiring Heparin Injection
+    reason: >
+      Third UNDATED record, and home-health subject matter adjacent to 42 CFR
+      410.61's plan-of-treatment requirements.
+
+  - ncdid: 245
+    display_id: "50.3"
+    title: Cochlear Implantation
+    reason: >
+      Three versions with parseable dates, and subject matter that 42 CFR 411.15
+      EXCLUDES in a neighbouring form (hearing aids). Exercises the case where a
+      coverage determination and a statutory exclusion are topically close and must
+      not be conflated.
+
+  - ncdid: 280
+    display_id: "260.5"
+    title: Intestinal and Multi-Visceral Transplantation
+    reason: >
+      Two versions with parseable dates. Included to bring the datable multi-version
+      count high enough that sequence derivation is exercised by more than one
+      document.
+
+  - ncdid: 300
+    display_id: "220.6.5"
+    title: FDG PET for Lymphoma
+    reason: >
+      Diagnostic imaging, replaced by a later section - exercises a determination
+      that points elsewhere via `cross_reference`, and is adjacent to 42 CFR
+      410.32's ordering and supervision conditions.
+
+# Expected shape, recorded BEFORE acquisition so the outcome can be compared
+# against the intent rather than described after the fact.
+expected:
+  ncds: 11
+  undated_expected: 3
+  refusal_expected: 1
+  note: >
+    These are predictions from the planning-phase sample, not requirements. If
+    acquisition returns different counts, the counts are what get reported.

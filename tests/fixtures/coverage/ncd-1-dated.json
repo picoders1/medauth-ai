@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "status": {
+      "id": 200,
+      "message": "OK"
+    },
+    "notes": "",
+    "fields": [
+      "document_id",
+      "document_version",
+      "document_display_id",
+      "title",
+      "publication_number",
+      "effective_date",
+      "effective_end_date",
+      "implementation_date",
+      "qr_modifier_date",
+      "benefit_category",
+      "item_service_description",
+      "indications_limitations",
+      "cross_reference",
+      "transmittal_number",
+      "transmittal_url",
+      "revision_history",
+      "other_text",
+      "ama_statement",
+      "reasons_for_denial"
+    ],
+    "children": [
+      "/data/ncd/related-ncas?ncdid=1&ver=3",
+      "/data/ncd/related-cals?ncdid=1&ver=3",
+      "/data/ncd/related-cpis?ncdid=1&ver=3",
+      "/data/ncd/other-versions?ncdid=1"
+    ],
+    "next_token": ""
+  },
+  "data": [
+    {
+      "document_id": "1",
+      "document_version": 3,
+      "document_display_id": "310.1",
+      "title": "Routine Costs in Clinical Trials",
+      "publication_number": "100-3",
+      "effective_date": "05/27/2024",
+      "effective_end_date": "N/A",
+      "implementation_date": "05/27/2024",
+      "qr_modifier_date": "",
+      "benefit_category": "Ambulance Services, Ambulatory Surgical Center Facility Services, Antigens, Artificial Legs, Arms, and Eyes, Audiology Services, Blood Clotting Factors for Hemophilia Patients, Bone Mass Measurement, Certified Nurse-Midwife Services, Certified Registered Nurse Anesthetist Services, Chiropractor Services, Clinical Nurse Specialist Services, Clinical Social Worker Services, Colorectal Cancer Screening Tests, Comprehensive Outpatient Rehabilitation Facility (CORF) Services, Critical Access Hospital Services, Dentist Services, Diabetes Outpatient Self-Management Training, Diagnostic Laboratory Tests, Diagnostic Services in Outpatient Hospital, Diagnostic Tests (other), Diagnostic X-Ray Tests, Drugs and Biologicals, Durable Medical Equipment, Erythropoietin for Dialysis Patients, Extended Care Services, Eyeglasses After Cataract Surgery, Federally Qualified Health Center Services, Hepatitis B Vaccine and Administration, Home Dialysis Supplies and Equipment, Home Health Services, Hospice Care, Immunosuppressive Drugs, Incident to a physician's professional Service, Influenza Vaccine and Administration, Inpatient Hospital Services, Inpatient Psychiatric Hospital Services, Institutional Dialysis Services and Supplies, Leg, Arm, Back, and Neck Braces (orthotics), Medical Nutrition Therapy Services, Nurse Practitioner Services, Optometrist Services, Oral Anticancer Drugs, Oral Antiemetic Drugs, Orthotics and Prosthetics, Osteoporosis Drug, Outpatient Hospital Services Incident to a Physician's Service, Outpatient Occupational Therapy Services, Outpatient Physical Therapy Services, Outpatient Speech Language Pathology Services, Partial Hospitalization Services, Physician Assistant Services, Physicians' Services, Pneumococcal Vaccine and Administration, Podiatrist Services, Post-Hospital Extended Care Services, Post-Institutional Home Health Services, Prostate Cancer Screening Tests, Prosthetic Devices, Qualified Psychologist Services, Religious NonMedical Health Care Institution, Rural Health Clinic Services, Screening for Glaucoma, Screening Mammography, Screening Pap Smear, Screening Pelvic Exam, Self-Care Home Dialysis Support Services, Shoes for Patients with Diabetes, Skilled Nursing Facility, Splints, Casts, Other Devices Used for Reduction of Fractures and Dislocations, Surgical Dressings, Transplantation Services for ESRD-Entitled Beneficiaries, X-ray, Radium, and Radioactive Isotope Therapy",
+      "item_service_description": "",
+      "indications_limitations": "&lt;p&gt;Effective for items and services furnished on or after July 9, 2007, Medicare covers the routine costs of qualifying clinical trials, as such costs are defined below, as well as reasonable and necessary items and services used to diagnose and treat complications arising from participation i",
+      "cross_reference": "",
+      "transmittal_number": "12590",
+      "transmittal_url": "https://www.cms.gov/files/document/r12590ncd.pdf",
+      "revision_history": "&lt;p&gt;04&sol;2024 - The purpose of this Change Request (CR) is to announce a technical change that was made to the National Coverage Determination (NCD) Manual, Publication 100-03, Chapter 1, Part 4, section 310.1 Effective Date 05&sol;27&sol;2024 Implementation Date 05&sol;27&sol;2024 (&lt;a hre",
+      "other_text": "",
+      "ama_statement": "",
+      "reasons_for_denial": ""
+    }
+  ]
+}

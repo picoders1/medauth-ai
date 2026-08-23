@@ -41,6 +41,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.policy import ResolutionPolicy
+from app.core.identity import PolicyIdentity, PolicyType
 from app.core.types import CodeSystem
 from app.policy.models import PolicyChunk, PolicyDocument, PolicyVersion
 from app.policy.resolve import ResolutionRequest, resolve
@@ -291,11 +292,26 @@ async def run_arm_v2(
                 score.per_question.append(entry)
                 continue
 
-        scope = {v.version_id for v in resolution.versions}
+        # R-62. Scoping by version id alone was safe only while the corpus held one
+        # policy type: two layers of authority can share a version id, a date and
+        # even their text, and a bare id set cannot tell them apart. The candidate
+        # filter now matches on the full policy identity - type, id and version -
+        # so a regulation chunk cannot enter a scope that resolved to an NCD.
+        scope = {
+            PolicyIdentity(
+                policy_type=v.document_type, policy_id=v.policy_id, version=v.revision_id
+            ).key
+            for v in resolution.versions
+        }
         candidates = [
             (chunk, version, document, corpus_vectors[i])
             for i, (chunk, version, document) in enumerate(rows)
-            if str(version.id) in scope
+            if PolicyIdentity(
+                policy_type=PolicyType(document.document_type),
+                policy_id=document.policy_id,
+                version=version.revision_id,
+            ).key
+            in scope
         ]
         if not candidates:
             entry["ranking"] = "not scored - empty scope"

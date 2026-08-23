@@ -227,15 +227,42 @@ def test_exception_queries_target_the_410_32_exception(v2: dict[str, Any]) -> No
     assert "42_CFR_410_32_2026_08_13_C06" in targeted
 
 
+#: Criteria transcribed AFTER retrieval_eval_v2 was frozen. A frozen set cannot
+#: cover a criterion that did not exist when it was authored, and editing it to add
+#: one would destroy the record of what its committed report measured.
+#:
+#: Listed explicitly rather than computed, so the exemption stays a tripwire: a
+#: query REMOVED from v2 still fails this test.
+CRITERIA_ADDED_AFTER_V2 = frozenset(
+    {
+        "42_CFR_410_32_2026_08_13_C07",  # Phase 7: (b)(3) supervision baseline
+        "42_CFR_410_32_2026_08_13_C08",  # Phase 7: (b)(4) RRA/RPA exception
+    }
+)
+
+
 def test_every_criterion_is_covered_by_at_least_one_query(v2: dict[str, Any]) -> None:
-    """v1 left 12 of 33 uncovered; a criterion with no query cannot fail."""
+    """v1 left 12 of 33 uncovered; a criterion with no query cannot fail.
+
+    Phase 7 note: two criteria were transcribed from 42 CFR 410.32(b)(3) and (b)(4)
+    after v2 was frozen. v2 is not edited to cover them - a frozen set records what
+    was measured, and adding queries would make its committed report describe a
+    different set. They are recorded as an explicit gap for the next benchmark
+    version instead, and the exemption is a literal list so a query DELETED from v2
+    still fails here.
+    """
     known = {c["criterion_id"] for c in _jsonl(INVENTORY)}
     targeted = {
         q["expect"]["criterion_id"]
         for q in v2["questions"]
         if "expect" in q and q["expect"].get("criterion_id")
     }
-    assert not (known - targeted), f"uncovered criteria: {sorted(known - targeted)}"
+    uncovered = known - targeted - CRITERIA_ADDED_AFTER_V2
+    assert not uncovered, f"uncovered criteria: {sorted(uncovered)}"
+    assert CRITERIA_ADDED_AFTER_V2 <= known, (
+        "the post-v2 exemption names a criterion that no longer exists; it is a "
+        "record of a real gap, not a permanent allowance"
+    )
 
 
 def test_every_query_states_why_it_exists(v2: dict[str, Any]) -> None:
@@ -450,9 +477,16 @@ def test_priority_one_is_reserved_for_confirmed_dependencies(
     for row in top:
         assert row["cited_by_criteria"], row["provision_id"]
     paths = {(r["policy_id"], r["paragraph_path"]) for r in top}
-    assert ("42 CFR 410.32", "(b)(3)") in paths, (
-        "R-51 - criterion C03 cannot be adjudicated without the supervision levels"
+    assert ("42 CFR 410.38", "(d)(1)(ii)(A)") in paths, (
+        "R-51 - criteria C02/C03 cannot be adjudicated without the order timing"
     )
+    # Phase 7 note: 42 CFR 410.32 (b)(3) was here until it was transcribed, which
+    # reclassified it to REPRESENTED_CRITERION and dropped it out of this queue -
+    # WHILE the dependency it blocks remained unresolved. Transcription quietly
+    # retiring a review item is a real gap, and the question it left behind ("does
+    # the new criterion make C03 adjudicable?") now lives in the focused review
+    # package. `test_the_focused_review_owns_the_b3_question` is what guards it.
+    assert ("42 CFR 410.32", "(b)(3)") not in paths
 
 
 def test_prioritisation_does_not_reduce_the_denominator(

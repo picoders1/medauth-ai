@@ -7,7 +7,13 @@ from datetime import date
 
 from app.core.types import CodeSystem
 from app.policy.criteria import VerifiedCriterion
-from app.policy.models import DocumentType, LinkType, PolicyScope
+from app.policy.models import (
+    DocumentType,
+    LinkType,
+    PolicyScope,
+    TemporalStatus,
+    WindowDerivation,
+)
 
 __all__ = ["CodeRef", "DocumentIdentity", "Page", "ParsedDocument", "Section", "SourceRef"]
 
@@ -43,16 +49,47 @@ class DocumentIdentity:
     title: str
     revision_id: str
     scope: PolicyScope
-    effective_date: date
+    #: None only when `temporal_status` is not DATED. A version whose effective
+    #: date the source never published is stored and is unreachable by date of
+    #: service - see `app.policy.models.TemporalStatus`.
+    effective_date: date | None
     source_url: str
     jurisdiction: str | None = None
     end_date: date | None = None
     revision_date: date | None = None
     contractor: str | None = None
     source_authority: str = "CMS"
+    temporal_status: TemporalStatus = TemporalStatus.DATED
+    window_derivation: WindowDerivation = WindowDerivation.POSTED
+    #: The raw string the source published where a date belongs, kept verbatim.
+    effective_date_source: str = ""
 
     def __post_init__(self) -> None:
-        if self.end_date is not None and self.end_date < self.effective_date:
+        # The date and its status must agree. Refused rather than reconciled: a
+        # DATED version with no date would be stored as resolvable-but-unresolvable,
+        # and an UNDATED version carrying a date would be resolvable by a date the
+        # source never published.
+        if self.temporal_status is TemporalStatus.DATED and self.effective_date is None:
+            raise ValueError(
+                f"{self.policy_id} rev {self.revision_id}: DATED with no effective_date"
+            )
+        if self.temporal_status is not TemporalStatus.DATED:
+            if self.effective_date is not None:
+                raise ValueError(
+                    f"{self.policy_id} rev {self.revision_id}: "
+                    f"{self.temporal_status.value} carries an effective_date"
+                )
+            if self.end_date is not None:
+                raise ValueError(
+                    f"{self.policy_id} rev {self.revision_id}: "
+                    f"{self.temporal_status.value} carries an end_date. An end without "
+                    "a start is not a window."
+                )
+        if (
+            self.end_date is not None
+            and self.effective_date is not None
+            and self.end_date < self.effective_date
+        ):
             raise ValueError(
                 f"{self.policy_id} rev {self.revision_id}: end_date {self.end_date} "
                 f"precedes effective_date {self.effective_date}"

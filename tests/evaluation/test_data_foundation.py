@@ -25,6 +25,7 @@ from app.core.types import CriterionKind, ResolutionStatus, Verdict
 from app.decision.models import Outcome
 from app.decision.table import CriterionOutcome, GuardrailState, ResolutionState, decide
 from eval.casegen import CaseCategory, CriterionState
+from eval.replay import gold_v1_semantics
 
 pytestmark = pytest.mark.evaluation
 
@@ -311,6 +312,18 @@ def test_the_expected_decision_is_reproducible_from_criterion_states(
     not, the criterion-level labels and the case-level label disagree - and the
     case-level label is then hiding which criteria produced it, which is the thing
     ADR-015 exists to prevent.
+
+    Phase 5 note: these labels were computed before the policy logic inventory
+    existed, under an assumed conjunction that production no longer executes. 78 of
+    156 gold cases sit on versions the inventory now classifies REVIEW_REQUIRED.
+    Reproducing them therefore requires asserting the historical assumption
+    explicitly, through `eval.replay.gold_v1_semantics` - which stamps
+    GOLD_V1_REPLAY and is refused in production.
+
+    So this test proves what it always proved - that the dataset is internally
+    consistent - and no longer proves anything about what production would decide
+    today. `docs/evaluation/phase5-impact.md` records that divergence as
+    `gold_v1_impact`. It is expected evidence, not a defect.
     """
     kinds = {c["criterion_id"]: c["criterion_type"] for c in criteria}
     kind_map = {
@@ -344,6 +357,11 @@ def test_the_expected_decision_is_reproducible_from_criterion_states(
             ResolutionState(
                 ResolutionStatus.RESOLVED if applicable else ResolutionStatus.NONE_APPLICABLE,
                 1 if applicable else 0,
+            ),
+            gold_v1_semantics(
+                outcomes,
+                policy_id=expected["policy_id"],
+                policy_version=expected["policy_revision"],
             ),
         )
         assert recomputed.outcome.value == expected["decision"], (

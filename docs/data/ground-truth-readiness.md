@@ -2,6 +2,24 @@
 
 **Classification: B — GROUND TRUTH PARTIALLY READY. Specific blockers remain.**
 
+> **Phase 7 update.** The readiness vocabulary is now explicit, and three states that
+> were previously blurred are kept apart:
+>
+> | state | means | who establishes it |
+> |---|---|---|
+> | `SOURCE_VERIFIED` | the text is where it claims to be, in the version claimed | **engineering**, mechanically |
+> | `QUALIFIED_REVIEW_PENDING` | nobody qualified has read it | — |
+> | `QUALIFIED_REVIEWED` | a qualified reader has agreed it is the right criterion, correctly stated | **a human**, never a pipeline |
+> | `PRODUCTION_ADMISSIBLE` | semantics declared, dependencies closed, provenance complete | the admissibility gate |
+> | `PRODUCTION_BLOCKED` | any of the above missing | the same gate |
+>
+> **`SOURCE_VERIFIED` is not `QUALIFIED_REVIEWED`, and `QUALIFIED_REVIEWED` is not
+> clinical validation.** The last has no member in any enum in this codebase, on
+> purpose: a member for it would invite someone to set it.
+>
+> Current corpus state: **37 criteria `SOURCE_VERIFIED`, 0 `QUALIFIED_REVIEWED`, 0
+> policy versions `PRODUCTION_ADMISSIBLE`.**
+
 Assessed 2026-08-23. Every answer is `PASS`, `PARTIAL`, `FAIL` or `NOT_VERIFIED`.
 An unknown is never recorded as a pass.
 

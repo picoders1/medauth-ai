@@ -103,6 +103,13 @@ class LogicForm(StrEnum):
     ASSUMED_CONJUNCTION = "ASSUMED_CONJUNCTION"
     REVIEW_REQUIRED = "REVIEW_REQUIRED"
 
+    #: Nothing has been transcribed from this policy version, so there is no tree
+    #: to describe. Present so this enum matches the vocabulary
+    #: `scripts/build_logic_inventory.py` emits - a classification the inventory
+    #: can produce but the type system cannot name is a gap waiting to be filled
+    #: by a default.
+    NO_CRITERIA = "NO_CRITERIA"
+
 
 # ---------------------------------------------------------------------------
 # Nodes

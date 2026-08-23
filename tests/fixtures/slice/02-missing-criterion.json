@@ -1,0 +1,76 @@
+{
+  "criterion_assessments": [
+    {
+      "assessment": "SATISFIED",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence_ids": [
+        "E1"
+      ],
+      "rationale_summary": "the ordering physician is treating the beneficiary for the stated problem"
+    },
+    {
+      "assessment": "UNKNOWN",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+      "evidence_ids": [],
+      "rationale_summary": "the note does not say whether the result informs management"
+    }
+  ],
+  "evidence_mappings": [
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F1"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence": [
+        {
+          "chunk_id": "chunk-1",
+          "evidence_id": "E1",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "must be ordered by the physician who is treating the beneficiary",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "SUPPORTED"
+    },
+    {
+      "citation": null,
+      "clinical_fact_ids": [],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+      "evidence": [],
+      "provenance": "retrieved:scoped",
+      "support_state": "MISSING"
+    }
+  ],
+  "expected_abstention": "INSUFFICIENT_EVIDENCE",
+  "fixture": "02-missing-criterion",
+  "input": {
+    "case_id": "02-missing-criterion",
+    "clinical_note": "Ordered by Dr Chen, who is treating the patient for the abdominal pain.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "02-missing-criterion",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "order",
+        "span_end": 11,
+        "span_start": 0,
+        "value": "ordered by treating physician"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "ONE_MISSING_CRITERION",
+  "why_this_fixture_exists": "'The note does not say' must never become a denial. This is the row-6 path and the commonest abstention in real prior authorization."
+}

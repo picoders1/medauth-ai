@@ -1,0 +1,217 @@
+{
+  "by_resolution": {
+    "PARTIALLY_RESOLVABLE_FROM_SOURCE": [
+      "42_CFR_410_32_2026_08_13_C03"
+    ],
+    "UNRESOLVED": [
+      "42_CFR_410_38_2022_01_01_C02",
+      "42_CFR_410_38_2022_01_01_C03",
+      "42_CFR_410_38_2026_08_13_C02",
+      "42_CFR_410_38_2026_08_13_C03"
+    ]
+  },
+  "criteria_blocked_by_unresolved_dependencies": 5,
+  "criteria_total": 37,
+  "criteria_with_dependencies": 5,
+  "dependencies": {
+    "42_CFR_410_32_2026_08_13_C03": {
+      "criterion": {
+        "criterion_type": "REQUIRED",
+        "policy_id": "42 CFR 410.32",
+        "policy_version": "2026-08-13",
+        "summary": "Furnished under the appropriate level of physician supervision"
+      },
+      "depends_on": [
+        {
+          "authoritative_text": "Levels of supervision. Except where otherwise indicated, all diagnostic x-ray and other diagnostic tests subject to this provision and payable under the physician fee schedule must be furnished under at least a general level of supervision as defined in paragraph (b)(3)(i) of this section. In addition, some of these tests also require either direct or personal supervision as defined in paragraph (",
+          "classification": "REPRESENTED_CRITERION",
+          "paragraph_path": "(b)(3)",
+          "policy_id": "42 CFR 410.32",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_32_20260813_Paragraphb_b3",
+          "resolution": "PARTIALLY_RESOLVABLE_FROM_SOURCE",
+          "resolution_basis": "Phase 7 transcribed (b)(3) and span-verified it: C07 carries the BASELINE requirement ('at least a general level of supervision'), and the definitions of general, direct and personal supervision in (b)(3)(i)-(iii) are chunked and retrievable as evidence. What remains is not transcribable: WHICH level applies to a given test is set by the physician fee schedule's supervision indicator, which is not part of 42 CFR. So C03's phrase 'the appropriate level' cannot be resolved from this document however much of it is transcribed. A reviewer must decide whether C03 should be narrowed to the baseline, split, or left as not independently adjudicable.",
+          "review_status": "NOT_IN_REVIEW_QUEUE"
+        }
+      ],
+      "independently_adjudicable": false
+    },
+    "42_CFR_410_38_2022_01_01_C02": {
+      "criterion": {
+        "criterion_type": "REQUIRED",
+        "policy_id": "42 CFR 410.38",
+        "policy_version": "2022-01-01",
+        "summary": "A written order or prescription exists"
+      },
+      "depends_on": [
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For all other DMEPOS, the written order/prescription must be communicated to the supplier prior to claim submission.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(B)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiB",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Timing for all other DMEPOS.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For all other DMEPOS, the written order/prescription must be communicated to the supplier prior to claim submission.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(B)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiB",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Timing for all other DMEPOS.",
+          "review_status": "PENDING"
+        }
+      ],
+      "independently_adjudicable": false
+    },
+    "42_CFR_410_38_2022_01_01_C03": {
+      "criterion": {
+        "criterion_type": "REQUIRED",
+        "policy_id": "42 CFR 410.38",
+        "policy_version": "2022-01-01",
+        "summary": "The written order contains all required elements"
+      },
+      "depends_on": [
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        }
+      ],
+      "independently_adjudicable": false
+    },
+    "42_CFR_410_38_2026_08_13_C02": {
+      "criterion": {
+        "criterion_type": "REQUIRED",
+        "policy_id": "42 CFR 410.38",
+        "policy_version": "2026-08-13",
+        "summary": "A written order or prescription exists"
+      },
+      "depends_on": [
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For all other DMEPOS, the written order/prescription must be communicated to the supplier prior to claim submission.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(B)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiB",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Timing for all other DMEPOS.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For all other DMEPOS, the written order/prescription must be communicated to the supplier prior to claim submission.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(B)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiB",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Timing for all other DMEPOS.",
+          "review_status": "PENDING"
+        }
+      ],
+      "independently_adjudicable": false
+    },
+    "42_CFR_410_38_2026_08_13_C03": {
+      "criterion": {
+        "criterion_type": "REQUIRED",
+        "policy_id": "42 CFR 410.38",
+        "policy_version": "2026-08-13",
+        "summary": "The written order contains all required elements"
+      },
+      "depends_on": [
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2022-01-01",
+          "provision_id": "42_CFR_410_38_20220101_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        },
+        {
+          "authoritative_text": "For PMDs and other DMEPOS items selected for inclusion on the Required Face-to-Face Encounter and Written Order Prior to Delivery List, the written order/prescription must be communicated to the supplier prior to delivery.",
+          "classification": "REQUIRES_HUMAN_REVIEW",
+          "paragraph_path": "(d)(1)(ii)(A)",
+          "policy_id": "42 CFR 410.38",
+          "policy_version": "2026-08-13",
+          "provision_id": "42_CFR_410_38_20260813_ConditionsofPayment_d1iiA",
+          "resolution": "UNRESOLVED",
+          "resolution_basis": "Not transcribed. Prior-to-delivery timing for items on the Required Face-to-Face Encounter and Written Order Prior to Delivery List.",
+          "review_status": "PENDING"
+        }
+      ],
+      "independently_adjudicable": false
+    }
+  },
+  "note": "A criterion listed here with `independently_adjudicable: false` references a rule it does not contain. Its evidence set cannot include that rule, so a verdict on it is unfounded however confident the model is (R-51). Dependencies are established by inspection, never detected: a regex over criterion text finds none, because the criteria do not cite paragraph numbers."
+}

@@ -1,9 +1,8 @@
 {
   "by_form": {
-    "ASSUMED_CONJUNCTION": 2,
     "DECLARED": 1,
     "NO_CRITERIA": 1,
-    "REVIEW_REQUIRED": 4
+    "REVIEW_REQUIRED": 6
   },
   "declared": 1,
   "generated_from": {
@@ -16,21 +15,23 @@
       "criteria": {
         "EXCEPTION_CONDITION": [
           "42_CFR_410_32_2026_08_13_C05",
-          "42_CFR_410_32_2026_08_13_C06"
+          "42_CFR_410_32_2026_08_13_C06",
+          "42_CFR_410_32_2026_08_13_C08"
         ],
         "REQUIRED": [
           "42_CFR_410_32_2026_08_13_C01",
           "42_CFR_410_32_2026_08_13_C02",
           "42_CFR_410_32_2026_08_13_C03",
-          "42_CFR_410_32_2026_08_13_C04"
+          "42_CFR_410_32_2026_08_13_C04",
+          "42_CFR_410_32_2026_08_13_C07"
         ]
       },
-      "criteria_count": 6,
+      "criteria_count": 8,
       "declared_in": "data/policy_logic/42-CFR-410.32.yaml",
       "logic_form": "DECLARED",
       "policy_id": "42 CFR 410.32",
       "policy_version": "2026-08-13",
-      "provisions_awaiting_review": 43,
+      "provisions_awaiting_review": 41,
       "provisions_total": 58,
       "signals": {
         "alternative": [
@@ -221,14 +222,18 @@
       },
       "criteria_count": 5,
       "declared_in": null,
-      "logic_form": "ASSUMED_CONJUNCTION",
+      "logic_form": "REVIEW_REQUIRED",
       "policy_id": "42 CFR 410.61",
       "policy_version": "2019-01-01",
       "provisions_awaiting_review": 9,
       "provisions_total": 17,
-      "signals": {},
+      "signals": {
+        "alternative": [
+          "(b)"
+        ]
+      },
       "unresolved_semantics": [
-        "No exception, alternative or conditional wording was found. That is weak evidence, not a finding: the search is lexical and the 9 provisions awaiting review have not been read."
+        "Provisions in this version carry alternative language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
       ]
     },
     {
@@ -243,14 +248,18 @@
       },
       "criteria_count": 5,
       "declared_in": null,
-      "logic_form": "ASSUMED_CONJUNCTION",
+      "logic_form": "REVIEW_REQUIRED",
       "policy_id": "42 CFR 410.61",
       "policy_version": "2026-08-13",
       "provisions_awaiting_review": 9,
       "provisions_total": 17,
-      "signals": {},
+      "signals": {
+        "alternative": [
+          "(b)"
+        ]
+      },
       "unresolved_semantics": [
-        "No exception, alternative or conditional wording was found. That is weak evidence, not a finding: the search is lexical and the 9 provisions awaiting review have not been read."
+        "Provisions in this version carry alternative language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
       ]
     },
     {
@@ -272,7 +281,8 @@
       "signals": {
         "alternative": [
           "(3)(E)",
-          "(b)"
+          "(b)",
+          "(k)"
         ],
         "conditional": [
           "(k)(10)",

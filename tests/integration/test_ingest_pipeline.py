@@ -20,7 +20,13 @@ from app.core.types import CodeSystem, ResolutionStatus
 from app.policy.acquire import AcquiredDocument, LocalDirectorySource, SourceUnavailableError
 from app.policy.documents import SourceRef
 from app.policy.ingest import IngestError, ingest_all, ingest_document
-from app.policy.models import PolicyChunk, PolicyCodeLink, PolicyDocument, PolicyVersion
+from app.policy.models import (
+    DocumentType,
+    PolicyChunk,
+    PolicyCodeLink,
+    PolicyDocument,
+    PolicyVersion,
+)
 from app.policy.resolve import ResolutionRequest, resolve
 from app.retrieval.search import search_chunks
 from tests.integration.conftest import DeterministicEmbedder
@@ -161,11 +167,13 @@ async def test_the_ingested_corpus_supports_temporal_resolution(
         assert resolution.status is ResolutionStatus.RESOLVED
         assert [v.revision_id for v in resolution.versions] == [expected], as_of
 
+        # 27447 resolves to an LCD in this fixture corpus. Naming the type
+        # explicitly is the point of the Phase 5 scope: the caller states which
+        # layer of authority it is searching, and cannot get another by accident.
+        scope = resolution.scope_for(DocumentType.LCD)
+        assert scope is not None
         hits = await search_chunks(
-            session,
-            embedder.encode_query("conservative therapy duration"),
-            resolution.version_ids,
-            as_of=as_of,
+            session, embedder.encode_query("conservative therapy duration"), scope
         )
         assert hits
         assert {h.revision_id for h in hits} == {expected}

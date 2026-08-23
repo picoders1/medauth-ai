@@ -12,6 +12,8 @@ from enum import IntEnum, StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.decision.semantics import SemanticsOrigin, SemanticsStatus
+
 __all__ = ["DecisionRule", "Outcome", "Recommendation"]
 
 
@@ -64,6 +66,18 @@ class DecisionRule(IntEnum):
     EXCEPTION_SATISFIED = 11
     POLICY_SEMANTICS_UNRESOLVED = 12
 
+    #: Phase 5. The runtime could not establish that the semantics it holds are
+    #: verified - nobody consulted the logic inventory, or what was supplied could
+    #: not be attested against it. Fires in the same position as rule 12, after
+    #: rule 5 and before any denial or approval.
+    #:
+    #: Kept separate from 12 deliberately. Rule 12 is a corpus problem, fixed by
+    #: qualified review (OD-19); rule 13 is a wiring problem, fixed by fixing the
+    #: caller. Collapsing them would make a misconfigured deployment
+    #: indistinguishable from an honestly-unreviewed corpus, in the audit trail
+    #: of all places.
+    POLICY_SEMANTICS_UNVERIFIED = 13
+
 
 class Recommendation(BaseModel):
     """The system's output. Produced by ``decide()``, never by a model."""
@@ -77,3 +91,9 @@ class Recommendation(BaseModel):
     missing_evidence: tuple[str, ...] = ()
     gate_features: dict[str, float] = Field(default_factory=dict)
     decision_config_version: str = "unset"
+
+    #: What was known about the policy's logic, and on whose authority. Defaults
+    #: are the fail-closed values so a hand-built `Recommendation` cannot claim
+    #: provenance it does not have.
+    policy_semantics: SemanticsStatus = SemanticsStatus.POLICY_SEMANTICS_UNKNOWN
+    semantics_origin: SemanticsOrigin = SemanticsOrigin.UNCONSULTED

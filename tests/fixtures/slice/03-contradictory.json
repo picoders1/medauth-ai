@@ -1,0 +1,88 @@
+{
+  "criterion_assessments": [
+    {
+      "assessment": "SATISFIED",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence_ids": [
+        "E1"
+      ],
+      "rationale_summary": "the ordering physician is treating the beneficiary for the stated problem"
+    }
+  ],
+  "evidence_mappings": [
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F1"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence": [
+        {
+          "chunk_id": "chunk-1",
+          "evidence_id": "E1",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "must be ordered by the physician who is treating the beneficiary",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "SUPPORTED"
+    },
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F2"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence": [
+        {
+          "chunk_id": "chunk-3",
+          "evidence_id": "E3",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "must be ordered by the physician who is treating the beneficiary",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "CONTRADICTED"
+    }
+  ],
+  "expected_abstention": "CONTRADICTORY_EVIDENCE",
+  "fixture": "03-contradictory",
+  "input": {
+    "case_id": "03-contradictory",
+    "clinical_note": "Ordered by Dr Chen, who is treating the patient for the abdominal pain. A second entry records the order was placed by an unrelated clinician.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "03-contradictory",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "order",
+        "span_end": 11,
+        "span_start": 0,
+        "value": "ordered by treating physician"
+      },
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F2",
+        "kind": "use",
+        "span_end": 78,
+        "span_start": 72,
+        "value": "guides management"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "CONTRADICTORY_EVIDENCE",
+  "why_this_fixture_exists": "The system does not adjudicate its own inconsistency. Two mappings on one criterion disagreeing must reach a human, not be resolved by precedence."
+}

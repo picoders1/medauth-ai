@@ -1,0 +1,247 @@
+# CMS NCD acquisition registry. GENERATED - do not edit by hand.
+#
+# Records what was fetched, when, from where, and what it hashed to. The documents
+# themselves are NOT committed (ADR-003); this file is the committed record of
+# their provenance.
+#
+# `refusals` lists documents the adapter declined and why. A refusal is evidence
+# about the source, not a gap to be quietly filled.
+#
+# NCD records carry NO procedure-code field. Applicability comes from the curated
+# linkage in data/linkage/, never from these documents, and must never be presented
+# as CMS-supplied.
+acquired: 10
+documents:
+- ncdid: 1
+  policy_id: NCD 310.1
+  title: Routine Costs in Clinical Trials
+  versions:
+  - content_sha256: 80ec8c0de46ed8714e4d329542b111ff112c3e0e53937f6b7b6455c71b941121
+    effective_date: '2024-05-27'
+    effective_date_source: 05/27/2024
+    end_date: null
+    retrieved_at: '2026-08-23T16:31:52.298251+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=1&ncdver=3
+    temporal_status: DATED
+    version: 3
+    window_derivation: POSTED
+  - content_sha256: d3c38f4636c7673a61cc3fc47021bdd35919ffc580924225d3ea89e813fa65c1
+    effective_date: '2007-07-09'
+    effective_date_source: 07/09/2007
+    end_date: '2024-05-26'
+    retrieved_at: '2026-08-23T16:31:53.257290+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=1&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: DERIVED_FROM_SEQUENCE
+  - content_sha256: 3bcff3eb941b1130d0b031a7f1bb56b7a74b835e7ce98b88561473b89f035a9f
+    effective_date: '2000-09-19'
+    effective_date_source: 09/19/2000
+    end_date: '2007-07-08'
+    retrieved_at: '2026-08-23T16:31:54.001290+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=1&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+- ncdid: 3
+  policy_id: NCD 150.1
+  title: Manipulation
+  versions:
+  - content_sha256: 4bb8258065cfa3e05c6e5f543da34e5d1587eb6970e560301c5c97a2c08292e5
+    effective_date: null
+    effective_date_source: This is a longstanding national coverage determination. The effective date
+      of this version has not been posted.
+    end_date: null
+    retrieved_at: '2026-08-23T16:31:55.624474+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=3&ncdver=1
+    temporal_status: UNDATED
+    version: 1
+    window_derivation: POSTED
+- ncdid: 60
+  policy_id: NCD 10.1
+  title: Use of Visual Tests Prior to and General Anesthesia during Cataract Surgery
+  versions:
+  - content_sha256: e8fe5c45c331ef1949a5102f95802145943c9fa2454609990ce506a3725c7dc4
+    effective_date: '1992-08-31'
+    effective_date_source: 08/31/1992
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:00.538929+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=60&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: POSTED
+- ncdid: 88
+  policy_id: NCD 250.1
+  title: Treatment of Psoriasis
+  versions:
+  - content_sha256: 134709a302463228b46517dee7463e5395d61a4b9a9467300100dc4b9ab20692
+    effective_date: null
+    effective_date_source: This is a longstanding national coverage determination. The effective date
+      of this version has not been posted.
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:02.302640+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=88&ncdver=1
+    temporal_status: UNDATED
+    version: 1
+    window_derivation: POSTED
+- ncdid: 130
+  policy_id: NCD 190.28
+  title: Tumor Antigen by Immunoassay - CA 125
+  versions:
+  - content_sha256: 2c46039473ae6270a1af6f7f8ee98f462e01157c4d8d6605303c319c547e4ba9
+    effective_date: '2006-01-01'
+    effective_date_source: 01/01/2006
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:04.024174+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=130&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: POSTED
+  - content_sha256: 70c81b14e1aa4557805f19f0a27649857230c608cd208c055c013e2540603448
+    effective_date: '2002-11-25'
+    effective_date_source: 11/25/2002
+    end_date: '2005-12-31'
+    retrieved_at: '2026-08-23T16:32:04.935563+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=130&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+- ncdid: 175
+  policy_id: NCD 160.12
+  title: Neuromuscular Electrical Stimulation (NMES)
+  versions:
+  - content_sha256: 5971a268b2bdbb5c256d4f0069c3a0ffffcffd3e9b69491d8d51dfcc5ec16fd0
+    effective_date: '2006-10-01'
+    effective_date_source: 10/01/2006
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:06.656911+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=175&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: POSTED
+  - content_sha256: ddf4e5593b6ee3f3a2aaa72ad401476b84239022c6aa9e8e5e8c3e73b39b145e
+    effective_date: '2003-04-01'
+    effective_date_source: 04/01/2003
+    end_date: '2006-09-30'
+    retrieved_at: '2026-08-23T16:32:07.390296+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=175&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+- ncdid: 210
+  policy_id: NCD 290.2
+  title: Home Health Nurses' Visits to Patients Requiring Heparin Injection
+  versions:
+  - content_sha256: b72d69457c43c1f6122ab9d11415e053ef3dffbdcfae039dc0cb3932344b1f7c
+    effective_date: null
+    effective_date_source: This is a longstanding national coverage determination. The effective date
+      of this version has not been posted.
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:09.140523+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=210&ncdver=1
+    temporal_status: UNDATED
+    version: 1
+    window_derivation: POSTED
+- ncdid: 245
+  policy_id: NCD 50.3
+  title: Cochlear Implantation
+  versions:
+  - content_sha256: 2f08a29529e62ddc59d4d801cbbbc6a0bccae264d413ad9ae4f2eddeb5fad080
+    effective_date: '2022-09-26'
+    effective_date_source: 09/26/2022
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:10.762029+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=245&ncdver=3
+    temporal_status: DATED
+    version: 3
+    window_derivation: POSTED
+  - content_sha256: 783febeaa63067e984014a3a6ceb633d5736a2ccf6196457638e312b1150333a
+    effective_date: '2005-04-04'
+    effective_date_source: 04/04/2005
+    end_date: '2022-09-25'
+    retrieved_at: '2026-08-23T16:32:11.637288+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=245&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: DERIVED_FROM_SEQUENCE
+  - content_sha256: 2ea3e0184c2660563515f6715c006d945d64498b53c5579f50441989b3bab357
+    effective_date: '1998-05-01'
+    effective_date_source: 05/01/1998
+    end_date: '2005-04-03'
+    retrieved_at: '2026-08-23T16:32:12.495365+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=245&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+- ncdid: 280
+  policy_id: NCD 260.5
+  title: Intestinal and Multi-Visceral Transplantation
+  versions:
+  - content_sha256: 64d64daed99c6e9280d59e4b18e9242e0c0b9cb145127b58c38c8c3416bf9919
+    effective_date: '2006-05-11'
+    effective_date_source: 05/11/2006
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:14.251917+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=280&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: POSTED
+  - content_sha256: c43413fc0b11658a887b0c102cbeb0da5ea4f46157e387484d1a6ddfa43634e6
+    effective_date: '2001-04-01'
+    effective_date_source: 04/01/2001
+    end_date: '2006-05-10'
+    retrieved_at: '2026-08-23T16:32:15.221229+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=280&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+- ncdid: 300
+  policy_id: NCD 220.6.5
+  title: FDG PET for Lymphoma (Replaced with Section 220.6.17) - RETIRED
+  versions:
+  - content_sha256: 0c143bf10b6ddca655aa4227083a5877a3667eac79b854d65290244c7fc0f462
+    effective_date: '2023-04-10'
+    effective_date_source: 04/10/2023
+    end_date: null
+    retrieved_at: '2026-08-23T16:32:16.801738+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=300&ncdver=3
+    temporal_status: DATED
+    version: 3
+    window_derivation: POSTED
+  - content_sha256: 60ad0702f79de823b2bdada70283ddc412a68677a8ee278c465d836ab5da33e5
+    effective_date: '2009-04-03'
+    effective_date_source: 04/03/2009
+    end_date: '2023-04-09'
+    retrieved_at: '2026-08-23T16:32:17.719455+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=300&ncdver=2
+    temporal_status: DATED
+    version: 2
+    window_derivation: DERIVED_FROM_SEQUENCE
+  - content_sha256: e7e721d5e0ae684e3b48ad33e3af5144422425b41bc90a87f8a2b20dfc11bad3
+    effective_date: '2005-01-28'
+    effective_date_source: 01/28/2005
+    end_date: '2009-04-02'
+    retrieved_at: '2026-08-23T16:32:18.579439+00:00'
+    source_url: https://api.coverage.cms.gov/v1/data/ncd?ncdid=300&ncdver=1
+    temporal_status: DATED
+    version: 1
+    window_derivation: DERIVED_FROM_SEQUENCE
+generated_at: '2026-08-23T16:32:18+00:00'
+licence_note: 'NCD text is a US Government work. LCD and Billing & Coding Article endpoints were NOT requested:
+  they sit behind an AMA/ADA/AHA licence gate and no agreement was accepted (ADR-022, OD-21).'
+refusals:
+- display_id: '30.4'
+  ncdid: 20
+  observed:
+    latest_effective_date: '2023-04-10'
+    retirement_date: '2021-01-01'
+  reason: the published retirement date precedes the newest version's effective date; the source does
+    not establish a coherent window
+refused: 1
+selected: 11
+selection_record: data/coverage/ncd_selection.yaml
+source: https://api.coverage.cms.gov/v1/data
+unreachable: 0
+unreachable_documents: []
+versions: 19
+versions_temporally_resolvable: 16

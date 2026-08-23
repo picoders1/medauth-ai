@@ -241,3 +241,94 @@ def test_langgraph_is_confined_to_the_graph_package() -> None:
             f"{module.rel} imports langgraph. It belongs only in app/graph/, so that "
             "every domain step stays a plain async function."
         )
+
+
+# --------------------------------------------------------------------------- 6
+def test_app_does_not_import_the_evaluation_harness() -> None:
+    """`eval/` and `scripts/` may construct semantics production must refuse.
+
+    `eval/replay.py` builds the assumed conjunction gold_v1's labels were computed
+    under - the behaviour Phase 5 removed from production. It lives outside `app/`
+    precisely so that this rule can exist: a production module importing it would
+    make the replay path reachable from an adjudication, and the `semantics_guard`
+    digest check would then be the only thing standing between a misconfiguration
+    and an approval.
+    """
+    for module in MODULES:
+        offenders = {i for i in module.imports if i.split(".")[0] in {"eval", "scripts"}}
+        assert not offenders, (
+            f"{module.rel} imports {sorted(offenders)}. The evaluation harness is "
+            "not importable from production code."
+        )
+
+
+def test_the_replay_origin_is_referenced_only_where_it_is_defined() -> None:
+    """No production module *reads* `GOLD_V1_REPLAY`, only its definition names it.
+
+    Checked over the AST rather than the raw text, deliberately. An earlier version
+    grepped for the string and flagged `app/policy/semantics_guard.py`, whose
+    docstring explains why the replay origin is refused - documentation, not
+    behaviour, and deleting it would have made the guard harder to understand in
+    order to satisfy a test.
+
+    What must not exist is a production code path that *recognises* the replay
+    origin, because that is how a special case for it gets written. The origin is
+    refused by not being in `PRODUCTION_ORIGINS` - by absence, not by a branch.
+    """
+    offenders: list[str] = []
+    for module in MODULES:
+        if module.rel == "app/decision/semantics.py":
+            continue  # the definition
+        for node in ast.walk(module.tree):
+            named = (
+                (isinstance(node, ast.Attribute) and node.attr == "GOLD_V1_REPLAY")
+                or (isinstance(node, ast.Name) and node.id == "GOLD_V1_REPLAY")
+                or (
+                    isinstance(node, ast.ImportFrom)
+                    and any(a.name == "GOLD_V1_REPLAY" for a in node.names)
+                )
+            )
+            if named:
+                offenders.append(module.rel)
+                break
+    assert not offenders, (
+        f"{offenders} reference GOLD_V1_REPLAY in code. Production must not "
+        "recognise the replay origin - it is refused by absence from "
+        "PRODUCTION_ORIGINS, never by a branch that names it."
+    )
+
+
+# --------------------------------------------------------------------------- 7
+def test_there_is_exactly_one_production_gate() -> None:
+    """Two gates that mostly agree are worse than one gate that is wrong.
+
+    The disagreement surfaces as a case one path admitted and another refused, and
+    whichever was consulted last wins. `app/production_gate.py` is authoritative;
+    a second module defining a gate would be a competing answer to the same
+    question.
+    """
+    defining = [
+        module.rel
+        for module in MODULES
+        if any(
+            isinstance(node, ast.FunctionDef) and node.name == "evaluate_gate"
+            for node in ast.walk(module.tree)
+        )
+    ]
+    assert defining == ["app/production_gate.py"], (
+        f"a production gate is defined in {defining}; there must be exactly one"
+    )
+
+
+def test_the_production_gate_cannot_consult_historical_replay() -> None:
+    """Replay reproducing gold_v1 says nothing about whether production may run.
+
+    The gate has no input through which replay could reach it, and this keeps it
+    that way - a gate that could see replay is a gate that could be satisfied by it.
+    """
+    gate = next(m for m in MODULES if m.rel == "app/production_gate.py")
+    source = gate.path.read_text(encoding="utf-8")
+    offenders = {i for i in gate.imports if "replay" in i.lower()}
+    assert not offenders, f"the production gate imports {sorted(offenders)}"
+    # It may NAME replay in prose to explain the exclusion; it may not call it.
+    assert "gold_v1_semantics" not in source

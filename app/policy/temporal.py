@@ -18,7 +18,7 @@ from datetime import date
 
 from sqlalchemy import ColumnElement, and_, or_
 
-from app.policy.models import PolicyVersion
+from app.policy.models import PolicyVersion, TemporalStatus
 
 __all__ = ["applies_in_jurisdiction", "in_force_on"]
 
@@ -30,8 +30,22 @@ def in_force_on(as_of: date) -> ColumnElement[bool]:
     recent*. A version with a future ``effective_date`` is not yet in force even
     though it is the newest row, which is precisely the case a "latest" query gets
     wrong.
+
+    The ``temporal_status`` conjunct is not redundant, and it is worth being precise
+    about what it does. Deleting it alone changes nothing: ``NULL <= as_of`` is
+    NULL, so an undated version is already excluded by three-valued logic, and every
+    test still passes. Measured, not assumed.
+
+    What it protects against is the *next* edit. Making the date comparison
+    NULL-tolerant - ``or_(effective_date.is_(None), effective_date <= as_of)`` -
+    looks like a reasonable accommodation for nullable dates and would make every
+    undated version in force for **every** date of service. With this conjunct that
+    mutation is caught; without it, both undated-unreachability tests fail. So the
+    conjunct is what stops the date clause's NULL behaviour from being load-bearing,
+    and it states the intent where a reader making that edit will see it.
     """
     return and_(
+        PolicyVersion.temporal_status == TemporalStatus.DATED.value,
         PolicyVersion.effective_date <= as_of,
         or_(PolicyVersion.end_date.is_(None), PolicyVersion.end_date >= as_of),
     )

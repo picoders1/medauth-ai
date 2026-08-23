@@ -44,6 +44,7 @@ from app.decision.table import (
     decide,
 )
 from app.policy.logic_loader import LogicSpecError, load_policy_logic_dir, parse_node
+from tests.support import attested, attested_assumption
 
 pytestmark = pytest.mark.unit
 
@@ -282,7 +283,7 @@ def test_a_policy_outside_its_window_decides_nothing(as_of: date | None, applica
 def test_an_out_of_window_policy_routes_to_a_human_not_a_denial() -> None:
     logic = _logic(All((Leaf("a"),)), effective_from=date(2026, 1, 1))
     outcomes = (CriterionOutcome("a", R, Verdict.NOT_SATISFIED, True),)
-    got = decide(outcomes, GuardrailState.PASSED, RESOLVED, logic=logic, as_of=date(2025, 1, 1))
+    got = decide(outcomes, GuardrailState.PASSED, RESOLVED, attested(logic), as_of=date(2025, 1, 1))
     assert got.outcome is Outcome.HUMAN_REVIEW
 
 
@@ -341,6 +342,12 @@ def test_the_mammography_exception_was_decided_wrongly_before_phase_4(
     Both halves are asserted together deliberately. Asserting only the new result
     would leave no proof that the old logic was ever wrong, and the claim this
     phase rests on is precisely that it was.
+
+    Phase 5 note: `old` used to be `decide()` with no logic argument - the silent
+    default. That default is gone, so the wrong answer is now produced by an
+    *explicitly attested* assumed conjunction. The regression claim is unchanged
+    and arguably stronger: the denial is attributable to a named, reviewable
+    assumption rather than to an unstated property of `table.py`.
     """
     case = _case(
         ordering=Verdict.NOT_SATISFIED,
@@ -348,11 +355,11 @@ def test_the_mammography_exception_was_decided_wrongly_before_phase_4(
         mammogram=Verdict.SATISFIED,
     )
 
-    old = decide(case, GuardrailState.PASSED, RESOLVED)
+    old = decide(case, GuardrailState.PASSED, RESOLVED, attested_assumption(case))
     assert old.outcome is Outcome.DENY_RECOMMENDED
     assert old.rule is DecisionRule.REQUIRED_NOT_SATISFIED
 
-    new = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    new = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert new.outcome is Outcome.APPROVE_RECOMMENDED
     assert new.rule is DecisionRule.EXCEPTION_SATISFIED, (
         "an approval reached through an alternative pathway must say so; "
@@ -370,7 +377,7 @@ def test_the_ordinary_rule_still_governs_when_it_is_met(
         qualified=Verdict.NOT_SATISFIED,
         mammogram=Verdict.NOT_SATISFIED,
     )
-    got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.APPROVE_RECOMMENDED
     assert got.rule is DecisionRule.ALL_REQUIRED_SATISFIED
 
@@ -389,7 +396,7 @@ def test_a_failed_exception_leaves_the_denial_standing(
         qualified=Verdict.NOT_SATISFIED,
         mammogram=Verdict.NOT_SATISFIED,
     )
-    got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.DENY_RECOMMENDED
     assert got.rule is DecisionRule.REQUIRED_NOT_SATISFIED
 
@@ -404,7 +411,7 @@ def test_a_partial_exception_does_not_qualify(
         (Verdict.NOT_SATISFIED, Verdict.SATISFIED),
     ):
         case = _case(ordering=Verdict.NOT_SATISFIED, qualified=qualified, mammogram=mammogram)
-        got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+        got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
         assert got.outcome is Outcome.DENY_RECOMMENDED, (qualified, mammogram)
 
 
@@ -422,7 +429,7 @@ def test_an_unknown_exception_condition_holds_the_case(
         qualified=Verdict.INSUFFICIENT_EVIDENCE,
         mammogram=Verdict.SATISFIED,
     )
-    got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.NEEDS_INFO
     assert got.rule is DecisionRule.INSUFFICIENT_EVIDENCE
     assert P + "C05" in got.missing_evidence
@@ -442,11 +449,14 @@ def test_a_satisfied_exception_survives_an_unknown_elsewhere_on_its_path(
         qualified=Verdict.SATISFIED,
         mammogram=Verdict.SATISFIED,
     )
-    got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.APPROVE_RECOMMENDED
 
     # And the universal conjunction would have held it.
-    assert decide(case, GuardrailState.PASSED, RESOLVED).outcome is Outcome.NEEDS_INFO
+    assert (
+        decide(case, GuardrailState.PASSED, RESOLVED, attested_assumption(case)).outcome
+        is Outcome.NEEDS_INFO
+    )
 
 
 def test_contradictory_facts_route_to_a_human_before_the_logic_runs(
@@ -458,7 +468,7 @@ def test_contradictory_facts_route_to_a_human_before_the_logic_runs(
         qualified=Verdict.SATISFIED,
         mammogram=Verdict.SATISFIED,
     )
-    got = decide(case, GuardrailState.CONTRADICTION, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.CONTRADICTION, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.HUMAN_REVIEW
     assert got.rule is DecisionRule.CONTRADICTORY_VERDICTS
 
@@ -479,7 +489,7 @@ def test_an_unevidenced_exception_cannot_rescue_a_denial(
         mammogram=Verdict.SATISFIED,
         evidence=False,
     )
-    got = decide(case, GuardrailState.PASSED, RESOLVED, logic=mammography_logic)
+    got = decide(case, GuardrailState.PASSED, RESOLVED, attested(mammography_logic))
     assert got.outcome is Outcome.NEEDS_INFO
 
 
@@ -510,7 +520,7 @@ def test_exception_conditions_never_enter_an_assumed_conjunction() -> None:
         CriterionOutcome("a", R, Verdict.SATISFIED, True),
         CriterionOutcome("e", E, Verdict.NOT_SATISFIED, True),
     )
-    got = decide(criteria, GuardrailState.PASSED, RESOLVED)
+    got = decide(criteria, GuardrailState.PASSED, RESOLVED, attested_assumption(criteria))
     assert got.outcome is Outcome.APPROVE_RECOMMENDED
 
 
@@ -519,11 +529,18 @@ def test_unresolved_policy_semantics_never_produce_a_recommendation() -> None:
 
     Guessing the shape of a rule is not a safer error than admitting it is
     unknown, so this fires before any denial and before any approval.
+
+    Phase 5 note: this exercises the CORPUS failure - the inventory classifies the
+    version REVIEW_REQUIRED because a human has not read it (OD-19). The RUNTIME
+    failure, where nobody consulted the inventory at all, is a different cause with
+    its own rule and lives in `tests/unit/test_fail_closed_semantics.py`. The tree
+    passed here is discarded by `review_required()` on purpose: holding a tree
+    beside a verdict that says "do not run this" invites someone to run it.
     """
     logic = _logic(All((Leaf("a"),)), form=LogicForm.REVIEW_REQUIRED)
     for verdict in (Verdict.SATISFIED, Verdict.NOT_SATISFIED):
         criteria = (CriterionOutcome("a", R, verdict, True),)
-        got = decide(criteria, GuardrailState.PASSED, RESOLVED, logic=logic)
+        got = decide(criteria, GuardrailState.PASSED, RESOLVED, attested(logic))
         assert got.outcome is Outcome.HUMAN_REVIEW
         assert got.rule is DecisionRule.POLICY_SEMANTICS_UNRESOLVED
 
@@ -537,7 +554,7 @@ def test_a_policy_stating_no_requirements_cannot_approve() -> None:
     """
     logic = _logic(All(()), exclusions=Any((Leaf("x"),)))
     criteria = (CriterionOutcome("x", X, Verdict.NOT_SATISFIED, True),)
-    got = decide(criteria, GuardrailState.PASSED, RESOLVED, logic=logic)
+    got = decide(criteria, GuardrailState.PASSED, RESOLVED, attested(logic))
     assert got.outcome is Outcome.HUMAN_REVIEW
     assert got.rule is DecisionRule.UNCLASSIFIED
 
@@ -548,7 +565,7 @@ def test_an_established_exclusion_denies_even_when_requirements_hold() -> None:
         CriterionOutcome("a", R, Verdict.SATISFIED, True),
         CriterionOutcome("x", X, Verdict.SATISFIED, True),
     )
-    got = decide(criteria, GuardrailState.PASSED, RESOLVED, logic=logic)
+    got = decide(criteria, GuardrailState.PASSED, RESOLVED, attested(logic))
     assert got.outcome is Outcome.DENY_RECOMMENDED
     assert got.rule is DecisionRule.EXCLUSION_SATISFIED
 
@@ -670,7 +687,12 @@ def _exhaustive_comparison() -> list[tuple[Outcome, Outcome]]:
                     for guardrail in GuardrailState:
                         for status in ResolutionStatus:
                             resolution = ResolutionState(status=status, version_count=1)
-                            new = decide(criteria, guardrail, resolution)
+                            new = decide(
+                                criteria,
+                                guardrail,
+                                resolution,
+                                attested_assumption(criteria),
+                            )
                             old = _pre_phase4_decide(criteria, guardrail, resolution)
                             if new.outcome is not old[0]:
                                 diffs.append((old[0], new.outcome))

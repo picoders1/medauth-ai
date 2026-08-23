@@ -34,6 +34,8 @@ mode is never later presented as a discovery.
 | [021](ADR-021-authoritative-corpus-and-curated-criteria.md) | Authoritative corpus, curated criteria, verification gate | Accepted |
 | [022](ADR-022-coverage-policy-source.md) | Coverage policy source — 42 CFR, NCDs adopted, LCDs deferred behind the licence gate | Accepted |
 | [023](ADR-023-policy-logic-representation.md) | Policy logic as data — three-valued expressions, declared per policy | Accepted |
+| [024](ADR-024-fail-closed-semantics-and-coverage-layer.md) | Fail-closed policy semantics; NCD coverage as a separate layer | Accepted |
+| [025](ADR-025-policy-identity-and-coverage-substantiation.md) | Policy identity, coverage substantiation, slice admissibility | Accepted |
 
 ## Reconciliation with the original brief
 

@@ -1,0 +1,157 @@
+{
+  "computed_before_any_decision": true,
+  "focus_id": "FOCUS-001",
+  "note": "The table does NOT recommend an outcome. Some options cost more than others; that is a fact about the options, not an argument for the cheap one. Choosing the cheapest reading of a regulation because it needs no gold_v2 would be exactly the wrong reason. OTHER is deliberately not modelled - precomputing an impact for an unstated reading would mean inventing the reading.",
+  "other_blockers_after_this_decision": [
+    "domain_decisions_resolved"
+  ],
+  "outcomes": [
+    {
+      "c03_state": "C03 is restated as the floor already transcribed in C07 (at least general supervision). The per-test level is recorded as out of scope for this corpus.",
+      "criteria_added": [],
+      "criteria_changed": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "evaluation_impact": [
+        "any retrieval query targeting C03 now targets a narrower criterion; the query text is unchanged but what counts as the right answer is not"
+      ],
+      "evidence_changes": [
+        "C03's evidence set narrows to the (b)(3) baseline sentence, which is in the corpus and retrievable",
+        "the (b)(3)(i)-(iii) definitions remain retrievable as context"
+      ],
+      "gold_cases_affected": [
+        "CASE-0002",
+        "CASE-0003",
+        "CASE-0004",
+        "CASE-0006",
+        "CASE-0007",
+        "CASE-0009",
+        "CASE-0010",
+        "CASE-0011",
+        "CASE-0013",
+        "CASE-0014",
+        "CASE-0016",
+        "CASE-0019",
+        "CASE-0020",
+        "CASE-0021",
+        "CASE-0022",
+        "CASE-0023",
+        "CASE-0024",
+        "CASE-0025",
+        "CASE-0027",
+        "CASE-0028",
+        "CASE-0030",
+        "CASE-0032",
+        "CASE-0033"
+      ],
+      "gold_cases_affected_count": 23,
+      "gold_v2_required": true,
+      "notes": [
+        "23 gold and 33 synthetic case(s) were labelled against C03 as it is written; a decision that changes what C03 means makes those labels a record of a criterion that no longer exists in that form",
+        "REDUCES what the system checks: a test requiring direct or personal supervision would pass a criterion that only tests the floor. Whether that under-checking is acceptable is precisely the reviewer's call, and it is not an engineering trade-off."
+      ],
+      "outcome": "NARROW_C03_TO_BASELINE",
+      "policy_admissible_after": false,
+      "still_blocked_by": [
+        "domain_decisions_resolved"
+      ],
+      "unblocks": []
+    },
+    {
+      "c03_state": "C03 becomes two criteria: the baseline (adjudicable) and the escalation to direct or personal supervision (not determinable from this corpus, and marked so).",
+      "criteria_added": [
+        "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+      ],
+      "criteria_changed": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "evaluation_impact": [
+        "criterion count rises; every case referencing C03 needs a state for both halves, so a gold_v2 is a regeneration rather than a relabelling"
+      ],
+      "evidence_changes": [
+        "the baseline half draws on the (b)(3) floor sentence",
+        "the escalation half has NO evidence in this corpus - the physician fee schedule supervision indicator is not part of 42 CFR"
+      ],
+      "gold_cases_affected": [
+        "CASE-0002",
+        "CASE-0003",
+        "CASE-0004",
+        "CASE-0006",
+        "CASE-0007",
+        "CASE-0009",
+        "CASE-0010",
+        "CASE-0011",
+        "CASE-0013",
+        "CASE-0014",
+        "CASE-0016",
+        "CASE-0019",
+        "CASE-0020",
+        "CASE-0021",
+        "CASE-0022",
+        "CASE-0023",
+        "CASE-0024",
+        "CASE-0025",
+        "CASE-0027",
+        "CASE-0028",
+        "CASE-0030",
+        "CASE-0032",
+        "CASE-0033"
+      ],
+      "gold_cases_affected_count": 23,
+      "gold_v2_required": true,
+      "notes": [
+        "23 gold and 33 synthetic case(s) were labelled against C03 as it is written; a decision that changes what C03 means makes those labels a record of a criterion that no longer exists in that form",
+        "PRESERVES what the system checks and relocates the blocker rather than removing it. More honest about the gap and more work, and it does not by itself make 410.32 admissible."
+      ],
+      "outcome": "SPLIT_C03",
+      "policy_admissible_after": false,
+      "still_blocked_by": [
+        "domain_decisions_resolved",
+        "the escalation criterion is not determinable from this corpus, so it inherits the dependency unless a further decision excludes it from adjudication"
+      ],
+      "unblocks": []
+    },
+    {
+      "c03_state": "C03 is unchanged and remains not independently adjudicable.",
+      "criteria_added": [],
+      "criteria_changed": [],
+      "evaluation_impact": [
+        "none. Every dataset, label and committed report stays exactly as it is"
+      ],
+      "evidence_changes": [],
+      "gold_cases_affected": [],
+      "gold_cases_affected_count": 0,
+      "gold_v2_required": false,
+      "notes": [
+        "Costs nothing and unblocks nothing. 42 CFR 410.32 stays inadmissible and all 26 gold cases on it stay non-adjudicable.",
+        "A legitimate answer, not a refusal to answer: it says the criterion as written needs data this corpus does not have, which may simply be true."
+      ],
+      "outcome": "LEAVE_C03_NOT_ADJUDICABLE",
+      "policy_admissible_after": false,
+      "still_blocked_by": [
+        "domain_decisions_resolved",
+        "C03's dependency on 42 CFR 410.32(b)(3) remains unresolved"
+      ],
+      "unblocks": []
+    },
+    {
+      "c03_state": "Determined by the reviewer's stated reading.",
+      "criteria_added": [],
+      "criteria_changed": [],
+      "evaluation_impact": [],
+      "evidence_changes": [],
+      "gold_cases_affected": [],
+      "gold_cases_affected_count": 0,
+      "gold_v2_required": false,
+      "notes": [
+        "Deliberately NOT modelled. Precomputing an impact for an unstated reading would mean inventing the reading, and the placeholder would then be mistaken for an analysis. This row exists to record that the option is open and its consequences are unknown."
+      ],
+      "outcome": "OTHER",
+      "policy_admissible_after": false,
+      "still_blocked_by": [
+        "the impact cannot be computed until the reading is stated"
+      ],
+      "unblocks": []
+    }
+  ]
+}

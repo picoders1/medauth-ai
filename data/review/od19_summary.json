@@ -1,11 +1,11 @@
 {
+  "automatically_approved": 0,
   "by_policy": {
     "42 CFR 410.32": {
       "affects_code_applicability": 1,
-      "affects_documentation": 15,
+      "affects_documentation": 14,
       "affects_eligibility": 3,
       "alters_applicability": 2,
-      "cited_by_existing_criterion": 1,
       "elaborates_a_transcribed_section": 14,
       "remaining": 7
     },
@@ -47,13 +47,13 @@
     }
   },
   "by_priority_rank": {
-    "1": 5,
+    "1": 4,
     "2": 8,
     "3": 10,
     "4": 5,
     "5": 11,
     "6": 10,
-    "7": 33,
+    "7": 32,
     "8": 7,
     "9": 7,
     "10": 48,
@@ -61,16 +61,26 @@
   },
   "by_priority_reason": {
     "affects_code_applicability": 7,
-    "affects_documentation": 33,
+    "affects_documentation": 32,
     "affects_eligibility": 10,
     "affects_medical_necessity": 7,
     "affects_timing": 11,
     "alters_applicability": 8,
-    "cited_by_existing_criterion": 5,
+    "cited_by_existing_criterion": 4,
     "contains_exception": 10,
     "contains_exclusion": 5,
     "elaborates_a_transcribed_section": 48,
     "remaining": 102
+  },
+  "by_review_status": {
+    "PENDING": 244
+  },
+  "decision_to_status": {
+    "MERGE_WITH_EXISTING_CRITERION": "MERGE_REQUIRED",
+    "NON_DECISION_RELEVANT": "REJECTED",
+    "REPRESENT_AS_CRITERION": "APPROVED",
+    "REQUIRES_CLINICAL_REVIEW": "CLINICAL_REVIEW_REQUIRED",
+    "REQUIRES_POLICY_INTERPRETATION": "INTERPRETATION_REQUIRED"
   },
   "note": "Priority is a work ordering, not a finding. A provision ranked 10 is not established as unimportant - it is one no lexical signal flagged, which is weak evidence from a scan that cannot read meaning. Nothing here reduces the denominator: all provisions require review, and the ranking only decides which are seen first.",
   "permitted_decisions": [
@@ -80,6 +90,15 @@
     "REQUIRES_POLICY_INTERPRETATION",
     "REQUIRES_CLINICAL_REVIEW"
   ],
+  "permitted_statuses": [
+    "PENDING",
+    "IN_REVIEW",
+    "APPROVED",
+    "REJECTED",
+    "MERGE_REQUIRED",
+    "INTERPRETATION_REQUIRED",
+    "CLINICAL_REVIEW_REQUIRED"
+  ],
   "prefilled_decisions": 0,
-  "provisions_awaiting_review": 246
+  "provisions_awaiting_review": 244
 }

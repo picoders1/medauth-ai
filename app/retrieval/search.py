@@ -1,9 +1,11 @@
 """Vector search over policy chunks, scoped to resolved policy versions.
 
 The single most important property of this module is the one enforced by its
-signature: **there is no way to search the whole corpus.** ``policy_version_ids``
-is required and must be non-empty, and passing an empty set raises rather than
-widening the search.
+signature: **there is no way to search the whole corpus, and no way to search
+across policy types.** A :class:`~app.retrieval.scope.RetrievalScope` names exactly
+one ``document_type`` and cannot be constructed empty, so neither an unscoped search
+nor an accidental crossing between regulation and coverage-determination text is
+expressible.
 
 That is not defensive coding. A semantic search over everything always returns
 something plausible, and the resulting answer is well-cited, internally consistent,
@@ -17,7 +19,6 @@ re-implemented, so retrieval and resolution cannot drift.
 
 from __future__ import annotations
 
-import uuid
 from collections.abc import Sequence
 from datetime import date
 
@@ -27,34 +28,23 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.policy.models import PolicyChunk, PolicyDocument, PolicyVersion
 from app.policy.temporal import in_force_on
 from app.retrieval.evidence import EvidenceChunk
+from app.retrieval.scope import EmptyScopeError, RetrievalScope
 
 __all__ = ["EmptyScopeError", "build_search_statement", "search_chunks"]
 
 
-class EmptyScopeError(ValueError):
-    """Raised when a search is attempted with no resolved policy versions.
-
-    Deliberately an error rather than an empty result: an empty scope means
-    resolution returned nothing, and that case must route to NEEDS_INFO through the
-    decision table - never fall through to an unscoped search.
-    """
+#: Re-exported so callers importing from this module keep working. The raise now
+#: happens at scope *construction*, so an empty scope cannot be held at all.
+EmptyScopeError = EmptyScopeError
 
 
 def build_search_statement(
     query_vector: Sequence[float],
-    policy_version_ids: Sequence[str | uuid.UUID],
+    scope: RetrievalScope,
     *,
-    as_of: date,
     limit: int,
 ) -> Select[tuple[PolicyChunk, PolicyVersion, PolicyDocument, float]]:
     """Build the scoped ANN query. Separated so its SQL can be asserted in a test."""
-    if not policy_version_ids:
-        raise EmptyScopeError(
-            "vector search requires a non-empty resolved policy version set; "
-            "an unscoped search can return a confidently-cited inapplicable policy"
-        )
-
-    ids = [uuid.UUID(str(v)) for v in policy_version_ids]
     distance = PolicyChunk.embedding.cosine_distance(query_vector)
 
     return (
@@ -62,27 +52,47 @@ def build_search_statement(
         .join(PolicyVersion, PolicyVersion.id == PolicyChunk.policy_version_id)
         .join(PolicyDocument, PolicyDocument.id == PolicyVersion.document_id)
         .where(
-            PolicyChunk.policy_version_id.in_(ids),
+            PolicyChunk.policy_version_id.in_(scope.ids),
             PolicyChunk.embedding.isnot(None),
+            # Defence in depth, and the two layers are not equally load-bearing.
+            # The id filter above does the work in practice, because `scope_for()`
+            # partitions ids by each version's actual type - remove this line and
+            # the cross-layer test still passes.
+            #
+            # This predicate matters for a scope that was NOT built by `scope_for`:
+            # `RetrievalScope` is constructible directly, and a hand-built one can
+            # name a type its ids do not belong to. Without this, such a scope would
+            # return the other layer's chunks and look like a correct result.
+            # `test_a_hand_built_scope_cannot_borrow_another_layers_ids` is the test
+            # that fails when this line is deleted.
+            PolicyDocument.document_type == scope.document_type.value,
             # The SAME predicate resolution used. A second copy of this filter is a
             # defect waiting for a corpus refresh.
-            in_force_on(as_of),
+            in_force_on(scope.as_of),
         )
         .order_by(distance)
         .limit(limit)
     )
 
 
+def _dated(version: PolicyVersion) -> date:
+    if version.effective_date is None:  # pragma: no cover - guarded by in_force_on
+        raise ValueError(
+            f"version {version.id} reached retrieval with no effective date "
+            f"(temporal_status={version.temporal_status})"
+        )
+    return version.effective_date
+
+
 async def search_chunks(
     session: AsyncSession,
     query_vector: Sequence[float],
-    policy_version_ids: Sequence[str | uuid.UUID],
+    scope: RetrievalScope,
     *,
-    as_of: date,
     limit: int = 40,
 ) -> tuple[EvidenceChunk, ...]:
-    """Nearest chunks within the resolved versions, closest first."""
-    statement = build_search_statement(query_vector, policy_version_ids, as_of=as_of, limit=limit)
+    """Nearest chunks within one policy type's resolved versions, closest first."""
+    statement = build_search_statement(query_vector, scope, limit=limit)
     rows = (await session.execute(statement)).all()
 
     return tuple(
@@ -98,7 +108,10 @@ async def search_chunks(
             page_to=chunk.page_to,
             text=chunk.text,
             text_sha256=chunk.text_sha256,
-            effective_date=version.effective_date,
+            # `in_force_on` admits only DATED versions, so a chunk reaching here
+            # always has one. A citation with a null effective date would be a
+            # derived field the reviewer cannot check.
+            effective_date=_dated(version),
             end_date=version.end_date,
             source_url=document.source_url,
             jurisdiction=version.jurisdiction,

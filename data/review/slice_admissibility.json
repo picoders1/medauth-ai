@@ -1,0 +1,265 @@
+{
+  "admissible": [],
+  "assessment": [
+    {
+      "admissible": false,
+      "blocked_criteria": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": false,
+        "evaluation_provenance_sufficient": true,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": false,
+        "production_semantics_executable": true,
+        "retrieval_scope_constructible": true,
+        "semantics_declared": true,
+        "temporally_resolvable": true
+      },
+      "criteria": 8,
+      "failed_checks": [
+        "domain_decisions_resolved",
+        "no_unresolved_dependency"
+      ],
+      "link_provenances": [
+        "HUMAN_CURATED"
+      ],
+      "logic_form": "DECLARED",
+      "policy_id": "42 CFR 410.32",
+      "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": true,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": true,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": true,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 5,
+      "failed_checks": [
+        "production_semantics_executable",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "HUMAN_CURATED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.33",
+      "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [
+        "42_CFR_410_38_2022_01_01_C02",
+        "42_CFR_410_38_2022_01_01_C03"
+      ],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": true,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": false,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": true,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 5,
+      "failed_checks": [
+        "no_unresolved_dependency",
+        "production_semantics_executable",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "HUMAN_CURATED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [
+        "42_CFR_410_38_2026_08_13_C02",
+        "42_CFR_410_38_2026_08_13_C03"
+      ],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": true,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": false,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": true,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 5,
+      "failed_checks": [
+        "no_unresolved_dependency",
+        "production_semantics_executable",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "HUMAN_CURATED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [],
+      "checks": {
+        "citation_provenance_complete": false,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": false,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": false,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": true,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": false,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 0,
+      "failed_checks": [
+        "citation_provenance_complete",
+        "criteria_span_verified",
+        "evaluation_provenance_sufficient",
+        "production_semantics_executable",
+        "retrieval_scope_constructible",
+        "semantics_declared"
+      ],
+      "link_provenances": [],
+      "logic_form": "NO_CRITERIA",
+      "policy_id": "42 CFR 410.43",
+      "policy_identity": "REGULATION:42 CFR 410.43:2026-08-13",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": false,
+        "no_engineering_inferred_linkage": false,
+        "no_unresolved_dependency": true,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": false,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 5,
+      "failed_checks": [
+        "evaluation_provenance_sufficient",
+        "no_engineering_inferred_linkage",
+        "production_semantics_executable",
+        "retrieval_scope_constructible",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "ENGINEERING_INFERRED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.61",
+      "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": false,
+        "no_engineering_inferred_linkage": false,
+        "no_unresolved_dependency": true,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": false,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 5,
+      "failed_checks": [
+        "evaluation_provenance_sufficient",
+        "no_engineering_inferred_linkage",
+        "production_semantics_executable",
+        "retrieval_scope_constructible",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "ENGINEERING_INFERRED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.61",
+      "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "admissible": false,
+      "blocked_criteria": [],
+      "checks": {
+        "citation_provenance_complete": true,
+        "coverage_status_established_or_not_required": true,
+        "criteria_span_verified": true,
+        "domain_decisions_resolved": true,
+        "evaluation_provenance_sufficient": false,
+        "no_engineering_inferred_linkage": true,
+        "no_unresolved_dependency": true,
+        "production_semantics_executable": false,
+        "retrieval_scope_constructible": true,
+        "semantics_declared": false,
+        "temporally_resolvable": true
+      },
+      "criteria": 4,
+      "failed_checks": [
+        "evaluation_provenance_sufficient",
+        "production_semantics_executable",
+        "semantics_declared"
+      ],
+      "link_provenances": [
+        "HUMAN_CURATED"
+      ],
+      "logic_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 411.15",
+      "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+      "policy_version": "2026-08-13"
+    }
+  ],
+  "candidates": 8,
+  "designated_slice": null,
+  "nearest_candidate": "REGULATION:42 CFR 410.32:2026-08-13",
+  "nearest_candidate_blockers": [
+    "domain_decisions_resolved",
+    "no_unresolved_dependency"
+  ],
+  "note": "Admissibility is the CONJUNCTION of seven conditions, each read from a committed artefact. No slice is designated unless one passes all seven; a nearest candidate is reported so the remaining blocker is named rather than left as 'nothing qualifies'. Re-run after a reviewer closes a blocker - the answer changes without anyone editing a document.",
+  "status": "BLOCKED"
+}

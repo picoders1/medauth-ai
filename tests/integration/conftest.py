@@ -26,6 +26,7 @@ from app.policy.models import (
     PolicyDocument,
     PolicyScope,
     PolicyVersion,
+    TemporalStatus,
 )
 
 pytestmark = pytest.mark.integration
@@ -106,12 +107,14 @@ class CorpusBuilder:
         self,
         document: PolicyDocument,
         revision_id: str,
-        effective_date: date,
+        effective_date: date | None,
         *,
         end_date: date | None = None,
         scope: PolicyScope = PolicyScope.NATIONAL,
         jurisdiction: str | None = None,
         codes: tuple[tuple[str, str, LinkType], ...] = (),
+        temporal_status: TemporalStatus = TemporalStatus.DATED,
+        effective_date_source: str = "",
     ) -> PolicyVersion:
         version = PolicyVersion(
             document_id=document.id,
@@ -120,6 +123,8 @@ class CorpusBuilder:
             jurisdiction=jurisdiction,
             effective_date=effective_date,
             end_date=end_date,
+            temporal_status=temporal_status.value,
+            effective_date_source=effective_date_source,
             content_sha256=f"{document.policy_id}-{revision_id}".ljust(64, "0")[:64],
             ingested_at=datetime.now(UTC),
         )

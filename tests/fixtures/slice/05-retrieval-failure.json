@@ -1,0 +1,42 @@
+{
+  "criterion_assessments": [],
+  "evidence_mappings": [],
+  "expected_abstention": "RETRIEVAL_FAILURE",
+  "fixture": "05-retrieval-failure",
+  "input": {
+    "case_id": "05-retrieval-failure",
+    "clinical_note": "Ordered by Dr Chen, who is treating the patient for the abdominal pain. Result will guide the management plan for that problem.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "05-retrieval-failure",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "order",
+        "span_end": 11,
+        "span_start": 0,
+        "value": "ordered by treating physician"
+      },
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F2",
+        "kind": "use",
+        "span_end": 78,
+        "span_start": 72,
+        "value": "guides management"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "RETRIEVAL_FAILURE",
+  "why_this_fixture_exists": "An empty evidence set must stop the case. Falling through to assessment would ask a model to judge a criterion with nothing in front of it."
+}

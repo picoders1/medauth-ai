@@ -1,0 +1,59 @@
+{
+  "accepted_by": null,
+  "affected_cases": [
+    "CASE-0002",
+    "CASE-0003",
+    "CASE-0004",
+    "CASE-0006",
+    "CASE-0007",
+    "CASE-0009",
+    "CASE-0010",
+    "CASE-0011",
+    "CASE-0013",
+    "CASE-0014",
+    "CASE-0016",
+    "CASE-0019",
+    "CASE-0020",
+    "CASE-0021",
+    "CASE-0022",
+    "CASE-0023",
+    "CASE-0024",
+    "CASE-0025",
+    "CASE-0027",
+    "CASE-0028",
+    "CASE-0030",
+    "CASE-0032",
+    "CASE-0033"
+  ],
+  "affected_criteria": [
+    "42_CFR_410_32_2026_08_13_C03"
+  ],
+  "blocks_production": true,
+  "decision_version": 1,
+  "focus_id": "FOCUS-001",
+  "is_resolved": false,
+  "note": "This is a DOMAIN decision. No heuristic, similarity score or model output may answer it, and no code path in this repository can advance it: the gate type has no constructor that yields an accepted decision, submission and acceptance are separate acts, and only ACCEPTED resolves it. Production stays blocked while it is unresolved.",
+  "permitted_decisions": [
+    "NARROW_C03_TO_BASELINE",
+    "SPLIT_C03",
+    "LEAVE_C03_NOT_ADJUDICABLE",
+    "OTHER"
+  ],
+  "policy_id": "42 CFR 410.32",
+  "policy_version": "2026-08-13",
+  "question": "Criterion C03 says a test must be furnished under 'the appropriate level of supervision'. (b)(3) sets a floor of at least general supervision and says some tests require direct or personal instead - but WHICH tests is set by the physician fee schedule's supervision indicator, which is not in 42 CFR and is not in this corpus.\n\nCan C03 be adjudicated from this regulation alone?",
+  "review_timestamp": null,
+  "reviewer": null,
+  "reviewer_decision": null,
+  "reviewer_identity": null,
+  "reviewer_qualification": null,
+  "reviewer_rationale": null,
+  "source_references": [
+    "docs/review/FOCUS-001.md",
+    "42 CFR 410.32(b)(3) \u2014 data/cms/CFR-410_32-2026-08-13.md",
+    "https://www.ecfr.gov/current/title-42/section-410.32",
+    "docs/data/410-32-b3-review.md"
+  ],
+  "status": "PENDING",
+  "supersedes": null
+}

@@ -127,6 +127,103 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **Resolution generalises to codes outside the linkage table** | A query resolving through a code nobody curated | — | **Refused.** No such code resolves to anything. Resolution accuracy of 1.0000 measures the table's self-consistency; recorded as a `KNOWN_LIMITATION` in the leakage audit |
 | **The system declines to retrieve when nothing is relevant** | An abstention threshold with a calibration report | — | **NOT produced.** False retrieval rate is 1.0000 (6/6) in every arm; dense retrieval has no abstention mechanism and none is implemented |
 
+## Fail-closed semantics (Phase 5)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Unverified policy semantics cannot approve or deny** | Exhaustive check over the generated input space, with a positive control and an anti-vacuity clause | `pytest tests/unit/test_fail_closed_semantics.py` | **Produced** — three unverified states × the full space; the attested control reaches both APPROVE and DENY, and every adjudicating input is stopped by a semantics rule |
+| **The `assumed_conjunction` fallback is gone, not defaulted** | Signature assertion plus an injection test | Same | **Produced** — `semantics` has no default; restoring the fallback fails the invariant test |
+| **An unattested assumption cannot execute** | Constructor demotion, tested directly | Same | **Produced** — the type cannot represent an unattested executable status |
+| **Corpus and wiring failures are distinguishable in the audit** | Distinct rules on the recommendation | Same | **Produced** — rule 12 vs rule 13, plus `policy_semantics` and `semantics_origin` fields |
+| **The gold_v1 replay is refused in production** | Origin and digest checks, each tested separately | `pytest tests/security/test_replay_refused_in_production.py` | **Produced** — refused on two independent grounds; the positive control shows it genuinely executes outside production |
+| **Production adjudication is safe for every policy in the corpus** | — | — | **Refused.** 3 of 8 policy versions are adjudicable. The other 5 route to a human, and that is the intended behaviour, not a gap to be closed by relaxing the gate |
+
+## Coverage layer (Phase 5)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **A CMS NCD corpus was acquired with full provenance** | Source URL, acquisition timestamp, content hash and version identity per version | `data/coverage/registry.yaml`; `pytest -m evaluation` | **Produced** — 10 documents, 19 versions, all four fields present on every version |
+| **Acquisition coverage is stated, not implied** | Selected / acquired / refused / unreachable, reconciling | Same | **Produced** — 11 selected, 10 acquired, 1 refused, 0 unreachable |
+| **The complete CMS NCD corpus was acquired** | — | — | **Refused.** 11 determinations were selected deliberately and the record says so. This must never be described as "the CMS NCD corpus" |
+| **An undated determination cannot be temporally resolved** | Unreachable by resolution AND retrieval, with a dated positive control | `pytest tests/integration/test_temporal_resolution.py` | **Produced** — 3 of 19 versions; no date of service reaches them |
+| **NCD temporal coverage is complete** | — | — | **Refused.** 3 of 19 acquired versions have no published effective date. That is a property of the source, and no derived date is substituted |
+| **Version history is not truncated by probing** | Enumeration from the authoritative version list | `app/coverage/ncd.py::version_list` | **Produced** — a 200-with-empty-data response is `NO_VERSION_DATA`, never `END_OF_HISTORY` |
+| **Regulation and coverage cannot cross in retrieval** | Two layers, same code, same date, identical text; each scope returns only its own | `pytest tests/integration/test_retrieval_scope.py` | **Produced** — neither similarity nor the temporal predicate can separate them, so only the partition can |
+| **Absence of an NCD is not a denial** | `NOT_ESTABLISHED` distinct from `NOT_COVERED`, tested | `pytest tests/unit/test_ncd_temporal.py` | **Produced** — and no `CoverageStatus` member names an outcome |
+| **CMS supplies NCD-to-procedure-code linkage** | — | — | **Refused.** The NCD record carries no procedure-code field: 19 fields, none of them codes, verified by live probe. Linkage is `HUMAN_CURATED` (OD-27) |
+| **The coverage layer establishes coverage for any specific item** | A reviewer-recorded status per NCD version | — | **NOT produced.** Every governing NCD resolves `UNKNOWN`; status is never inferred from `indications_limitations` prose (R-61, OD-26) |
+| **This system reasons over local contractor policy** | An LCD corpus | — | **Refused.** LCD and Article endpoints sit behind an AMA/ADA/AHA licence gate; no agreement was accepted and neither was requested (OD-21) |
+
+## Policy identity and coverage substantiation (Phase 6)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Policy type participates in identity** | A composite key with type first, and no constructor that omits it | `pytest tests/unit/test_policy_identity.py` | **Produced** — `(policy_type, policy_id, version)`; a mismatched prefix is refused |
+| **A regulation and a coverage determination cannot be confused** | An end-to-end collision with every other discriminator removed | `pytest -m integration` | **Produced** — same code, revision id, date and byte-identical text; each scope returns only its own chunk |
+| **R-62 is resolved** | Both eval runners and the linkage loader corrected, with a regression test | Same | **Produced** — dropping type from the identity key fails the unit tests |
+| **An engineering-inferred link cannot establish applicability** | A resolution filter, tested with a curated positive control | Same | **Produced** — removing the filter fails the test |
+| **A coverage status is never derived from metadata** | The absence of title/code/similarity parameters, asserted | `pytest tests/unit/test_coverage_status.py` | **Produced** — plus demotion of any substantive status with no located evidence |
+| **Any NCD establishes coverage for anything** | A reviewer-recorded status | — | **NOT produced.** 19 versions await review; all establish `UNKNOWN` (R-65, OD-26) |
+| **Any code link is authoritative** | A source that states the relationship | — | **Refused for these sources.** The MCIM NCD record has no procedure-code field; 0 of 22 links are `SOURCE_STATED` |
+| **Review decisions are versioned and history is not mutated** | Supersession rules, tested | `pytest tests/unit/test_review_and_contracts.py` | **Produced** — a version may supersede only an earlier one, only with a reason |
+| **The blast radius of a review decision is known before it is made** | A traced impact report over the frozen corpora | `scripts/analyse_review_impact.py` | **Produced** — 10 of 15 reviewable subjects reach gold; 69 of 156 cases reachable |
+| **gold_v1 is unchanged** | Byte hash against the manifest | `pytest -m evaluation` | **Produced** — byte-identical; no gold_v2 |
+| **Abstention is representable without a calibrated threshold** | Eight structural states, each with a remedy, and an explicit `UNCALIBRATED` gate | `pytest tests/unit/test_review_and_contracts.py` | **Produced** — no reason yields an approval or a denial |
+| **A confidence threshold has been calibrated** | A dev-split sweep under ADR-011 | — | **Refused.** `ScoredGate` is `UNCALIBRATED` and records it |
+| **A policy version is admissible for a first AI vertical slice** | Seven conditions, all passing | `scripts/assess_slice_admissibility.py` | **NOT produced.** The nearest fails one: 42 CFR 410.32 C03 depends on untranscribed `(b)(3)` (R-66) |
+| **The preferred model is better at clinical reasoning** | A measured comparison | — | **Refused.** Phase 0 measured structured-output support, not reasoning quality |
+
+## Pre-agent gate (Phase 7)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **42 CFR 410.32(b)(3) is located in the authoritative source** | The eCFR document already in the corpus, with its hash | `data/cms/CFR-410_32-2026-08-13.md`, sha256 `d87f3242f432…` | **Produced** — no summary, no secondary site, no paraphrase |
+| **Its transcription is span-verified** | The gate rejecting wrong text, wrong section, wrong version and a malformed record | `scripts/verify_criteria.py`; injection of all four | **Produced** — 37/37 verified, 0 failures; the fourth mode was *not* caught until Phase 7 fixed it |
+| **Source verification is not qualified review** | Two disjoint vocabularies, and a resolution state that does not permit adjudication | `pytest tests/evaluation/test_phase7_gate.py` | **Produced** — treating source-verified as permission fails the test |
+| **C03's dependency is closed** | A reviewer ruling that C03 is adjudicable | — | **NOT produced.** `PARTIALLY_RESOLVABLE_FROM_SOURCE`: which supervision level applies is set by the physician fee schedule, absent from 42 CFR (R-51) |
+| **A policy version is admissible for the first slice** | Seven conditions, all passing | `scripts/assess_slice_admissibility.py` | **NOT produced.** 410.32 passes six; the seventh is FOCUS-001 |
+| **The admissibility gate was not loosened to obtain a pass** | The gate still refusing 410.32, on the same condition | `pytest -m evaluation` | **Produced** — an unconditional pass on that check fails the test |
+| **gold_v1 is byte-identical** | Hash against the manifest | Same | **Produced** — 156 cases, 0 scorings, no gold_v2; no gold case references a Phase 7 criterion |
+| **Every evaluation query can prove its provenance chain** | A per-query classification against the corpus as it stands | `scripts/audit_evaluation_provenance.py` | **Produced** — v1 16/23 and v2 36/52 usable; **0 are `VALID_AUTHORITATIVE`, and none can be** |
+| **Inferred-linkage queries are flagged, not repaired** | Every 410.61-targeting query classified `INVALID_INFERRED` | `pytest -m evaluation` | **Produced** — reclassifying them as valid fails the test; the links were **not** restored |
+| **`retrieval_eval_v3` is derived by provenance, not by results** | A recorded exclusion list and a selection basis | `eval/datasets/retrieval_v3/questions.yaml` | **Produced** — 36 of 52 kept, every exclusion carrying its reason |
+| **v3 measures anything** | A committed report | — | **NOT produced.** v3 has never been scored, and no v2 number may be attributed to it (OD-28) |
+| **Any criterion is qualified-reviewed** | A signed reviewer decision | — | **NOT produced.** 37 `SOURCE_VERIFIED`, **0 `QUALIFIED_REVIEWED`** |
+| **Anything is clinically validated** | — | — | **Refused permanently unless performed.** No enum in this codebase has a member for it |
+
+## Domain decision gate (Phase 8)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **FOCUS-001 is unanswered** | A committed record with empty reviewer fields | `data/review/focus_001_decision.json` | **Produced** — `PENDING`, `is_resolved: false`, every reviewer field `null` |
+| **No code path can answer it** | No constructor yielding an accepted gate; submission and acceptance separate | `pytest tests/unit/test_decision_gate.py` | **Produced** — `pending()` is the only classmethod; treating `SUBMITTED` as resolving fails the suite |
+| **Production stays blocked while it is open** | The admissibility gate reading the record | `pytest -m evaluation` | **Produced** — ignoring the open gate fails a test |
+| **Every possible outcome's impact is computed in advance** | A deterministic four-way table | `app/review/focus_impact.py` | **Produced** — same inputs, same table; `OTHER` deliberately unmodelled |
+| **The impact table recommends nothing** | Costs stated for every option, including what each gives up | Same | **Produced** — the cheapest option is also the one that checks least, and the table says so |
+| **A qualified reviewer has answered FOCUS-001** | A signed, accepted decision | — | **NOT produced.** This is the one thing Phase 8 cannot produce |
+| **Every retrieval query proves its provenance chain** | Six-way classification over all three sets | `scripts/audit_evaluation_provenance.py` | **Produced** — v1 16/23, v2 36/52, **v3 36/36** |
+| **A retrieval benchmark is trustworthy enough for a configuration comparison** | Clean provenance **and** demonstrated discrimination | `scripts/assess_retrieval_readiness.py` | **NOT produced.** `RETRIEVAL_BENCHMARK_NOT_READY` — v2 discriminates but is contaminated; v3 is clean and unscored |
+| **Any retrieval configuration is better than another** | A comparison on a ready benchmark | — | **Refused.** No comparison may be run while the status is NOT_READY; nominating the least bad set would manufacture a result |
+| **A policy version is admissible for the first slice** | Eleven conditions, all passing | `scripts/assess_slice_admissibility.py` | **NOT produced.** `BLOCKED`. 410.32 passes nine; the two it fails are both FOCUS-001 |
+| **gold_v1 is unchanged** | Hash against the manifest | `pytest -m evaluation` | **Produced** — 156 cases, 222 synthetic, 0 scorings, no gold_v2 |
+
+## Pre-slice readiness (Phase 9)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **An external decision cannot be forged in one act** | Submission and acceptance as separate entry points with separate attribution | `pytest tests/unit/test_phase9_contracts.py` | **Produced** — self-acceptance, acceptance without submission and acceptance predating submission are each refused; all three mutations fail the suite |
+| **One authority decides whether inference may run** | A single gate reading committed artefacts, failing closed on any read error | `app/production_gate.py` | **Produced** — five checks; `_load()` returns `None` on any error and `None` is `BLOCKED`; `require()` raises |
+| **Production inference is blocked today** | The real repository's gate evaluated | `pytest -k the_real_repository_gate_is_blocked` | **Produced** — `BLOCKED` on `domain_decisions_accepted` and `policy_slice_admissible` |
+| **A gold_v2 can be planned without creating or touching one** | A planner with no write path, and gold_v1's digest unchanged | `app/review/migration.py`, `data/review/gold_v2_migration_plan.json` | **Produced** — no filesystem import at all, asserted over the AST; all four outcomes planned; gold_v1 `ca990b80…` unchanged |
+| **Every slice boundary has a closed schema** | Frozen, `extra="forbid"` models with validators that refuse unsupported assertions | `app/contracts/slice.py` | **Produced** — a decided assessment without evidence, and an asserting mapping without a citation, are each refused; both mutations fail |
+| **The slice vocabulary narrows the adjudication vocabulary totally** | A mapping asserted total and injective | `pytest -k vocabulary_narrows` | **Produced** — R-77; adding a member to either enum fails the test |
+| **The contract fixtures involved no model call** | Hand-written fixtures, committed, with a stated provenance | `tests/fixtures/slice/README.md` | **Produced** — 8 fixtures; **0 model calls in Phase 9** |
+| **The fixtures do not presume an answer to FOCUS-001** | C03 absent from every fixture | Same | **Produced** — only C01, C02 and C04 appear |
+| **Historical replay cannot enable production** | Replay refused on origin and on digest; no path from replay into the gate | `pytest tests/unit/test_layer_boundaries.py` | **Produced** — two AST rules; the gate neither imports nor names the replay constructor |
+| **A qualified reviewer has answered FOCUS-001** | A submitted and separately accepted decision | — | **NOT produced.** Unchanged from Phase 8, and unchangeable from inside this repository |
+| **The first vertical slice works** | A slice run against an admissible policy | — | **NOT produced.** Not implemented. No agent, prompt or model call exists |
+| **The system is clinically validated** | A study with qualified clinicians on real cases | — | **Refused.** No field, enum member or flag anywhere in the codebase represents it, asserted by `test_clinical_validation_has_no_member_anywhere`. `SOURCE_VERIFIED` and `QUALIFIED_REVIEWED` are different claims and neither implies this one |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

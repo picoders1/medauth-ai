@@ -100,3 +100,64 @@ criteria:
       for some other reason is not within this exception.
     source_section: Ordering diagnostic tests
     applicability: Diagnostic mammography ordered from screening findings
+
+  # --- 42 CFR 410.32(b)(3): levels of supervision -----------------------------
+  #
+  # Added in Phase 7 to address R-51: criterion C03 ("furnished under the
+  # appropriate level of supervision") invokes the levels set out in (b)(3), which
+  # was not transcribed, so C03's evidence set could not contain the standard it
+  # was measured against.
+  #
+  # WHAT (b)(3) ACTUALLY ESTABLISHES, read from the source:
+  #
+  #   1. A BASELINE that applies to every test in scope - "at least a general level
+  #      of supervision". Checkable, and transcribed below as C07.
+  #
+  #   2. An ESCALATION - "some of these tests also require either direct or
+  #      personal supervision". WHICH tests is NOT stated in this regulation; it
+  #      comes from the physician fee schedule's supervision indicator, which is
+  #      not in this corpus.
+  #
+  #   3. DEFINITIONS of general, direct and personal supervision in (b)(3)(i),
+  #      (ii) and (iii). Those are definitions rather than conditions - nothing
+  #      can satisfy or fail a definition - so they are NOT transcribed as
+  #      criteria. They are already chunked and retrievable within this policy
+  #      version, which is what makes them usable as evidence.
+  #
+  # So transcription closes part of C03's dependency and cannot close all of it.
+  # Determining "the appropriate level" for a given test requires data this
+  # document does not contain. That is recorded, not worked around.
+  #
+  # C07 is SOURCE_VERIFIED. Whether it is the RIGHT criterion, and whether it
+  # makes C03 adjudicable, is QUALIFIED_REVIEW_PENDING - see
+  # docs/data/410-32-b3-review.md.
+
+  - ordinal: 7
+    criterion_type: REQUIRED
+    fact_key: at_least_general_supervision
+    summary: Furnished under at least a general level of supervision
+    authoritative_text: "must be furnished under at least a general level of supervision"
+    normalized_interpretation: >
+      Every diagnostic test subject to this provision and payable under the
+      physician fee schedule must be furnished under at least general supervision,
+      as defined in 42 CFR 410.32(b)(3)(i). This is the FLOOR, not the applicable
+      level: some tests require direct or personal supervision instead, and which
+      tests those are is determined by the physician fee schedule's supervision
+      indicator, which is not part of this regulation.
+    source_section: Paragraph (b)
+    applicability: Diagnostic tests payable under the physician fee schedule
+
+  - ordinal: 8
+    criterion_type: EXCEPTION_CONDITION
+    fact_key: rra_or_rpa_performed
+    summary: Performed by a certified RRA or RPA, permitting direct in place of personal
+    authoritative_text: "may be furnished under a direct level of physician supervision"
+    normalized_interpretation: >
+      A test performed by a registered radiologist assistant or radiology
+      practitioner assistant, certified as 42 CFR 410.32(b)(4) requires, may be
+      furnished under DIRECT supervision where personal supervision would otherwise
+      be required - to the extent state law and scope of practice permit. An
+      EXCEPTION_CONDITION: failing it does not deny, it means the ordinary
+      supervision level governs.
+    source_section: Paragraph (b)
+    applicability: Diagnostic tests otherwise requiring personal supervision

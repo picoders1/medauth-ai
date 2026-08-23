@@ -30,6 +30,7 @@ from __future__ import annotations
 import hashlib
 import random
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from enum import StrEnum
@@ -37,8 +38,13 @@ from typing import Any
 
 from app.core.types import CriterionKind, ResolutionStatus, Verdict
 from app.decision.models import Outcome
+from app.decision.semantics import PolicySemantics
 from app.decision.table import CriterionOutcome, GuardrailState, ResolutionState, decide
 from app.policy.criteria import CriterionType, VerifiedCriterion
+
+#: How a caller supplies the policy semantics its labels are computed under.
+#: Matches `eval.replay.gold_v1_semantics`.
+SemanticsFactory = Callable[..., PolicySemantics]
 
 __all__ = ["CaseCategory", "CasePlan", "CriterionState", "GeneratedCase", "build_cases"]
 
@@ -376,8 +382,18 @@ def _expected(
     *,
     conflicting: bool,
     applicable: bool,
+    semantics: SemanticsFactory,
+    policy_id: str,
+    policy_version: str,
 ) -> tuple[Outcome, int, tuple[str, ...]]:
-    """Derive the expected decision with the SAME function the system uses."""
+    """Derive the expected decision with the SAME function the system uses.
+
+    `semantics` has no default, for the same reason `decide()` no longer has one:
+    a future dataset generator must *choose* which policy semantics its labels are
+    computed under rather than inherit an assumption. `scripts/generate_cases.py`
+    passes `eval.replay.gold_v1_semantics` explicitly, and that is the whole record
+    of what these labels mean.
+    """
     kind_map = {
         CriterionType.REQUIRED: CriterionKind.REQUIRED,
         CriterionType.EXCLUSION: CriterionKind.EXCLUSION,
@@ -410,7 +426,12 @@ def _expected(
         version_count=1 if applicable else 0,
     )
     guardrail = GuardrailState.CONTRADICTION if conflicting else GuardrailState.PASSED
-    recommendation = decide(outcomes, guardrail, resolution)
+    recommendation = decide(
+        outcomes,
+        guardrail,
+        resolution,
+        semantics(outcomes, policy_id=policy_id, policy_version=policy_version),
+    )
     return recommendation.outcome, int(recommendation.rule), recommendation.missing_evidence
 
 
@@ -419,6 +440,7 @@ def build_cases(
     templates: dict[str, dict[str, Any]],
     *,
     seed: int,
+    semantics: SemanticsFactory,
     distractors: list[str] | None = None,
     realistic: bool = True,
 ) -> list[GeneratedCase]:
@@ -479,7 +501,13 @@ def build_cases(
                 date_of_service = start + timedelta(days=rng.randint(0, span))
 
                 outcome, rule, missing = _expected(
-                    states, policy.criteria, conflicting=conflicting, applicable=applicable
+                    states,
+                    policy.criteria,
+                    conflicting=conflicting,
+                    applicable=applicable,
+                    semantics=semantics,
+                    policy_id=policy.policy_id,
+                    policy_version=policy.revision_id,
                 )
 
                 cases.append(

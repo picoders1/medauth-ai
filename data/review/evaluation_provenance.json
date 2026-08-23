@@ -1,0 +1,2155 @@
+{
+  "note": "A query classified INVALID_INFERRED is NOT repaired here and NOT removed from its set. The historical set and its committed report stay exactly as they were - they record what was measured at the time. A corrected measurement needs a NEW dataset version; overwriting the old one would destroy the record of what the earlier numbers meant.",
+  "sets": {
+    "retrieval_v1": {
+      "by_classification": {
+        "INVALID_INFERRED": 5,
+        "REQUIRES_REVIEW": 2,
+        "VALID_HUMAN_CURATED": 16
+      },
+      "contaminated": true,
+      "dataset": "eval/datasets/retrieval/questions.yaml",
+      "entries": [
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C01",
+            "evidence_target": "General scope",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q001",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": "Conditions of Payment",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q002",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C03",
+            "evidence_target": "Conditions of Payment",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q003",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C04",
+            "evidence_target": "Conditions of Payment",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q004",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C05",
+            "evidence_target": "Paragraph (b)",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q005",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C04",
+            "evidence_target": "Conditions of Payment",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q006",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C02",
+            "evidence_target": "Conditions of Payment",
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q007",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C01",
+            "evidence_target": "Ordering diagnostic tests",
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q008",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C02",
+            "evidence_target": "Ordering diagnostic tests",
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q009",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C03",
+            "evidence_target": "Paragraph (b)",
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q010",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C04",
+            "evidence_target": "Portable x-ray services",
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q011",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C01",
+            "evidence_target": "Ordering of tests",
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q012",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C02",
+            "evidence_target": "Ordering of tests",
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q013",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C03",
+            "evidence_target": "Supervising physician",
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q014",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C04",
+            "evidence_target": "Nonphysician personnel",
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q015",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C05",
+            "evidence_target": "Supervising physician",
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "q016",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C01",
+            "evidence_target": "Basic requirement",
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "q017",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C02",
+            "evidence_target": "Establishment of the plan",
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "q018",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C03",
+            "evidence_target": "Content of the plan",
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "q019",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C04",
+            "evidence_target": "Content of the plan",
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "q020",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C03",
+            "evidence_target": "Content of the plan",
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "q021",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C04",
+            "evidence_target": "Paragraph (d)",
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "q022",
+          "link_provenances": [],
+          "procedure_code": "K0898",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        },
+        {
+          "category": "UNSPECIFIED",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C03",
+            "evidence_target": "Paragraph (c)",
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "q023",
+          "link_provenances": [],
+          "procedure_code": "K0898",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        }
+      ],
+      "queries": 23,
+      "scorable": 16,
+      "unscorable": 7,
+      "usable_in_production_evaluation": 16
+    },
+    "retrieval_v2": {
+      "by_classification": {
+        "INVALID_INFERRED": 12,
+        "REQUIRES_REVIEW": 4,
+        "VALID_HUMAN_CURATED": 36
+      },
+      "contaminated": true,
+      "dataset": "eval/datasets/retrieval_v2/questions.yaml",
+      "entries": [
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-001",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C02",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-002",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-003",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C01",
+            "evidence_target": [
+              "Basic requirement"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-004",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C03",
+            "evidence_target": [
+              "Content of the plan",
+              "Establishment of the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-005",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C04",
+            "evidence_target": [
+              "Nonphysician personnel"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-006",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C02",
+            "evidence_target": [
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-007",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C04",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-010",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C06",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-011",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C05",
+            "evidence_target": [
+              "Paragraph (b)",
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-012",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E0270",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C05",
+            "evidence_target": [
+              "Changes in the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-013",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C02",
+            "evidence_target": [
+              "Establishment of the plan",
+              "Basic requirement"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-014",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C03",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Portable x-ray services"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-020",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C03",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-021",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C01",
+            "evidence_target": [
+              "General scope",
+              "Paragraph (b)",
+              "Definitions"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-022",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "AMBIGUOUS",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C03",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Portable x-ray services"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-030",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "Q0092",
+          "reasons": []
+        },
+        {
+          "category": "AMBIGUOUS",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C03",
+            "evidence_target": [
+              "Supervising physician",
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-031",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "AMBIGUOUS",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C04",
+            "evidence_target": [
+              "Content of the plan",
+              "Establishment of the plan",
+              "Changes in the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-032",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-040",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-041",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-042",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-043",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-044",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "negative query: code G0295 does not resolve through any admissible link, so the query cannot reach a scope to be negative about"
+          ]
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-045",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C04",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-050",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C02",
+            "evidence_target": [
+              "Establishment of the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-051",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C05",
+            "evidence_target": [
+              "Paragraph (b)"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-052",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C03",
+            "evidence_target": [
+              "Content of the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-053",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-060",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-061",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C05",
+            "evidence_target": [
+              "Changes in the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-062",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2026_08_13_C05",
+            "evidence_target": [
+              "Changes in the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-063",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C05",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-070",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C05",
+            "evidence_target": [
+              "Supervising physician"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-071",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C05",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Definitions"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-072",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C04",
+            "evidence_target": [
+              "Paragraph (d)"
+            ],
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "v2-073",
+          "link_provenances": [],
+          "procedure_code": "V5010",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C02",
+            "evidence_target": [
+              "Paragraph (b)"
+            ],
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "v2-074",
+          "link_provenances": [],
+          "procedure_code": "V2020",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Definitions",
+              "Paragraph (b)",
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-080",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Effective date of billing privileges",
+              "Application certification standards"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-081",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Failure to meet standards",
+              "Application certification standards"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-082",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Applicability of State law",
+              "Multi-State entities"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-083",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-090",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-091",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-092",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E0270",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C03",
+            "evidence_target": [
+              "Supervising physician",
+              "Nonphysician personnel"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-093",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C04",
+            "evidence_target": [
+              "Portable x-ray services",
+              "Paragraph (b)"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-100",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "Q0092",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C01",
+            "evidence_target": [
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-101",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C03",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-102",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C01",
+            "evidence_target": [
+              "Basic requirement"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-103",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_61_2019_01_01_C04",
+            "evidence_target": [
+              "Content of the plan"
+            ],
+            "intended_policy": "42 CFR 410.61",
+            "policy_identity": "REGULATION:42 CFR 410.61:2019-01-01",
+            "policy_version": "2019-01-01"
+          },
+          "classification": "INVALID_INFERRED",
+          "id": "v2-104",
+          "link_provenances": [
+            "ENGINEERING_INFERRED"
+          ],
+          "procedure_code": "G0295",
+          "reasons": [
+            "every link supporting this query is ENGINEERING_INFERRED, which production resolution refuses; the query cannot resolve in production and measures nothing there"
+          ]
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C01",
+            "evidence_target": [
+              "Paragraph (a)"
+            ],
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "v2-105",
+          "link_provenances": [],
+          "procedure_code": "V5298",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_411_15_2026_08_13_C03",
+            "evidence_target": [
+              "Paragraph (c)"
+            ],
+            "intended_policy": "42 CFR 411.15",
+            "policy_identity": "REGULATION:42 CFR 411.15:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "REQUIRES_REVIEW",
+          "id": "v2-106",
+          "link_provenances": [],
+          "procedure_code": "V2020",
+          "reasons": [
+            "recorded as unreachable by resolution (OD-15): the target declares no covered procedure, so no code can resolve to it"
+          ]
+        }
+      ],
+      "queries": 52,
+      "scorable": 36,
+      "unscorable": 16,
+      "usable_in_production_evaluation": 36
+    },
+    "retrieval_v3": {
+      "by_classification": {
+        "VALID_HUMAN_CURATED": 36
+      },
+      "contaminated": false,
+      "dataset": "eval/datasets/retrieval_v3/questions.yaml",
+      "entries": [
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-001",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C02",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-002",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-003",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C04",
+            "evidence_target": [
+              "Nonphysician personnel"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-006",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C02",
+            "evidence_target": [
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-007",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C04",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-010",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C06",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-011",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "PARAPHRASED",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C05",
+            "evidence_target": [
+              "Paragraph (b)",
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-012",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E0270",
+          "reasons": []
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C03",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Portable x-ray services"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-020",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C03",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-021",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "PARTIAL_INFORMATION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C01",
+            "evidence_target": [
+              "General scope",
+              "Paragraph (b)",
+              "Definitions"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-022",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "AMBIGUOUS",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C03",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Portable x-ray services"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-030",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "Q0092",
+          "reasons": []
+        },
+        {
+          "category": "AMBIGUOUS",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C03",
+            "evidence_target": [
+              "Supervising physician",
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-031",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-040",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-041",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-042",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-043",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "NEGATIVE",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [],
+            "intended_policy": null,
+            "policy_identity": null,
+            "policy_version": null
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-045",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C04",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-050",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C05",
+            "evidence_target": [
+              "Paragraph (b)"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-052",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-060",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-061",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C05",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-070",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C05",
+            "evidence_target": [
+              "Supervising physician"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-071",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "EXCEPTION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C05",
+            "evidence_target": [
+              "Paragraph (b)",
+              "Definitions"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-072",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0012",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Definitions",
+              "Paragraph (b)",
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-080",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Effective date of billing privileges",
+              "Application certification standards"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-081",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Failure to meet standards",
+              "Application certification standards"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-082",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DISTRACTOR",
+          "chain": {
+            "criterion": null,
+            "evidence_target": [
+              "Applicability of State law",
+              "Multi-State entities"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-083",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering of tests"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-090",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C01",
+            "evidence_target": [
+              "Ordering diagnostic tests"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-091",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0070",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_38_2026_08_13_C02",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-092",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E0270",
+          "reasons": []
+        },
+        {
+          "category": "CROSS_POLICY",
+          "chain": {
+            "criterion": "42_CFR_410_33_2026_08_13_C03",
+            "evidence_target": [
+              "Supervising physician",
+              "Nonphysician personnel"
+            ],
+            "intended_policy": "42 CFR 410.33",
+            "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-093",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "R0075",
+          "reasons": []
+        },
+        {
+          "category": "DIRECT",
+          "chain": {
+            "criterion": "42_CFR_410_32_2026_08_13_C04",
+            "evidence_target": [
+              "Portable x-ray services",
+              "Paragraph (b)"
+            ],
+            "intended_policy": "42 CFR 410.32",
+            "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+            "policy_version": "2026-08-13"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-100",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "Q0092",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C01",
+            "evidence_target": [
+              "General scope"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-101",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "E1390",
+          "reasons": []
+        },
+        {
+          "category": "HISTORICAL_VERSION",
+          "chain": {
+            "criterion": "42_CFR_410_38_2022_01_01_C03",
+            "evidence_target": [
+              "Conditions of Payment"
+            ],
+            "intended_policy": "42 CFR 410.38",
+            "policy_identity": "REGULATION:42 CFR 410.38:2022-01-01",
+            "policy_version": "2022-01-01"
+          },
+          "classification": "VALID_HUMAN_CURATED",
+          "id": "v2-102",
+          "link_provenances": [
+            "HUMAN_CURATED"
+          ],
+          "procedure_code": "K0898",
+          "reasons": []
+        }
+      ],
+      "queries": 36,
+      "scorable": 36,
+      "unscorable": 0,
+      "usable_in_production_evaluation": 36
+    }
+  }
+}

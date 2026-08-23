@@ -1,0 +1,70 @@
+{
+  "criterion_assessments": [
+    {
+      "assessment": "SATISFIED",
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence_ids": [
+        "E4"
+      ],
+      "rationale_summary": "cites a quote that does not appear in the chunk"
+    }
+  ],
+  "evidence_mappings": [
+    {
+      "citation": "410.32(a)",
+      "clinical_fact_ids": [
+        "F1"
+      ],
+      "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+      "evidence": [
+        {
+          "chunk_id": "chunk-4",
+          "evidence_id": "E4",
+          "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+          "quote": "must be ordered by any licensed practitioner",
+          "section_path": "Ordering diagnostic tests"
+        }
+      ],
+      "provenance": "retrieved:scoped",
+      "support_state": "SUPPORTED"
+    }
+  ],
+  "expected_abstention": "UNSUPPORTED_CITATION",
+  "fixture": "04-invalid-citation",
+  "input": {
+    "case_id": "04-invalid-citation",
+    "clinical_note": "Ordered by Dr Chen, who is treating the patient for the abdominal pain. Result will guide the management plan for that problem.",
+    "code_system": "HCPCS",
+    "date_of_service": "2026-08-20",
+    "diagnosis_codes": [],
+    "jurisdiction": null,
+    "procedure_code": "R0070"
+  },
+  "intake": {
+    "case_id": "04-invalid-citation",
+    "clinical_facts": [
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F1",
+        "kind": "order",
+        "span_end": 11,
+        "span_start": 0,
+        "value": "ordered by treating physician"
+      },
+      {
+        "extraction_prompt_id": "intake.v1",
+        "fact_id": "F2",
+        "kind": "use",
+        "span_end": 78,
+        "span_start": 72,
+        "value": "guides management"
+      }
+    ],
+    "model_id": "abstract-structured-model",
+    "prompt_id": "intake.v1"
+  },
+  "note": "Contract fixture. No model inference. NOT gold data and never scored.",
+  "policy_identity": "REGULATION:42 CFR 410.32:2026-08-13",
+  "scenario": "INVALID_CITATION",
+  "why_this_fixture_exists": "The quote is plausible and is NOT in the source. No evidence, no decision - and never a lowered score (R-10). The only abstention yielding NO_DECISION."
+}

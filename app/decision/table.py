@@ -74,6 +74,7 @@ from app.decision.logic import (
     leaf_value,
 )
 from app.decision.models import DecisionRule, Outcome, Recommendation
+from app.decision.semantics import PolicySemantics, SemanticsStatus
 
 __all__ = [
     "CriterionOutcome",
@@ -165,15 +166,28 @@ def decide(
     criteria: tuple[CriterionOutcome, ...],
     guardrail: GuardrailState,
     resolution: ResolutionState,
+    semantics: PolicySemantics,
     *,
-    logic: PolicyLogic | None = None,
     as_of: date | None = None,
     decision_config_version: str = "unset",
 ) -> Recommendation:
     """Map verdicts to a recommendation. Total: every input yields an outcome.
 
-    `logic` is the policy's declared shape. Omitted, an explicit conjunction is
-    built and labelled as assumed - see `assumed_conjunction`.
+    `semantics` is REQUIRED and has no default. Before Phase 5 this was
+    `logic: PolicyLogic | None = None`, and `None` meant "build a conjunction and
+    run it" - so a caller who had never consulted the logic inventory got a silent
+    adjudication under a rule shape nobody had established (R-59).
+
+    **The fallback is gone, not defaulted.** Reintroducing it means adding a line
+    that manufactures semantics from nothing, which is a visible addition in a
+    diff rather than a flipped default. `assumed_conjunction()` still exists and is
+    still exported - the inventory loader needs it to build a tree - but what it
+    returns is a bare `PolicyLogic`, and a bare `PolicyLogic` is no longer
+    something this function accepts.
+
+    Omitting the argument is a `TypeError` at call time, caught by `mypy --strict`
+    and by every test. That is a signature error, not a runtime failure on data:
+    over the value domain this function remains total and still never raises.
     """
     states = {
         c.criterion_id: leaf_value(c.verdict, has_valid_evidence=c.has_valid_evidence, kind=c.kind)
@@ -184,11 +198,16 @@ def decide(
     def result(
         outcome: Outcome, rule: DecisionRule, missing: tuple[str, ...] = ()
     ) -> Recommendation:
+        # Every recommendation carries what was known about the policy's logic and
+        # on whose authority, so an audit row can distinguish an adjudication made
+        # against a reviewed policy from one made against an assumption.
         return Recommendation(
             outcome=outcome,
             rule=rule,
             missing_evidence=missing,
             decision_config_version=decision_config_version,
+            policy_semantics=semantics.status,
+            semantics_origin=semantics.origin,
         )
 
     # 1 - No applicable policy. Absence of an NCD/LCD generally means contractor
@@ -213,17 +232,29 @@ def decide(
     if guardrail is GuardrailState.CONTRADICTION:
         return result(Outcome.HUMAN_REVIEW, DecisionRule.CONTRADICTORY_VERDICTS)
 
-    policy = logic if logic is not None else assumed_conjunction(criteria)
-
-    # 5a - A policy whose logic nobody has established cannot produce a
-    #      recommendation. Fires before any denial, deliberately: guessing the
-    #      shape of a rule is not a safer error than admitting it is unknown.
-    if policy.form is LogicForm.REVIEW_REQUIRED:
+    # 5a - The corpus is unqualified for this policy version. A human must read
+    #      the regulation before anything here can adjudicate (OD-19). Fires
+    #      before any denial AND before any approval: guessing the shape of a rule
+    #      is not a safer error than admitting it is unknown.
+    if semantics.status is SemanticsStatus.REVIEW_REQUIRED:
         return result(Outcome.HUMAN_REVIEW, DecisionRule.POLICY_SEMANTICS_UNRESOLVED)
 
+    # 5b - The runtime cannot establish that what it holds is verified: nobody
+    #      consulted the inventory, the value was demoted by the production guard,
+    #      or nothing has been transcribed from this policy at all. A wiring or
+    #      corpus-coverage fault rather than an unreviewed regulation - different
+    #      cause, different rule, different audit row.
+    #
+    #      The test is on `logic`, not on the status, because the next line is what
+    #      uses `logic`: a guard that checks a different field from the one it
+    #      protects can drift away from it.
+    if semantics.logic is None:
+        return result(Outcome.HUMAN_REVIEW, DecisionRule.POLICY_SEMANTICS_UNVERIFIED)
+
+    policy = semantics.logic
     evaluation = evaluate(policy, states, as_of=as_of)
 
-    # 5b - Out of its temporal window. Version selection is by date of service,
+    # 5c - Out of its temporal window. Version selection is by date of service,
     #      never "latest" (ADR-004), so an out-of-scope policy decides nothing.
     if not evaluation.applicable:
         return result(Outcome.HUMAN_REVIEW, DecisionRule.UNCLASSIFIED)

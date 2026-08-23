@@ -1,0 +1,19 @@
+{
+  "authoritative_links": 0,
+  "by_temporal_status": {
+    "DATED": 16,
+    "UNDATED": 3
+  },
+  "links_admissible_in_production": 4,
+  "links_awaiting_review": 6,
+  "links_by_provenance": {
+    "ENGINEERING_INFERRED": 2,
+    "HUMAN_CURATED": 4
+  },
+  "ncd_versions_awaiting_status_review": 19,
+  "note": "A candidate_status is ENGINEERING_DERIVED and is inadmissible as a coverage conclusion by construction. No status is derived from a title, from code linkage, from similarity, or from a model. Until a reviewer records one, every determination establishes UNKNOWN - which is what the system reports, not a gap to be filled by inference.",
+  "prefilled_linkage_decisions": 0,
+  "prefilled_status_decisions": 0,
+  "with_a_candidate": 8,
+  "without_a_candidate": 11
+}

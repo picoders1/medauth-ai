@@ -37,8 +37,19 @@ SIGNALS: dict[str, re.Pattern[str]] = {
     "exception": re.compile(
         r"\b(except|exception|notwithstanding|even though|other than|unless)\b", re.I
     ),
+    # "one of the following" was MISSING until Phase 6 and is the commonest way a
+    # regulation writes a disjunction. 42 CFR 410.61(b) - "established before
+    # treatment is begun by one of the following" over five practitioner types -
+    # scanned clean because of it, and the policy was classified
+    # ASSUMED_CONJUNCTION on that false negative. Found by reading the regulation,
+    # not by the scan, which is the whole reason the inventory calls these search
+    # terms rather than findings.
     "alternative": re.compile(
-        r"\b(either|or\s+(?:any|one|more)|any\s+of\s+the\s+following)\b", re.I
+        r"\b(either"
+        r"|or\s+(?:any|one|more)"
+        r"|(?:any|one|each|all)\s+of\s+the\s+following"
+        r"|whichever)\b",
+        re.I,
     ),
     "conditional": re.compile(
         r"\b(only if|if\s+the|when\s+the|applies?\s+only|in\s+the\s+case\s+of)\b", re.I

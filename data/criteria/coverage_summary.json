@@ -1,13 +1,13 @@
 {
   "by_classification": {
     "NON_DECISION_RELEVANT": 80,
-    "REPRESENTED_CRITERION": 30,
-    "REQUIRES_HUMAN_REVIEW": 246
+    "REPRESENTED_CRITERION": 32,
+    "REQUIRES_HUMAN_REVIEW": 244
   },
-  "completeness_blocked_by": "246 provision(s) awaiting qualified review",
+  "completeness_blocked_by": "244 provision(s) awaiting qualified review",
   "completeness_verified": false,
-  "generated_at": "2026-08-23T14:58:37+00:00",
-  "provisions_awaiting_review": 246,
+  "generated_at": "2026-08-23T17:28:22+00:00",
+  "provisions_awaiting_review": 244,
   "provisions_substantive": 312,
   "provisions_total": 356,
   "unclassified_substantive": 0,

@@ -1,0 +1,148 @@
+{
+  "corpora": {
+    "gold_v1": {
+      "adjudicable_in_production": 0,
+      "blocked_by_policy_semantics": 156,
+      "blocked_by_version": {
+        "42 CFR 410.32 2026-08-13": 26,
+        "42 CFR 410.33 2026-08-13": 26,
+        "42 CFR 410.38 2022-01-01": 26,
+        "42 CFR 410.38 2026-08-13": 26,
+        "42 CFR 410.61 2019-01-01": 26,
+        "42 CFR 410.61 2026-08-13": 26
+      },
+      "cases": 156
+    },
+    "synthetic": {
+      "adjudicable_in_production": 0,
+      "blocked_by_policy_semantics": 222,
+      "blocked_by_version": {
+        "42 CFR 410.32 2026-08-13": 37,
+        "42 CFR 410.33 2026-08-13": 37,
+        "42 CFR 410.38 2022-01-01": 37,
+        "42 CFR 410.38 2026-08-13": 37,
+        "42 CFR 410.61 2019-01-01": 37,
+        "42 CFR 410.61 2026-08-13": 37
+      },
+      "cases": 222
+    }
+  },
+  "inventory": "data/policy_logic/inventory.json",
+  "inventory_sha256": "e8a47251bdc1a3194b59644918eebfe9d8a289a96f978dcc3dce2a8dc2f4e6fb",
+  "note": "Adjudicability is semantics AND dependencies. A policy whose logic is DECLARED but which contains a criterion invoking an untranscribed provision is NOT adjudicable: the verdict on that criterion would be unfounded (R-51). Reporting semantics alone let 42 CFR 410.32 read as adjudicable while 23 gold cases referencing C03 would have produced exactly such a verdict. Blocked cases are NOT invalid. Their labels remain correct records of what the system decided under the semantics they were built with. What changed is that production no longer executes those semantics, so those cases cannot be used to validate production behaviour. Reproducing them requires eval/replay.py, which production refuses. See docs/evaluation/phase5-impact.md.",
+  "versions": [
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "inventory_form": "DECLARED",
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "UNRESOLVED: C03 (appropriate supervision level) references the supervision levels set out in paragraph (b)(3), which is not transcribed. The criterion therefore cannot be adjudicated on its own evidence - see R-51. Declared here as a plain conjunct because that is what the engine did before; whether it should instead be conditional on the test's designated level is a question for review, not for a guess.",
+        "UNRESOLVED: C04 (portable x-ray general supervision) applies only to portable x-ray services furnished in a place of residence used as the patient's home. That is conditional applicability, which this representation can express with `when`, but there is no transcribed criterion establishing whether a case IS a portable x-ray service. Declared as a plain conjunct, which over-applies it.",
+        "UNRESOLVED: whether the (a)(1) exception also relieves C02 (results used in management). The text relieves only the treating-physician requirement on its face, and it is read narrowly here. A narrow reading is the conservative one for approval and the aggressive one for denial, so it is flagged rather than settled.",
+        "1 criterion/criteria invoke a provision that is not transcribed, so a verdict on them would be unfounded (R-51): 42_CFR_410_32_2026_08_13_C03"
+      ],
+      "semantics_executable": true,
+      "semantics_status": "DECLARED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [
+        "42_CFR_410_38_2022_01_01_C02",
+        "42_CFR_410_38_2022_01_01_C03"
+      ],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)",
+        "2 criterion/criteria invoke a provision that is not transcribed, so a verdict on them would be unfounded (R-51): 42_CFR_410_38_2022_01_01_C02, 42_CFR_410_38_2022_01_01_C03"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [
+        "42_CFR_410_38_2026_08_13_C02",
+        "42_CFR_410_38_2026_08_13_C03"
+      ],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)",
+        "2 criterion/criteria invoke a provision that is not transcribed, so a verdict on them would be unfounded (R-51): 42_CFR_410_38_2026_08_13_C02, 42_CFR_410_38_2026_08_13_C03"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [],
+      "inventory_form": "NO_CRITERIA",
+      "policy_id": "42 CFR 410.43",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "nothing has been transcribed from this policy version"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "NO_CRITERIA"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    },
+    {
+      "adjudicable_in_production": false,
+      "dependency_blocked_criteria": [],
+      "inventory_form": "REVIEW_REQUIRED",
+      "policy_id": "42 CFR 411.15",
+      "policy_version": "2026-08-13",
+      "reason": [
+        "the logic inventory classifies this version REVIEW_REQUIRED: it carries exception, alternative or conditional wording that a conjunction may misread, and no logic has been declared (OD-19)"
+      ],
+      "semantics_executable": false,
+      "semantics_status": "REVIEW_REQUIRED"
+    }
+  ],
+  "versions_adjudicable": 0,
+  "versions_blocked_by_dependency": 1,
+  "versions_semantics_executable": 1,
+  "versions_total": 8
+}

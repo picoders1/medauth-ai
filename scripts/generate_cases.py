@@ -37,6 +37,7 @@ from eval.casegen import (
     build_cases,
     corpus_digest,
 )
+from eval.replay import gold_v1_semantics
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -172,10 +173,16 @@ def main() -> int:
     for index, plan in enumerate(plans):
         plan.counts[CaseCategory.POLICY_NOT_APPLICABLE] = per_plan + (1 if index < remainder else 0)
 
+    # The semantics these labels are computed under, stated rather than inherited.
+    # gold_v1 was built under an assumed conjunction, before the policy logic
+    # inventory existed; regenerating it under anything else would silently produce
+    # a different dataset under the same name. `gold_v1_semantics` stamps
+    # GOLD_V1_REPLAY, which production refuses - see eval/replay.py.
     cases = build_cases(
         plans,
         templates["templates"],
         seed=args.seed,
+        semantics=gold_v1_semantics,
         distractors=templates.get("distractors", []),
     )
     records = [case.to_record() for case in cases]

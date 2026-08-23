@@ -72,7 +72,35 @@ class Transcription:
         return (self.policy_id, self.revision_id)
 
 
+#: Exactly the keys a criterion entry may carry. An unknown key is REFUSED rather
+#: than ignored: a typo in `normalized_interpretation` silently emptied a field
+#: that a reviewer had written by hand, and nothing downstream could tell that
+#: from a criterion whose interpretation was deliberately left blank.
+DECLARATION_KEYS = frozenset(
+    {
+        "ordinal",
+        "criterion_type",
+        "summary",
+        "source_section",
+        "authoritative_text",
+        "fact_key",
+        "comparator",
+        "threshold",
+        "unit",
+        "normalized_interpretation",
+        "applicability",
+    }
+)
+
+
 def _declaration(entry: dict[str, Any], index: int, where: str) -> CriterionDeclaration:
+    unknown = sorted(set(entry) - DECLARATION_KEYS)
+    if unknown:
+        raise TranscriptionError(
+            f"{where}: criterion {entry.get('ordinal', index)} carries unknown key(s) "
+            f"{unknown}. A misspelled key is silently dropped, so a hand-written "
+            "interpretation or an applicability note would vanish without trace."
+        )
     try:
         return CriterionDeclaration(
             ordinal=int(entry.get("ordinal", index)),

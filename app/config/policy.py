@@ -84,6 +84,15 @@ class ResolutionPolicy(BaseModel):
 
     #: An NCD outranks an LCD; both are still recorded, and the LCD may add detail.
     ncd_governs_over_lcd: bool = True
+    #: Whether a link whose provenance is ENGINEERING_INFERRED may establish
+    #: applicability. **False in production, and it must stay false**: an inferred
+    #: link rests on resemblance, and applicability from similarity is precisely
+    #: what ADR-004 exists to prevent.
+    #:
+    #: Evaluation may set it true explicitly - the retrieval sets were authored
+    #: against links that predate this distinction - but doing so is a declared
+    #: choice in a versioned policy file, not a default anyone inherits.
+    admit_engineering_inferred_links: bool = False
     #: Two distinct local determinations governing one request is a genuine
     #: conflict, not something to settle by ranking.
     multiple_lcds_are_conflicting: bool = True

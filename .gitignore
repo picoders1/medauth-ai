@@ -17,6 +17,13 @@ data/cms/**
 !data/cms/registry.yaml
 !data/cms/.gitkeep
 
+# CMS coverage determinations (NCDs) are downloaded, never committed - same rule as
+# data/cms/ and for the same reason (ADR-003). The selection record and the
+# provenance registry ARE committed; the documents they describe are not.
+data/coverage/documents/**
+!data/coverage/ncd_selection.yaml
+!data/coverage/registry.yaml
+
 # Synthea output is generated, never committed (ADR-015). The frozen, hashed
 # evaluation corpus lives under eval/datasets/ and IS committed.
 data/synthea/**

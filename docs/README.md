@@ -16,6 +16,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 | [architecture/system-architecture.md](architecture/system-architecture.md) | End-to-end flow, the governing invariant, layer boundaries, failure semantics |
 | [architecture/implementation-roadmap.md](architecture/implementation-roadmap.md) | Phases 0–9, executable phase by phase |
 | [architecture/decision-and-abstention.md](architecture/decision-and-abstention.md) | The decision table and the calibration protocol |
+| [architecture/phase9-transition.md](architecture/phase9-transition.md) | **Where the repository stands: engineering complete, production `BLOCKED` on one external decision** |
 
 ## Architecture
 
@@ -25,12 +26,32 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [data-architecture.md](architecture/data-architecture.md) — schema, classification, retention
 - [decision-and-abstention.md](architecture/decision-and-abstention.md) — decision engine, gate, calibration
 - [repository-structure.md](architecture/repository-structure.md) — layout, dependency rules, ports
+- [vertical-slice-admissibility.md](architecture/vertical-slice-admissibility.md) — the eleven-condition gate; **BLOCKED**
+- [first-vertical-slice.md](architecture/first-vertical-slice.md) — the entry condition, stage by stage
+- [vertical-slice-contract.md](architecture/vertical-slice-contract.md) — the contract the first AI slice must satisfy, written before the agents
+- [first-vertical-slice-contract.md](architecture/first-vertical-slice-contract.md) — **the consolidated contract**: the gate, eight stages, nine abstention states, eight fixtures
+- [intake-contract.md](architecture/intake-contract.md) — extraction only; spans required, no outcome vocabulary
+- [evidence-mapping-contract.md](architecture/evidence-mapping-contract.md) — an assertion must cite both a fact and a span
+- [llm-assessment-contract.md](architecture/llm-assessment-contract.md) — three states, and what is absent from them
+- [llm-gateway-contract.md](architecture/llm-gateway-contract.md) — the seam; a 403 is never retried
+- [phase9-transition.md](architecture/phase9-transition.md) — what Phase 9 built, and the one thing it could not
+- [model-gateway.md](architecture/model-gateway.md) — the seam a model call crosses; interface only
 - [implementation-roadmap.md](architecture/implementation-roadmap.md) — Phases 0–9
 
 ## Decision logic
 
 - [decision/policy-logic-model.md](decision/policy-logic-model.md) — how a policy states its own rule; three-valued, seven nodes, and where the safety ordering lives
+- [decision/fail-closed-policy-semantics.md](decision/fail-closed-policy-semantics.md) — **R-59 closed.** Unverified semantics cannot adjudicate, and what that cost
 - [decision/policy-logic-inventory.md](decision/policy-logic-inventory.md) — every policy version's logic form and what remains unresolved (**4 of 8 are REVIEW_REQUIRED**)
+
+## Coverage determinations
+
+- [coverage/ncd-architecture.md](coverage/ncd-architecture.md) — the NCD layer, and why regulation and coverage never merge
+- [coverage/ncd-data-model.md](coverage/ncd-data-model.md) — what CMS provides, what is stored, what is not invented
+- [coverage/ncd-status-model.md](coverage/ncd-status-model.md) — what a determination establishes, and on whose authority
+- [coverage/ncd-review-workflow.md](coverage/ncd-review-workflow.md) — the two NCD review queues; nothing pre-filled
+- [coverage/ncd-code-linkage.md](coverage/ncd-code-linkage.md) — three authority levels; **no link is authoritative**
+- [coverage/ncd-temporal-resolution.md](coverage/ncd-temporal-resolution.md) — version windows, and when the honest answer is *none*
 
 ## Security
 
@@ -48,6 +69,11 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [data/ground-truth-readiness.md](data/ground-truth-readiness.md) — **the twelve-question gate.** Classification: **B, partially ready**
 - [data/ncd-lcd-source-assessment.md](data/ncd-lcd-source-assessment.md) — what coverage material is legitimately obtainable, and what is licence-gated (OD-20)
 - [data/od19-review-package.md](data/od19-review-package.md) — the 246 provisions awaiting qualified review, ranked by consequence
+- [data/od19-review-workflow.md](data/od19-review-workflow.md) — the states a provision moves through, and why none of them moves without a person
+- [data/410-32-b3-review.md](data/410-32-b3-review.md) — the transcription, and the question it leaves for a reviewer
+- [data/vertical-slice-admissibility.md](data/vertical-slice-admissibility.md) — seven conditions; **six pass, one does not**
+- [data/policy-identity.md](data/policy-identity.md) — **R-62 closed.** Policy type participates in identity
+- [data/policy-dependency-model.md](data/policy-dependency-model.md) — criteria that cannot be adjudicated on their own evidence (R-51)
 
 ## Evaluation
 
@@ -61,6 +87,23 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/retrieval-evaluation-methodology.md](evaluation/retrieval-evaluation-methodology.md) — how a benchmark for this corpus is built and scored, and what it cannot support
 - [evaluation/retrieval-evaluation-v2.md](evaluation/retrieval-evaluation-v2.md) — v2 results: discriminates at rank 1, saturates by rank 3
 - [evaluation/gold-set-protection.md](evaluation/gold-set-protection.md) — what freezing gold_v1 means, and what would force a gold_v2
+- [evaluation/retrieval-provenance-audit.md](evaluation/retrieval-provenance-audit.md) — six classifications across all three sets
+- [evaluation/retrieval-benchmark-readiness.md](evaluation/retrieval-benchmark-readiness.md) — **NOT READY**, and why no result is manufactured
+- [evaluation/evaluation-provenance.md](evaluation/evaluation-provenance.md) — every query proves its chain, or is classified
+- [evaluation/410-61-evaluation-repair.md](evaluation/410-61-evaluation-repair.md) — `retrieval_eval_v3`, derived by provenance
+- [evaluation/gold-v1-impact.md](evaluation/gold-v1-impact.md) — byte-identical; what resolving C03 would reach
+- [evaluation/gold-v2-migration-plan.md](evaluation/gold-v2-migration-plan.md) — planned for all four outcomes; **creates nothing, edits nothing**
+- [evaluation/gold-impact-analysis.md](evaluation/gold-impact-analysis.md) — what a review decision would reach, before it is made
+- [evaluation/phase6-readiness.md](evaluation/phase6-readiness.md) — **one named blocker** stands before the first AI slice
+- [evaluation/phase5-impact.md](evaluation/phase5-impact.md) — **gold_v1_impact.** Byte-identical, and half of it can no longer validate production
+
+## Domain review
+
+- [review/FOCUS-001.md](review/FOCUS-001.md) — **the one open question**, with its source excerpts and no recommendation
+- [review/FOCUS-001-impact.md](review/FOCUS-001-impact.md) — what each possible answer costs, computed before any answer
+
+The decision travels through `scripts/ingest_focus_decision.py`: two commands, because
+submission and acceptance are two acts. Neither can be performed by this repository.
 
 ## Governance
 
@@ -70,7 +113,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 
 ## Decision records
 
-[adr/](adr/) — ADR-001…ADR-023. Each carries Context, Problem, Options, Decision, Rationale,
+[adr/](adr/) — ADR-001…ADR-025. Each carries Context, Problem, Options, Decision, Rationale,
 Consequences and Rejected alternatives. See [adr/README.md](adr/README.md) for the index.
 
 ---

@@ -1,0 +1,76 @@
+{
+  "assessment": [
+    {
+      "categories": 1,
+      "checks": {
+        "covers_every_query_category": false,
+        "discriminates_between_arms": false,
+        "has_been_scored": true,
+        "provenance_clean": false
+      },
+      "contaminated": true,
+      "dataset": "eval/datasets/retrieval/questions.yaml",
+      "failed_checks": [
+        "covers_every_query_category",
+        "discriminates_between_arms",
+        "provenance_clean"
+      ],
+      "queries": 23,
+      "ready": false,
+      "recall_at_1_spread": null,
+      "report": "eval/reports/20260823T135825Z__retrieval-baseline",
+      "scorable_queries": 16,
+      "set": "retrieval_v1"
+    },
+    {
+      "categories": 10,
+      "checks": {
+        "covers_every_query_category": true,
+        "discriminates_between_arms": true,
+        "has_been_scored": true,
+        "provenance_clean": false
+      },
+      "contaminated": true,
+      "dataset": "eval/datasets/retrieval_v2/questions.yaml",
+      "failed_checks": [
+        "provenance_clean"
+      ],
+      "queries": 52,
+      "ready": false,
+      "recall_at_1_spread": 0.1667,
+      "report": "eval/reports/20260823T151741Z__retrieval-v2",
+      "scorable_queries": 36,
+      "set": "retrieval_v2"
+    },
+    {
+      "categories": 10,
+      "checks": {
+        "covers_every_query_category": true,
+        "discriminates_between_arms": false,
+        "has_been_scored": false,
+        "provenance_clean": true
+      },
+      "contaminated": false,
+      "dataset": "eval/datasets/retrieval_v3/questions.yaml",
+      "failed_checks": [
+        "discriminates_between_arms",
+        "has_been_scored"
+      ],
+      "queries": 36,
+      "ready": false,
+      "recall_at_1_spread": null,
+      "report": null,
+      "scorable_queries": 36,
+      "set": "retrieval_v3"
+    }
+  ],
+  "conditions": [
+    "provenance_clean",
+    "has_been_scored",
+    "discriminates_between_arms",
+    "covers_every_query_category"
+  ],
+  "note": "A set must be BOTH provenance-clean AND able to discriminate. Clean and useless is not ready; discriminating and contaminated is not ready. If no set qualifies the status is RETRIEVAL_BENCHMARK_NOT_READY and no configuration comparison may be run - nominating the least bad set would manufacture a result. Scoring a set is a deliberate act governed by OD-28, decided BEFORE the run and not after seeing which set flatters a configuration.",
+  "ready_sets": [],
+  "status": "RETRIEVAL_BENCHMARK_NOT_READY"
+}

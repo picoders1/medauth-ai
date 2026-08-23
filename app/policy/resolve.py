@@ -19,6 +19,7 @@ it, because the moment similarity influences applicability the guarantee is gone
 
 from __future__ import annotations
 
+import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import date
@@ -30,12 +31,14 @@ from app.config.policy import ResolutionPolicy
 from app.core.types import CodeSystem, ResolutionStatus
 from app.policy.models import (
     DocumentType,
+    LinkProvenance,
     LinkType,
     PolicyCodeLink,
     PolicyDocument,
     PolicyVersion,
 )
 from app.policy.temporal import applies_in_jurisdiction, in_force_on
+from app.retrieval.scope import RetrievalScope
 
 __all__ = ["ResolutionRequest", "ResolutionResult", "ResolvedVersion", "resolve"]
 
@@ -94,10 +97,46 @@ class ResolutionResult:
     request: ResolutionRequest | None = None
     notes: tuple[str, ...] = field(default_factory=tuple)
 
-    @property
-    def version_ids(self) -> tuple[str, ...]:
-        """The scope every retrieval must be restricted to."""
-        return tuple(v.version_id for v in self.versions)
+    def scope_for(self, document_type: DocumentType) -> RetrievalScope | None:
+        """Version ids of ONE policy type, or None if this type resolved to nothing.
+
+        The only constructor of a `RetrievalScope`, and the reason a scope whose ids
+        disagree with its label is unrepresentable: the partition is taken from each
+        version's *actual* `document_type`, never from what the caller asked for.
+
+        Replaces the old `version_ids`, which flattened every resolved version into
+        one list. That was harmless while the corpus was regulations only. With NCDs
+        adopted it would hand a statutory chunk and a coverage-determination chunk to
+        one ANN query and let cosine distance rank across two layers of authority.
+        """
+        ids = frozenset(
+            uuid.UUID(v.version_id) for v in self.versions if v.document_type is document_type
+        )
+        if not ids:
+            return None
+        if self.request is None:  # pragma: no cover - resolve() always sets it
+            raise ValueError("cannot build a retrieval scope from a result with no request")
+        return RetrievalScope(
+            document_type=document_type,
+            policy_version_ids=ids,
+            as_of=self.request.as_of,
+        )
+
+    def scopes(self) -> tuple[RetrievalScope, ...]:
+        """One scope per policy type present, most authoritative layer first.
+
+        NCD before LCD before ARTICLE before REGULATION - a coverage determination
+        answers the coverage question directly, whereas a regulation states the
+        statutory conditions above it. The order is a presentation choice; nothing
+        merges, and each scope is searched separately or not at all.
+        """
+        order = (
+            DocumentType.NCD,
+            DocumentType.LCD,
+            DocumentType.ARTICLE,
+            DocumentType.REGULATION,
+        )
+        return tuple(scope for scope in (self.scope_for(t) for t in order) if scope is not None)
 
     @property
     def governing(self) -> ResolvedVersion | None:
@@ -112,6 +151,35 @@ class ResolutionResult:
         return tuple(v.why for v in self.versions) + self.conflicts + self.notes
 
 
+def _dated(version: PolicyVersion) -> date:
+    """The effective date of a version the temporal predicate admitted."""
+    if version.effective_date is None:  # pragma: no cover - guarded by in_force_on
+        raise ValueError(
+            f"version {version.id} passed the temporal predicate with no effective "
+            f"date (temporal_status={version.temporal_status}). in_force_on must "
+            "admit only DATED versions."
+        )
+    return version.effective_date
+
+
+def _admissible_provenances(policy: ResolutionPolicy) -> tuple[str, ...]:
+    """Which link provenances may establish applicability, under this policy.
+
+    Expressed as an explicit membership set rather than a `!=` so that a future
+    provenance value has to be classified deliberately instead of being admitted
+    because nobody thought about it.
+    """
+    return tuple(
+        provenance.value
+        for provenance in LinkProvenance
+        if provenance.admissible_in_production
+        or (
+            provenance is LinkProvenance.ENGINEERING_INFERRED
+            and policy.admit_engineering_inferred_links
+        )
+    )
+
+
 async def resolve(
     session: AsyncSession,
     request: ResolutionRequest,
@@ -123,6 +191,7 @@ async def resolve(
     the same request resolves identically today and in a year - which is what makes
     a historical recommendation reproducible.
     """
+    admissible = _admissible_provenances(policy)
     statement = (
         select(PolicyVersion, PolicyDocument, PolicyCodeLink)
         .join(PolicyDocument, PolicyDocument.id == PolicyVersion.document_id)
@@ -131,6 +200,11 @@ async def resolve(
             PolicyCodeLink.code == request.procedure_code,
             PolicyCodeLink.code_system == request.code_system.value,
             PolicyCodeLink.link_type == LinkType.COVERED_PROCEDURE.value,
+            # A link that rests on resemblance may not establish applicability.
+            # Stated as an explicit membership test rather than a `!=` so that a
+            # future provenance value has to be classified deliberately instead of
+            # being admitted by default.
+            PolicyCodeLink.link_provenance.in_(admissible),
             in_force_on(request.as_of),
             applies_in_jurisdiction(request.jurisdiction),
         )
@@ -164,7 +238,10 @@ async def resolve(
             revision_id=version.revision_id,
             scope=str(version.scope),
             jurisdiction=version.jurisdiction,
-            effective_date=version.effective_date,
+            # `in_force_on` admits only DATED versions, so this is never None
+            # here. Asserted rather than assumed: if the predicate is ever relaxed,
+            # this fails loudly instead of propagating a None into a citation.
+            effective_date=_dated(version),
             end_date=version.end_date,
             source_url=document.source_url,
             contractor=document.contractor,

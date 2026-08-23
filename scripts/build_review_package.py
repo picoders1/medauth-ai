@@ -76,6 +76,36 @@ KNOWN_DEPENDENCIES: dict[tuple[str, str], tuple[str, ...]] = {
     ),
 }
 
+#: How far each dependency has been closed, and by whom. Recorded per dependency
+#: rather than derived, because "the provision is now transcribed" and "the
+#: dependent criterion is adjudicable" are different claims and only the first is
+#: something engineering can establish.
+#:
+#: Values are `app.core.verification.DependencyResolution` members.
+DEPENDENCY_RESOLUTION: dict[tuple[str, str], tuple[str, str]] = {
+    ("42 CFR 410.32", "(b)(3)"): (
+        "PARTIALLY_RESOLVABLE_FROM_SOURCE",
+        "Phase 7 transcribed (b)(3) and span-verified it: C07 carries the BASELINE "
+        "requirement ('at least a general level of supervision'), and the "
+        "definitions of general, direct and personal supervision in (b)(3)(i)-(iii) "
+        "are chunked and retrievable as evidence. What remains is not transcribable: "
+        "WHICH level applies to a given test is set by the physician fee schedule's "
+        "supervision indicator, which is not part of 42 CFR. So C03's phrase 'the "
+        "appropriate level' cannot be resolved from this document however much of it "
+        "is transcribed. A reviewer must decide whether C03 should be narrowed to the "
+        "baseline, split, or left as not independently adjudicable.",
+    ),
+    ("42 CFR 410.38", "(d)(1)(ii)(A)"): (
+        "UNRESOLVED",
+        "Not transcribed. Prior-to-delivery timing for items on the Required "
+        "Face-to-Face Encounter and Written Order Prior to Delivery List.",
+    ),
+    ("42 CFR 410.38", "(d)(1)(ii)(B)"): (
+        "UNRESOLVED",
+        "Not transcribed. Timing for all other DMEPOS.",
+    ),
+}
+
 REVIEW_OUTCOMES = (
     "REPRESENT_AS_CRITERION",
     "NON_DECISION_RELEVANT",
@@ -83,6 +113,32 @@ REVIEW_OUTCOMES = (
     "REQUIRES_POLICY_INTERPRETATION",
     "REQUIRES_CLINICAL_REVIEW",
 )
+
+#: Workflow states. Every provision starts at PENDING and moves only by a person.
+#:
+#: There is deliberately NO automatic transition to APPROVED. A workflow that can
+#: approve its own rows is a workflow that will eventually approve all of them, and
+#: the whole point of OD-19 is that engineering cannot settle these questions.
+REVIEW_STATUSES = (
+    "PENDING",
+    "IN_REVIEW",
+    "APPROVED",
+    "REJECTED",
+    "MERGE_REQUIRED",
+    "INTERPRETATION_REQUIRED",
+    "CLINICAL_REVIEW_REQUIRED",
+)
+
+#: Which workflow state a reviewer's decision implies. Recorded so a reviewer does
+#: not have to set two fields consistently, and so the mapping is reviewable rather
+#: than living in someone's head. Applied only when a decision is present.
+DECISION_TO_STATUS = {
+    "REPRESENT_AS_CRITERION": "APPROVED",
+    "NON_DECISION_RELEVANT": "REJECTED",
+    "MERGE_WITH_EXISTING_CRITERION": "MERGE_REQUIRED",
+    "REQUIRES_POLICY_INTERPRETATION": "INTERPRETATION_REQUIRED",
+    "REQUIRES_CLINICAL_REVIEW": "CLINICAL_REVIEW_REQUIRED",
+}
 
 #: (priority, label, pattern). Order matters: the first match wins, so the most
 #: consequential reading of a provision is the one that ranks it.
@@ -280,6 +336,7 @@ def main() -> int:
         priority, reason = _classify(provision, cited_by, same_section)
         rows.append(
             {
+                "review_id": f"OD19-{provision['provision_id']}",
                 "provision_id": provision["provision_id"],
                 "priority": priority,
                 "priority_reason": reason,
@@ -301,10 +358,13 @@ def main() -> int:
                 ),
                 "review_question": _review_question(provision, reason, cited_by, same_section),
                 "permitted_decisions": list(REVIEW_OUTCOMES),
+                "permitted_statuses": list(REVIEW_STATUSES),
+                "review_status": "PENDING",
                 "reviewer_decision": None,
                 "reviewer_rationale": None,
                 "reviewer_id": None,
                 "reviewed_at": None,
+                "blocked_by_unresolved_dependency": bool(cited_by),
             }
         )
 
@@ -329,7 +389,11 @@ def main() -> int:
         "by_policy": {k: dict(sorted(v.items())) for k, v in sorted(by_policy.items())},
         "by_priority_rank": dict(sorted(Counter(r["priority"] for r in rows).items())),
         "permitted_decisions": list(REVIEW_OUTCOMES),
+        "permitted_statuses": list(REVIEW_STATUSES),
+        "decision_to_status": DECISION_TO_STATUS,
+        "by_review_status": dict(sorted(Counter(r["review_status"] for r in rows).items())),
         "prefilled_decisions": sum(1 for r in rows if r["reviewer_decision"] is not None),
+        "automatically_approved": sum(1 for r in rows if r["review_status"] == "APPROVED"),
         "note": (
             "Priority is a work ordering, not a finding. A provision ranked 10 is not "
             "established as unimportant - it is one no lexical signal flagged, which is "

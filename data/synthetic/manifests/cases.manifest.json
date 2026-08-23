@@ -16,10 +16,10 @@
   "corpus_digest": "00b5144a24486f15903eff267fe3cd5f3e29f051679703fe9ed13745e0a04c5f",
   "corpus_kind": "synthetic",
   "criteria_count": 33,
-  "criteria_extension_note": "Phase 4 added 42 CFR 410.32 C05/C06 (EXCEPTION_CONDITION, the 410.32(a)(1) mammography exception). The addition is purely additive: no criterion these cases reference was changed or removed, and no case was regenerated. The generation hash is kept so the record of what produced these cases stays intact; drift is now detected by asserting the extension is additive, which still fails on any edit or deletion.",
+  "criteria_extension_note": "Phase 4 added 42 CFR 410.32 C05/C06 (the 410.32(a)(1) mammography exception). Phase 7 added C07/C08 (the 410.32(b)(3) supervision baseline and the 410.32(b)(4) RRA/RPA exception). Both additions are purely additive: no criterion these cases reference was changed or removed, and no case was regenerated. The generation hash is kept so the record of what produced these cases stays intact; drift is detected by asserting the extension is additive, which still fails on any edit or deletion.",
   "criteria_sha256": "27eeac315da55dbb9bbb58cf1c87f60b9df8be21d9b243b4faf8a338f3a78929",
   "criteria_sha256_at_generation": "27eeac315da55dbb9bbb58cf1c87f60b9df8be21d9b243b4faf8a338f3a78929",
-  "criteria_sha256_current": "bf776158f865b09d0a0fc9971dc28d3fd4d6750b56f4b4c5a02cee41f634882d",
+  "criteria_sha256_current": "c19941632740b6f24f3d2dc49c51bde00d05668786357d0a2e2bf3d208f7ee71",
   "decision_distribution": {
     "APPROVE_RECOMMENDED": 72,
     "DENY_RECOMMENDED": 48,

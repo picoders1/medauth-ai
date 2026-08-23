@@ -1,0 +1,531 @@
+{
+  "from_version": "gold_v1",
+  "gold_v1_sha256": "ca990b804cf8fd38950bb1dc84e9e1f2a100d5cb579d124109b2d13387f2d0c9",
+  "gold_v1_unchanged_by_planning": true,
+  "note": "A PLAN, not an instruction, and nothing here creates gold_v2. Executing one is a separate deliberate act taken only after a FOCUS-001 decision is ACCEPTED. Migration is additive: gold_v1, its manifest, the synthetic corpus and every committed report are left exactly as they are, so a report describing gold_v1 keeps describing the set it scored.",
+  "plans": {
+    "LEAVE_C03_NOT_ADJUDICABLE": {
+      "cases_migrated": [],
+      "cases_total": 156,
+      "cases_unchanged": 156,
+      "criteria_added": [],
+      "criteria_changed": [],
+      "evaluation_changes": [],
+      "evidence_changes": [],
+      "from_version": "gold_v1",
+      "is_additive": true,
+      "must_not_modify": [
+        "data/gold/cases/gold_v1.jsonl",
+        "data/gold/manifests/gold_v1.manifest.json",
+        "data/synthetic/cases/cases.jsonl",
+        "eval/reports/**",
+        "eval/datasets/retrieval/questions.yaml",
+        "eval/datasets/retrieval_v2/questions.yaml"
+      ],
+      "notes": [
+        "C03 is unchanged, so no label was computed against a criterion that no longer exists in that form. Nothing migrates.",
+        "42 CFR 410.32 stays inadmissible and every case on it stays non-adjudicable. Costing nothing is not the same as achieving nothing - it is a legitimate answer that leaves the corpus honest."
+      ],
+      "outcome": "LEAVE_C03_NOT_ADJUDICABLE",
+      "policy_semantics_changed": [],
+      "required": false,
+      "steps": [],
+      "summary": "LEAVE_C03_NOT_ADJUDICABLE: no migration required",
+      "to_version": null
+    },
+    "NARROW_C03_TO_BASELINE": {
+      "cases_migrated": [
+        {
+          "case_id": "CASE-0002",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0003",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0004",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0006",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0007",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0009",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0010",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0011",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0013",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0014",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0016",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0019",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0020",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0021",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0022",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0023",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0024",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0025",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0027",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0028",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0030",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0032",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        },
+        {
+          "case_id": "CASE-0033",
+          "criteria_added": [],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which is restated as the supervision floor; the criterion the label was computed against no longer exists in that form"
+        }
+      ],
+      "cases_total": 156,
+      "cases_unchanged": 133,
+      "criteria_added": [],
+      "criteria_changed": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "evaluation_changes": [
+        "retrieval queries targeting C03 now target a narrower criterion: the query text is unchanged and what counts as the right answer is not",
+        "any report scored against the affected cases describes gold_v1 and must keep saying so"
+      ],
+      "evidence_changes": [
+        "C03's evidence set narrows to the (b)(3) baseline sentence",
+        "the (b)(3)(i)-(iii) definitions remain retrievable as context, not as the criterion's own evidence"
+      ],
+      "from_version": "gold_v1",
+      "is_additive": true,
+      "must_not_modify": [
+        "data/gold/cases/gold_v1.jsonl",
+        "data/gold/manifests/gold_v1.manifest.json",
+        "data/synthetic/cases/cases.jsonl",
+        "eval/reports/**",
+        "eval/datasets/retrieval/questions.yaml",
+        "eval/datasets/retrieval_v2/questions.yaml"
+      ],
+      "notes": [
+        "23 of 156 case(s) migrate; the rest carry forward byte-for-byte.",
+        "A narrowed C03 checks LESS than the criterion it replaces. That is the reviewer's call and it is not reversed by the migration."
+      ],
+      "outcome": "NARROW_C03_TO_BASELINE",
+      "policy_semantics_changed": [
+        "42 CFR 410.32:2026-08-13"
+      ],
+      "required": true,
+      "steps": [
+        "1. Record the accepted FOCUS-001 decision and its reviewer attribution.",
+        "2. Update the transcription for 42 CFR 410.32 and re-run the span gate; it must pass with zero failures before anything downstream runs.",
+        "3. Regenerate cases from data/synthetic/cases/cases.jsonl through the SAME pipeline, into gold_v2. Never hand-edit a case.",
+        "4. Reproduce the split rule byte-for-byte: stratify by (policy, revision, category); order within a stratum by int(sha256(case_id)[:8], 16); take DEV_FRACTION=0.18 and VALIDATION_FRACTION=0.10 as exact counts.",
+        "5. Write gold_v2.manifest.json with supersedes_reason naming the FOCUS-001 decision, and reset the scoring budget - budget is per version.",
+        "6. Leave gold_v1 in place. Reports keep pointing at the version they scored."
+      ],
+      "summary": "NARROW_C03_TO_BASELINE: gold_v1 -> gold_v2, 23 of 156 case(s) migrated, 133 carried forward unchanged",
+      "to_version": "gold_v2"
+    },
+    "OTHER": {
+      "cases_migrated": [],
+      "cases_total": 156,
+      "cases_unchanged": 156,
+      "criteria_added": [],
+      "criteria_changed": [],
+      "evaluation_changes": [],
+      "evidence_changes": [],
+      "from_version": "gold_v1",
+      "is_additive": true,
+      "must_not_modify": [
+        "data/gold/cases/gold_v1.jsonl",
+        "data/gold/manifests/gold_v1.manifest.json",
+        "data/synthetic/cases/cases.jsonl",
+        "eval/reports/**",
+        "eval/datasets/retrieval/questions.yaml",
+        "eval/datasets/retrieval_v2/questions.yaml"
+      ],
+      "notes": [
+        "The reading is not stated, so the migration cannot be planned. Producing a placeholder plan would mean inventing the reading, and the placeholder would then be mistaken for preparation.",
+        "Re-run this planner once the reviewer's reading is recorded."
+      ],
+      "outcome": "OTHER",
+      "policy_semantics_changed": [],
+      "required": false,
+      "steps": [],
+      "summary": "OTHER: no migration required",
+      "to_version": null
+    },
+    "SPLIT_C03": {
+      "cases_migrated": [
+        {
+          "case_id": "CASE-0002",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0003",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0004",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0006",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0007",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0009",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0010",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0011",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0013",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0014",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0016",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0019",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0020",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0021",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0022",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0023",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0024",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0025",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0027",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0028",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0030",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0032",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        },
+        {
+          "case_id": "CASE-0033",
+          "criteria_added": [
+            "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+          ],
+          "criteria_removed": [],
+          "expected_decision_may_change": true,
+          "reason": "references C03, which becomes two criteria; every case needs a state for both halves, so this is a regeneration rather than a relabelling"
+        }
+      ],
+      "cases_total": 156,
+      "cases_unchanged": 133,
+      "criteria_added": [
+        "42_CFR_410_32_2026_08_13_C03_ESCALATION"
+      ],
+      "criteria_changed": [
+        "42_CFR_410_32_2026_08_13_C03"
+      ],
+      "evaluation_changes": [
+        "criterion count rises, so every affected case needs a state for a criterion that did not exist when it was generated",
+        "the escalation criterion inherits C03's dependency, so 410.32 does not become admissible by this migration alone"
+      ],
+      "evidence_changes": [
+        "the baseline half draws on the (b)(3) floor sentence",
+        "the escalation half has NO evidence in this corpus; the physician fee schedule supervision indicator is not part of 42 CFR"
+      ],
+      "from_version": "gold_v1",
+      "is_additive": true,
+      "must_not_modify": [
+        "data/gold/cases/gold_v1.jsonl",
+        "data/gold/manifests/gold_v1.manifest.json",
+        "data/synthetic/cases/cases.jsonl",
+        "eval/reports/**",
+        "eval/datasets/retrieval/questions.yaml",
+        "eval/datasets/retrieval_v2/questions.yaml"
+      ],
+      "notes": [
+        "23 of 156 case(s) migrate.",
+        "Costs a gold_v2 AND does not unblock the policy. Splitting relocates the blocker rather than removing it - which is the honest reading of a gap the regulation genuinely leaves."
+      ],
+      "outcome": "SPLIT_C03",
+      "policy_semantics_changed": [
+        "42 CFR 410.32:2026-08-13"
+      ],
+      "required": true,
+      "steps": [
+        "1. Record the accepted FOCUS-001 decision and its reviewer attribution.",
+        "2. Update the transcription for 42 CFR 410.32 and re-run the span gate; it must pass with zero failures before anything downstream runs.",
+        "3. Regenerate cases from data/synthetic/cases/cases.jsonl through the SAME pipeline, into gold_v2. Never hand-edit a case.",
+        "4. Reproduce the split rule byte-for-byte: stratify by (policy, revision, category); order within a stratum by int(sha256(case_id)[:8], 16); take DEV_FRACTION=0.18 and VALIDATION_FRACTION=0.10 as exact counts.",
+        "5. Write gold_v2.manifest.json with supersedes_reason naming the FOCUS-001 decision, and reset the scoring budget - budget is per version.",
+        "6. Leave gold_v1 in place. Reports keep pointing at the version they scored.",
+        "7. Record that the escalation criterion is not determinable from this corpus, so the admissibility gate keeps refusing 410.32 until a further decision excludes it from adjudication."
+      ],
+      "summary": "SPLIT_C03: gold_v1 -> gold_v2, 23 of 156 case(s) migrated, 133 carried forward unchanged",
+      "to_version": "gold_v2"
+    }
+  }
+}

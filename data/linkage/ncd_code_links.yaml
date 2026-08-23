@@ -1,0 +1,139 @@
+# NCD PROCEDURE-CODE LINKAGE — HUMAN-CURATED, NOT AUTHORITATIVE.
+#
+# ============================================================================
+# WHY THIS FILE HAS TO EXIST, AND WHY IT CANNOT BE AUTHORITATIVE
+# ============================================================================
+#
+# The CMS Coverage API's NCD record carries NO procedure-code field. Nineteen
+# fields, none of them codes — verified by live probe, recorded in
+# docs/coverage/ncd-data-model.md. So a determination cannot be resolved from a
+# procedure code unless someone supplies the mapping, and the only someone
+# available is us.
+#
+# That makes every link here a JUDGEMENT ABOUT SUBJECT MATTER, made by a software
+# engineer who is not a clinician and not a certified coder. It is the same
+# position 42 CFR is in (see policy_code_links.yaml) and for the same reason.
+#
+#   NOTHING HERE MAY BE PRESENTED AS CMS-SUPPLIED LINKAGE.
+#
+# ============================================================================
+# THE THREE LEVELS OF AUTHORITY
+# ============================================================================
+#
+#   SOURCE_STATED         the source document states the relationship.
+#                         Authoritative. NO LINK IN THIS FILE IS THIS, and none
+#                         can be while the API publishes no code field.
+#
+#   HUMAN_CURATED         a person judged the code falls within the policy's
+#                         subject matter. Admissible for resolution; NOT
+#                         authoritative until a qualified reviewer verifies it.
+#                         `review_status` tracks that separately.
+#
+#   ENGINEERING_INFERRED  the link rests on resemblance rather than on a
+#                         judgement about the text. REFUSED by production
+#                         resolution — applicability from similarity is exactly
+#                         what ADR-004 exists to prevent.
+#
+# `review_status` is a different axis from provenance. Verifying a curated link
+# confirms a judgement; it does not turn that judgement into a statement by CMS.
+#
+# ============================================================================
+# WHAT A LINK DOES AND DOES NOT MEAN
+# ============================================================================
+#
+# A code appearing here means "this determination is about this kind of item, so
+# a request for it should surface this determination for a human to read".
+#
+# It does NOT mean the item is covered. Every acquired NCD currently resolves to
+# CoverageStatus.UNKNOWN because no reviewer has recorded what any determination
+# establishes (OD-26). A link makes a determination REACHABLE, not APPLIED.
+#
+# Codes are HCPCS Level II (public domain). No AMA CPT code appears here.
+
+schema_version: "1"
+linkage_class: HUMAN_CURATED_ENGINEERING_LINKAGE
+applies_to_policy_type: NCD
+curator: engineering
+curator_role: Software engineer. Not a clinician, not a certified coder.
+curated_at: 2026-08-23
+code_authority: NLM Clinical Tables API (code existence and description only)
+source_of_linkage: >
+  None. The CMS Coverage API publishes no procedure-code field for NCDs, so every
+  link below is a curation decision and is labelled as one.
+default_provenance: HUMAN_CURATED
+default_review_status: PENDING
+
+links:
+  # --- NCD 160.12 : Neuromuscular Electrical Stimulation --------------------
+  # DME used in the home; adjacent to 42 CFR 410.38's conditions of payment.
+  - {policy_id: "NCD 160.12", policy_version: "2", code: E0745, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     provenance: HUMAN_CURATED, review_status: PENDING,
+     description: "Neuromuscular stimulator, electronic shock unit",
+     rationale: "The determination is titled for neuromuscular electrical stimulation
+       and E0745 is the HCPCS item for that device. Subject-matter match on the
+       device itself, not on an indication."}
+  - {policy_id: "NCD 160.12", policy_version: "2", code: E0731, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: medium,
+     provenance: HUMAN_CURATED, review_status: PENDING,
+     description: "Form-fitting conductive garment for TENS or NMES"
+     , rationale: "A garment used to deliver NMES. Medium rather than high: it is an
+       accessory to the therapy rather than the stimulator the determination names,
+       and whether the determination reaches accessories is a reading question."}
+
+  # --- NCD 50.3 : Cochlear Implantation -------------------------------------
+  # Deliberately adjacent to 42 CFR 411.15(d), which EXCLUDES hearing aids. The
+  # two must not be conflated: a cochlear implant is a prosthetic device, not a
+  # hearing aid, and that distinction is exactly the sort a reviewer must confirm.
+  - {policy_id: "NCD 50.3", policy_version: "3", code: L8614, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: high,
+     provenance: HUMAN_CURATED, review_status: PENDING,
+     description: "Cochlear device, includes all internal and external components",
+     rationale: "L8614 is the HCPCS item for a cochlear implant system and the
+       determination is titled for cochlear implantation. Named-item match."}
+
+  # --- NCD 190.28 : Tumor Antigen by Immunoassay CA 125 ---------------------
+  # Diagnostic laboratory testing; adjacent to 42 CFR 410.32's ordering and
+  # supervision conditions.
+  - {policy_id: "NCD 190.28", policy_version: "2", code: G0306, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: low,
+     provenance: ENGINEERING_INFERRED, review_status: PENDING,
+     description: "Complete CBC, automated, with automated WBC differential",
+     rationale: "REFUSED BY PRODUCTION RESOLUTION, and included deliberately so that
+       refusal is exercised against real data. This is a laboratory panel code, and
+       the determination is about a specific tumour-antigen immunoassay. The link
+       rests on 'both are lab tests' — resemblance, not a judgement about the text.
+       It is exactly the kind of link that must never establish applicability."}
+
+  # --- NCD 310.1 : Routine Costs in Clinical Trials -------------------------
+  - {policy_id: "NCD 310.1", policy_version: "3", code: G0293, code_system: HCPCS,
+     linkage_type: COVERED_PROCEDURE, confidence: medium,
+     provenance: HUMAN_CURATED, review_status: PENDING,
+     description: "Non-covered surgical procedure in a clinical research study",
+     rationale: "G0293 exists specifically to identify services furnished within a
+       clinical research study, which is the determination's subject. Medium: the
+       determination governs ROUTINE COSTS of qualifying trials, and whether this
+       code's services are routine costs is a reading question."}
+
+  # --- NCD 10.1 : Visual Tests Prior to Surgery -----------------------------
+  - {policy_id: "NCD 10.1", policy_version: "1", code: V2020, code_system: HCPCS,
+     linkage_type: EXCLUDED, confidence: low,
+     provenance: ENGINEERING_INFERRED, review_status: PENDING,
+     description: "Frames, purchases",
+     rationale: "REFUSED BY PRODUCTION RESOLUTION. Ophthalmic subject matter is the
+       only thing connecting a spectacle-frame code to a determination about visual
+       testing before surgery. Retained as a recorded bad link so the corpus contains
+       linkage the system is required to be sceptical of."}
+
+# ============================================================================
+# WHAT IS DELIBERATELY ABSENT
+# ============================================================================
+#
+# The three UNDATED determinations — NCD 150.1, 250.1 and 290.2 — carry no links.
+# They cannot be temporally resolved at all (the CMS API publishes prose where an
+# effective date belongs), so a link to them could never fire. Adding one would
+# create linkage that looks like coverage and behaves like nothing.
+#
+# NCD 260.5 and NCD 220.6.5 carry no links either: their subject matter
+# (multi-visceral transplantation, FDG PET for lymphoma) is coded largely in CPT,
+# which is AMA-copyrighted and is not redistributed here (ADR-003).

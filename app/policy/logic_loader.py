@@ -15,6 +15,9 @@ an absolute requirement, which is the exact defect Phase 4 exists to remove.
 
 from __future__ import annotations
 
+import hashlib
+import json
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -35,8 +38,22 @@ from app.decision.logic import (
 from app.decision.logic import (
     Any as AnyOf,
 )
+from app.decision.semantics import (
+    Attestation,
+    PolicySemantics,
+    SemanticsOrigin,
+)
+from app.decision.table import CriterionOutcome, assumed_conjunction
 
-__all__ = ["LogicSpecError", "load_policy_logic", "load_policy_logic_dir", "parse_node"]
+__all__ = [
+    "LogicSpecError",
+    "SemanticsSource",
+    "load_policy_logic",
+    "load_policy_logic_dir",
+    "load_semantics_source",
+    "parse_node",
+    "semantics_for",
+]
 
 
 class LogicSpecError(ValueError):
@@ -176,3 +193,154 @@ def load_policy_logic_dir(
             raise LogicSpecError(f"duplicate declared logic for {key}")
         loaded[key] = logic
     return loaded
+
+
+# ---------------------------------------------------------------------------
+# Policy semantics: what the inventory says, and the digest that proves it
+# ---------------------------------------------------------------------------
+
+
+def _digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+@dataclass(frozen=True, slots=True)
+class SemanticsSource:
+    """The logic inventory and declarations, loaded together with their digests.
+
+    Loaded once at startup and passed down, rather than read per decision. Two
+    reasons, and the second is the load-bearing one: reading a file inside an
+    adjudication would put I/O on the decision path, and a digest computed per
+    call could not detect the artefact changing underneath a running process.
+    """
+
+    inventory: dict[tuple[str, str], str]
+    declared: dict[tuple[str, str], PolicyLogic]
+    inventory_digest: str
+    inventory_path: str
+
+
+def load_semantics_source(
+    inventory_path: Path,
+    logic_dir: Path,
+    *,
+    known_criteria: frozenset[str] | None = None,
+) -> SemanticsSource:
+    """Read `inventory.json` and every declared-logic file, and hash the inventory.
+
+    Refuses rather than defaults, in keeping with the rest of this module: a
+    malformed inventory is a startup failure, not a reason to fall back to
+    assuming conjunctions.
+    """
+    try:
+        spec: dict[str, Any] = json.loads(inventory_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise LogicSpecError(f"{inventory_path.name}: unreadable logic inventory ({exc})") from exc
+
+    rows = spec.get("policies")
+    if not isinstance(rows, list) or not rows:
+        raise LogicSpecError(f"{inventory_path.name}: no `policies` array")
+
+    inventory: dict[tuple[str, str], str] = {}
+    for row in rows:
+        try:
+            key = (str(row["policy_id"]), str(row["policy_version"]))
+            form = str(row["logic_form"])
+        except (KeyError, TypeError) as exc:
+            raise LogicSpecError(f"{inventory_path.name}: malformed row {row!r}") from exc
+        if key in inventory:
+            raise LogicSpecError(f"{inventory_path.name}: duplicate entry for {key}")
+        inventory[key] = form
+
+    return SemanticsSource(
+        inventory=inventory,
+        declared=load_policy_logic_dir(logic_dir, known_criteria=known_criteria),
+        inventory_digest=_digest(inventory_path),
+        inventory_path=str(inventory_path),
+    )
+
+
+def semantics_for(
+    source: SemanticsSource,
+    *,
+    policy_id: str,
+    policy_version: str,
+    criteria: tuple[CriterionOutcome, ...],
+) -> PolicySemantics:
+    """Ask the inventory what this policy version's logic is.
+
+    The only production route to an executable `PolicySemantics`. Every branch
+    that is not an executable answer returns a value that cannot adjudicate, and a
+    policy version absent from the inventory is `unconsulted` - **not** an assumed
+    conjunction. An unlisted policy is one the inventory never assessed, and the
+    whole of R-59 is that "not assessed" and "assessed and found unremarkable"
+    must not behave identically.
+    """
+    key = (policy_id, policy_version)
+    form = source.inventory.get(key)
+
+    if form is None:
+        return PolicySemantics.unconsulted(
+            policy_id=policy_id,
+            policy_version=policy_version,
+            notes=(
+                f"{policy_id} {policy_version} does not appear in "
+                f"{source.inventory_path}; its logic has never been assessed",
+            ),
+        )
+
+    if form == LogicForm.REVIEW_REQUIRED.value:
+        return PolicySemantics.review_required(
+            policy_id=policy_id,
+            policy_version=policy_version,
+            notes=(
+                "the logic inventory classifies this version REVIEW_REQUIRED: it "
+                "carries exception, alternative or conditional wording that a "
+                "conjunction may misread, and no logic has been declared (OD-19)",
+            ),
+        )
+
+    if form == LogicForm.NO_CRITERIA.value:
+        return PolicySemantics.no_criteria(
+            policy_id=policy_id,
+            policy_version=policy_version,
+            notes=("nothing has been transcribed from this policy version",),
+        )
+
+    inventory_attestation = Attestation(
+        source=source.inventory_path,
+        sha256=source.inventory_digest,
+        origin=SemanticsOrigin.POLICY_LOGIC_INVENTORY,
+    )
+
+    if form == LogicForm.DECLARED.value:
+        declared = source.declared.get(key)
+        return PolicySemantics.declared(
+            policy_id=policy_id,
+            policy_version=policy_version,
+            logic=declared,
+            # The declaration is what executes, but the inventory's digest is what
+            # the production guard checks, so the attestation names the inventory.
+            attestation=inventory_attestation if declared is not None else None,
+            notes=declared.review_notes
+            if declared is not None
+            else ("the inventory says DECLARED but no declaration file was loaded",),
+        )
+
+    if form == LogicForm.ASSUMED_CONJUNCTION.value:
+        return PolicySemantics.assumed(
+            policy_id=policy_id,
+            policy_version=policy_version,
+            logic=assumed_conjunction(criteria, policy_id=policy_id, policy_version=policy_version),
+            attestation=inventory_attestation,
+            notes=(
+                "no exception, alternative or conditional wording was found by the "
+                "inventory scan; that is weak evidence, not a finding",
+            ),
+        )
+
+    return PolicySemantics.unconsulted(
+        policy_id=policy_id,
+        policy_version=policy_version,
+        notes=(f"unrecognised logic_form {form!r} in {source.inventory_path}",),
+    )
