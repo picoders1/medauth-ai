@@ -1,0 +1,1681 @@
+schema_version: '1'
+generated_at: '2026-08-23T14:27:09+00:00'
+classifier: engineering (non-clinician), rule-assisted with manual overrides
+caveat: These classifications are a non-clinician's judgement about what bears on a prior-authorization
+  decision. That judgement is what OD-19 identifies as unverified. REQUIRES_HUMAN_REVIEW entries are not
+  deferred work items - they are the honest state of the analysis.
+provisions:
+  42_CFR_410_32_20260813_Orderingdiagnosticte_a1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Orderingdiagnosticte_a2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Orderingdiagnosticte_a3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: nonphysician practitioners may order tests under stated conditions. Affects who may
+      legitimately order, which criterion C01 addresses only for physicians.'
+    method: manual
+  42_CFR_410_32_20260813_Orderingdiagnosticte_a4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2:
+    classification: NON_DECISION_RELEVANT
+    reason: Payment methodology. Concerns how much is paid once coverage is established.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2iiiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2iiiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2vii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2viii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b2ix:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: defines the supervision LEVELS (general, direct, personal). Criterion C03 requires ''the
+      appropriate level'' without capturing which level applies to which test - so the criterion is not
+      checkable on its own.'
+    method: manual
+  42_CFR_410_32_20260813_Paragraphb_b3i:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b3ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b3iii:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphb_b4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c4:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Portablexrayservices_c4i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c4ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Portablexrayservices_c4iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_di:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Paragraphd_dii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_diii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_div:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Paragraphd_dv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_dvi:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Paragraphd_dvii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d2:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Paragraphd_d2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d2iiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d2iiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_32_20260813_Paragraphd_d3i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iC:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iiC:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d3iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_32_20260813_Paragraphd_d4ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Grants administrative discretion to CMS. Describes what the agency may do, not a condition
+      a request satisfies.
+    method: rule
+  42_CFR_410_32_20260813_Diagnosticlaboratory_e:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a:
+    classification: NON_DECISION_RELEVANT
+    reason: Payment methodology. Concerns how much is paid once coverage is established.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a2:
+    classification: NON_DECISION_RELEVANT
+    reason: Payment methodology. Concerns how much is paid once coverage is established.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Generalrule_a2iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Nonphysicianpersonne_c2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_MultiStateentities_e:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_MultiStateentities_ei:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_MultiStateentities_eii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_MultiStateentities_e2:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_33_20260813_ApplicabilityofState_f:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g2:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g3i:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g4i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g4ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g4iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g5i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g5ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g6:
+    classification: NON_DECISION_RELEVANT
+    reason: IDTF supplier enrolment and certification standards. Governs whether a facility may bill Medicare
+      at all, not whether a particular request meets medical necessity. A prior-authorization decision
+      does not re-adjudicate enrolment.
+    method: manual
+  42_CFR_410_33_20260813_Applicationcertifica_g6i:
+    classification: NON_DECISION_RELEVANT
+    reason: Enrolment documentation retained by the supplier; same reasoning as (g)(6).
+    method: manual
+  42_CFR_410_33_20260813_Applicationcertifica_g6iA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g6iB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g6ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: States an exclusion. Exclusions are decision-relevant by nature; whether this one applies
+      to the procedures in scope needs a qualified reading.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g7:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8iA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8iB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8iC:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g8ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: States an exclusion. Exclusions are decision-relevant by nature; whether this one applies
+      to the procedures in scope needs a qualified reading.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g9:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: States an exclusion. Exclusions are decision-relevant by nature; whether this one applies
+      to the procedures in scope needs a qualified reading.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g10:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g11:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g12:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g13:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g14:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g14i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g14ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_33_20260813_Applicationcertifica_g15:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g15i:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g15ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g15iii:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g16:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Applicationcertifica_g17:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_33_20260813_Failuretomeetstandar_h:
+    classification: NON_DECISION_RELEVANT
+    reason: Grants administrative discretion to CMS. Describes what the agency may do, not a condition
+      a request satisfies.
+    method: rule
+  42_CFR_410_33_20260813_Effectivedateofbilli_i:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Effectivedateofbilli_1:
+    classification: NON_DECISION_RELEVANT
+    reason: Supplier enrolment and standards. Determines who may bill, not whether this request is medically
+      necessary.
+    method: rule
+  42_CFR_410_33_20260813_Effectivedateofbilli_2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_Definitions_c1:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c2:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c3:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c6:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c7:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_38_20220101_Definitions_c8:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iA:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iB:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iC:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iD:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iE:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iF:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: prior-to-delivery timing requirement, as in the 2026 revision.'
+    method: manual
+  42_CFR_410_38_20220101_ConditionsofPayment_d1iiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: prior-to-claim-submission timing requirement, as in the 2026 revision.'
+    method: manual
+  42_CFR_410_38_20220101_ConditionsofPayment_d2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d3i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20220101_ConditionsofPayment_d3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20220101_Paragraphe_e:
+    classification: NON_DECISION_RELEVANT
+    reason: Grants administrative discretion to CMS. Describes what the agency may do, not a condition
+      a request satisfies.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_Definitions_c1:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c2:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c3:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c6:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c7:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_38_20260813_Definitions_c8:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iA:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iB:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iC:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iD:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iE:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iF:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: requires the written order to reach the supplier PRIOR TO DELIVERY for items on the
+      face-to-face list. A distinct timing requirement, checkable against a submission, and not represented
+      by any transcribed criterion.'
+    method: manual
+  42_CFR_410_38_20260813_ConditionsofPayment_d1iiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: for all other DMEPOS the order must reach the supplier prior to claim submission. Second
+      timing requirement, not transcribed.'
+    method: manual
+  42_CFR_410_38_20260813_ConditionsofPayment_d2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: the encounter must be for the purpose of diagnosing, treating or managing the condition
+      the item is ordered for. A purpose requirement distinct from timing, and not transcribed.'
+    method: manual
+  42_CFR_410_38_20260813_ConditionsofPayment_d2ii:
+    classification: NON_DECISION_RELEVANT
+    reason: Governs refills, delivery and date-of-service assignment after an item is authorised. Out
+      of scope for an initial authorisation decision.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: supplier must maintain the order and supporting documentation and make it available
+      to CMS. A documentation-retention requirement; whether it is decision-relevant at authorisation
+      time or only at audit is precisely the judgement a qualified reviewer should make.'
+    method: manual
+  42_CFR_410_38_20260813_ConditionsofPayment_d3i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: 'GAP: the face-to-face encounter must be documented in the medical record with beneficiary-specific
+      subjective and objective information. Transcribed criterion C04 covers the encounter''s TIMING but
+      not its DOCUMENTATION.'
+    method: manual
+  42_CFR_410_38_20260813_ConditionsofPayment_d4:
+    classification: NON_DECISION_RELEVANT
+    reason: Definitional. Fixes the meaning of a term used by other provisions; adds no requirement a
+      submission could satisfy or fail on its own.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d1:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_38_20260813_ConditionsofPayment_d2:
+    classification: NON_DECISION_RELEVANT
+    reason: Governs refills, delivery and date-of-service assignment after an item is authorised. Out
+      of scope for an initial authorisation decision.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d2iiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d2iiB:
+    classification: NON_DECISION_RELEVANT
+    reason: Governs refills, delivery and date-of-service assignment after an item is authorised. Out
+      of scope for an initial authorisation decision.
+    method: rule
+  42_CFR_410_38_20260813_ConditionsofPayment_d2iii:
+    classification: NON_DECISION_RELEVANT
+    reason: Governs refills, delivery and date-of-service assignment after an item is authorised. Out
+      of scope for an initial authorisation decision.
+    method: rule
+  42_CFR_410_38_20260813_Paragraphe_e:
+    classification: NON_DECISION_RELEVANT
+    reason: Grants administrative discretion to CMS. Describes what the agency may do, not a condition
+      a request satisfies.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragrapha_a1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragrapha_a4i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4vii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragrapha_a4viii:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragraphb_b:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphb_b1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphb_b2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphb_b3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphb_b4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphb_b5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphc_c:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphc_c1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphc_c2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphc_c3:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragraphc_c4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_43_20260813_Paragraphc_c5:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragraphc_c6:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_43_20260813_Paragraphc_c7:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Establishmentofthepl_b1:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20190101_Establishmentofthepl_b2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Establishmentofthepl_b3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Establishmentofthepl_b4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Establishmentofthepl_b5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20190101_Changesintheplan_d1i:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20190101_Changesintheplan_d1ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d1iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d1iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d1v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d1vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20190101_Changesintheplan_d2:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20260813_Establishmentofthepl_b1:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20260813_Establishmentofthepl_b2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Establishmentofthepl_b3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Establishmentofthepl_b4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Establishmentofthepl_b5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20260813_Changesintheplan_d1i:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_410_61_20260813_Changesintheplan_d1ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d1iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d1iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d1v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d1vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_410_61_20260813_Changesintheplan_d2:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_411_15_20260813_Preamble_0:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_411_15_20260813_Paragrapha_a1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragrapha_a2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphb_b2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphb_b2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphb_b2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphd_d1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphd_d2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphd_d2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphd_d2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphe_e:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_411_15_20260813_Paragraphe_e1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphe_e2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphe_e3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphe_e4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphe_e5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphf_f:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphg_g:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphh_h:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3A:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3B:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3C:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Carries obligation language and is not represented by any transcribed criterion. Whether it
+      is decision-relevant for the procedures in scope is exactly the judgement OD-19 says is unverified.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3D:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3E:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3F:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphi_3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphj_j:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k4:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k5:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k6:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k7:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k8:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k9:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k10:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k11:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k12:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k13:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k14:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k15:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphk_k16:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_l:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_li:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_lii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_liii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_l2:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_411_15_20260813_Paragraphl_l2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_l2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_l2iiiA:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphl_l2iiiB:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: States an exclusion. Exclusions are decision-relevant by nature; whether this one applies
+      to the procedures in scope needs a qualified reading.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphm_m3vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Certainservicesofana_n:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Certainservicesofana_n2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragrapho_o:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragrapho_o1:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragrapho_o2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_pi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_pii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2v:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2vi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2vii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2viii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2ix:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2x:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xi:
+    classification: NON_DECISION_RELEVANT
+    reason: Structural fragment below the substantive length threshold - a heading echo, a list stub or
+      a cross-reference tail. Enumerated rather than dropped so the denominator stays complete.
+    method: rule:fragment
+  42_CFR_411_15_20260813_Paragraphp_p2xii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xiii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xiv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xvi:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xvii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xviii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xix:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p2xx:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p3:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p3i:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p3ii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p3iii:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphp_p3iv:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Assistedsuicide_q:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: No rule placed this provision confidently. Defaulting to review rather than to 'not relevant',
+      because the cost of a wrong dismissal is an invisible gap.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphr_r:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule
+  42_CFR_411_15_20260813_Paragraphs_s:
+    classification: REQUIRES_HUMAN_REVIEW
+    reason: Incorporates requirements from another part by reference. Whether the incorporated text carries
+      a decision-relevant condition cannot be settled without reading that part, which is outside the
+      ingested corpus.
+    method: rule

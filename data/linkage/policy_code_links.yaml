@@ -23,8 +23,21 @@
 #
 # Codes are Level II HCPCS (public domain). No AMA CPT code appears here.
 
-schema_version: "1"
+schema_version: "2"
 linkage_class: HUMAN_CURATED_ENGINEERING_LINKAGE
+
+# EVIDENCE CLASS, per link (Part E). Three values, and none of these links is the
+# first one:
+#
+#   AUTHORITATIVE   the source itself establishes the policy-to-code relationship
+#   HUMAN_CURATED   a person judged the code falls within the policy's subject matter
+#   INFERRED        the relationship rests on resemblance rather than on a judgement
+#                   about the text; MUST NOT drive gold decision logic
+#
+# 42 CFR enumerates no procedure codes, so NO link here can be AUTHORITATIVE. That
+# is a property of using regulation rather than a coverage determination as the
+# corpus - an NCD or LCD would carry the linkage itself.
+evidence_class_default: HUMAN_CURATED
 curator: engineering
 curator_role: Software engineer. Not a clinician, not a certified coder.
 curated_at: 2026-08-23
@@ -63,7 +76,7 @@ links:
 
   # --- 42 CFR 410.61 : outpatient rehabilitation plan of treatment ----------
   - {policy_id: "42 CFR 410.61", policy_version: "2026-08-13", code: G0295, code_system: HCPCS,
-     linkage_type: COVERED_PROCEDURE, confidence: low,
+     linkage_type: COVERED_PROCEDURE, confidence: low, evidence_class: INFERRED,
      rationale: "Electromagnetic therapy. LOW confidence: the regulation governs the plan of
        treatment rather than naming modalities, and most therapy procedures are CPT-coded and
        therefore absent from a public-domain code set."}
@@ -93,6 +106,6 @@ links:
      linkage_type: SUPPORTING_DIAGNOSIS, confidence: medium,
      rationale: "COPD as a plausible basis for an oxygen request. Subject-matter plausibility only."}
   - {policy_id: "42 CFR 410.61", policy_version: "2019-01-01", code: G0295, code_system: HCPCS,
-     linkage_type: COVERED_PROCEDURE, confidence: low,
+     linkage_type: COVERED_PROCEDURE, confidence: low, evidence_class: INFERRED,
      rationale: "Electromagnetic therapy. LOW confidence for the same reason as the current revision:
        the regulation governs the plan of treatment rather than naming modalities."}

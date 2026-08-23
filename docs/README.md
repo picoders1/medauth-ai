@@ -39,6 +39,9 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [data/dataset-card.md](data/dataset-card.md) — five source categories, never blurred
 - [data/mimic-readiness.md](data/mimic-readiness.md) — real clinical text: **not accessed**, and what would be required
 - [data/data-foundation.md](data/data-foundation.md) — the credibility chain and where it breaks
+- [data/policy-criteria-completeness.md](data/policy-criteria-completeness.md) — **is the criterion set complete?** 356 provisions walked; 247 await review (OD-19)
+- [data/ground-truth-readiness.md](data/ground-truth-readiness.md) — **the twelve-question gate.** Classification: **B, partially ready**
+- [data/ncd-lcd-source-assessment.md](data/ncd-lcd-source-assessment.md) — what coverage material is legitimately obtainable, and what is licence-gated (OD-20)
 
 ## Evaluation
 
@@ -46,6 +49,9 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/gold-set-labeling-protocol.md](evaluation/gold-set-labeling-protocol.md) — how a case gets its label, and what that label is worth
 - [evaluation/data-partitioning.md](evaluation/data-partitioning.md) — development / validation / gold, and the leakage controls
 - [evaluation/retrieval-dataset.md](evaluation/retrieval-dataset.md) — retrieval ground truth, measured apart from decision quality
+- [evaluation/retrieval-evaluation-assessment.md](evaluation/retrieval-evaluation-assessment.md) — the set is **not difficult enough**, and why 1.0000 is not reassuring
+- [evaluation/ground-truth-review-protocol.md](evaluation/ground-truth-review-protocol.md) — what a qualified reviewer must do, and what may be claimed after
+- [evaluation/gold-set-audit.md](evaluation/gold-set-audit.md) — all 156 cases audited, none modified
 
 ## Governance
 
@@ -55,7 +61,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 
 ## Decision records
 
-[adr/](adr/) — ADR-001…ADR-020. Each carries Context, Problem, Options, Decision, Rationale,
+[adr/](adr/) — ADR-001…ADR-022. Each carries Context, Problem, Options, Decision, Rationale,
 Consequences and Rejected alternatives. See [adr/README.md](adr/README.md) for the index.
 
 ---

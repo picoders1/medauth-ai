@@ -9,8 +9,8 @@ made.
 **Status:** `Pending` (no artefact yet) · `Produced` (artefact committed, claim permitted) ·
 `Refused` (the claim must not be made, with the reason).
 
-**Every row is Pending or Refused.** No code has been written and no evaluation has been run. This
-is the expected state at the end of the planning phase.
+**Last reconciled: 2026-08-23, end of Phase 3.** Rows marked `Produced` name the artefact that
+produced them. A figure appearing here and nowhere in `eval/reports/` or `data/` is a defect.
 
 ---
 
@@ -84,16 +84,22 @@ is the expected state at the end of the planning phase.
 
 | Claim | Evidence required | How produced | Status |
 |---|---|---|---|
-| **Every criterion is traceable to a section, page and character span** | Span verification at parse time, rejecting unlocatable declarations | `pytest tests/evaluation/test_data_foundation.py` | **Produced** — 27/27, and four rejection paths exercised including text found in the *wrong* section |
-| **Gold labels are computed by the same function the system uses** | All labels recomputed from criterion states by `decide()` | Same | **Produced** — 210/210 reproduce exactly |
+| **Every criterion is traceable to a section, page and character span** | Span verification at parse time, rejecting unlocatable declarations | `pytest tests/evaluation/test_data_foundation.py` | **Produced** — 33/33 against the authoritative corpus, 0 failures; four rejection paths exercised including text found in the *wrong* section and in the *wrong revision* |
+| **Gold labels are computed by the same function the system uses** | All labels recomputed from criterion states by `decide()` | Same | **Produced** — 222/222 reproduce exactly |
 | **Criterion-level ground truth exists** | A state per applicable criterion, with the decision derived from them | `data/gold/cases/gold_v1.jsonl` | **Produced** — a decision label can never hide which criteria produced it |
-| **The gold set is frozen and unscored** | Manifest hash asserted against the file; scoring budget recorded | `pytest tests/evaluation/test_data_foundation.py` | **Produced** — 155 cases, 0 of 1 scorings spent |
+| **The gold set is frozen and unscored** | Manifest hash asserted against the file; scoring budget recorded | `pytest tests/evaluation/test_data_foundation.py` | **Produced** — 156 cases, 0 of 1 scorings spent |
 | **No gold label reaches the model's input** | Outcome and criterion-state vocabulary grepped out of every `input` | Same | **Produced** |
 | **Case generation is deterministic** | Byte-identical rebuild from the same seed and corpus | `scripts/generate_cases.py` re-run | **Produced** |
 | **No real patient identifiers are present** | SSN/email/phone/MRN/DOB patterns absent across the corpus | `pytest -m evaluation` | **Produced** |
-| **Every criterion is traceable to AUTHORITATIVE policy text** | The same verification, against real CMS documents | — | **NOT produced.** CMS is unreachable; the corpus is CMS-*shaped*. The machinery is verified, the authority is not (R-33) |
-| The gold set is clinically validated | Review by a qualified clinician | — | **Refused permanently unless performed.** No clinician has seen any case. The manifest records `clinically_validated: false` |
+| **Every criterion is traceable to AUTHORITATIVE policy text** | The same verification, against real government documents | `scripts/verify_criteria.py` | **Produced** (Phase 2B) — 33/33 against 42 CFR retrieved from the official eCFR API, public domain, date-addressable. Supersedes the earlier CMS-*shaped* corpus (R-33 closed) |
+| The gold set is clinically validated | Review by a qualified clinician | — | **Refused unless performed.** No clinician has seen any case. The manifest records `clinically_validated: false`, and the Phase 3 audit marks all 156 cases `REQUIRES_REVIEW` |
 | Inter-annotator agreement | Two or more independent labellers | — | **NOT produced, and not pending.** There is one labeller and it is a program; there is nothing to measure agreement between |
+| **The provision walk is exhaustive** | Every provision at every hierarchy level enumerated and classified, with nothing left unclassified | `scripts/build_coverage_matrix.py`; `pytest -m evaluation` | **Produced** (Phase 3) — 356 provisions, 312 substantive, 0 unclassified |
+| **Every excluded provision carries a recorded reason** | A reason string on each `NON_DECISION_RELEVANT` ruling | Same | **Produced** — silent exclusion is asserted impossible by test |
+| **The criterion set is complete** | A qualified reviewer resolves every substantive provision | — | **NOT produced.** 247 of 312 substantive provisions await review; 7 concrete gaps confirmed. `completeness_verified` is `false` and a test forbids it flipping without review (R-50, OD-19) |
+| **Code linkage is authoritative** | A source that itself establishes the policy-to-code relationship | — | **Refused for this corpus.** 42 CFR enumerates no procedure codes, so no link *can* be authoritative: 0 AUTHORITATIVE, 14 HUMAN_CURATED, 2 INFERRED. An NCD or LCD would carry the linkage itself (R-49, OD-21) |
+| **The gold set was audited without being modified** | An audit report asserting the corpus is unchanged, plus a hash check | `scripts/audit_gold_set.py`; `pytest -m evaluation` | **Produced** (Phase 3) — 156 cases, `gold_set_unmodified: true`, all `REQUIRES_REVIEW`, nothing edited |
+| The system reasons over local coverage policy | LCD/Article corpus ingested | — | **Refused.** LCDs sit behind an AMA/ADA/AHA licence gate that was not crossed. The corpus is statutory regulation only (R-55, ADR-022) |
 | Measured performance transfers to real submissions | An evaluation on real de-identified notes | — | **Refused.** Constructed cases state each fact once, unambiguously, where a reader expects it |
 
 ## Engineering

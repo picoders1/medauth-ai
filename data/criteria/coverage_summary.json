@@ -1,0 +1,15 @@
+{
+  "by_classification": {
+    "NON_DECISION_RELEVANT": 80,
+    "REPRESENTED_CRITERION": 29,
+    "REQUIRES_HUMAN_REVIEW": 247
+  },
+  "completeness_blocked_by": "247 provision(s) awaiting qualified review",
+  "completeness_verified": false,
+  "generated_at": "2026-08-23T14:42:15+00:00",
+  "provisions_awaiting_review": 247,
+  "provisions_substantive": 312,
+  "provisions_total": 356,
+  "unclassified_substantive": 0,
+  "walk_exhaustive": true
+}

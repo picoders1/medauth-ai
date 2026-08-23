@@ -1,0 +1,1800 @@
+{
+  "audited_at": "2026-08-23T14:30:49+00:00",
+  "by_policy_version": {
+    "42 CFR 410.32:2026-08-13": {
+      "REQUIRES_REVIEW": 26
+    },
+    "42 CFR 410.33:2026-08-13": {
+      "REQUIRES_REVIEW": 26
+    },
+    "42 CFR 410.38:2022-01-01": {
+      "REQUIRES_REVIEW": 26
+    },
+    "42 CFR 410.38:2026-08-13": {
+      "REQUIRES_REVIEW": 26
+    },
+    "42 CFR 410.61:2019-01-01": {
+      "REQUIRES_REVIEW": 26
+    },
+    "42 CFR 410.61:2026-08-13": {
+      "REQUIRES_REVIEW": 26
+    }
+  },
+  "by_status": {
+    "REQUIRES_REVIEW": 156
+  },
+  "cases": 156,
+  "cases_detail": [
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0002",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0003",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0004",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0006",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0007",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0009",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0010",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0011",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0013",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0014",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0016",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0019",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0020",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0021",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0022",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0023",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0024",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0025",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0027",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0028",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0030",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0032",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0033",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0034",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0035",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0036",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "44 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.32",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0038",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0040",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0041",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0043",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0044",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0045",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0046",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0048",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0051",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0052",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0053",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0054",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0055",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0056",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0059",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0060",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0062",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0063",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0064",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0066",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0067",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0069",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0070",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0071",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0073",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0074",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "38 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.33",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0075",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0076",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0079",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0080",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0082",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0083",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0084",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0086",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0088",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0089",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0090",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0092",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0093",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0094",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0096",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0097",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0098",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0099",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0101",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0102",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0104",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0106",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0107",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0108",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0109",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0111",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2022-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0112",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0115",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0116",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0117",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0118",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0120",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0121",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0123",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0124",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0125",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0126",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0129",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0130",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0131",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0132",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0135",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0136",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0137",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0139",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0140",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0141",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0142",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0143",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0146",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0147",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0148",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "13 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete"
+      ],
+      "policy_id": "42 CFR 410.38",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0150",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0151",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0152",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0153",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0155",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0156",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0157",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0159",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0161",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0163",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0164",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0165",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0166",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0168",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0169",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0172",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0173",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0174",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0176",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0177",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0178",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0180",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0181",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0182",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0184",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0185",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2019-01-01"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0188",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0189",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0190",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0191",
+      "category": "CLEARLY_SATISFIES",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0194",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0195",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0196",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0197",
+      "category": "CLEARLY_FAILS",
+      "expected_decision": "DENY_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0198",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0199",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0200",
+      "category": "EXCLUSION_PRESENT",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0203",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0204",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0206",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0207",
+      "category": "MISSING_DOCUMENTATION",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0208",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0209",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0210",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0212",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0213",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0215",
+      "category": "BORDERLINE",
+      "expected_decision": "APPROVE_RECOMMENDED",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0216",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0217",
+      "category": "CONFLICTING_EVIDENCE",
+      "expected_decision": "HUMAN_REVIEW",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0219",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0221",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    },
+    {
+      "audit_status": "REQUIRES_REVIEW",
+      "case_id": "CASE-0222",
+      "category": "POLICY_NOT_APPLICABLE",
+      "expected_decision": "NEEDS_INFO",
+      "findings": [
+        "9 provision(s) in this policy version await qualified review, so the criterion set adjudicating this case is not established as complete",
+        "requested code G0295 is linked to this policy at LOW curated confidence; applicability rests on an engineering judgement, not on the source"
+      ],
+      "policy_id": "42 CFR 410.61",
+      "policy_version": "2026-08-13"
+    }
+  ],
+  "gold_set": "data/gold/cases/gold_v1.jsonl",
+  "gold_set_unmodified": true,
+  "note": "The gold set was NOT modified. REQUIRES_REVIEW does not mean a case is wrong; it means its sufficiency depends on completeness this project has not established. Any correction must ship as gold_v2 with a recorded reason."
+}

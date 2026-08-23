@@ -32,6 +32,7 @@ mode is never later presented as a discovery.
 | [019](ADR-019-deployment.md) | Deployment strategy | Accepted |
 | [020](ADR-020-reviewer-ui.md) | Reviewer console — Next.js | Accepted |
 | [021](ADR-021-authoritative-corpus-and-curated-criteria.md) | Authoritative corpus, curated criteria, verification gate | Accepted |
+| [022](ADR-022-coverage-policy-source.md) | Coverage policy source — 42 CFR, NCDs adopted, LCDs deferred behind the licence gate | Accepted |
 
 ## Reconciliation with the original brief
 

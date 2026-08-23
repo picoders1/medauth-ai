@@ -1,8 +1,25 @@
 # MIMIC-IV-Note Readiness
 
-**Status: NOT ACCESSED. No MIMIC data is present in this repository, and none has
-been requested.** This document exists so that the decision to use it is made
-deliberately, with its obligations understood in advance.
+## Status
+
+| State | Current | Evidence |
+|---|---|---|
+| `NOT_REQUESTED` | **YES** | No PhysioNet account created |
+| `REQUESTED` | no | No credentialing application submitted |
+| `AUTHORIZED` | no | No CITI training completed, no DUA signed |
+| `ACCESSED` | no | No download, no mirror, no cached copy |
+| `INGESTED` | no | No MIMIC-derived record exists in this repository |
+| `VALIDATED` | no | — |
+
+**Current state: `NOT_REQUESTED` / `NOT_AUTHORIZED`.** Verified by inspection: a
+search of the repository for MIMIC-derived files returns nothing, and this is
+asserted by test.
+
+No clinical note has been sent to a third-party model endpoint, and the
+data-use implications of doing so remain unresolved (§5).
+
+This document exists so that the decision to use MIMIC is made deliberately, with
+its obligations understood in advance.
 
 ---
 
