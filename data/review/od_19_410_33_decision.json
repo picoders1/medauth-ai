@@ -1,0 +1,43 @@
+{
+  "accepted_at": null,
+  "accepted_by": null,
+  "affected_cases": [],
+  "affected_criteria": [
+    "42_CFR_410_33_2026_08_13_C01",
+    "42_CFR_410_33_2026_08_13_C02",
+    "42_CFR_410_33_2026_08_13_C03",
+    "42_CFR_410_33_2026_08_13_C04",
+    "42_CFR_410_33_2026_08_13_C05"
+  ],
+  "blocks_production": true,
+  "decision_version": 1,
+  "focus_id": "OD-19-410.33",
+  "is_resolved": false,
+  "note": "This is a DOMAIN decision about how a regulation's requirements combine. No lexical scan, similarity score or model output may answer it. The signals recorded in the logic inventory are search terms for a reviewer, not classifications - the scanner cannot read meaning.",
+  "other_blockers_after_this_decision": [],
+  "permitted_decisions": [
+    "DECLARE_PLAIN_CONJUNCTION",
+    "DECLARE_WITH_A2_EXCEPTION",
+    "INSUFFICIENT_TRANSCRIPTION",
+    "OTHER"
+  ],
+  "policy_id": "42 CFR 410.33",
+  "policy_version": "2026-08-13",
+  "question": "42 CFR 410.33 has five transcribed criteria, all drawn from paragraphs (b), (c) and (d). Paragraph (a)(2) exempts four categories of diagnostic test from \"the criteria set forth in paragraphs (b) through (e) and (g) and (h)\" - that is, from every criterion transcribed here - and none of those four categories is itself transcribed. Paragraph (c)(1) is likewise expressly subject to an alternative in (c)(2), which is not transcribed either. How do these five criteria combine, and may a decision logic be declared for this policy version on the criteria that exist?",
+  "review_timestamp": null,
+  "reviewer": null,
+  "reviewer_decision": null,
+  "reviewer_identity": null,
+  "reviewer_qualification": null,
+  "reviewer_rationale": null,
+  "separation_of_duties": "TWO_PARTY",
+  "source_document_sha256": "dcf2a6ea050d3a18f2dacc614c7fb1585eb744582b96edb1df9b9456409ed91a",
+  "source_references": [
+    "docs/review/OD-19-410.33.md",
+    "42 CFR 410.33 \u2014 data/cms/CFR-410_33-2026-08-13.md",
+    "https://www.ecfr.gov/current/title-42"
+  ],
+  "status": "PENDING",
+  "submitted_at": null,
+  "supersedes": null
+}

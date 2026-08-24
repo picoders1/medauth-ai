@@ -1,0 +1,103 @@
+# OD-19 review questions, one per policy version.
+#
+# WHAT THIS FILE IS
+#
+# The framing of each question - which provisions a reviewer must look at, and
+# which readings are on the table - lives here as reviewable data rather than
+# inside a script. Framing a question is where steering enters, so it belongs
+# somewhere a person can read and challenge it.
+#
+# WHAT IT IS NOT
+#
+# It contains no answer. Every `options` entry states a reading and what that
+# reading costs; none is marked preferred, and the order is the order the
+# provisions appear in the regulation.
+#
+# The `quote` fields are located in the source document at build time and must
+# match verbatim, so a packet cannot drift from the regulation it cites.
+
+schema_version: "1"
+
+questions:
+  - id: OD-19-410.33
+    policy_id: "42 CFR 410.33"
+    policy_version: "2026-08-13"
+    title: "§ 410.33 Independent diagnostic testing facility"
+
+    question: >
+      42 CFR 410.33 has five transcribed criteria, all drawn from paragraphs (b),
+      (c) and (d). Paragraph (a)(2) exempts four categories of diagnostic test from
+      "the criteria set forth in paragraphs (b) through (e) and (g) and (h)" -
+      that is, from every criterion transcribed here - and none of those four
+      categories is itself transcribed. Paragraph (c)(1) is likewise expressly
+      subject to an alternative in (c)(2), which is not transcribed either.
+      How do these five criteria combine, and may a decision logic be declared for
+      this policy version on the criteria that exist?
+
+    # Provisions the reviewer must read. Quoted verbatim from the source at build
+    # time; a quote that no longer matches fails the build rather than the packet
+    # quietly going stale.
+    provisions:
+      - label: "(a)(2) Exceptions - the wholesale exemption"
+        starts_with: "(2) Exceptions. The following diagnostic tests"
+        note: >
+          Exempts the listed categories from paragraphs (b) through (e), (g) and
+          (h). Every transcribed criterion for this policy comes from (b), (c) or
+          (d), so a case within (a)(2) is exempt from all of them.
+      - label: "(a)(2)(i)-(iv) - the four exempt categories"
+        starts_with: "(i) Diagnostic mammography procedures"
+        through: "qualified electrophysiologic clinical specialist and permitted to provide the service under State law."
+        note: >
+          None of these four is transcribed as a criterion, so no evidence set can
+          currently establish that a case falls inside the exemption.
+      - label: "(b)(1) - the three-site supervision limit (source of C05)"
+        starts_with: "(b) Supervising physician. (1) Each supervising physician"
+        note: >
+          Transcribed as an EXCLUSION. It constrains the supervising physician
+          across sites rather than the test being adjudicated.
+      - label: "(c)(1) - nonphysician qualifications, expressly subject to (c)(2)"
+        starts_with: "(c) Nonphysician personnel. (1) Except as otherwise stated"
+        note: >
+          Source of C04. Its opening words make it conditional on (c)(2).
+      - label: "(c)(2) - the alternative route, not transcribed"
+        starts_with: "(2) For services that do not require direct or in-person"
+        note: >
+          A different qualification standard for services without in-person
+          interaction. Not transcribed, so C04 cannot currently be relieved by it.
+
+    options:
+      - id: DECLARE_PLAIN_CONJUNCTION
+        summary: >
+          All four REQUIRED criteria must hold and the EXCLUSION denies. (a)(2) and
+          (c)(2) are recorded as out of scope for this corpus.
+        consequence: >
+          Declaring this makes 42 CFR 410.33 admissible and it is the only option
+          that does. It also means a diagnostic mammography procedure, or an
+          audiologist-furnished test, would be adjudicated against criteria the
+          regulation expressly exempts it from - the system would deny on a rule
+          that does not apply to that case. Whether the corpus can contain such a
+          case, and whether that risk is acceptable, is the reviewer's call.
+      - id: DECLARE_WITH_A2_EXCEPTION
+        summary: >
+          Conjunction as above, wrapped in an exception: the whole requirement set
+          is relieved when the case falls within any of (a)(2)(i)-(iv).
+        consequence: >
+          Structurally correct against the text, and not expressible today - the
+          four categories are not transcribed, so there is nothing for the
+          exception to test. Requires transcription of (a)(2)(i)-(iv) first, after
+          which the logic can be declared and the policy becomes admissible.
+      - id: INSUFFICIENT_TRANSCRIPTION
+        summary: >
+          No logic may be declared on the criteria that exist. The provisions
+          carrying this policy's structure - (a)(2) and (c)(2) - are absent, so any
+          declaration would be a statement about a fragment.
+        consequence: >
+          42 CFR 410.33 stays inadmissible and no policy version is available for
+          the first vertical slice. Costs nothing and unblocks nothing; it says the
+          transcription is not yet a basis for a decision rule, which may simply be
+          true.
+      - id: OTHER
+        summary: "Determined by the reviewer's stated reading."
+        consequence: >
+          Deliberately not modelled. Precomputing a consequence for an unstated
+          reading would mean inventing the reading.

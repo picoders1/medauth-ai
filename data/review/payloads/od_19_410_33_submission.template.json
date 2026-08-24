@@ -1,0 +1,10 @@
+{
+  "_README": "Copy to od_19_410_33_submission.json (gitignored) and replace every <<...>> placeholder. Read docs/review/OD-19-410.33.md first. An unedited template is refused.",
+  "focus_id": "OD-19-410.33",
+  "source_reference": "docs/review/OD-19-410.33.md",
+  "reviewer_identity": "<<YOUR NAME OR IDENTIFIER>>",
+  "reviewer_qualification": "<<YOUR STANDING TO ANSWER THIS>>",
+  "decision": "<<DECLARE_PLAIN_CONJUNCTION | DECLARE_WITH_A2_EXCEPTION | INSUFFICIENT_TRANSCRIPTION | OTHER>>",
+  "rationale": "<<AT LEAST 8 WORDS. How do the five criteria combine, and does (a)(2) change that?>>",
+  "submitted_at": "<<YYYY-MM-DD>>"
+}

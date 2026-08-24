@@ -101,6 +101,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 
 - [review/FOCUS-001.md](review/FOCUS-001.md) — **the one open question**, with its source excerpts and no recommendation
 - [review/FOCUS-001-impact.md](review/FOCUS-001-impact.md) — what each possible answer costs, computed before any answer
+- [review/OD-19-410.33.md](review/OD-19-410.33.md) — **the open question**: how 42 CFR 410.33's five criteria combine, and whether (a)(2) permits any declaration at all
 
 The decision travels through `scripts/ingest_focus_decision.py`: two commands, because
 submission and acceptance are two acts. Neither can be performed by this repository.

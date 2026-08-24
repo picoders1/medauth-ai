@@ -99,6 +99,55 @@ _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 #: only catches "ok", "yes", "agreed", which are the shapes a rubber stamp takes.
 _MIN_RATIONALE_WORDS = 8
 
+#: Instructional text from the payload templates and the submission instructions.
+#: A word count alone caught "your reasoning here, at least eight words" only
+#: because it was seven words; at nine it would have gone through, and the record
+#: would have carried a prompt where its reasoning belongs. Matched on a normalised
+#: form so punctuation and spacing cannot slip a phrase past.
+_BOILERPLATE = (
+    "your reasoning here",
+    "at least eight words",
+    "at least 8 words",
+    "at least twelve words",
+    "at least 12 words",
+    "why does this reading follow",
+    "why does your reading follow",
+    "state why the reading follows",
+    "if other, state the reading",
+    "one of narrow_c03_to_baseline",
+    "your standing to answer",
+    "your name or identifier",
+    "your name or handle",
+    "why is no second party available",
+    "why no second party is available",
+    "state the circumstance",
+    "who accepts",
+    "must differ from reviewer_identity",
+    "not earlier than submitted_at",
+    "paste reviewer_identity",
+    "goes into a public repo",
+)
+
+
+def _normalised(text: str) -> str:
+    """Lowercase, collapse whitespace and drop punctuation.
+
+    So that a boilerplate phrase cannot be smuggled past by reflowing it across
+    lines or adding a comma.
+    """
+    return re.sub(r"[^a-z0-9_ ]+", " ", re.sub(r"\s+", " ", text.lower())).strip()
+
+
+def _boilerplate_in(text: str) -> str | None:
+    """The first instructional phrase found in `text`, or None."""
+    normalised = _normalised(text)
+    collapsed = re.sub(r"\s+", " ", normalised)
+    for phrase in _BOILERPLATE:
+        if _normalised(phrase) in collapsed:
+            return phrase
+    return None
+
+
 #: The template markers. A payload still carrying one has been copied, not filled in,
 #: and the fields most likely to be left are the identity and the rationale - the two
 #: that carry the whole weight of the record.
@@ -182,7 +231,16 @@ def validate_submission(
         )
 
     rationale = str(payload.get("rationale") or "").strip()
-    if rationale and len(rationale.split()) < _MIN_RATIONALE_WORDS:
+    found = _boilerplate_in(rationale) if rationale else None
+    if found:
+        issues.append(
+            ValidationIssue(
+                "rationale",
+                f"contains instructional text from the template ({found!r})",
+                "write your own reasoning; the template text is a prompt, not an answer",
+            )
+        )
+    elif rationale and len(rationale.split()) < _MIN_RATIONALE_WORDS:
         issues.append(
             ValidationIssue(
                 "rationale",
@@ -292,10 +350,10 @@ def _single_party_exemption(
         )
 
     justification = str(payload["single_party_justification"]).strip()
-    if _PLACEHOLDER.search(justification):
+    if _PLACEHOLDER.search(justification) or _boilerplate_in(justification):
         raise IngestError(
-            f"{gate.focus_id}: the single-party justification is still the template "
-            "placeholder. An exemption claimed with unfilled boilerplate records that "
+            f"{gate.focus_id}: the single-party justification is still template "
+            "boilerplate. An exemption claimed with unfilled instructions records that "
             "nobody stated a reason."
         )
     if len(justification.split()) < _MIN_JUSTIFICATION_WORDS:

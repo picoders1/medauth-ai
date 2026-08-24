@@ -236,6 +236,16 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **FOCUS-001 was accepted under separation of duties** | An independent second party accepting | — | **Refused for any decision carrying the marker.** The permitted claim is narrower and true: a reviewer's decision was recorded, and the independent-acceptance control was deliberately exempted under ADR-026 |
 | **This exemption is appropriate outside a synthetic-data portfolio system** | An ADR arguing that case on its own facts | — | **Refused.** ADR-026 is scoped and says so; OD-32 records what is unsettled |
 
+## Policy logic review (OD-19)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The OD-19 target was selected by the gate, not by preference** | The only version whose failed checks are a subset of the semantics pair | `pytest -k chosen_by_the_gate` | **Produced** — 42 CFR 410.33 is the sole such version; a different choice would have to change the admissibility report |
+| **Every quoted provision matches the regulation verbatim** | Build-time location with a declared end | `scripts/build_od19_packet.py` | **Produced** — 5 provisions located; a moved or reworded provision fails the build, and every quoted line is asserted present in the source |
+| **The packet builder cannot answer its own question** | No transition call, one constructor | AST test | **Produced** — `DecisionGate.pending` is the only constructor reached; adding a `submit`/`accept` call fails the suite |
+| **42 CFR 410.33 has a declared decision logic** | An accepted OD-19 answer plus a committed logic file | — | **NOT produced.** `OD-19-410.33` is `PENDING` |
+| **A policy version is admissible for the first slice** | Eleven conditions, all passing | `scripts/assess_slice_admissibility.py` | **NOT produced.** `BLOCKED`. FOCUS-001 is answered and 410.32 remains inadmissible; 410.33 waits on OD-19 |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

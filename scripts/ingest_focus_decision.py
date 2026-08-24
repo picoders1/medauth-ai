@@ -68,7 +68,7 @@ def _as_date(value: Any) -> date | None:
     return date.fromisoformat(str(value))
 
 
-RECORD = REPO / "data/review/focus_001_decision.json"
+DEFAULT_RECORD = REPO / "data/review/focus_001_decision.json"
 
 
 def _load_gate(record: dict[str, Any]) -> DecisionGate:
@@ -108,7 +108,7 @@ def _load_gate(record: dict[str, Any]) -> DecisionGate:
     )
 
 
-def _write(gate: DecisionGate, record: dict[str, Any]) -> None:
+def _write(gate: DecisionGate, record: dict[str, Any], path: Path) -> None:
     updated = {
         **record,
         **{k: v for k, v in asdict(gate).items() if k != "notes"},
@@ -125,7 +125,7 @@ def _write(gate: DecisionGate, record: dict[str, Any]) -> None:
         "separation_of_duties": gate.separation_of_duties.value,
         "notes": list(gate.notes),
     }
-    RECORD.write_text(
+    path.write_text(
         json.dumps(updated, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8"
     )
 
@@ -137,9 +137,21 @@ def main() -> int:
     group.add_argument("--accept", metavar="PATH", help="an acceptance payload")
     group.add_argument("--validate", metavar="PATH", help="check a submission without writing")
     parser.add_argument("--write", action="store_true")
+    parser.add_argument(
+        "--record",
+        metavar="PATH",
+        help=(
+            "the decision record to act on (default: FOCUS-001). OD-19 packets emit "
+            "their own record; this is how an answer reaches the right one."
+        ),
+    )
     args = parser.parse_args()
 
-    record = json.loads(RECORD.read_text(encoding="utf-8"))
+    record_path = Path(args.record) if args.record else DEFAULT_RECORD
+    if not record_path.exists():
+        print(f"  no decision record at {record_path}", file=sys.stderr)
+        return 1
+    record = json.loads(record_path.read_text(encoding="utf-8"))
     gate = _load_gate(record)
     print(f"  gate            {gate.focus_id} is {gate.status.value}")
     print(f"  blocks prod     {gate.blocks_production}\n")
@@ -179,8 +191,8 @@ def main() -> int:
     print(f"  blocks prod     {gate.blocks_production}")
 
     if args.write:
-        _write(gate, record)
-        print(f"\n  written to {RECORD.relative_to(REPO)}")
+        _write(gate, record, record_path)
+        print(f"\n  written to {record_path.relative_to(REPO)}")
         print("  re-run scripts/assess_slice_admissibility.py to re-evaluate the gate")
     else:
         print("\n  (dry run; pass --write)")

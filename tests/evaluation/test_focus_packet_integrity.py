@@ -16,6 +16,7 @@ Three defects found by hand are pinned here so they cannot recur:
 
 from __future__ import annotations
 
+import ast
 import importlib.util
 import json
 import re
@@ -34,6 +35,7 @@ from app.review.decision_gate import (
 )
 from app.review.focus_impact import FocusOutcome
 from app.review.ingest import (
+    _MIN_RATIONALE_WORDS,
     SINGLE_PARTY_FIELDS,
     IngestError,
     accept_decision,
@@ -314,7 +316,7 @@ def test_an_unfilled_template_placeholder_is_refused() -> None:
     """A template copied and not filled in must not be submittable. The fields most
     likely to be left are the identity and the reason - the two carrying the whole
     weight of the record."""
-    with pytest.raises(IngestError, match="placeholder"):
+    with pytest.raises(IngestError, match=r"placeholder|boilerplate"):
         accept_decision(
             _submitted(),
             {**EXEMPTION, "single_party_justification": "<<AT LEAST 12 WORDS>>"},
@@ -325,6 +327,63 @@ def test_an_unfilled_template_placeholder_is_refused() -> None:
         expected_source_references=("docs/review/FOCUS-001.md",),
     )
     assert any("placeholder" in issue.problem for issue in issues)
+
+
+def test_the_template_prompts_cannot_become_the_reasoning() -> None:
+    """The near-miss this closes.
+
+    `"your reasoning here, at least eight words"` was refused only because it was
+    seven words. At nine it would have gone through, and the record would carry a
+    prompt where its reasoning belongs - a rubber stamp that reads as an argument.
+
+    Driven from the template files themselves, so instructional text added to a
+    template later is caught here rather than discovered in a submission.
+    """
+    templates = sorted((REPO / "data/review/payloads").glob("*.template.json"))
+    assert templates, "no templates found; the locator is broken, not the guard"
+
+    # Only the field prompts - the `<< >>` values a reviewer is meant to replace.
+    # `_README` is documentation about the file rather than a candidate answer, and
+    # blocklisting prose that nobody would paste into a rationale would make this
+    # brittle without making it stronger.
+    prompts: list[str] = []
+    for path in templates:
+        for key, value in json.loads(path.read_text(encoding="utf-8")).items():
+            if key.startswith("_") or not isinstance(value, str):
+                continue
+            if "<<" in value and len(value.split()) >= _MIN_RATIONALE_WORDS:
+                prompts.append(value.replace("<<", "").replace(">>", ""))
+    assert prompts, "no long instructional strings in the templates to test against"
+
+    for prompt in prompts:
+        issues = validate_submission(
+            _submission(rationale=prompt),
+            gate=_gate(),
+            expected_source_references=("docs/review/FOCUS-001.md",),
+        )
+        assert any(i.field == "rationale" for i in issues), (
+            f"template prompt accepted as a rationale: {prompt[:70]!r}"
+        )
+
+
+def test_reasoning_that_merely_mentions_the_source_is_still_accepted() -> None:
+    """The positive control. The guard must refuse instructions, not vocabulary.
+
+    A reviewer legitimately writes about the reading and the regulation; a filter
+    that tripped on those words would push people into vaguer rationales.
+    """
+    issues = validate_submission(
+        _submission(
+            rationale=(
+                "the regulation fixes a general-supervision floor and never states "
+                "which tests require more, so the applicable level is not determinable "
+                "from this reading of the source"
+            )
+        ),
+        gate=_gate(),
+        expected_source_references=("docs/review/FOCUS-001.md",),
+    )
+    assert issues == ()
 
 
 def test_a_properly_declared_exemption_is_accepted_and_permanently_marked() -> None:
@@ -549,6 +608,142 @@ def test_no_outcome_blocks_itself() -> None:
 
 
 # ---------------------------------------------------------------------------
+# 4b. The OD-19 packet quotes its source and cannot answer itself
+# ---------------------------------------------------------------------------
+
+
+OD19_PACKET = REPO / "docs/review/OD-19-410.33.md"
+OD19_RECORD = REPO / "data/review/od_19_410_33_decision.json"
+OD19_SOURCE = REPO / "data/cms/CFR-410_33-2026-08-13.md"
+
+
+def _od19_builder() -> Any:
+    path = REPO / "scripts/build_od19_packet.py"
+    spec = importlib.util.spec_from_file_location("build_od19_packet", path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_every_od19_provision_is_quoted_verbatim_from_the_source() -> None:
+    """The C08 lesson, applied before the packet is handed over rather than after.
+
+    An excerpt is evidence. If it does not appear in the regulation exactly, the
+    reviewer is reading something the project wrote about the regulation, and has no
+    way to tell which they have.
+    """
+    source = OD19_SOURCE.read_text(encoding="utf-8")
+    quoted = [
+        b for b in _blockquotes(OD19_PACKET.read_text(encoding="utf-8")) if re.match(r"^\(\w+\)", b)
+    ]
+    assert len(quoted) >= 5, "the packet should quote every provision it asks about"
+    for block in quoted:
+        for line in block.split("\n"):
+            assert line in source, f"packet quote is not verbatim in the source: {line[:80]!r}"
+
+
+def test_a_provision_that_moved_fails_the_build_rather_than_the_packet() -> None:
+    """A quote is located at build time, not copied by hand.
+
+    If the regulation is re-acquired and a provision moves or is reworded, the build
+    must break. A packet that silently kept the old wording would cite text that no
+    longer exists in the version it names.
+    """
+    module = _od19_builder()
+    with pytest.raises(module.PacketBuildError, match="does not appear in the source"):
+        module._locate("some other document entirely", {"label": "x", "starts_with": "(z) Nope"})
+
+
+def test_a_provisions_end_is_declared_never_inferred() -> None:
+    """The C08 excerpt over-ran because its end was left to a character count.
+
+    `through` must be found AFTER the opening, or the build fails - a closing phrase
+    matched from the start of the document would produce an empty or reversed span.
+    """
+    module = _od19_builder()
+    text = "(a) opening here.\n(b) later.\nclosing phrase."
+    quote = module._locate(text, {"label": "x", "starts_with": "(a) opening", "through": "later."})
+    assert quote.startswith("(a) opening") and quote.endswith("later.")
+    with pytest.raises(module.PacketBuildError, match="closing text not found"):
+        module._locate(text, {"label": "x", "starts_with": "(b) later", "through": "opening here."})
+
+
+def test_the_od19_record_is_unanswered_and_has_no_route_to_an_answer() -> None:
+    record = json.loads(OD19_RECORD.read_text(encoding="utf-8"))
+    assert record["status"] == "PENDING"
+    assert record["is_resolved"] is False
+    assert record["blocks_production"] is True
+    assert record["reviewer_identity"] is None
+    assert record["separation_of_duties"] == "TWO_PARTY"
+
+    # Checked over the AST, not by string search: the builder legitimately NAMES the
+    # answered statuses in order to refuse rebuilding over them, and a text scan
+    # cannot tell that apart from reaching one.
+    source = (REPO / "scripts/build_od19_packet.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    transitions = {
+        node.func.attr
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+    } & {"submit", "accept", "reject", "supersede"}
+    assert not transitions, f"the packet builder calls {transitions}"
+
+    constructors = {
+        node.func.attr
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and isinstance(node.func.value, ast.Name)
+        and node.func.value.id == "DecisionGate"
+    }
+    assert constructors == {"pending"}, f"DecisionGate reached via {constructors}"
+
+
+def test_the_od19_options_are_closed_and_match_the_packet() -> None:
+    """The record and the document a reviewer reads must offer the same choices."""
+    record = json.loads(OD19_RECORD.read_text(encoding="utf-8"))
+    packet = OD19_PACKET.read_text(encoding="utf-8")
+    assert record["permitted_decisions"]
+    for option in record["permitted_decisions"]:
+        assert f"`{option}`" in packet, f"{option} is in the record but not the packet"
+
+
+def test_declaring_the_logic_is_the_only_thing_this_question_resolves() -> None:
+    """Nothing else blocks 410.33, and that is read from the gate rather than assumed.
+
+    A reviewer who answers this must not then discover a second blocker at the moment
+    the slice is attempted - the failure this mirrors is FOCUS-001, where the answer
+    resolved the question and left the policy inadmissible anyway.
+    """
+    record = json.loads(OD19_RECORD.read_text(encoding="utf-8"))
+    assert record["other_blockers_after_this_decision"] == []
+    report = json.loads((REPO / "data/review/slice_admissibility.json").read_text())
+    candidate = next(c for c in report["assessment"] if c["policy_id"] == "42 CFR 410.33")
+    assert set(candidate["failed_checks"]) == {
+        "semantics_declared",
+        "production_semantics_executable",
+    }
+
+
+def test_the_od19_target_was_chosen_by_the_gate_not_by_preference() -> None:
+    """42 CFR 410.33 is the ONLY version that declaring logic alone would unblock.
+
+    Worth pinning: picking a policy because its cases look easier is exactly the
+    substitution the admissibility gate exists to prevent, and this asserts the
+    selection is a fact about the report rather than a judgement.
+    """
+    report = json.loads((REPO / "data/review/slice_admissibility.json").read_text())
+    semantics = {"semantics_declared", "production_semantics_executable"}
+    unblocked = [
+        c["policy_identity"]
+        for c in report["assessment"]
+        if c["failed_checks"] and set(c["failed_checks"]) <= semantics
+    ]
+    assert unblocked == ["REGULATION:42 CFR 410.33:2026-08-13"]
+
+
+# ---------------------------------------------------------------------------
 # 5. Neutrality
 # ---------------------------------------------------------------------------
 
@@ -571,7 +766,7 @@ _STEERING = (
 )
 
 
-@pytest.mark.parametrize("path", [PACKET, IMPACT, INSTRUCTIONS], ids=lambda p: p.name)
+@pytest.mark.parametrize("path", [PACKET, IMPACT, INSTRUCTIONS, OD19_PACKET], ids=lambda p: p.name)
 def test_the_reviewer_documents_do_not_recommend_an_outcome(path: Path) -> None:
     text = path.read_text(encoding="utf-8").lower()
     for phrase in _STEERING:
