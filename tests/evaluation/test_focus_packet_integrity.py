@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+import yaml
 
 from app.review.decision_gate import (
     DecisionGate,
@@ -709,38 +710,69 @@ def test_the_od19_options_are_closed_and_match_the_packet() -> None:
         assert f"`{option}`" in packet, f"{option} is in the record but not the packet"
 
 
-def test_declaring_the_logic_is_the_only_thing_this_question_resolves() -> None:
-    """Nothing else blocks 410.33, and that is read from the gate rather than assumed.
+def test_no_code_linked_to_410_33_falls_inside_the_a2_exemption() -> None:
+    """**The condition the 410.33 declaration rests on.**
 
-    A reviewer who answers this must not then discover a second blocker at the moment
-    the slice is attempted - the failure this mirrors is FOCUS-001, where the answer
-    resolved the question and left the policy inadmissible anyway.
+    (a)(2) exempts diagnostic mammography, audiologist-furnished, psychologist
+    -furnished and certain physical-therapist tests from every paragraph the five
+    criteria are drawn from. The declared logic is a plain conjunction, which would
+    OVER-APPLY the requirements to such a case.
+
+    It is safe only because resolution is deterministic by procedure code and no
+    code in an exempt category links to this policy. That is a fact about the
+    linkage table, not an assumption about the corpus - so it is checked here. **If
+    a mammography or audiology code is ever linked to 410.33, this fails and the
+    declaration must be revisited before the link ships.**
+    """
+    links = yaml.safe_load((REPO / "data/linkage/policy_code_links.yaml").read_text())
+    rows = links.get("links", links) if isinstance(links, dict) else links
+    codes = {r["code"] for r in rows if r.get("policy_id") == "42 CFR 410.33"}
+    assert codes, "no codes link to 410.33; resolution could not reach it at all"
+
+    meta = {
+        json.loads(line)["code"]: json.loads(line)
+        for line in (REPO / "data/linkage/code_metadata.jsonl").read_text().splitlines()
+        if line
+    }
+    exempt = ("mammograph", "audiolog", "psycholog", "physical therap", "electrophysiolog")
+    for code in sorted(codes):
+        description = json.dumps(meta.get(code, {})).lower()
+        hit = [word for word in exempt if word in description]
+        assert not hit, (
+            f"{code} links to 42 CFR 410.33 and its description matches {hit}, an "
+            "(a)(2)-exempt category. The declared conjunction would apply "
+            "requirements the regulation exempts it from."
+        )
+
+
+def test_the_410_33_declaration_states_what_it_does_not_settle() -> None:
+    """An engineering reading must say it is one.
+
+    The structure is read off the regulation's own wording, on the same terms as
+    42 CFR 410.32's declaration. Neither closes OD-19, and a declaration that did
+    not say so would let `semantics_declared` read as qualified review.
+    """
+    logic = (REPO / "data/policy_logic/42-CFR-410.33.yaml").read_text(encoding="utf-8")
+    # Whitespace-normalised: these statements live in wrapped comments, and a test
+    # that broke on a reflow would be testing the line width.
+    flat = re.sub(r"[\s#]+", " ", logic)
+    assert "curator: engineering" in flat
+    assert "Not a clinician, not a coverage analyst" in flat
+    assert "does not close OD-19" in flat
+    # The three provisions it declines to settle are named, not glossed over.
+    for unresolved in ("(a)(2)", "(c)(2)", "C05"):
+        assert unresolved in logic, f"{unresolved} is not addressed in the review notes"
+
+
+def test_the_od19_question_remains_open_after_the_declaration() -> None:
+    """Declaring a shape does not answer whether these are the right criteria.
+
+    `semantics_declared` passing and OD-19 being resolved are different facts, and
+    the packet exists precisely to keep them apart.
     """
     record = json.loads(OD19_RECORD.read_text(encoding="utf-8"))
-    assert record["other_blockers_after_this_decision"] == []
-    report = json.loads((REPO / "data/review/slice_admissibility.json").read_text())
-    candidate = next(c for c in report["assessment"] if c["policy_id"] == "42 CFR 410.33")
-    assert set(candidate["failed_checks"]) == {
-        "semantics_declared",
-        "production_semantics_executable",
-    }
-
-
-def test_the_od19_target_was_chosen_by_the_gate_not_by_preference() -> None:
-    """42 CFR 410.33 is the ONLY version that declaring logic alone would unblock.
-
-    Worth pinning: picking a policy because its cases look easier is exactly the
-    substitution the admissibility gate exists to prevent, and this asserts the
-    selection is a fact about the report rather than a judgement.
-    """
-    report = json.loads((REPO / "data/review/slice_admissibility.json").read_text())
-    semantics = {"semantics_declared", "production_semantics_executable"}
-    unblocked = [
-        c["policy_identity"]
-        for c in report["assessment"]
-        if c["failed_checks"] and set(c["failed_checks"]) <= semantics
-    ]
-    assert unblocked == ["REGULATION:42 CFR 410.33:2026-08-13"]
+    assert record["status"] == "PENDING"
+    assert record["is_resolved"] is False
 
 
 # ---------------------------------------------------------------------------

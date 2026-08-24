@@ -1,0 +1,98 @@
+# Declared policy logic for 42 CFR 410.33 (revision 2026-08-13).
+#
+# WHY THIS FILE EXISTS
+#
+# 410.33 sets conditions for tests furnished by an independent diagnostic testing
+# facility. Five criteria are transcribed: four requirements from (b), (c) and (d),
+# and one exclusion from (b)(1). Without a declared shape the engine refuses to
+# adjudicate the policy at all.
+#
+# THE ONE THING THAT MADE THIS NON-OBVIOUS
+#
+# Paragraph (a)(2) exempts four categories of test - diagnostic mammography,
+# audiologist-furnished tests, psychologist-furnished testing, and certain
+# physical-therapist tests - from "the criteria set forth in paragraphs (b) through
+# (e) and (g) and (h)". Every criterion here comes from (b), (c) or (d), so a case
+# inside (a)(2) is exempt from ALL of them. Read as a plain conjunction, such a case
+# denies. The regulation says it should not.
+#
+# None of the four categories is transcribed, so the exemption cannot be expressed
+# as an `unless` today - there is no criterion for it to test.
+#
+# WHY DECLARING THE CONJUNCTION IS NEVERTHELESS SAFE HERE, AND HOW THAT IS CHECKED
+#
+# Resolution is deterministic by procedure code. Exactly ONE code links to this
+# policy version: R0075, portable x-ray transport for multiple patients. It is not
+# mammography, not audiology, not psychological testing, not physical-therapist
+# electrophysiologic testing. A case cannot reach 410.33 and also fall inside
+# (a)(2).
+#
+# That is a fact about `data/linkage/policy_code_links.yaml`, not an assumption
+# about the corpus, and it is asserted by
+# `test_no_code_linked_to_410_33_falls_inside_the_a2_exemption`. **If a code in an
+# exempt category is ever linked to this policy, that test fails and this
+# declaration must be revisited before the link ships.** The safety of this file
+# depends on a condition that is now checked rather than remembered.
+#
+# WHAT IS DECLARED AND WHAT IS NOT
+#
+# Curated by the same non-clinician engineering process as the transcriptions, and
+# on the same terms as 42 CFR 410.32's declaration. Structure is read off the
+# regulation's own wording. It is not a clinical judgement and does not close
+# OD-19: whether these are the RIGHT criteria remains open, and the reviewer
+# question recorded as `OD-19-410.33` asks exactly that.
+
+schema_version: "1"
+policy_id: "42 CFR 410.33"
+policy_version: "2026-08-13"
+form: DECLARED
+curator: engineering
+curator_role: Software engineer. Not a clinician, not a coverage analyst.
+curated_at: 2026-08-24
+source_provision: "42 CFR 410.33(a)(2), (b), (c), (d)"
+source_url: https://www.ecfr.gov/current/title-42/section-410.33
+
+requirements:
+  all:
+    # (d) ordered in writing by the treating physician
+    - leaf: 42_CFR_410_33_2026_08_13_C01
+    # (d) the order specifies the diagnosis or other basis
+    - leaf: 42_CFR_410_33_2026_08_13_C02
+    # (b)(2) supervising physician proficiency
+    - leaf: 42_CFR_410_33_2026_08_13_C03
+    # (c)(1) nonphysician personnel qualifications
+    - leaf: 42_CFR_410_33_2026_08_13_C04
+
+exclusions:
+  any:
+    # (b)(1) a supervising physician covering more than three IDTF sites. Declared
+    # as an exclusion because that is how it is transcribed; note below records why
+    # that typing is itself worth a reviewer's attention.
+    - leaf: 42_CFR_410_33_2026_08_13_C05
+
+review_notes:
+  - >
+    UNRESOLVED: paragraph (a)(2) exempts four categories of diagnostic test from
+    every paragraph these criteria are drawn from. It is declared here as a plain
+    conjunction, which OVER-APPLIES the requirements to an exempt case. This is
+    currently unreachable - R0075 is the only code linked to this version and it is
+    in none of the four categories - so the over-application is latent rather than
+    live. Linking any further code to this policy must re-open this note.
+  - >
+    UNRESOLVED: (c)(1), the source of C04, opens "Except as otherwise stated in
+    paragraph (c)(2)". (c)(2) sets a different qualification standard for services
+    that need no direct or in-person beneficiary interaction. It is not transcribed,
+    so C04 cannot be relieved by it and is declared as a plain conjunct. For R0075,
+    a transport service, whether (c)(2) governs is precisely the kind of question
+    this file must not answer by itself.
+  - >
+    UNRESOLVED: C05 is typed EXCLUSION and reads as a limit on the SUPERVISING
+    PHYSICIAN across sites - "no more than three IDTF sites" - rather than a
+    property of the test being adjudicated. Under the decision table an established
+    exclusion denies the request. Whether a supervisor's fourth site should deny an
+    otherwise-compliant test, or should instead be a facility-level finding, is a
+    coverage question and is left as it was transcribed rather than re-typed here.
+  - >
+    NOT RESOLVED BY THIS FILE: 38 of 59 provisions in this version are awaiting
+    qualified review (OD-19). This declares how the FIVE TRANSCRIBED criteria
+    combine. It does not claim they are the right five.

@@ -1,5 +1,7 @@
 {
-  "admissible": [],
+  "admissible": [
+    "REGULATION:42 CFR 410.33:2026-08-13"
+  ],
   "assessment": [
     {
       "admissible": false,
@@ -32,7 +34,7 @@
       "policy_version": "2026-08-13"
     },
     {
-      "admissible": false,
+      "admissible": true,
       "blocked_criteria": [],
       "checks": {
         "citation_provenance_complete": true,
@@ -42,20 +44,17 @@
         "evaluation_provenance_sufficient": true,
         "no_engineering_inferred_linkage": true,
         "no_unresolved_dependency": true,
-        "production_semantics_executable": false,
+        "production_semantics_executable": true,
         "retrieval_scope_constructible": true,
-        "semantics_declared": false,
+        "semantics_declared": true,
         "temporally_resolvable": true
       },
       "criteria": 5,
-      "failed_checks": [
-        "production_semantics_executable",
-        "semantics_declared"
-      ],
+      "failed_checks": [],
       "link_provenances": [
         "HUMAN_CURATED"
       ],
-      "logic_form": "REVIEW_REQUIRED",
+      "logic_form": "DECLARED",
       "policy_id": "42 CFR 410.33",
       "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
       "policy_version": "2026-08-13"
@@ -253,11 +252,9 @@
     }
   ],
   "candidates": 8,
-  "designated_slice": null,
-  "nearest_candidate": "REGULATION:42 CFR 410.32:2026-08-13",
-  "nearest_candidate_blockers": [
-    "no_unresolved_dependency"
-  ],
+  "designated_slice": "REGULATION:42 CFR 410.33:2026-08-13",
+  "nearest_candidate": "REGULATION:42 CFR 410.33:2026-08-13",
+  "nearest_candidate_blockers": [],
   "note": "Admissibility is the CONJUNCTION of seven conditions, each read from a committed artefact. No slice is designated unless one passes all seven; a nearest candidate is reported so the remaining blocker is named rather than left as 'nothing qualifies'. Re-run after a reviewer closes a blocker - the answer changes without anyone editing a document.",
-  "status": "BLOCKED"
+  "status": "READY"
 }

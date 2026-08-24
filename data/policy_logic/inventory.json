@@ -1,10 +1,10 @@
 {
   "by_form": {
-    "DECLARED": 1,
+    "DECLARED": 2,
     "NO_CRITERIA": 1,
-    "REVIEW_REQUIRED": 6
+    "REVIEW_REQUIRED": 5
   },
-  "declared": 1,
+  "declared": 2,
   "generated_from": {
     "coverage_matrix": "data/criteria/coverage_matrix.jsonl",
     "criteria_inventory": "data/criteria/inventory.jsonl"
@@ -86,8 +86,8 @@
         ]
       },
       "criteria_count": 5,
-      "declared_in": null,
-      "logic_form": "REVIEW_REQUIRED",
+      "declared_in": "data/policy_logic/42-CFR-410.33.yaml",
+      "logic_form": "DECLARED",
       "policy_id": "42 CFR 410.33",
       "policy_version": "2026-08-13",
       "provisions_awaiting_review": 38,
@@ -124,7 +124,10 @@
         ]
       },
       "unresolved_semantics": [
-        "Provisions in this version carry alternative, conditional, exception, exclusion, threshold language, so a plain conjunction may misread it. No logic has been declared and none is inferred here."
+        "UNRESOLVED: paragraph (a)(2) exempts four categories of diagnostic test from every paragraph these criteria are drawn from. It is declared here as a plain conjunction, which OVER-APPLIES the requirements to an exempt case. This is currently unreachable - R0075 is the only code linked to this version and it is in none of the four categories - so the over-application is latent rather than live. Linking any further code to this policy must re-open this note.",
+        "UNRESOLVED: (c)(1), the source of C04, opens \"Except as otherwise stated in paragraph (c)(2)\". (c)(2) sets a different qualification standard for services that need no direct or in-person beneficiary interaction. It is not transcribed, so C04 cannot be relieved by it and is declared as a plain conjunct. For R0075, a transport service, whether (c)(2) governs is precisely the kind of question this file must not answer by itself.",
+        "UNRESOLVED: C05 is typed EXCLUSION and reads as a limit on the SUPERVISING PHYSICIAN across sites - \"no more than three IDTF sites\" - rather than a property of the test being adjudicated. Under the decision table an established exclusion denies the request. Whether a supervisor's fourth site should deny an otherwise-compliant test, or should instead be a facility-level finding, is a coverage question and is left as it was transcribed rather than re-typed here.",
+        "NOT RESOLVED BY THIS FILE: 38 of 59 provisions in this version are awaiting qualified review (OD-19). This declares how the FIVE TRANSCRIBED criteria combine. It does not claim they are the right five."
       ]
     },
     {

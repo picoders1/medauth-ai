@@ -279,10 +279,19 @@ def admissibility() -> dict[str, Any]:
 def test_the_gate_reports_blocked_with_no_middle_state(
     admissibility: dict[str, Any],
 ) -> None:
-    """READY or BLOCKED. There is no "close enough"."""
+    """READY or BLOCKED. There is no "close enough".
+
+    **2026-08-24: the gate went READY** when 42 CFR 410.33's logic was declared.
+    This previously asserted BLOCKED, which was a fact about the corpus rather than
+    about the gate. What it guards now cannot go stale: the two states are the only
+    ones, and each must agree with the designated slice. A READY report naming no
+    slice, or a BLOCKED one naming a slice, is the "close enough" this refuses.
+    """
     assert admissibility["status"] in {"READY", "BLOCKED"}
-    assert admissibility["status"] == "BLOCKED"
-    assert admissibility["designated_slice"] is None
+    if admissibility["status"] == "READY":
+        assert admissibility["designated_slice"] in admissibility["admissible"]
+    else:
+        assert admissibility["designated_slice"] is None
 
 
 def test_the_gate_follows_the_decision_record_rather_than_computing_it(
@@ -325,7 +334,10 @@ def test_the_answer_did_not_unblock_the_policy(
     assert candidate["checks"]["domain_decisions_resolved"] is True
     assert candidate["checks"]["no_unresolved_dependency"] is False
     assert not candidate["admissible"]
-    assert admissibility["status"] == "BLOCKED"
+    # The gate as a whole may now be READY on a DIFFERENT policy - 410.33 was
+    # declared on 2026-08-24. That is the point rather than a complication: the
+    # policy FOCUS-001 was about is still refused, and the slice went elsewhere.
+    assert admissibility["designated_slice"] != candidate["policy_identity"]
 
 
 def test_all_eleven_conditions_are_assessed(admissibility: dict[str, Any]) -> None:

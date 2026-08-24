@@ -243,8 +243,10 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **The OD-19 target was selected by the gate, not by preference** | The only version whose failed checks are a subset of the semantics pair | `pytest -k chosen_by_the_gate` | **Produced** — 42 CFR 410.33 is the sole such version; a different choice would have to change the admissibility report |
 | **Every quoted provision matches the regulation verbatim** | Build-time location with a declared end | `scripts/build_od19_packet.py` | **Produced** — 5 provisions located; a moved or reworded provision fails the build, and every quoted line is asserted present in the source |
 | **The packet builder cannot answer its own question** | No transition call, one constructor | AST test | **Produced** — `DecisionGate.pending` is the only constructor reached; adding a `submit`/`accept` call fails the suite |
-| **42 CFR 410.33 has a declared decision logic** | An accepted OD-19 answer plus a committed logic file | — | **NOT produced.** `OD-19-410.33` is `PENDING` |
-| **A policy version is admissible for the first slice** | Eleven conditions, all passing | `scripts/assess_slice_admissibility.py` | **NOT produced.** `BLOCKED`. FOCUS-001 is answered and 410.32 remains inadmissible; 410.33 waits on OD-19 |
+| **42 CFR 410.33 has a declared decision logic** | A committed logic file that loads and executes | `data/policy_logic/42-CFR-410.33.yaml` | **Produced (2026-08-24)** — engineering-curated on the same terms as 410.32's, with three provisions recorded as UNRESOLVED rather than guessed |
+| **A policy version is admissible for the first slice** | Eleven conditions, all passing | `scripts/assess_slice_admissibility.py` | **Produced (2026-08-24)** — `READY`, designated slice `REGULATION:42 CFR 410.33:2026-08-13` |
+| **The 410.33 criteria are the right ones** | A qualified reviewer answering `OD-19-410.33` | — | **NOT produced.** The declaration states how five transcribed criteria combine; it does not claim they are the right five, and 38 of 59 provisions remain unreviewed |
+| **The declared conjunction is correct for every case that can reach 410.33** | No (a)(2)-exempt code linked to the policy | `pytest -k a2_exemption` | **Produced, conditionally** — true while R0075 is the only linked code; the test fails the moment that changes (OD-34, R-83) |
 
 ## Engineering
 

@@ -294,14 +294,30 @@ def test_require_raises_when_blocked(tmp_path: Path) -> None:
         result.require()
 
 
-def test_the_real_repository_gate_is_blocked() -> None:
-    """Against the committed artefacts, not a fixture."""
+def test_the_real_repository_gate_agrees_with_its_own_artefacts() -> None:
+    """Against the committed artefacts, not a fixture.
+
+    **2026-08-24: the gate went READY.** FOCUS-001 was accepted and 42 CFR 410.33's
+    decision logic was declared, so this can no longer assert BLOCKED without
+    asserting that the project has not progressed.
+
+    What it checks instead holds in both states and is the property the gate exists
+    for: READY names a policy and every check passes; BLOCKED names none and at
+    least one check fails. A gate that reported READY with no slice, or BLOCKED
+    while every check passed, would be reporting something other than what it read.
+    """
     result = ProductionGate(
         admissibility_report=REPO / "data/review/slice_admissibility.json",
         decision_records=((REPO / "data/review/focus_001_decision.json"),),
     ).evaluate()
-    assert result.status is ProductionStatus.BLOCKED
-    assert result.policy_identity is None
+    if result.status is ProductionStatus.READY:
+        assert result.policy_identity is not None
+        assert all(result.checks.values())
+        assert result.blockers == ()
+    else:
+        assert result.policy_identity is None
+        assert not all(result.checks.values())
+        assert result.blockers
 
 
 # ---------------------------------------------------------------------------

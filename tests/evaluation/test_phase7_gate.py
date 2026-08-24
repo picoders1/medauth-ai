@@ -219,19 +219,20 @@ def test_the_gate_still_blocks_410_32_on_the_dependency(
     Transcribing (b)(3) is exactly the kind of progress that tempts a loosened
     check. 410.32 must still fail, and on the same condition.
     """
-    assert admissibility["designated_slice"] is None
-    assert admissibility["nearest_candidate"] == "REGULATION:42 CFR 410.32:2026-08-13"
-    # Phase 8 note: the gate gained a `domain_decisions_resolved` condition, which
-    # FOCUS-001 also failed while it was PENDING.
-    #
-    # **2026-08-24: the world changed.** FOCUS-001 was answered
-    # `LEAVE_C03_NOT_ADJUDICABLE` and accepted, so `domain_decisions_resolved` now
-    # passes. The dependency blocker did NOT clear, because that answer leaves C03
-    # as written - which is what the impact table predicted before the answer
-    # existed. The original point of this test survives intact and is now sharper:
-    # a domain decision landed, and the gate still refuses the policy on the
-    # engineering condition it always refused it on.
-    assert admissibility["nearest_candidate_blockers"] == ["no_unresolved_dependency"]
+    # **2026-08-24: 42 CFR 410.33's logic was declared, and it became the designated
+    # slice.** 410.32 is no longer the nearest candidate, so this reads its row
+    # directly rather than through `nearest_candidate`. The property under test is
+    # unchanged and is the one that mattered: 410.32 must still be refused, on the
+    # same condition, and transcribing (b)(3) is exactly the kind of progress that
+    # tempts a loosened check.
+    candidate = next(
+        c
+        for c in admissibility["assessment"]
+        if c["policy_identity"] == "REGULATION:42 CFR 410.32:2026-08-13"
+    )
+    assert not candidate["admissible"]
+    assert candidate["failed_checks"] == ["no_unresolved_dependency"]
+    assert candidate["blocked_criteria"] == [C03]
 
 
 def test_only_the_focus_001_decision_blocks_the_nearest_candidate(
@@ -242,16 +243,18 @@ def test_only_the_focus_001_decision_blocks_the_nearest_candidate(
     Phase 8 note: the count moved from 6-of-7 to 9-of-11 because the gate grew four
     conditions and FOCUS-001 failed two of them.
 
-    **2026-08-24: the world changed.** FOCUS-001 is accepted, so it is down to one
-    failing condition - the unresolved dependency on the per-test supervision level,
-    which the accepted answer deliberately leaves open. The substance this asserts is
-    unchanged: exactly one thing blocks this policy, it traces to C03, and there is
-    no engineering blocker hiding among the rest.
+    **2026-08-24: the world changed twice.** FOCUS-001 was accepted, leaving one
+    failing condition - the unresolved dependency the accepted answer deliberately
+    leaves open. Then 42 CFR 410.33 was declared and took over as the designated
+    slice, so this now reads 410.32's row by name rather than as "nearest".
+
+    The substance this asserts is unchanged: exactly one thing blocks 410.32, it
+    traces to C03, and there is no engineering blocker hiding among the rest.
     """
     nearest = next(
         c
         for c in admissibility["assessment"]
-        if c["policy_identity"] == admissibility["nearest_candidate"]
+        if c["policy_identity"] == "REGULATION:42 CFR 410.32:2026-08-13"
     )
     failing = set(nearest["failed_checks"])
     assert failing == {"no_unresolved_dependency"}
