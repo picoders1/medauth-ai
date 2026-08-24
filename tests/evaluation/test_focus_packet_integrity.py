@@ -385,10 +385,20 @@ def test_there_is_no_separation_state_meaning_unknown() -> None:
     assert {s.value for s in SeparationOfDuties} == {"TWO_PARTY", "SINGLE_PARTY_EXEMPTED"}
 
 
-def test_the_committed_record_still_claims_the_full_control() -> None:
-    """Nothing has been accepted, so nothing has been exempted."""
+def test_the_committed_records_marker_matches_who_actually_acted() -> None:
+    """**The world changed on 2026-08-24.** This previously asserted `TWO_PARTY`,
+    which was true only because nothing had been accepted yet.
+
+    What it checks now cannot go stale: the marker must agree with the identities on
+    the record. A decision accepted by its own submitter must say
+    `SINGLE_PARTY_EXEMPTED`; one accepted by anybody else must not.
+    """
     record = json.loads(RECORD.read_text(encoding="utf-8"))
-    assert record["separation_of_duties"] == "TWO_PARTY"
+    if record["accepted_by"] and record["accepted_by"] == record["reviewer_identity"]:
+        assert record["separation_of_duties"] == "SINGLE_PARTY_EXEMPTED"
+        assert any("ADR-026" in note for note in record["notes"])
+    else:
+        assert record["separation_of_duties"] == "TWO_PARTY"
 
 
 # ---------------------------------------------------------------------------
@@ -589,22 +599,36 @@ def test_the_documents_state_that_cost_is_not_an_argument() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_the_committed_decision_is_still_unanswered() -> None:
+def test_the_committed_decision_is_never_half_attributed() -> None:
+    """**The world changed on 2026-08-24: FOCUS-001 was answered and accepted.**
+
+    This asserted the record was PENDING with every field null. That was right until
+    a reviewer answered. The invariant that holds in both states, and is the one
+    worth guarding, is that attribution is all-or-nothing: a record must never carry
+    a decision without a name, or a name without a decision.
+    """
     record = json.loads(RECORD.read_text(encoding="utf-8"))
-    assert record["status"] == "PENDING"
-    assert record["is_resolved"] is False
-    assert record["blocks_production"] is True
-    for field in (
+    attribution = (
         "reviewer_identity",
         "reviewer_qualification",
         "reviewer_decision",
         "reviewer_rationale",
         "review_timestamp",
         "submitted_at",
-        "accepted_at",
-        "accepted_by",
-    ):
-        assert record[field] is None, f"{field} is set on a PENDING record"
+    )
+    populated = [f for f in attribution if record[f]]
+    assert populated == [] or populated == list(attribution), (
+        f"half-attributed record: {populated} are set and the rest are not"
+    )
+
+    if record["status"] == "PENDING":
+        assert record["is_resolved"] is False
+        assert record["blocks_production"] is True
+        assert not populated
+    else:
+        assert populated
+        assert record["accepted_by"] and record["accepted_at"]
+        assert record["accepted_at"] >= record["submitted_at"]
 
 
 def test_the_record_carries_every_attribution_key_while_still_pending() -> None:

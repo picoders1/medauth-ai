@@ -10,7 +10,7 @@
         "citation_provenance_complete": true,
         "coverage_status_established_or_not_required": true,
         "criteria_span_verified": true,
-        "domain_decisions_resolved": false,
+        "domain_decisions_resolved": true,
         "evaluation_provenance_sufficient": true,
         "no_engineering_inferred_linkage": true,
         "no_unresolved_dependency": false,
@@ -21,7 +21,6 @@
       },
       "criteria": 8,
       "failed_checks": [
-        "domain_decisions_resolved",
         "no_unresolved_dependency"
       ],
       "link_provenances": [
@@ -257,7 +256,6 @@
   "designated_slice": null,
   "nearest_candidate": "REGULATION:42 CFR 410.32:2026-08-13",
   "nearest_candidate_blockers": [
-    "domain_decisions_resolved",
     "no_unresolved_dependency"
   ],
   "note": "Admissibility is the CONJUNCTION of seven conditions, each read from a committed artefact. No slice is designated unless one passes all seven; a nearest candidate is reported so the remaining blocker is named rather than left as 'nothing qualifies'. Re-run after a reviewer closes a blocker - the answer changes without anyone editing a document.",

@@ -50,21 +50,49 @@ def decision() -> dict[str, Any]:
     return json.loads(DECISION.read_text(encoding="utf-8"))
 
 
-def test_focus_001_is_pending_and_unanswered(decision: dict[str, Any]) -> None:
-    """The committed record must show no answer, not an empty-looking one."""
-    assert decision["status"] == "PENDING"
-    assert decision["is_resolved"] is False
-    assert decision["blocks_production"] is True
+def test_focus_001_carries_a_fully_attributed_answer(decision: dict[str, Any]) -> None:
+    """**The world changed on 2026-08-24: FOCUS-001 was answered and accepted.**
+
+    This test previously asserted the record was PENDING with every reviewer field
+    null. That expectation was correct until a reviewer supplied a decision; keeping
+    it would now assert the project had not progressed. What it checks instead is the
+    property that actually matters and holds in both states: a record must never be
+    half-attributed. Either nobody has answered and every field is null, or someone
+    has and every field is populated.
+
+    The answer was `LEAVE_C03_NOT_ADJUDICABLE`, which resolves the gate without
+    making 42 CFR 410.32 admissible - see `test_the_answer_did_not_unblock_the_policy`.
+    """
+    assert decision["status"] == "ACCEPTED"
+    assert decision["is_resolved"] is True
+    assert decision["blocks_production"] is False
     for field in (
-        "reviewer",
         "reviewer_identity",
         "reviewer_qualification",
         "reviewer_decision",
         "reviewer_rationale",
         "review_timestamp",
+        "submitted_at",
+        "accepted_at",
         "accepted_by",
     ):
-        assert decision[field] is None, f"{field} is populated in a PENDING record"
+        assert decision[field], f"{field} is empty on an ACCEPTED record"
+    assert decision["reviewer_decision"] in decision["permitted_decisions"]
+    assert decision["accepted_at"] >= decision["submitted_at"]
+
+
+def test_the_relaxed_control_is_visible_on_the_record(decision: dict[str, Any]) -> None:
+    """This decision was accepted by its own submitter under the ADR-026 exemption.
+
+    That is permitted and it is not free: the record says so on its face. A reader
+    who did not know the project's circumstances can still see that the
+    independent-acceptance control did not hold here.
+    """
+    if decision["accepted_by"] == decision["reviewer_identity"]:
+        assert decision["separation_of_duties"] == "SINGLE_PARTY_EXEMPTED"
+        assert any("ADR-026" in note for note in decision["notes"])
+    else:
+        assert decision["separation_of_duties"] == "TWO_PARTY"
 
 
 def test_the_option_set_is_closed_and_complete(decision: dict[str, Any]) -> None:
@@ -257,23 +285,47 @@ def test_the_gate_reports_blocked_with_no_middle_state(
     assert admissibility["designated_slice"] is None
 
 
-def test_an_open_domain_decision_blocks_the_policy_it_names(
+def test_the_gate_follows_the_decision_record_rather_than_computing_it(
     admissibility: dict[str, Any], decision: dict[str, Any]
 ) -> None:
     """The gate reads the decision record; it does not compute the answer.
 
-    This is the link that makes production blocked *because* FOCUS-001 is open,
-    rather than by coincidence.
+    **The world changed on 2026-08-24.** This previously asserted the check was
+    False because FOCUS-001 was open. The link it was really testing - that
+    `domain_decisions_resolved` tracks the record and nothing else - is now testable
+    in the more convincing direction: the check flipped to True the moment a
+    reviewer's answer was accepted, with no code change.
     """
-    assert decision["is_resolved"] is False
     candidate = next(
         c
         for c in admissibility["assessment"]
         if c["policy_id"] == decision["policy_id"]
         and c["policy_version"] == decision["policy_version"]
     )
-    assert candidate["checks"]["domain_decisions_resolved"] is False
+    assert candidate["checks"]["domain_decisions_resolved"] is decision["is_resolved"]
+
+
+def test_the_answer_did_not_unblock_the_policy(
+    admissibility: dict[str, Any], decision: dict[str, Any]
+) -> None:
+    """`LEAVE_C03_NOT_ADJUDICABLE` resolves the question without making the policy
+    adjudicable, and the impact table said so before the answer was given.
+
+    Worth asserting explicitly: resolving a domain decision and unblocking a policy
+    are different things, and a gate that conflated them would have reported 410.32
+    admissible the moment any answer arrived.
+    """
+    assert decision["reviewer_decision"] == "LEAVE_C03_NOT_ADJUDICABLE"
+    candidate = next(
+        c
+        for c in admissibility["assessment"]
+        if c["policy_id"] == decision["policy_id"]
+        and c["policy_version"] == decision["policy_version"]
+    )
+    assert candidate["checks"]["domain_decisions_resolved"] is True
+    assert candidate["checks"]["no_unresolved_dependency"] is False
     assert not candidate["admissible"]
+    assert admissibility["status"] == "BLOCKED"
 
 
 def test_all_eleven_conditions_are_assessed(admissibility: dict[str, Any]) -> None:

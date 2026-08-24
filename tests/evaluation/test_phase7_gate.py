@@ -222,24 +222,31 @@ def test_the_gate_still_blocks_410_32_on_the_dependency(
     assert admissibility["designated_slice"] is None
     assert admissibility["nearest_candidate"] == "REGULATION:42 CFR 410.32:2026-08-13"
     # Phase 8 note: the gate gained a `domain_decisions_resolved` condition, which
-    # FOCUS-001 also fails while it is PENDING. Both blockers are the SAME decision
-    # seen from two sides - the dependency it would close, and the gate that holds
-    # it - so the assertion becomes "these two and nothing else".
-    assert admissibility["nearest_candidate_blockers"] == [
-        "domain_decisions_resolved",
-        "no_unresolved_dependency",
-    ]
+    # FOCUS-001 also failed while it was PENDING.
+    #
+    # **2026-08-24: the world changed.** FOCUS-001 was answered
+    # `LEAVE_C03_NOT_ADJUDICABLE` and accepted, so `domain_decisions_resolved` now
+    # passes. The dependency blocker did NOT clear, because that answer leaves C03
+    # as written - which is what the impact table predicted before the answer
+    # existed. The original point of this test survives intact and is now sharper:
+    # a domain decision landed, and the gate still refuses the policy on the
+    # engineering condition it always refused it on.
+    assert admissibility["nearest_candidate_blockers"] == ["no_unresolved_dependency"]
 
 
 def test_only_the_focus_001_decision_blocks_the_nearest_candidate(
     admissibility: dict[str, Any],
 ) -> None:
-    """Everything except FOCUS-001 passes for 42 CFR 410.32.
+    """Everything except the C03 dependency passes for 42 CFR 410.32.
 
     Phase 8 note: the count moved from 6-of-7 to 9-of-11 because the gate grew four
-    conditions and FOCUS-001 fails two of them. The substance is unchanged and is
-    what this asserts: every failing condition traces to the SAME domain decision,
-    so there is no engineering blocker hiding among them.
+    conditions and FOCUS-001 failed two of them.
+
+    **2026-08-24: the world changed.** FOCUS-001 is accepted, so it is down to one
+    failing condition - the unresolved dependency on the per-test supervision level,
+    which the accepted answer deliberately leaves open. The substance this asserts is
+    unchanged: exactly one thing blocks this policy, it traces to C03, and there is
+    no engineering blocker hiding among the rest.
     """
     nearest = next(
         c
@@ -247,7 +254,7 @@ def test_only_the_focus_001_decision_blocks_the_nearest_candidate(
         if c["policy_identity"] == admissibility["nearest_candidate"]
     )
     failing = set(nearest["failed_checks"])
-    assert failing == {"domain_decisions_resolved", "no_unresolved_dependency"}
+    assert failing == {"no_unresolved_dependency"}
     assert len([name for name, ok in nearest["checks"].items() if ok]) == len(
         nearest["checks"]
     ) - len(failing)
