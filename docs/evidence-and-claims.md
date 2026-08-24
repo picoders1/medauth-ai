@@ -248,6 +248,22 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **The 410.33 criteria are the right ones** | A qualified reviewer answering `OD-19-410.33` | — | **NOT produced.** The declaration states how five transcribed criteria combine; it does not claim they are the right five, and 38 of 59 provisions remain unreviewed |
 | **The declared conjunction is correct for every case that can reach 410.33** | No (a)(2)-exempt code linked to the policy | `pytest -k a2_exemption` | **Produced, conditionally** — true while R0075 is the only linked code; the test fails the moment that changes (OD-34, R-83) |
 
+## First AI vertical slice (Phase 11)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The architecture runs end to end** | A slice from note to audit event on an admissible policy | `scripts/run_first_slice.py` | **Produced (2026-08-24)** — `REGULATION:42 CFR 410.33:2026-08-13`, 9 scenarios, `eval/reports/first-vertical-slice/report.json` |
+| **Every refusal is explainable by a rule** | Expected outcomes derived from the decision table, not from a run | Same | **Produced** — 9/9 agreement; expectations come from the table's rows |
+| **The model cannot emit an outcome** | No approval or denial token in instructions, evidence block or schema | `pytest -k never_sees_an_outcome_token` | **Produced** — asserted over all three |
+| **Retrieved text reaches the model only as fenced data** | A single chokepoint, framed, delimiter-neutralised | `app/adjudication/evidence_block.py` | **Produced** — merging it into instructions fails the suite |
+| **Every gateway failure routes to a human** | Parameterised over the whole enum | `pytest -k routes_to_a_human` | **Produced** — none routes to a denial |
+| **A blocked request is never retried** | Exactly one call, asserted by count | `pytest -k called_once_and_never_re_run` | **Produced** — strengthened after a mutation showed the prose-based version was vacuous |
+| **No audit event carries clinical text** | The serialised events searched for note content | `pytest -k no_audit_event_carries` | **Produced** — there is no field it could go in |
+| **The slice ran against a live model** | A gateway call to the firewall | — | **NOT produced.** `model_calls: 0`; every response came from a fixture |
+| **The measured latencies reflect production** | A run with inference in the loop | — | **Refused.** They are the cost of the pipeline; a real call would dominate all four stages |
+| **Clinical accuracy / clinical validation** | A study with qualified clinicians | — | **Refused.** Unchanged, and nothing in this slice moves it |
+| **The retrieval configuration was chosen on evidence** | A comparison on a ready benchmark | — | **Refused.** `RETRIEVAL_BENCHMARK_NOT_READY`; the configuration is unevaluated, not selected |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

@@ -1,0 +1,210 @@
+{
+  "decision_config_version": "slice.v1",
+  "decision_table_agreement": "9/9",
+  "git_commit": "4e61b747745b1e32d4564eb9b5373c9fd7ec3301",
+  "model_calls": 0,
+  "model_reasoning_quality": "MODEL_REASONING_QUALITY_NOT_YET_EVALUATED",
+  "note": "Every model response in this run came from a deterministic fixture. The latencies below are the cost of the pipeline, NOT of inference, and nothing here measures clinical accuracy, clinical validation or model reasoning quality. The retrieval benchmark remains NOT_READY and no configuration comparison was run.",
+  "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+  "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+  "python": "3.12.3",
+  "report": "first-vertical-slice",
+  "results": [
+    {
+      "abstention_reason": null,
+      "actual_outcome": "APPROVE_RECOMMENDED",
+      "asserting_mappings": 5,
+      "asserting_mappings_with_evidence": 5,
+      "assessments": 5,
+      "audit_events": 3,
+      "citation_failures": [],
+      "citations_verified": 5,
+      "description": "every requirement met, exclusion not established",
+      "expected_outcome": "APPROVE_RECOMMENDED",
+      "matches": true,
+      "rule": 9,
+      "scenario": "01-complete",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.926,
+        "citations": 1.872,
+        "decision": 0.07,
+        "intake": 1.873
+      }
+    },
+    {
+      "abstention_reason": null,
+      "actual_outcome": "NEEDS_INFO",
+      "asserting_mappings": 4,
+      "asserting_mappings_with_evidence": 4,
+      "assessments": 5,
+      "audit_events": 3,
+      "citation_failures": [],
+      "citations_verified": 4,
+      "description": "the note does not address supervising-physician proficiency",
+      "expected_outcome": "NEEDS_INFO",
+      "matches": true,
+      "rule": 6,
+      "scenario": "02-missing-criterion",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.858,
+        "citations": 1.427,
+        "decision": 0.086,
+        "intake": 0.793
+      }
+    },
+    {
+      "abstention_reason": null,
+      "actual_outcome": "DENY_RECOMMENDED",
+      "asserting_mappings": 5,
+      "asserting_mappings_with_evidence": 5,
+      "assessments": 5,
+      "audit_events": 3,
+      "citation_failures": [],
+      "citations_verified": 5,
+      "description": "a requirement established as not met, with evidence",
+      "expected_outcome": "DENY_RECOMMENDED",
+      "matches": true,
+      "rule": 8,
+      "scenario": "03-evidenced-refusal",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.789,
+        "citations": 1.888,
+        "decision": 0.062,
+        "intake": 0.737
+      }
+    },
+    {
+      "abstention_reason": null,
+      "actual_outcome": "DENY_RECOMMENDED",
+      "asserting_mappings": 5,
+      "asserting_mappings_with_evidence": 5,
+      "assessments": 5,
+      "audit_events": 3,
+      "citation_failures": [],
+      "citations_verified": 5,
+      "description": "the supervisor exceeds the three-site limit",
+      "expected_outcome": "DENY_RECOMMENDED",
+      "matches": true,
+      "rule": 7,
+      "scenario": "04-exclusion-established",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.867,
+        "citations": 1.85,
+        "decision": 0.05,
+        "intake": 0.795
+      }
+    },
+    {
+      "abstention_reason": "UNSUPPORTED_CITATION",
+      "actual_outcome": "NO_DECISION",
+      "asserting_mappings": 5,
+      "asserting_mappings_with_evidence": 5,
+      "assessments": 5,
+      "audit_events": 4,
+      "citation_failures": [
+        "CHUNK_TAMPERED"
+      ],
+      "citations_verified": 4,
+      "description": "a chunk whose stored hash no longer matches its text",
+      "expected_outcome": "NO_DECISION",
+      "matches": true,
+      "rule": 3,
+      "scenario": "05-invalid-citation",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.99,
+        "citations": 1.554,
+        "intake": 0.706
+      }
+    },
+    {
+      "abstention_reason": "UNSUPPORTED_CITATION",
+      "actual_outcome": "NO_DECISION",
+      "asserting_mappings": 5,
+      "asserting_mappings_with_evidence": 5,
+      "assessments": 5,
+      "audit_events": 4,
+      "citation_failures": [
+        "WRONG_VERSION"
+      ],
+      "citations_verified": 4,
+      "description": "a genuine quote from a version that does not govern this date of service",
+      "expected_outcome": "NO_DECISION",
+      "matches": true,
+      "rule": 3,
+      "scenario": "06-wrong-version",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.777,
+        "citations": 1.586,
+        "intake": 0.735
+      }
+    },
+    {
+      "abstention_reason": "RETRIEVAL_FAILURE",
+      "actual_outcome": "HUMAN_REVIEW",
+      "asserting_mappings": 0,
+      "asserting_mappings_with_evidence": 0,
+      "assessments": 0,
+      "audit_events": 2,
+      "citation_failures": [],
+      "citations_verified": 0,
+      "description": "no evidence set could be produced",
+      "expected_outcome": "HUMAN_REVIEW",
+      "matches": true,
+      "rule": 4,
+      "scenario": "07-retrieval-failure",
+      "schema_valid": 0,
+      "timings_ms": {
+        "intake": 0.76,
+        "retrieval": 0.004
+      }
+    },
+    {
+      "abstention_reason": "MODEL_SCHEMA_FAILURE",
+      "actual_outcome": "HUMAN_REVIEW",
+      "asserting_mappings": 0,
+      "asserting_mappings_with_evidence": 0,
+      "assessments": 0,
+      "audit_events": 1,
+      "citation_failures": [],
+      "citations_verified": 0,
+      "description": "the firewall refused the request",
+      "expected_outcome": "HUMAN_REVIEW",
+      "matches": true,
+      "rule": 4,
+      "scenario": "08-firewall-blocked",
+      "schema_valid": 0,
+      "timings_ms": {
+        "intake": 0.691
+      }
+    },
+    {
+      "abstention_reason": null,
+      "actual_outcome": "NEEDS_INFO",
+      "asserting_mappings": 4,
+      "asserting_mappings_with_evidence": 4,
+      "assessments": 5,
+      "audit_events": 3,
+      "citation_failures": [],
+      "citations_verified": 4,
+      "description": "the model cites an evidence id it was never given",
+      "expected_outcome": "NEEDS_INFO",
+      "matches": true,
+      "rule": 6,
+      "scenario": "09-fabricated-evidence",
+      "schema_valid": 5,
+      "timings_ms": {
+        "assessment": 1.764,
+        "citations": 1.399,
+        "decision": 0.056,
+        "intake": 0.728
+      }
+    }
+  ],
+  "scenarios_total": 9
+}

@@ -35,6 +35,8 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [llm-assessment-contract.md](architecture/llm-assessment-contract.md) — three states, and what is absent from them
 - [llm-gateway-contract.md](architecture/llm-gateway-contract.md) — the seam; a 403 is never retried
 - [phase9-transition.md](architecture/phase9-transition.md) — what Phase 9 built, and the one thing it could not
+- [first-ai-vertical-slice.md](architecture/first-ai-vertical-slice.md) — **implemented and running**: one policy, nine scenarios, zero model calls
+- [vertical-slice-runtime.md](architecture/vertical-slice-runtime.md) — ports, injection, what raises and what abstains
 - [model-gateway.md](architecture/model-gateway.md) — the seam a model call crosses; interface only
 - [implementation-roadmap.md](architecture/implementation-roadmap.md) — Phases 0–9
 
@@ -55,6 +57,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 
 ## Security
 
+- [security/first-slice-security.md](security/first-slice-security.md) — **containment that holds at detection recall zero**
 - [security/threat-model.md](security/threat-model.md) — T-01…T-27, each becoming a test in Phase 8
 - [security/llm-firewall-integration.md](security/llm-firewall-integration.md) — the boundary, and what it does **not** cover
 
@@ -88,6 +91,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/retrieval-evaluation-v2.md](evaluation/retrieval-evaluation-v2.md) — v2 results: discriminates at rank 1, saturates by rank 3
 - [evaluation/gold-set-protection.md](evaluation/gold-set-protection.md) — what freezing gold_v1 means, and what would force a gold_v2
 - [evaluation/retrieval-provenance-audit.md](evaluation/retrieval-provenance-audit.md) — six classifications across all three sets
+- [evaluation/first-slice-evaluation.md](evaluation/first-slice-evaluation.md) — 9/9 on controlled fixtures, and everything it does **not** measure
 - [evaluation/retrieval-benchmark-readiness.md](evaluation/retrieval-benchmark-readiness.md) — **NOT READY**, and why no result is manufactured
 - [evaluation/evaluation-provenance.md](evaluation/evaluation-provenance.md) — every query proves its chain, or is classified
 - [evaluation/410-61-evaluation-repair.md](evaluation/410-61-evaluation-repair.md) — `retrieval_eval_v3`, derived by provenance
