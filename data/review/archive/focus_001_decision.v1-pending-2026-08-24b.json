@@ -49,7 +49,6 @@
   "reviewer_identity": null,
   "reviewer_qualification": null,
   "reviewer_rationale": null,
-  "separation_of_duties": "TWO_PARTY",
   "source_references": [
     "docs/review/FOCUS-001.md",
     "42 CFR 410.32(b)(3) \u2014 data/cms/CFR-410_32-2026-08-13.md",

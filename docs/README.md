@@ -105,6 +105,9 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 The decision travels through `scripts/ingest_focus_decision.py`: two commands, because
 submission and acceptance are two acts. Neither can be performed by this repository.
 
+- [review/FOCUS-001-submission-instructions.md](review/FOCUS-001-submission-instructions.md) — how to record an answer, step by step
+- [adr/ADR-026-single-party-decision-exemption.md](adr/ADR-026-single-party-decision-exemption.md) — **the independent-acceptance control, deliberately relaxed and marked**
+
 ## Governance
 
 - [evidence-and-claims.md](evidence-and-claims.md) — every claim, its required artefact, its status

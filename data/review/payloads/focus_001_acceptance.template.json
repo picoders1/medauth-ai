@@ -1,0 +1,9 @@
+{
+  "_README": "Copy this to focus_001_acceptance.json (gitignored) and edit. If a second person accepts, DELETE the three single_party_* fields - they are only for the ADR-026 exemption, and supplying them when a second party did exist would mark the record weaker than it was.",
+  "accepted_by": "<<WHO ACCEPTS - must differ from reviewer_identity unless claiming the ADR-026 exemption below>>",
+  "accepted_at": "<<YYYY-MM-DD, not earlier than submitted_at>>",
+
+  "single_party_acceptance": true,
+  "single_party_authority": "ADR-026",
+  "single_party_justification": "<<AT LEAST 12 WORDS. Why is no second party available? State the circumstance, not just 'solo project', so a later reader can judge whether it still holds.>>"
+}

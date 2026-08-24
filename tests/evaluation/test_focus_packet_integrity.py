@@ -25,9 +25,21 @@ from typing import Any
 
 import pytest
 
-from app.review.decision_gate import DecisionGate, DecisionStatus, GateError, ReviewerIdentity
+from app.review.decision_gate import (
+    DecisionGate,
+    DecisionStatus,
+    GateError,
+    ReviewerIdentity,
+    SeparationOfDuties,
+)
 from app.review.focus_impact import FocusOutcome
-from app.review.ingest import IngestError, accept_decision, ingest_submission
+from app.review.ingest import (
+    SINGLE_PARTY_FIELDS,
+    IngestError,
+    accept_decision,
+    ingest_submission,
+    validate_submission,
+)
 
 pytestmark = [pytest.mark.evaluation, pytest.mark.security]
 
@@ -243,6 +255,140 @@ def test_an_accepted_gate_cannot_be_held_without_a_date() -> None:
             reviewer_rationale="because",
             accepted_by="maintainer",
         )
+
+
+# ---------------------------------------------------------------------------
+# 2b. The ADR-026 single-party exemption is narrow, declared, and marked
+# ---------------------------------------------------------------------------
+
+
+EXEMPTION = {
+    "accepted_by": "reviewer-1",
+    "accepted_at": "2026-09-02",
+    "single_party_acceptance": True,
+    "single_party_authority": "ADR-026",
+    "single_party_justification": (
+        "this is a single-author portfolio system on synthetic data with no second "
+        "reviewer available to accept independently"
+    ),
+}
+
+
+def test_the_default_is_still_refusal() -> None:
+    """The exemption must be asked for. Same-identity acceptance with no declaration
+    is refused exactly as before ADR-026 existed."""
+    with pytest.raises(IngestError, match="collapses two acts into one"):
+        accept_decision(_submitted(), {"accepted_by": "reviewer-1", "accepted_at": "2026-09-02"})
+
+
+@pytest.mark.parametrize("dropped", SINGLE_PARTY_FIELDS)
+def test_every_one_of_the_three_declarations_is_required(dropped: str) -> None:
+    """Three separate statements, because one field could be set by someone who had
+    not read what they were setting: the opt-in, the authority, and the reason."""
+    payload = {k: v for k, v in EXEMPTION.items() if k != dropped}
+    with pytest.raises(IngestError, match=dropped):
+        accept_decision(_submitted(), payload)
+
+
+def test_the_exemption_cannot_be_claimed_on_another_authority() -> None:
+    """An invented or mistyped ADR is refused rather than accepted on trust.
+
+    Otherwise 'single_party_authority' would be a free-text field that permits
+    itself, which is a flag wearing a citation.
+    """
+    with pytest.raises(IngestError, match="does not permit single-party"):
+        accept_decision(_submitted(), {**EXEMPTION, "single_party_authority": "ADR-999"})
+
+
+def test_a_truthy_string_is_not_an_opt_in() -> None:
+    with pytest.raises(IngestError, match="boolean true"):
+        accept_decision(_submitted(), {**EXEMPTION, "single_party_acceptance": "yes"})
+
+
+def test_an_unstated_reason_is_refused() -> None:
+    with pytest.raises(IngestError, match="words"):
+        accept_decision(_submitted(), {**EXEMPTION, "single_party_justification": "solo project"})
+
+
+def test_an_unfilled_template_placeholder_is_refused() -> None:
+    """A template copied and not filled in must not be submittable. The fields most
+    likely to be left are the identity and the reason - the two carrying the whole
+    weight of the record."""
+    with pytest.raises(IngestError, match="placeholder"):
+        accept_decision(
+            _submitted(),
+            {**EXEMPTION, "single_party_justification": "<<AT LEAST 12 WORDS>>"},
+        )
+    issues = validate_submission(
+        _submission(reviewer_identity="<<YOUR NAME>>"),
+        gate=_gate(),
+        expected_source_references=("docs/review/FOCUS-001.md",),
+    )
+    assert any("placeholder" in issue.problem for issue in issues)
+
+
+def test_a_properly_declared_exemption_is_accepted_and_permanently_marked() -> None:
+    """The positive control, and the cost. The decision is usable and it says, on its
+    face, that the independent-acceptance control did not hold."""
+    accepted = accept_decision(_submitted(), EXEMPTION)
+    assert accepted.status is DecisionStatus.ACCEPTED
+    assert accepted.is_resolved
+    assert accepted.separation_of_duties is SeparationOfDuties.SINGLE_PARTY_EXEMPTED
+    assert any("ADR-026" in note for note in accepted.notes)
+    assert any("no second reviewer" in note for note in accepted.notes)
+
+
+def test_a_two_party_acceptance_is_not_marked_as_exempted() -> None:
+    """The marker must mean something. If it appeared on ordinary acceptances it
+    would stop distinguishing the case it exists to flag."""
+    accepted = accept_decision(
+        _submitted(), {"accepted_by": "maintainer", "accepted_at": "2026-09-02"}
+    )
+    assert accepted.separation_of_duties is SeparationOfDuties.TWO_PARTY
+    assert accepted.notes == ()
+
+
+def test_the_marker_cannot_be_dropped_to_flatter_the_record() -> None:
+    """Construction is a route to a value. A hand-built record claiming TWO_PARTY
+    while naming one person for both acts is refused - the exemption's whole cost is
+    that it is visible, and a droppable marker is not a cost."""
+    with pytest.raises(GateError, match="still claims TWO_PARTY"):
+        DecisionGate(
+            focus_id="FOCUS-001",
+            question="q",
+            policy_id="p",
+            policy_version="v",
+            permitted_decisions=OPTIONS,
+            status=DecisionStatus.ACCEPTED,
+            reviewer=REVIEWER,
+            reviewer_decision=FocusOutcome.SPLIT_C03.value,
+            reviewer_rationale="because",
+            accepted_by=REVIEWER.reviewer_id,
+            accepted_at=date(2026, 9, 2),
+        )
+
+
+def test_the_exemption_relaxes_exactly_one_check() -> None:
+    """It removes the same-identity refusal and nothing else. Every other rule still
+    applies, so a single-party acceptance is not a general bypass."""
+    with pytest.raises(IngestError, match="cannot predate"):
+        accept_decision(_submitted(), {**EXEMPTION, "accepted_at": "2026-08-31"})
+    with pytest.raises(IngestError, match="accepted_at"):
+        accept_decision(_submitted(), {k: v for k, v in EXEMPTION.items() if k != "accepted_at"})
+    with pytest.raises(IngestError, match="cannot accept a PENDING"):
+        accept_decision(_gate(), EXEMPTION)
+
+
+def test_there_is_no_separation_state_meaning_unknown() -> None:
+    """Two members. A decision either had an independent acceptance or it did not,
+    and a record that cannot say which is worse than either answer."""
+    assert {s.value for s in SeparationOfDuties} == {"TWO_PARTY", "SINGLE_PARTY_EXEMPTED"}
+
+
+def test_the_committed_record_still_claims_the_full_control() -> None:
+    """Nothing has been accepted, so nothing has been exempted."""
+    record = json.loads(RECORD.read_text(encoding="utf-8"))
+    assert record["separation_of_duties"] == "TWO_PARTY"
 
 
 # ---------------------------------------------------------------------------

@@ -39,6 +39,7 @@ __all__ = [
     "DecisionStatus",
     "GateError",
     "ReviewerIdentity",
+    "SeparationOfDuties",
 ]
 
 
@@ -100,6 +101,22 @@ class ReviewerIdentity:
             )
 
 
+class SeparationOfDuties(StrEnum):
+    """Whether the two-act control actually held for this decision.
+
+    `TWO_PARTY` is the default and the honest majority case. `SINGLE_PARTY_EXEMPTED`
+    records that the independent-acceptance control was deliberately relaxed under
+    ADR-026 - a portfolio system on synthetic data with no second reviewer available.
+
+    There is no third member, and no member meaning "unknown". A decision either had
+    an independent acceptance or it did not, and a record that cannot say which is
+    worse than either answer.
+    """
+
+    TWO_PARTY = "TWO_PARTY"
+    SINGLE_PARTY_EXEMPTED = "SINGLE_PARTY_EXEMPTED"
+
+
 @dataclass(frozen=True, slots=True)
 class DecisionGate:
     """One externally-supplied domain decision.
@@ -123,6 +140,9 @@ class DecisionGate:
     reviewer_rationale: str | None = None
     review_timestamp: date | None = None
     accepted_by: str | None = None
+    #: Whether an independent second party actually accepted this. Defaults to the
+    #: control holding, so the weaker value can only ever be set deliberately.
+    separation_of_duties: SeparationOfDuties = SeparationOfDuties.TWO_PARTY
     #: When acceptance was recorded. Persisted rather than checked and discarded: an
     #: acceptance whose date nobody kept cannot later be placed relative to the
     #: submission it accepted, which is the one ordering the record exists to prove.
@@ -162,6 +182,18 @@ class DecisionGate:
                 f"{self.focus_id}: ACCEPTED with nobody recorded as accepting it. "
                 "Acceptance is a separate act from submission, so that one forged "
                 "call cannot reach an admissible state."
+            )
+        if (
+            self.accepted_by is not None
+            and self.reviewer is not None
+            and self.accepted_by == self.reviewer.reviewer_id
+            and self.separation_of_duties is SeparationOfDuties.TWO_PARTY
+        ):
+            raise GateError(
+                f"{self.focus_id}: {self.accepted_by!r} both submitted and accepted "
+                "this decision, but the record still claims TWO_PARTY. The marker "
+                "cannot be dropped to make the record look stronger than it is; a "
+                "single-party acceptance is exempted under ADR-026 or it is refused."
             )
         if self.status is DecisionStatus.ACCEPTED and self.accepted_at is None:
             raise GateError(
@@ -254,7 +286,14 @@ class DecisionGate:
             review_timestamp=on,
         )
 
-    def accept(self, *, accepted_by: str, accepted_at: date) -> DecisionGate:
+    def accept(
+        self,
+        *,
+        accepted_by: str,
+        accepted_at: date,
+        separation_of_duties: SeparationOfDuties = SeparationOfDuties.TWO_PARTY,
+        note: str = "",
+    ) -> DecisionGate:
         """Accept a submitted decision into the record. The only unblocking step.
 
         `accepted_at` is required rather than defaulted. A default would have to come
@@ -273,6 +312,11 @@ class DecisionGate:
             status=DecisionStatus.ACCEPTED,
             accepted_by=accepted_by.strip(),
             accepted_at=accepted_at,
+            separation_of_duties=separation_of_duties,
+            # The justification travels with the decision. A reason that lived only
+            # in an ADR would leave the record saying a control was relaxed without
+            # saying why, which is half of an audit trail.
+            notes=(*self.notes, note.strip()) if note.strip() else self.notes,
         )
 
     def reject(self, *, reason: str) -> DecisionGate:

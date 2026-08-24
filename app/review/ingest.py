@@ -39,10 +39,18 @@ from dataclasses import dataclass
 from datetime import date
 from typing import Any
 
-from app.review.decision_gate import DecisionGate, DecisionStatus, GateError, ReviewerIdentity
+from app.review.decision_gate import (
+    DecisionGate,
+    DecisionStatus,
+    GateError,
+    ReviewerIdentity,
+    SeparationOfDuties,
+)
 
 __all__ = [
     "REQUIRED_SUBMISSION_FIELDS",
+    "SINGLE_PARTY_AUTHORITY",
+    "SINGLE_PARTY_FIELDS",
     "IngestError",
     "ValidationIssue",
     "accept_decision",
@@ -66,11 +74,35 @@ REQUIRED_SUBMISSION_FIELDS = (
 #: The acceptance half. Recorded separately, by someone other than the submitter.
 REQUIRED_ACCEPTANCE_FIELDS = ("accepted_by", "accepted_at")
 
+#: What an acceptance must carry to claim the ADR-026 exemption. All three, or the
+#: ordinary same-identity refusal stands. The opt-in is separate from the authority
+#: because a payload that merely names an ADR has not said it wants the exemption,
+#: and one that merely asks for it has not said on whose authority.
+SINGLE_PARTY_FIELDS = (
+    "single_party_acceptance",
+    "single_party_authority",
+    "single_party_justification",
+)
+
+#: The only amendment that permits single-party acceptance. Checked as a constant so
+#: the exemption cannot be claimed on an ADR that does not say this - an invented or
+#: mistyped authority is refused rather than accepted on trust.
+SINGLE_PARTY_AUTHORITY = "ADR-026"
+
+#: A justification must actually explain the circumstance. Long enough to rule out
+#: "solo project" as the whole answer, short enough not to be a hurdle.
+_MIN_JUSTIFICATION_WORDS = 12
+
 _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 #: A rationale must actually say something. Not a quality bar - a length this short
 #: only catches "ok", "yes", "agreed", which are the shapes a rubber stamp takes.
 _MIN_RATIONALE_WORDS = 8
+
+#: The template markers. A payload still carrying one has been copied, not filled in,
+#: and the fields most likely to be left are the identity and the rationale - the two
+#: that carry the whole weight of the record.
+_PLACEHOLDER = re.compile(r"<<.*?>>", re.S)
 
 
 class IngestError(GateError):
@@ -118,8 +150,17 @@ def validate_submission(
     issues: list[ValidationIssue] = []
 
     for field in REQUIRED_SUBMISSION_FIELDS:
-        if not str(payload.get(field) or "").strip():
+        value = str(payload.get(field) or "").strip()
+        if not value:
             issues.append(ValidationIssue(field, "missing or empty", f"supply {field}"))
+        elif _PLACEHOLDER.search(value):
+            issues.append(
+                ValidationIssue(
+                    field,
+                    "still contains a << >> template placeholder",
+                    f"replace the placeholder in {field} with your own value",
+                )
+            )
 
     if str(payload.get("focus_id") or "").strip() not in {"", gate.focus_id}:
         issues.append(
@@ -211,6 +252,62 @@ def ingest_submission(
     )
 
 
+def _single_party_exemption(
+    payload: dict[str, Any], *, gate: DecisionGate
+) -> tuple[SeparationOfDuties, str]:
+    """Permit same-identity acceptance, but only as a declared, attributed act.
+
+    The default is still refusal. This returns the exemption ONLY when the payload
+    opts in explicitly, names ADR-026 as the authority, and says why no second party
+    is available - three separate statements, because a single field could be set by
+    someone who had not read what they were setting.
+
+    **The exemption is never inferred from the identities matching.** That inference
+    is precisely how a control stops existing: the condition it guards becomes the
+    trigger that disables it.
+    """
+    missing = [f for f in SINGLE_PARTY_FIELDS if not payload.get(f)]
+    if missing:
+        raise IngestError(
+            f"{gate.focus_id}: {payload['accepted_by']!r} both submitted and accepted "
+            "this decision. That collapses two acts into one and removes the only "
+            "structural check on the first. Single-party acceptance is permitted only "
+            f"as a declared exemption under {SINGLE_PARTY_AUTHORITY}, which requires "
+            f"{missing} - supply them, or have a second person accept."
+        )
+
+    if payload["single_party_acceptance"] is not True:
+        raise IngestError(
+            f"{gate.focus_id}: single_party_acceptance must be the boolean true, not "
+            f"{payload['single_party_acceptance']!r}. A truthy string is not a "
+            "deliberate opt-in to relaxing a control."
+        )
+
+    authority = str(payload["single_party_authority"]).strip()
+    if authority != SINGLE_PARTY_AUTHORITY:
+        raise IngestError(
+            f"{gate.focus_id}: {authority!r} does not permit single-party acceptance. "
+            f"The only amendment that does is {SINGLE_PARTY_AUTHORITY}; an exemption "
+            "cannot be claimed on an authority that does not say so."
+        )
+
+    justification = str(payload["single_party_justification"]).strip()
+    if _PLACEHOLDER.search(justification):
+        raise IngestError(
+            f"{gate.focus_id}: the single-party justification is still the template "
+            "placeholder. An exemption claimed with unfilled boilerplate records that "
+            "nobody stated a reason."
+        )
+    if len(justification.split()) < _MIN_JUSTIFICATION_WORDS:
+        raise IngestError(
+            f"{gate.focus_id}: the single-party justification is "
+            f"{len(justification.split())} words. State why no second party is "
+            "available, so a later reader can judge whether that still holds."
+        )
+
+    return SeparationOfDuties.SINGLE_PARTY_EXEMPTED, justification
+
+
 def accept_decision(gate: DecisionGate, payload: dict[str, Any]) -> DecisionGate:
     """Accept a submitted decision. The only step that unblocks anything.
 
@@ -227,15 +324,19 @@ def accept_decision(gate: DecisionGate, payload: dict[str, Any]) -> DecisionGate
     missing = [f for f in REQUIRED_ACCEPTANCE_FIELDS if not str(payload.get(f) or "").strip()]
     if missing:
         raise IngestError(f"{gate.focus_id}: acceptance missing {missing}")
+    unfilled = [
+        f for f in REQUIRED_ACCEPTANCE_FIELDS if _PLACEHOLDER.search(str(payload.get(f) or ""))
+    ]
+    if unfilled:
+        raise IngestError(
+            f"{gate.focus_id}: acceptance still carries template placeholders in {unfilled}"
+        )
 
     accepted_by = str(payload["accepted_by"]).strip()
+    separation = SeparationOfDuties.TWO_PARTY
+    justification = ""
     if gate.reviewer is not None and accepted_by == gate.reviewer.reviewer_id:
-        raise IngestError(
-            f"{gate.focus_id}: {accepted_by!r} both submitted and accepted this "
-            "decision. That collapses two acts into one and removes the only "
-            "structural check on the first. If one person must do both, record that "
-            "as a process decision (OD-29) rather than routing around this."
-        )
+        separation, justification = _single_party_exemption(payload, gate=gate)
 
     issues: list[ValidationIssue] = []
     accepted_at = _as_date(payload.get("accepted_at"), "accepted_at", issues)
@@ -252,4 +353,9 @@ def accept_decision(gate: DecisionGate, payload: dict[str, Any]) -> DecisionGate
 
     if accepted_at is None:  # pragma: no cover - _as_date raised above if it were
         raise IngestError(f"{gate.focus_id}: acceptance with no date")
-    return gate.accept(accepted_by=accepted_by, accepted_at=accepted_at)
+    return gate.accept(
+        accepted_by=accepted_by,
+        accepted_at=accepted_at,
+        separation_of_duties=separation,
+        note=(f"ADR-026 single-party acceptance: {justification}" if justification else ""),
+    )

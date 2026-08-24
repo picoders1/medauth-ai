@@ -47,7 +47,15 @@ looks like, and pretending otherwise would be the wrong kind of precision (OD-29
 
 ### 5. Submit
 
-Write a JSON payload — anywhere on disk; it is not committed:
+Copy the template and fill it in — the copy is gitignored, and an **unedited
+template is refused**, so a leftover `<<placeholder>>` cannot reach the record:
+
+```bash
+cp data/review/payloads/focus_001_submission.template.json \
+   data/review/payloads/focus_001_submission.json
+cp data/review/payloads/focus_001_acceptance.template.json \
+   data/review/payloads/focus_001_acceptance.json
+```
 
 ```json
 {
@@ -93,9 +101,9 @@ The validator checks the **envelope** — identity, standing, a rationale, the p
 cited, a real date. It says nothing about whether your answer is right. That is the
 question it cannot settle.
 
-### 6. Obtain separate acceptance
+### 6. Obtain acceptance
 
-A **second person, named differently from the submitter**, records acceptance:
+**Preferred: a second person, named differently from the submitter.**
 
 ```json
 { "accepted_by": "a different identifier", "accepted_at": "YYYY-MM-DD" }
@@ -105,19 +113,39 @@ Both fields are required. `accepted_at` is **persisted** to the record, not mere
 checked — an acceptance whose date nobody kept cannot later be placed relative to
 the submission it accepted.
 
+**If no second person is available**, acceptance by the submitter is permitted as a
+declared exemption under [ADR-026](../adr/ADR-026-single-party-decision-exemption.md).
+It is never inferred — you must state all three:
+
+```json
+{
+  "accepted_by": "the same identifier as reviewer_identity",
+  "accepted_at": "YYYY-MM-DD",
+  "single_party_acceptance": true,
+  "single_party_authority": "ADR-026",
+  "single_party_justification": "why no second party is available, in at least 12 words"
+}
+```
+
+The decision is then permanently marked `separation_of_duties: SINGLE_PARTY_EXEMPTED`,
+and the justification is recorded on it. **That marker is the cost of the exemption,
+and paying it in the open is what makes it acceptable** — a relaxed control that is
+visible is much stronger than one quietly bypassed.
+
+The exemption relaxes exactly one check. Everything else still applies.
+
 ```bash
 uv run python scripts/ingest_focus_decision.py --accept path/to/acceptance.json --write
 ```
 
 Refused if:
 
-- the same identity submitted and accepts — that collapses two acts into one and
-  removes the only structural check on the first
+- the same identity submitted and accepts **without** the three ADR-026 declarations
+- `single_party_authority` names anything other than `ADR-026`
+- `single_party_acceptance` is a truthy string rather than the boolean `true`
+- the justification is under 12 words, or still a template placeholder
 - the gate is not `SUBMITTED`
 - `accepted_at` predates `submitted_at` — an acceptance cannot predate what it accepts
-
-If one person genuinely must do both, that is a process decision to record under
-OD-29, not something to route around here.
 
 ### 7. Re-run the admissibility gate
 

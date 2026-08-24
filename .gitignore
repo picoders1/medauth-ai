@@ -63,3 +63,9 @@ out/
 *.swp
 .idea/
 .vscode/
+
+# Reviewer decision payloads carry a named individual's identity and standing. The
+# templates are committed; the filled-in payloads are not - the record they produce
+# is the artefact, not the input file.
+data/review/payloads/*.json
+!data/review/payloads/*.template.json

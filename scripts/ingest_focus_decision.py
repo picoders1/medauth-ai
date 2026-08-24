@@ -24,6 +24,14 @@ Submission payload:
 Acceptance payload:
 
     {"accepted_by": "...", "accepted_at": "2026-09-02"}
+
+Where no second party exists, acceptance by the submitter is permitted ONLY as a
+declared exemption under ADR-026, and the decision is permanently marked
+`SINGLE_PARTY_EXEMPTED`:
+
+    {"accepted_by": "...", "accepted_at": "2026-09-02",
+     "single_party_acceptance": true, "single_party_authority": "ADR-026",
+     "single_party_justification": "..."}
 """
 
 from __future__ import annotations
@@ -36,7 +44,12 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from app.review.decision_gate import DecisionGate, DecisionStatus, ReviewerIdentity
+from app.review.decision_gate import (
+    DecisionGate,
+    DecisionStatus,
+    ReviewerIdentity,
+    SeparationOfDuties,
+)
 from app.review.ingest import (
     IngestError,
     accept_decision,
@@ -89,6 +102,9 @@ def _load_gate(record: dict[str, Any]) -> DecisionGate:
         review_timestamp=_as_date(record.get("review_timestamp")),
         accepted_by=record.get("accepted_by"),
         accepted_at=_as_date(record.get("accepted_at")),
+        separation_of_duties=SeparationOfDuties(
+            record.get("separation_of_duties") or SeparationOfDuties.TWO_PARTY.value
+        ),
     )
 
 
@@ -106,6 +122,8 @@ def _write(gate: DecisionGate, record: dict[str, Any]) -> None:
         # reading the record does not have to know they are the same thing.
         "submitted_at": gate.review_timestamp,
         "accepted_at": gate.accepted_at,
+        "separation_of_duties": gate.separation_of_duties.value,
+        "notes": list(gate.notes),
     }
     RECORD.write_text(
         json.dumps(updated, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8"

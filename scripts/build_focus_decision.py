@@ -172,6 +172,7 @@ def main() -> int:
         # advances. A record whose shape depends on its status is harder to schema-check
         # and hides a missing field behind "that status does not have one".
         "submitted_at": gate.review_timestamp,
+        "separation_of_duties": gate.separation_of_duties.value,
         "is_resolved": gate.is_resolved,
         "blocks_production": gate.blocks_production,
         "note": (

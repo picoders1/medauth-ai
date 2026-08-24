@@ -1,0 +1,10 @@
+{
+  "_README": "Copy this to focus_001_submission.json (gitignored), replace every <<...>> placeholder, then run --validate. The placeholders are refused by the validator, so an unedited template cannot be submitted.",
+  "focus_id": "FOCUS-001",
+  "reviewer_identity": "<<YOUR NAME OR IDENTIFIER>>",
+  "reviewer_qualification": "<<YOUR STANDING TO ANSWER THIS - free text, e.g. 'project author; reader of 42 CFR part 410 for this corpus'>>",
+  "decision": "<<ONE OF: NARROW_C03_TO_BASELINE | SPLIT_C03 | LEAVE_C03_NOT_ADJUDICABLE | OTHER>>",
+  "rationale": "<<AT LEAST 8 WORDS. Why does this reading follow from 42 CFR 410.32(b)(3)? If you chose OTHER, state your reading here.>>",
+  "source_reference": "docs/review/FOCUS-001.md",
+  "submitted_at": "<<YYYY-MM-DD>>"
+}

@@ -224,6 +224,16 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **The first vertical slice works** | A slice run against an admissible policy | — | **NOT produced.** Not implemented. No agent, prompt or model call exists |
 | **The system is clinically validated** | A study with qualified clinicians on real cases | — | **Refused.** No field, enum member or flag anywhere in the codebase represents it, asserted by `test_clinical_validation_has_no_member_anywhere`. `SOURCE_VERIFIED` and `QUALIFIED_REVIEWED` are different claims and neither implies this one |
 
+## Domain decision attribution (ADR-026)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **A single-party acceptance is visible in the record** | A permanent marker on the decision, not droppable | `app/review/decision_gate.py` | **Produced** — `SINGLE_PARTY_EXEMPTED`; a record claiming `TWO_PARTY` while naming one identity for both acts is refused at construction |
+| **The exemption cannot be taken silently** | Three separate declarations, none inferred | `pytest tests/evaluation/test_focus_packet_integrity.py` | **Produced** — opt-in, authority checked as a constant, ≥12-word justification; six mutations all fail |
+| **The exemption relaxes exactly one check** | Every other refusal still fires under it | Same | **Produced** — ordering, missing date and wrong-status refusals all hold |
+| **FOCUS-001 was accepted under separation of duties** | An independent second party accepting | — | **Refused for any decision carrying the marker.** The permitted claim is narrower and true: a reviewer's decision was recorded, and the independent-acceptance control was deliberately exempted under ADR-026 |
+| **This exemption is appropriate outside a synthetic-data portfolio system** | An ADR arguing that case on its own facts | — | **Refused.** ADR-026 is scoped and says so; OD-32 records what is unsettled |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |
