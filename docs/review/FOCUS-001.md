@@ -55,10 +55,6 @@ Machine-readable: `data/review/focus_001_decision.json`.
 | authoritative text | *"may be furnished under a direct level of physician supervision"* |
 
 > (4) Supervision requirement for RRA or RPA. Diagnostic tests that are performed by a registered radiologist assistant (RRA) who is certified and registered by the American Registry of Radiologic Technologists or a radiology practitioner assistant (RPA) who is certified by the Certification Board for Radiology Practitioner Assistants, and that would otherwise require a personal level of supervision as specified in paragraph (b)(3) of this section, may be furnished under a direct level of physician supervision to the extent permitted by state law and state scope of practice regulations.
-> 
-> Portable x-ray services
-> 
-> (c) Portable x-ray services. Portable x-ray services furnished in a place of resid
 
 ## 6. The three supervision levels, as defined
 

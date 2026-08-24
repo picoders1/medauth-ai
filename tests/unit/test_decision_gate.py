@@ -182,17 +182,63 @@ def test_submission_does_not_resolve_the_gate() -> None:
 
 def test_acceptance_requires_naming_who_accepted() -> None:
     with pytest.raises(GateError, match="nobody recorded"):
-        _submitted().accept(accepted_by="  ")
+        _submitted().accept(accepted_by="  ", accepted_at=date(2026, 9, 2))
 
 
 def test_acceptance_resolves_and_is_the_only_thing_that_does() -> None:
     """The positive control. If nothing could ever open the gate, the refusals
     above would prove nothing about a working mechanism."""
-    accepted = _submitted().accept(accepted_by="maintainer")
+    accepted = _submitted().accept(accepted_by="maintainer", accepted_at=date(2026, 9, 2))
     assert accepted.status is DecisionStatus.ACCEPTED
     assert accepted.is_resolved
     assert not accepted.blocks_production
     assert accepted.reviewer_decision == FocusOutcome.NARROW_C03_TO_BASELINE.value
+
+
+def test_acceptance_must_record_when_it_happened() -> None:
+    """`accepted_at` has no default, deliberately.
+
+    A default would have to come from a clock, and a date the system supplied is
+    evidence of when the script ran, not of when a person acted.
+    """
+    with pytest.raises(TypeError):
+        _submitted().accept(accepted_by="maintainer")  # type: ignore[call-arg]
+
+
+def test_an_accepted_gate_built_without_a_date_is_refused() -> None:
+    """Transitions are not the only route to a value; construction is too."""
+    with pytest.raises(GateError, match="no acceptance date"):
+        DecisionGate(
+            focus_id="FOCUS-001",
+            question="q",
+            policy_id="p",
+            policy_version="v",
+            permitted_decisions=OPTIONS,
+            status=DecisionStatus.ACCEPTED,
+            reviewer=REVIEWER,
+            reviewer_decision=FocusOutcome.SPLIT_C03.value,
+            reviewer_rationale="because",
+            accepted_by="maintainer",
+        )
+
+
+def test_an_acceptance_cannot_predate_the_submission_at_the_type_level() -> None:
+    """Checked on the type, not only in the ingestion path.
+
+    The ingestion check reads `gate.review_timestamp`, so it is only as good as
+    whatever reconstructed the gate. Enforcing it here means a gate carrying an
+    impossible ordering cannot be held at all.
+    """
+    with pytest.raises(GateError, match="cannot predate"):
+        _submitted().accept(accepted_by="maintainer", accepted_at=date(2026, 8, 31))
+
+
+def test_acceptance_on_the_same_day_as_submission_is_allowed() -> None:
+    """The positive control for the ordering rule. Same-day is ordinary, and a
+    rule that forbade it would push reviewers into misdating the record."""
+    accepted = _submitted().accept(accepted_by="maintainer", accepted_at=date(2026, 9, 1))
+    assert accepted.accepted_at == date(2026, 9, 1)
+    assert accepted.is_resolved
 
 
 def test_a_rejected_decision_leaves_the_gate_shut() -> None:
@@ -207,7 +253,11 @@ def test_a_rejected_decision_leaves_the_gate_shut() -> None:
 @pytest.mark.parametrize("method", ["accept", "reject"])
 def test_a_pending_gate_cannot_be_accepted_or_rejected_directly(method: str) -> None:
     """Skipping submission would be a one-step route to an admissible state."""
-    kwargs = {"accepted_by": "x"} if method == "accept" else {"reason": "x"}
+    kwargs: dict[str, object] = (
+        {"accepted_by": "x", "accepted_at": date(2026, 9, 2)}
+        if method == "accept"
+        else {"reason": "x"}
+    )
     with pytest.raises(GateError, match="only a SUBMITTED"):
         getattr(_gate(), method)(**kwargs)
 

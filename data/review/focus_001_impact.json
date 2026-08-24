@@ -2,9 +2,7 @@
   "computed_before_any_decision": true,
   "focus_id": "FOCUS-001",
   "note": "The table does NOT recommend an outcome. Some options cost more than others; that is a fact about the options, not an argument for the cheap one. Choosing the cheapest reading of a regulation because it needs no gold_v2 would be exactly the wrong reason. OTHER is deliberately not modelled - precomputing an impact for an unstated reading would mean inventing the reading.",
-  "other_blockers_after_this_decision": [
-    "domain_decisions_resolved"
-  ],
+  "other_blockers_after_this_decision": [],
   "outcomes": [
     {
       "c03_state": "C03 is restated as the floor already transcribed in C07 (at least general supervision). The per-test level is recorded as out of scope for this corpus.",
@@ -51,11 +49,11 @@
         "REDUCES what the system checks: a test requiring direct or personal supervision would pass a criterion that only tests the floor. Whether that under-checking is acceptable is precisely the reviewer's call, and it is not an engineering trade-off."
       ],
       "outcome": "NARROW_C03_TO_BASELINE",
-      "policy_admissible_after": false,
-      "still_blocked_by": [
-        "domain_decisions_resolved"
-      ],
-      "unblocks": []
+      "policy_admissible_after": true,
+      "still_blocked_by": [],
+      "unblocks": [
+        "42 CFR 410.32 becomes admissible for the first AI vertical slice"
+      ]
     },
     {
       "c03_state": "C03 becomes two criteria: the baseline (adjudicable) and the escalation to direct or personal supervision (not determinable from this corpus, and marked so).",
@@ -106,7 +104,6 @@
       "outcome": "SPLIT_C03",
       "policy_admissible_after": false,
       "still_blocked_by": [
-        "domain_decisions_resolved",
         "the escalation criterion is not determinable from this corpus, so it inherits the dependency unless a further decision excludes it from adjudication"
       ],
       "unblocks": []
@@ -129,7 +126,6 @@
       "outcome": "LEAVE_C03_NOT_ADJUDICABLE",
       "policy_admissible_after": false,
       "still_blocked_by": [
-        "domain_decisions_resolved",
         "C03's dependency on 42 CFR 410.32(b)(3) remains unresolved"
       ],
       "unblocks": []

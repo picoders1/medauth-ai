@@ -250,4 +250,6 @@ def accept_decision(gate: DecisionGate, payload: dict[str, Any]) -> DecisionGate
                 f"{gate.review_timestamp}. An acceptance cannot predate what it accepts."
             )
 
-    return gate.accept(accepted_by=accepted_by)
+    if accepted_at is None:  # pragma: no cover - _as_date raised above if it were
+        raise IngestError(f"{gate.focus_id}: acceptance with no date")
+    return gate.accept(accepted_by=accepted_by, accepted_at=accepted_at)

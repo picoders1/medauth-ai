@@ -123,6 +123,10 @@ class DecisionGate:
     reviewer_rationale: str | None = None
     review_timestamp: date | None = None
     accepted_by: str | None = None
+    #: When acceptance was recorded. Persisted rather than checked and discarded: an
+    #: acceptance whose date nobody kept cannot later be placed relative to the
+    #: submission it accepted, which is the one ordering the record exists to prove.
+    accepted_at: date | None = None
     supersedes: int | None = None
     notes: tuple[str, ...] = field(default_factory=tuple)
 
@@ -158,6 +162,21 @@ class DecisionGate:
                 f"{self.focus_id}: ACCEPTED with nobody recorded as accepting it. "
                 "Acceptance is a separate act from submission, so that one forged "
                 "call cannot reach an admissible state."
+            )
+        if self.status is DecisionStatus.ACCEPTED and self.accepted_at is None:
+            raise GateError(
+                f"{self.focus_id}: ACCEPTED with no acceptance date. Who accepted and "
+                "when are both part of the act; a record keeping only the first cannot "
+                "show that acceptance followed submission."
+            )
+        if (
+            self.accepted_at is not None
+            and self.review_timestamp is not None
+            and self.accepted_at < self.review_timestamp
+        ):
+            raise GateError(
+                f"{self.focus_id}: accepted on {self.accepted_at} but submitted on "
+                f"{self.review_timestamp}. An acceptance cannot predate what it accepts."
             )
 
     # -- state -------------------------------------------------------------
@@ -235,8 +254,13 @@ class DecisionGate:
             review_timestamp=on,
         )
 
-    def accept(self, *, accepted_by: str) -> DecisionGate:
-        """Accept a submitted decision into the record. The only unblocking step."""
+    def accept(self, *, accepted_by: str, accepted_at: date) -> DecisionGate:
+        """Accept a submitted decision into the record. The only unblocking step.
+
+        `accepted_at` is required rather than defaulted. A default would have to come
+        from a clock, and a date the system supplied is not evidence of when a person
+        acted - it is evidence of when the script ran.
+        """
         if self.status is not DecisionStatus.SUBMITTED:
             raise GateError(
                 f"{self.focus_id}: only a SUBMITTED decision can be accepted, not "
@@ -244,7 +268,12 @@ class DecisionGate:
             )
         if not accepted_by.strip():
             raise GateError(f"{self.focus_id}: acceptance with nobody recorded")
-        return replace(self, status=DecisionStatus.ACCEPTED, accepted_by=accepted_by.strip())
+        return replace(
+            self,
+            status=DecisionStatus.ACCEPTED,
+            accepted_by=accepted_by.strip(),
+            accepted_at=accepted_at,
+        )
 
     def reject(self, *, reason: str) -> DecisionGate:
         """Decline a submission. The gate stays shut and the answer is kept."""

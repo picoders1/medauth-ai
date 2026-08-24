@@ -32,6 +32,7 @@ import argparse
 import json
 import sys
 from dataclasses import asdict
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,16 @@ from app.review.ingest import (
 )
 
 REPO = Path(__file__).resolve().parents[1]
+
+
+def _as_date(value: Any) -> date | None:
+    """Read a date back off the record. `None` stays `None`; junk is refused rather
+    than swallowed, because a silently-dropped timestamp disables a check."""
+    if value in (None, ""):
+        return None
+    return date.fromisoformat(str(value))
+
+
 RECORD = REPO / "data/review/focus_001_decision.json"
 
 
@@ -72,7 +83,12 @@ def _load_gate(record: dict[str, Any]) -> DecisionGate:
         ),
         reviewer_decision=record.get("reviewer_decision"),
         reviewer_rationale=record.get("reviewer_rationale"),
+        # Restored, not defaulted. Dropping these made `accepted_at >= submitted_at`
+        # unreachable in the two-command flow: the reconstructed gate had no
+        # submission date, so the comparison guarded itself out of existence.
+        review_timestamp=_as_date(record.get("review_timestamp")),
         accepted_by=record.get("accepted_by"),
+        accepted_at=_as_date(record.get("accepted_at")),
     )
 
 
@@ -85,6 +101,11 @@ def _write(gate: DecisionGate, record: dict[str, Any]) -> None:
         "reviewer_qualification": gate.reviewer.qualification if gate.reviewer else None,
         "is_resolved": gate.is_resolved,
         "blocks_production": gate.blocks_production,
+        # The payload field is called submitted_at and the gate field is called
+        # review_timestamp. Both names appear, derived from one value, so an auditor
+        # reading the record does not have to know they are the same thing.
+        "submitted_at": gate.review_timestamp,
+        "accepted_at": gate.accepted_at,
     }
     RECORD.write_text(
         json.dumps(updated, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8"

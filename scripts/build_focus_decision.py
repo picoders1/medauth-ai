@@ -41,6 +41,52 @@ POLICY_ID = "42 CFR 410.32"
 POLICY_VERSION = "2026-08-13"
 
 
+class DecisionResetRefused(RuntimeError):
+    """A rebuild would have destroyed a recorded decision."""
+
+
+#: Any status other than PENDING means a person has acted. Rebuilding over one
+#: replaces their answer with a template, and the rebuild is silent - the script
+#: prints the same success line either way.
+_ANSWERED = ("SUBMITTED", "ACCEPTED", "REJECTED", "SUPERSEDED")
+
+
+def refuse_destructive_rebuild(
+    existing: str | None, rebuilt: str, *, archive_to: Path | None
+) -> None:
+    """Refuse a rebuild that would overwrite a decision. Raises or returns None.
+
+    There is no `--force`. A flag whose whole purpose is to destroy the audit record
+    would be reached for exactly when someone is in a hurry, which is when the record
+    matters most. The only way past a non-identical rebuild is `--archive-to`, which
+    preserves the existing record first - so history accumulates rather than being
+    traded away for convenience.
+    """
+    if existing is None:
+        return
+
+    status = str(json.loads(existing).get("status", "UNKNOWN"))
+
+    if status in _ANSWERED:
+        raise DecisionResetRefused(
+            f"the existing record is {status}: a person has answered FOCUS-001, and "
+            "rebuilding would replace their decision and its attribution with a blank "
+            "template. This script cannot do that at all - a superseding answer is "
+            "recorded as a new decision_version beside the old one, never over it."
+        )
+
+    # PENDING. A byte-identical rebuild changes nothing and is always safe.
+    if existing == rebuilt:
+        return
+
+    if archive_to is None:
+        raise DecisionResetRefused(
+            "the existing PENDING record differs from the rebuild. Rebuilding would "
+            "discard whatever it currently says. Pass --archive-to PATH to preserve it "
+            "first; there is deliberately no flag that simply overwrites."
+        )
+
+
 def _jsonl(path: Path) -> tuple[dict[str, Any], ...]:
     return tuple(
         json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
@@ -50,6 +96,11 @@ def _jsonl(path: Path) -> tuple[dict[str, Any], ...]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--write", action="store_true")
+    parser.add_argument(
+        "--archive-to",
+        metavar="PATH",
+        help="preserve the existing PENDING record here before rebuilding over it",
+    )
     args = parser.parse_args()
 
     gold = _jsonl(GOLD)
@@ -65,8 +116,16 @@ def main() -> int:
         for c in admissibility["assessment"]
         if c["policy_id"] == POLICY_ID and c["policy_version"] == POLICY_VERSION
     )
+    # The checks FOCUS-001 itself controls. Both are excluded from "other blockers"
+    # because including either makes the analysis circular: it would tell the reviewer
+    # that even after answering, the policy stays blocked by the answer not existing.
+    #
+    # `domain_decisions_resolved` leaked in when the admissibility gate grew its
+    # eleventh check, silently flipping NARROW_C03_TO_BASELINE's consequence from
+    # "admissible: yes" to "no" in the reviewer's own packet.
+    RESOLVED_BY_THIS_DECISION = ("no_unresolved_dependency", "domain_decisions_resolved")
     other_blockers = tuple(
-        check for check in candidate["failed_checks"] if check != "no_unresolved_dependency"
+        check for check in candidate["failed_checks"] if check not in RESOLVED_BY_THIS_DECISION
     )
 
     affected = tuple(
@@ -109,6 +168,10 @@ def main() -> int:
         "status": gate.status.value,
         "reviewer_identity": None,
         "reviewer_qualification": None,
+        # Carried from the start, null, so the key set does not change as the record
+        # advances. A record whose shape depends on its status is harder to schema-check
+        # and hides a missing field behind "that status does not have one".
+        "submitted_at": gate.review_timestamp,
         "is_resolved": gate.is_resolved,
         "blocks_production": gate.blocks_production,
         "note": (
@@ -156,6 +219,18 @@ def main() -> int:
         )
 
     if args.write:
+        rebuilt = json.dumps(decision_record, indent=2, sort_keys=True, default=str) + "\n"
+        existing = OUT_DECISION.read_text(encoding="utf-8") if OUT_DECISION.exists() else None
+        archive_to = Path(args.archive_to) if args.archive_to else None
+        try:
+            refuse_destructive_rebuild(existing, rebuilt, archive_to=archive_to)
+        except DecisionResetRefused as exc:
+            print(f"  REFUSED: {exc}", file=sys.stderr)
+            return 1
+        if archive_to is not None and existing is not None and existing != rebuilt:
+            archive_to.parent.mkdir(parents=True, exist_ok=True)
+            archive_to.write_text(existing, encoding="utf-8")
+            print(f"  archived the existing record to {archive_to}")
         OUT_DECISION.write_text(
             json.dumps(decision_record, indent=2, sort_keys=True, default=str) + "\n",
             encoding="utf-8",
