@@ -15,7 +15,7 @@
     "verified_by": "scripts/r86_revalidate.py"
   },
   "current_gate_result": "FAIL",
-  "current_status": "VERIFIED_FAILURE_OUTSIDE_ENGINEERING_CONTROL",
+  "current_status": "VERIFIED_FAILURE_ATTRIBUTED_TO_PROVIDER_SIDE",
   "experiment_id": "r86-reproducer-001",
   "failure_classification": "SCHEMA_GRAMMAR_FAILURE (R-86 signature)",
   "failure_signature": {
@@ -41,7 +41,7 @@
     "timestamp": "2026-08-25T15:57:10.626143+00:00"
   },
   "next_allowable_repository_action": "REVALIDATE_AFTER_EXTERNAL_OWNER_RESPONSE",
-  "next_allowable_repository_action_note": "Nothing else. No model, prompt, schema, retrieval, chunking, embedding, reranking or applicability change; no scoring; no new benchmark; no forced evaluation path. The command is: MEDAUTH_LIVE_MODEL=1 uv run python scripts/r86_revalidate.py --write",
+  "next_allowable_repository_action_note": "Unchanged by the capture. Attribution is not a fix: the production cell still fails 6/6 and the gate still reads 6/12 = 0.5000 against the pre-registered ceiling 0.10. No model, prompt, schema, retrieval, chunking, embedding, reranking or applicability change; no scoring; no new benchmark; no forced evaluation path. The command remains: MEDAUTH_LIVE_MODEL=1 uv run python scripts/r86_revalidate.py --write, and it is warranted only by evidence that the defect is GONE.",
   "observed_failure_rate": 0.5,
   "official_evaluation": {
     "artifacts_produced": false,
@@ -52,15 +52,18 @@
     "state": "BLOCKED"
   },
   "project_status": "ENGINEERING_READY + OFFICIAL_EVALUATION_BLOCKED_BY_R86",
-  "provider_attribution": "INDETERMINATE",
-  "provider_attribution_note": "MEDAUTH observes exactly one hop through the firewall and holds no provider credential. PROVIDER_DECODER and FIREWALL_PROXY are indistinguishable from here and neither is asserted.",
+  "provider_attribution": "PROVIDER_SIDE",
+  "provider_attribution_evidence": "data/escalations/r86-firewall-capture.json",
+  "provider_attribution_note": "Resolved 2026-08-25 by a firewall-side upstream capture (r86-firewall-capture-001, docs/operations/r86-firewall-capture.md), which is section 10 check 2 of the escalation and is recorded there as decisive on its own. The firewall's append-only audit shows it received 2389 characters of completion content from the provider, with decision=allow, four detectors run and none detecting - so neither the outbound request nor the returned body was altered. MEDAUTH measured that same response at body_chars 2389 and 92.05% whitespace. Two independent records on opposite sides of the proxy agree to the character. FIREWALL_PROXY is eliminated. The claim goes no further than the hop: which component inside the provider's serving stack produces the padding is NOT identified and is not asserted.",
+  "provider_attribution_was": "INDETERMINATE",
   "registered_threshold": 0.1,
   "reproducer_cell": "intake/gold_note/long",
   "reproducer_cells_read_by_the_gate": [
     "intake/gold_note/long",
     "intake/gold_note/short"
   ],
-  "required_owner_side_action": "Answer one question: under the registered production request shape (cell intake/gold_note/long, schema digest sha256:a89278d7f1c9eba5, model digest sha256:31d69bc24c21367e, temperature 0.0, max_tokens 1536, json_schema strict), which layer produces the non-terminating whitespace-dominated response - the provider decoder or the firewall/proxy path? Either of two checks is decisive alone: (1) the same request issued provider-side outside the firewall, or (2) a firewall-side capture of the upstream response before any proxy transformation. See docs/operations/r86-provider-escalation.md sections 9 and 10.",
+  "required_owner_side_action": "Addressed to the model provider, not the firewall owner: does the constrained decoder's grammar admit whitespace after a structurally complete document? (escalation section 10, check 6). Under the registered production request shape - cell intake/gold_note/long, schema digest sha256:a89278d7f1c9eba5, model digest sha256:31d69bc24c21367e, temperature 0.0, max_tokens 1536, json_schema strict - the response runs to the ceiling at 92% whitespace and never closes its document, deterministically, 6/6. Checks 1, 3, 4 and 5 exist to separate the firewall from the provider and are no longer needed.",
+  "seal_attribution_unchanged": "r86-reproducer.manifest.json still records INDETERMINATE and is NOT rewritten. A seal records what was known when it was taken; two tests assert it still says so.",
   "seal_sha256": "271127edace3d94d70445ebcc12ac658b3d4929d01541bcda1a6f3c7edee11f0",
   "threshold_changed_since_registration": false,
   "threshold_source": "eval.validity.ValidityRule (provider-failure-validity.v1)",

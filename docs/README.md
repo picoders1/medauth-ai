@@ -114,6 +114,11 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/evaluation-hold.md](evaluation/evaluation-hold.md) — **what is frozen, and the one thing that lifts it**
 - [operations/r86-provider-escalation.md](operations/r86-provider-escalation.md) — **the handoff: one question, and it is not answered here**
 - [operations/r86-revalidation.md](operations/r86-revalidation.md) — the runbook for "they say it's fixed"
+- [operations/r86-firewall-capture.md](operations/r86-firewall-capture.md) — **the proxy is exonerated**; two records of one hop, agreeing to the character
+- [operations/r86-provider-attribution.md](operations/r86-provider-attribution.md) — `PROVIDER_SIDE`, and everything that is still `UNKNOWN`
+- [operations/r86-provider-root-cause.md](operations/r86-provider-root-cause.md) — six hypotheses, **none selected**, and the owner's checklist
+- [operations/r86-provider-remediation.md](operations/r86-provider-remediation.md) — what would close it, and what would only look like it
+- [evaluation/r86-closure-gate.md](evaluation/r86-closure-gate.md) — **the partial fix that would have passed**, and the rule that stops it
 - [engineering/final-closure-audit.md](engineering/final-closure-audit.md) — **three controls this project documented and nobody called**, and what closing them did and did not buy
 - [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart

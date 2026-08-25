@@ -331,6 +331,54 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- R-86 closure: the two termination conditions Part F named -----------
+    Mutation(
+        # The exact defect the closure work found, restored. Without this condition a
+        # response that closes its document and then pads to the ceiling is a SUCCESS,
+        # six of them return PASS at 0/12, and the official evaluation opens on a
+        # provider path that still never terminates.
+        name="closure-ignores-completion-ceiling-exhaustion",
+        rule="a trial that stopped by exhausting the ceiling has not terminated",
+        path="eval/r86_closure.py",
+        old='    if shape.finish_reason == "length":',
+        new="    if False:  # MUTATION",
+        tests="tests/evaluation/test_r86_attribution.py",
+        keyword="ceiling_exhaustion",
+    ),
+    Mutation(
+        name="closure-ignores-the-r86-whitespace-shape",
+        rule="a whitespace-dominated response at the ceiling is the R-86 shape, not a success",
+        path="eval/r86_closure.py",
+        old="    if shape.looks_like_whitespace_runaway:",
+        new="    if False:  # MUTATION",
+        tests="tests/evaluation/test_r86_attribution.py",
+        keyword="closes_then_pads",
+    ),
+    Mutation(
+        # The gate reverted to asking the taxonomy alone, which is what it did before.
+        name="revalidation-counts-failures-by-taxonomy-alone",
+        rule="the closure gate must apply r86-closure.v1, not 'did the call raise'",
+        path="scripts/r86_revalidate.py",
+        old="            failures = sum(1 for v in verdicts if not v.succeeded)",
+        new=(
+            "            failures = sum(  # MUTATION\n"
+            "                1 for o in observations if not o.satisfied_schema\n"
+            "            )"
+        ),
+        tests="tests/evaluation/test_r86_attribution.py",
+        keyword="closure_rule",
+    ),
+    Mutation(
+        # A seal quietly updated to agree with today. Both the digest check and the
+        # historical-attribution check must notice.
+        name="sealed-attribution-rewritten-to-todays-answer",
+        rule="a seal records what was known when it was taken and is never rewritten",
+        path="data/escalations/r86-reproducer.manifest.json",
+        old='"attribution": "INDETERMINATE"',
+        new='"attribution": "PROVIDER_SIDE"',
+        tests="tests/evaluation/test_r86_attribution.py",
+        keyword="seal",
+    ),
     Mutation(
         # The state the repository was actually in: the constraint lived only in the
         # migration, `alembic check` reported it as one to REMOVE, and the next

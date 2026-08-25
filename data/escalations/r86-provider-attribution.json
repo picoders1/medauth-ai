@@ -1,0 +1,143 @@
+{
+  "attribution_id": "r86-provider-attribution-001",
+  "supersedes_attribution_in": "data/escalations/r86-handoff-status.json",
+  "does_not_modify": {
+    "artefact": "data/escalations/r86-reproducer.manifest.json",
+    "reason": "The sealed reproducer records the attribution that existed when it was sealed. A seal rewritten whenever the world moves is a document about today, not a record of a moment. Its classification.attribution remains INDETERMINATE and two tests assert that it does.",
+    "sealed_sha256": "sha256:271127edace3d94d"
+  },
+
+  "r86": {
+    "status": "VERIFIED_FAILURE",
+    "attribution": "PROVIDER_SIDE",
+    "firewall_hypothesis": "RULED_OUT_BY_UPSTREAM_CAPTURE",
+    "provider_component": "UNKNOWN",
+    "resolution": "UNRESOLVED",
+    "official_evaluation": "BLOCKED"
+  },
+
+  "reproducer": {
+    "id": "r86-reproducer-001",
+    "cell": "intake/gold_note/long",
+    "control_cell": "intake/gold_note/short",
+    "request_shape_unchanged": true,
+    "endpoint": "POST /v1/chat/completions through the firewall, one caller key",
+    "response_format": "json_schema, strict: true",
+    "temperature": 0.0,
+    "max_tokens": 1536,
+    "stream": false,
+    "attempts_per_observation": 1,
+    "trials_required": 6
+  },
+
+  "digests": {
+    "model": "sha256:31d69bc24c21367e",
+    "model_matches_seal": true,
+    "schema": "sha256:a89278d7f1c9eba5",
+    "upstream_host": "sha256:334329af9cb116de",
+    "note": "Digest-only, under the convention the sealed manifest uses. No base URL, caller key, provider credential, model name or host name appears in this repository."
+  },
+
+  "measurements": {
+    "production_cell": {
+      "trials": 6,
+      "firewall_input_chars": 1058,
+      "medauth_payload_chars": 1058,
+      "firewall_output_chars": 2389,
+      "medauth_body_chars": 2389,
+      "http_status": 200,
+      "firewall_decision": "allow",
+      "detectors_executed": 4,
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "upstream_latency_ms_range": [6323, 6447],
+      "medauth_finish_reason": "length",
+      "medauth_parsed_as_json": false,
+      "medauth_satisfied_schema": false,
+      "medauth_completion_tokens": 1536,
+      "medauth_whitespace_fraction": 0.9205,
+      "deterministic": true,
+      "failures": 6,
+      "successes": 0
+    },
+    "control_cell": {
+      "trials": 6,
+      "firewall_input_chars": 532,
+      "medauth_payload_chars": 532,
+      "firewall_output_chars": 1211,
+      "medauth_body_chars": 1211,
+      "http_status": 200,
+      "firewall_decision": "allow",
+      "detectors_executed": 4,
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "upstream_latency_ms_range": [2101, 2586],
+      "medauth_finish_reason": "stop",
+      "medauth_parsed_as_json": true,
+      "medauth_satisfied_schema": true,
+      "medauth_completion_tokens": 478,
+      "medauth_whitespace_fraction": 0.0933,
+      "deterministic": true,
+      "failures": 0,
+      "successes": 6
+    }
+  },
+
+  "firewall_trace_identifiers": [
+    "138e8afd31014358b2432c277e93d82d",
+    "d48809f9cc4e403c890a424b4e3dd949",
+    "90d2bbc51e124ec0bc9ad5c715dd1ad1",
+    "2e180a6bfe404093aa071ac10fca0e89",
+    "af091b403ff5407b9113880bf1d08e8b",
+    "d16cdeda62b84ee0b91c5d832c6cd627"
+  ],
+
+  "evidence_source": {
+    "kind": "FIREWALL_OWNER_AUDIT_TRAIL",
+    "artefact": "data/escalations/r86-firewall-capture.json",
+    "method": "docs/operations/r86-firewall-capture.md",
+    "medauth_record": "eval/reports/r86-revalidation/20260825T155710Z.json",
+    "obtained_at": "2026-08-25",
+    "obtained_by": "the firewall operator, from the firewall's own append-only records"
+  },
+
+  "establishes": {
+    "claim": "The provider response observed upstream of the proxy is identical, in every measured characteristic, to the provider response observed by MEDAUTH downstream of it.",
+    "basis": [
+      "firewall output_chars 2389 == MEDAUTH body_chars 2389 (production cell)",
+      "firewall input_chars 1058 == MEDAUTH payload_chars 1058 (production cell)",
+      "firewall output_chars 1211 == MEDAUTH body_chars 1211 (control cell)",
+      "firewall input_chars 532 == MEDAUTH payload_chars 532 (control cell)",
+      "decision=allow with 4 detectors executed and 0 detected on every trial, so the only body-mutating path in the firewall (set_response_text under Action.REDACT) was never entered"
+    ],
+    "therefore": "The whitespace-dominated, non-terminating response was already present when the firewall received it from the provider."
+  },
+
+  "firewall_hypothesis_retirement": {
+    "hypothesis": "FIREWALL_PROXY_TRANSFORMATION",
+    "state": "RULED_OUT_FOR_THIS_REPRODUCER",
+    "exact_statement": "The firewall-side response transformation hypothesis is ruled out for the registered R-86 reproducer based on matching upstream and downstream response lengths/content characteristics.",
+    "not_claimed": [
+      "The firewall can never corrupt responses.",
+      "The firewall is correct in general.",
+      "Any other firewall failure mode has been tested or excluded."
+    ],
+    "scope": "This registered reproducer, these twelve trials, this configuration. Nothing is generalised beyond them."
+  },
+
+  "explicitly_not_established": {
+    "provider_component": "UNKNOWN",
+    "note": "This localises the defect to the provider side of the proxy hop. It does NOT identify which component within the provider's serving stack produces the padding - decoder, grammar implementation, sampler, runtime or configuration - and no such claim is made. One layer is eliminated; the other is not resolved further.",
+    "root_cause": "NOT_ESTABLISHED",
+    "hypotheses_listed_not_selected": "docs/operations/r86-provider-root-cause.md"
+  },
+
+  "gate_effect": {
+    "official_evaluation": "BLOCKED",
+    "unchanged_by_this_artefact": true,
+    "why": "Attribution is not a fix. The production cell still fails 6/6, the gate still reads 6/12 = 0.5000 against the pre-registered ceiling of 0.10, and R-86 remains a VERIFIED FAILURE. This evidence is not grounds for a revalidation either: revalidation asks whether the defect is gone, and this says it is present.",
+    "only_transition": "provider-side fix evidence -> scripts/r86_revalidate.py --write -> PASS -> the official evaluation gate opens. FAIL and INCONCLUSIVE both remain blocked."
+  },
+
+  "timestamp": "2026-08-25"
+}

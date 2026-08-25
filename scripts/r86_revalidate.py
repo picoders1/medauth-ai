@@ -53,6 +53,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from app.llm.failure_taxonomy import ResponseShape
+from eval.r86_closure import CLOSURE_RULE_ID, TrialVerdict, trial_succeeds
+
 REPO = Path(__file__).resolve().parents[1]
 SEAL = REPO / "data/escalations/r86-reproducer.manifest.json"
 OUT = REPO / "eval/reports/r86-revalidation"
@@ -140,6 +143,29 @@ def verify_against_seal(seal: dict[str, Any]) -> list[str]:
         if str(sealed_value) != str(live_value):
             differences.append(f"{name}: sealed {sealed_value}, live {live_value}")
     return differences
+
+
+def _closure_verdict(observation: Any) -> TrialVerdict:
+    """One observation's verdict under `r86-closure.v1`.
+
+    The observation is a flat record from the gradient harness, so the shape is
+    rebuilt from its fields rather than carried through. Only the termination-bearing
+    fields are needed; none of them can hold text.
+    """
+    shape = ResponseShape(
+        finish_reason=observation.finish_reason,
+        body_chars=observation.body_chars,
+        whitespace_fraction=observation.whitespace_fraction,
+        parsed_as_json=observation.parsed_as_json,
+        satisfied_schema=observation.satisfied_schema,
+        prompt_tokens=observation.prompt_tokens,
+        completion_tokens=observation.completion_tokens,
+    )
+    return trial_succeeds(
+        satisfied_schema=observation.satisfied_schema,
+        shape=shape,
+        raised=observation.status_class != "2xx",
+    )
 
 
 def apply_threshold(
@@ -269,7 +295,6 @@ async def main() -> int:
 
     from app.config.settings import Settings
     from app.llm.client import LlmClient
-    from app.llm.failure_taxonomy import ProviderFailureKind
     from app.llm.wiring import structured_model_for
 
     settings = Settings()
@@ -292,17 +317,23 @@ async def main() -> int:
                 for trial in range(1, reproducer.FACTORIAL_TRIALS + 1)
             ]
             made += len(observations)
-            failures = sum(
-                1
-                for o in observations
-                if ProviderFailureKind(o.failure_kind).counts_toward_provider_reliability
-            )
+            # R-106. This used to be the taxonomy alone, which decides by asking
+            # whether the call RAISED - so a response that closed its document and
+            # then padded whitespace to the ceiling counted as a SUCCESS, and six of
+            # those would have opened the official evaluation on a provider path that
+            # still never terminates. `eval.r86_closure` adds the two termination
+            # conditions Part F names. It can only ever add failures, and zero of the
+            # 164 committed observations change under it.
+            verdicts = [_closure_verdict(o) for o in observations]
+            failures = sum(1 for v in verdicts if not v.succeeded)
             cells[cell.name] = {
                 "trials": len(observations),
                 "failures": failures,
                 "successes": len(observations) - failures,
                 "failure_rate": round(failures / len(observations), 4),
                 "r86_signatures": sum(1 for o in observations if o.is_r86_signature),
+                "closure_rule_id": CLOSURE_RULE_ID,
+                "closure_failure_reasons": sorted({r for v in verdicts for r in v.reasons}),
                 "deterministic": len({o.completion_tokens for o in observations}) == 1,
                 "median_whitespace_fraction": sorted(o.whitespace_fraction for o in observations)[
                     len(observations) // 2

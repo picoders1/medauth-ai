@@ -125,6 +125,29 @@ these — each requires access we correctly do not have.
 
 **One and two are decisive on their own.** The rest narrow it.
 
+> ### Update, 2026-08-25 — check 2 has been run, and it answers the question
+>
+> The firewall owner ran the upstream capture. The firewall received **2389 characters**
+> of completion content from the provider, `decision=allow`, four detectors run and
+> **none detecting** — so neither the outbound request nor the returned body was
+> altered. MEDAUTH measured that same response at `body_chars` 2389 and 92.05%
+> whitespace. **Two independent records, opposite sides of the proxy, agreeing to the
+> character.**
+>
+> **The proxy is exonerated.** Attribution is `PROVIDER_SIDE`; `FIREWALL_PROXY` is
+> eliminated. Checks 1, 3, 4 and 5 exist to separate the two layers and are no longer
+> needed. Evidence: `data/escalations/r86-firewall-capture.json`, method in
+> [r86-firewall-capture.md](r86-firewall-capture.md).
+>
+> **This document is therefore now addressed to the model provider**, and one question
+> remains — check 6:
+>
+> > Does the constrained decoder's grammar admit whitespace after a structurally
+> > complete document?
+>
+> Nothing about this lifts the block. The defect reproduces 6/6 and the gate still
+> reads 6/12 = 0.5000 against the pre-registered ceiling of 0.10.
+
 ## 11. Acceptance criterion for closure
 
 R-86 is closed when the **registered production shape** — unchanged schema, prompt,

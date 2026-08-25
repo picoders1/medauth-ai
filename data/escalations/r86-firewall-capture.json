@@ -1,0 +1,110 @@
+{
+  "evidence_id": "r86-firewall-capture-001",
+  "answers": "docs/operations/r86-provider-escalation.md section 10, check 2",
+  "check": "Firewall-side upstream capture: the response as received from the provider, before any proxy transformation.",
+  "corresponds_to": {
+    "reproducer": "r86-reproducer-001",
+    "seal_sha256": "sha256:271127edace3d94d",
+    "cell": "intake/gold_note/long",
+    "control_cell": "intake/gold_note/short",
+    "revalidation": "eval/reports/r86-revalidation/20260825T155710Z.json"
+  },
+  "source": {
+    "kind": "FIREWALL_OWNER_AUDIT_TRAIL",
+    "system": "llm-firewall, append-only request_traces + detector_results",
+    "obtained_by": "the firewall operator, from the firewall's own records",
+    "obtained_at": "2026-08-25",
+    "method": "docs/operations/r86-firewall-capture.md",
+    "note": "Not produced by MEDAUTH. MEDAUTH observes one hop and cannot see the upstream side; this is the owner-side record it lacks. MEDAUTH holds no connection to this database and grew no dependency on it - the rows were handed over, as they would have been by any other owner."
+  },
+  "identity_verification": {
+    "model_digest": "sha256:31d69bc24c21367e",
+    "model_digest_matches_seal": true,
+    "upstream_host_digest": "sha256:334329af9cb116de",
+    "trials_in_window": 12,
+    "trials_registered": 12,
+    "window_utc": "2026-08-25T15:56:20Z .. 2026-08-25T15:57:20Z",
+    "note": "The deployment model name and upstream host are recorded as digests only, under the same convention the sealed manifest uses. Neither value is committed anywhere in this repository."
+  },
+  "observations": {
+    "production_cell": {
+      "cell": "intake/gold_note/long",
+      "trials": 6,
+      "firewall_input_chars": 1058,
+      "firewall_output_chars": 2389,
+      "firewall_status_code": 200,
+      "firewall_decision": "allow",
+      "detectors_run_per_trial": 4,
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "upstream_latency_ms_range": [6323, 6447],
+      "identical_across_trials": true,
+      "request_ids": [
+        "138e8afd31014358b2432c277e93d82d",
+        "d48809f9cc4e403c890a424b4e3dd949",
+        "90d2bbc51e124ec0bc9ad5c715dd1ad1",
+        "2e180a6bfe404093aa071ac10fca0e89",
+        "af091b403ff5407b9113880bf1d08e8b",
+        "d16cdeda62b84ee0b91c5d832c6cd627"
+      ]
+    },
+    "control_cell": {
+      "cell": "intake/gold_note/short",
+      "trials": 6,
+      "firewall_input_chars": 532,
+      "firewall_output_chars": 1211,
+      "firewall_status_code": 200,
+      "firewall_decision": "allow",
+      "detectors_run_per_trial": 4,
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "upstream_latency_ms_range": [2101, 2586],
+      "identical_across_trials": true
+    }
+  },
+  "cross_check_against_medauth": {
+    "note": "Two independent records of the same twelve HTTP exchanges, taken on opposite sides of the proxy. They agree to the character.",
+    "production_cell": {
+      "firewall_output_chars": 2389,
+      "medauth_body_chars": 2389,
+      "firewall_input_chars": 1058,
+      "medauth_payload_chars": 1058,
+      "agree": true
+    },
+    "control_cell": {
+      "firewall_output_chars": 1211,
+      "medauth_body_chars": 1211,
+      "firewall_input_chars": 532,
+      "medauth_payload_chars": 532,
+      "agree": true
+    },
+    "medauth_measured_whitespace_fraction": 0.9205,
+    "implied_whitespace_chars_at_the_firewall": 2199,
+    "implied_json_prefix_chars": 190,
+    "medauth_finish_reason": "length",
+    "medauth_parsed_as_json": false,
+    "medauth_completion_tokens": 1536
+  },
+  "what_the_firewall_did_to_the_body": {
+    "blocked": false,
+    "redacted": false,
+    "input_modified": false,
+    "output_modified": false,
+    "basis": "decision=allow on all twelve trials with zero detectors detecting; the only path in the firewall that mutates a response body is set_response_text() under Action.REDACT, which requires a detector to fire. None did. The response was passed through unchanged, which the character-for-character agreement above independently confirms."
+  },
+  "conclusion": {
+    "classification": "STILL_FAILING",
+    "attribution": "PROVIDER_SIDE",
+    "attribution_was": "INDETERMINATE",
+    "supersedes_attribution_in": "data/escalations/r86-handoff-status.json",
+    "does_not_supersede": "data/escalations/r86-reproducer.manifest.json - the seal records what was known when it was taken and is not rewritten. Its classification.attribution remains INDETERMINATE and two tests assert that it does.",
+    "statement": "The whitespace-dominated, non-terminating structured response was already 2389 characters when the firewall read it off the wire from the provider. The firewall neither altered the outbound request nor the returned body. The defect is upstream of the firewall.",
+    "limit_of_the_claim": "This localises the defect to the provider side of the proxy hop. It does NOT identify which component within the provider's serving stack produces the padding - decoder, grammar implementation or sampler - and no such claim is made. FIREWALL_PROXY is eliminated; the provider side is not further resolved.",
+    "does_this_lift_the_block": false,
+    "why_not": "Attribution is not a fix. The registered production cell still fails 6/6, the gate still reads 6/12 = 0.5000 against the pre-registered ceiling 0.10, and R-86 remains a VERIFIED FAILURE. Nothing here is grounds for a revalidation: revalidation asks whether the defect is gone, and this evidence says it is present."
+  },
+  "next_action": {
+    "repository": "none - no revalidation, no evaluation, no threshold or shape change",
+    "external": "The escalation may now be addressed to the model provider specifically, with the firewall exonerated by its owner's own records rather than by assertion. Checks 1, 3, 4 and 5 in section 10 are no longer needed; the remaining useful question is section 10 check 6 - does the constrained decoder's grammar admit whitespace after a structurally complete document?"
+  }
+}
