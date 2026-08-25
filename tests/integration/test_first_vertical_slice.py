@@ -21,10 +21,11 @@ from pydantic import ValidationError
 from app.contracts.slice import AssessmentState, CriterionAssessment, SliceInput, SupportState
 from app.core.types import CodeSystem
 from app.decision.abstention import AbstentionReason
-from app.decision.models import Outcome
+from app.decision.models import DecisionRule, Outcome
 from app.decision.semantics import Attestation, PolicySemantics, SemanticsOrigin
-from app.graph.slice import SliceRunner
+from app.graph.slice import RunMode, SliceRunner
 from app.guardrail.citations import CitationFailure
+from app.guardrail.contradiction import ContradictionState
 from app.llm.gateway import GatewayOutcome
 from app.policy.logic_loader import load_policy_logic
 from app.production_gate import GateDecision, ProductionGate, ProductionStatus
@@ -35,6 +36,7 @@ from tests.support_slice import (
     NOTE,
     FailingRetrieval,
     FakeGateway,
+    FixtureApplicability,
     FixtureRetrieval,
     chunk,
     corpus,
@@ -96,7 +98,15 @@ def runner(
     semantics: PolicySemantics,
     retrieval: object | None = None,
     gate: GateDecision | None = None,
+    applicability: object | None = None,
 ) -> SliceRunner:
+    """A PRODUCTION runner whose applicability port resolves, unless told otherwise.
+
+    `RunMode.PRODUCTION` rather than `REPLAY` even though every dependency here is a
+    double: these tests exist to describe production behaviour, and a suite that ran
+    in the mode which skips applicability resolution would have proved nothing about
+    the mode that performs it.
+    """
     return SliceRunner(
         gateway=gateway,
         retrieval=retrieval or FixtureRetrieval(),  # type: ignore[arg-type]
@@ -105,6 +115,8 @@ def runner(
         semantics=semantics,
         decision_config_version=CONFIG_VERSION,
         gate=gate or live_gate(),
+        mode=RunMode.PRODUCTION,
+        applicability=applicability or FixtureApplicability(),  # type: ignore[arg-type]
     )
 
 
@@ -149,7 +161,18 @@ async def test_the_chain_visits_every_stage_in_order(semantics: PolicySemantics)
 
     assert [c.prompt_id for c in gateway.calls] == ["intake.v2"] + ["adjudication.v1"] * 5
     assert retrieval.calls == list(ALL_IDS)
-    assert [e.stage for e in outcome.audit] == ["intake", "assessment", "decision"]
+    # `applicability` is the FIRST stage as of Phase 15 (R-93), and `contradiction`
+    # became a stage in Phase 13 when R-89 made decision-table row 5 reachable. The
+    # order is asserted, not just the membership: applicability after a model call
+    # would mean a case whose policy does not govern it had already cost tokens and
+    # produced assessments somebody could quote.
+    assert [e.stage for e in outcome.audit] == [
+        "applicability",
+        "intake",
+        "assessment",
+        "contradiction",
+        "decision",
+    ]
 
 
 async def test_every_stage_is_timed_and_nothing_is_estimated(
@@ -161,11 +184,20 @@ async def test_every_stage_is_timed_and_nothing_is_estimated(
     conflating them would put a fabricated latency into a report.
     """
     outcome = await runner(FakeGateway(assessments=satisfying()), semantics).run(case())
-    assert set(outcome.timings_ms) == {"intake", "assessment", "citations", "decision"}
+    assert set(outcome.timings_ms) == {
+        "applicability",
+        "intake",
+        "assessment",
+        "citations",
+        "contradiction",
+        "decision",
+    }
     assert all(v >= 0 for v in outcome.timings_ms.values())
 
+    # Phase 15: a blocked intake now also carries an `applicability` timing, because
+    # applicability ran and admitted the case before intake was attempted.
     blocked = await runner(FakeGateway(fail_intake=GatewayOutcome.BLOCKED), semantics).run(case())
-    assert set(blocked.timings_ms) == {"intake"}
+    assert set(blocked.timings_ms) == {"applicability", "intake"}
 
 
 # ---------------------------------------------------------------------------
@@ -229,6 +261,68 @@ async def test_an_established_exclusion_denies(semantics: PolicySemantics) -> No
     states[C05] = AssessmentState.SATISFIED
     outcome = await runner(FakeGateway(assessments=states), semantics).run(case())
     assert outcome.outcome is Outcome.DENY_RECOMMENDED
+
+
+async def test_a_contradiction_stops_the_case_in_the_live_runtime(
+    semantics: PolicySemantics,
+) -> None:
+    """R-89 closed, end to end.
+
+    Row 5 of the decision table and the `CONTRADICTORY_EVIDENCE` abstention existed
+    through Phases 11 and 12 and **nothing could reach them** - the slice passed
+    `GuardrailState.PASSED` unconditionally. An abstention state nothing can produce
+    reads as coverage.
+
+    Two criteria are given the SAME chunk and opposite verdicts, which is the one
+    conflict detectable without reading anything: a passage cannot both establish and
+    refute.
+    """
+    shared = dict(corpus())
+    one_chunk = shared[C01]
+    shared[C02] = one_chunk  # both criteria now rest on exactly the same passage
+
+    states = satisfying()
+    states[C02] = AssessmentState.NOT_SATISFIED
+    outcome = await runner(
+        FakeGateway(assessments=states), semantics, FixtureRetrieval(shared)
+    ).run(case())
+
+    assert outcome.outcome is Outcome.HUMAN_REVIEW
+    assert outcome.outcome is not Outcome.APPROVE_RECOMMENDED
+    assert outcome.outcome is not Outcome.DENY_RECOMMENDED
+    assert outcome.abstention is not None
+    assert outcome.abstention.reason is AbstentionReason.CONTRADICTORY_EVIDENCE
+    assert outcome.contradictions.state is ContradictionState.CONTRADICTION
+    # The rule NUMBER, asserted explicitly. Without this the test passes when the
+    # guardrail is hardcoded back to PASSED: the case still reaches a non-approval
+    # for a different reason, and "not approved" is too coarse to notice that row 5
+    # went dead again. Rule 5 is the claim R-89 is about.
+    assert outcome.recommendation.rule is DecisionRule.CONTRADICTORY_VERDICTS
+    assert outcome.contradictions.findings
+    assert any(e.stage == "contradiction" for e in outcome.audit)
+
+
+async def test_an_ordinary_case_is_not_flagged_as_contradictory(
+    semantics: PolicySemantics,
+) -> None:
+    """The control that keeps the detector alive.
+
+    A requirement met and an exclusion unmet is the shape of an approvable case. A
+    detector that fired on that would be switched off within a week.
+    """
+    outcome = await runner(FakeGateway(assessments=satisfying()), semantics).run(case())
+    assert outcome.contradictions.state is ContradictionState.NO_CONTRADICTION
+    assert outcome.outcome is Outcome.APPROVE_RECOMMENDED
+
+
+async def test_a_case_with_nothing_decided_is_undetermined_not_clean(
+    semantics: PolicySemantics,
+) -> None:
+    """ "Could not check" must not read as "checked and clean"."""
+    states = dict.fromkeys(ALL_IDS, AssessmentState.UNKNOWN)
+    outcome = await runner(FakeGateway(assessments=states), semantics).run(case())
+    assert outcome.contradictions.state is ContradictionState.UNDETERMINED
+    assert outcome.outcome is Outcome.NEEDS_INFO
 
 
 # ---------------------------------------------------------------------------
@@ -443,6 +537,85 @@ async def test_an_answer_about_a_different_criterion_is_refiled_under_the_right_
 
 
 # ---------------------------------------------------------------------------
+# 5b. Evidence-id integrity (R-88) — adversarial
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "forged",
+    [
+        "MEDAUTH-DATA-8f2a",  # the fence delimiter — what the first live call cited
+        "<<<MEDAUTH-DATA-8f2a>>>",
+        "c-d-1",  # a real chunk id, which the model can see in no prompt
+        "Ordering of tests",  # a section path
+        "E1 ",  # trailing space
+        " E1",
+        "e1",  # wrong case
+        "E-1",
+        "E",
+        "E99999",  # beyond the issued range's width
+        "E1; E2",
+        "42_CFR_410_33_2026_08_13_C01",  # a criterion id
+        "",
+    ],
+)
+async def test_a_forged_evidence_id_never_supports_a_verdict(
+    forged: str, semantics: PolicySemantics
+) -> None:
+    """Structural rejection, not prompt wording.
+
+    R-88: the first live model call returned `evidence_ids: ["MEDAUTH-DATA-8f2a"]` -
+    the fence delimiter. Containment then rested entirely on that string happening
+    not to be in the criterion's set, which is containment by coincidence.
+
+    Two independent barriers now: the id must have the shape we issue (`E<digits>`)
+    AND be in this criterion's set. A verdict left with nothing behind it becomes
+    UNKNOWN, because support that was fabricated is not weaker support - it is none.
+    """
+    states = satisfying()
+    gateway = FakeGateway(assessments=states, citations={C01: (forged,)})
+    outcome = await runner(gateway, semantics).run(case())
+
+    downgraded = next(a for a in outcome.assessments if a.criterion_id == C01)
+    assert downgraded.assessment is AssessmentState.UNKNOWN
+    assert downgraded.evidence_ids == ()
+    assert outcome.outcome is not Outcome.APPROVE_RECOMMENDED
+    assert outcome.outcome is not Outcome.DENY_RECOMMENDED
+
+
+async def test_a_forged_id_mixed_with_a_real_one_keeps_only_the_real_one(
+    semantics: PolicySemantics,
+) -> None:
+    """Partial forgery must not poison a genuine citation, nor survive alongside it."""
+    gateway = FakeGateway(
+        assessments=satisfying(), citations={C01: ("E1", "MEDAUTH-DATA-8f2a", "E42")}
+    )
+    outcome = await runner(gateway, semantics).run(case())
+    kept = next(a for a in outcome.assessments if a.criterion_id == C01)
+    assert kept.evidence_ids == ("E1",)
+    assert kept.assessment is AssessmentState.SATISFIED
+
+
+def test_an_entry_cannot_be_built_with_a_malformed_id() -> None:
+    """The known set must not contain values its own validator rejects."""
+    from app.adjudication.evidence_block import EvidenceEntry
+
+    chunk_ = corpus()[C01]
+    with pytest.raises(ValueError, match="not a well-formed evidence id"):
+        EvidenceEntry(evidence_id="MEDAUTH-DATA-8f2a", chunk=chunk_)
+    assert EvidenceEntry(evidence_id="E1", chunk=chunk_).evidence_id == "E1"
+
+
+def test_ids_are_issued_by_us_and_are_positional() -> None:
+    from app.adjudication.evidence_block import evidence_id_for, is_wellformed_evidence_id
+
+    assert [evidence_id_for(i) for i in range(3)] == ["E1", "E2", "E3"]
+    assert all(is_wellformed_evidence_id(evidence_id_for(i)) for i in range(50))
+    with pytest.raises(ValueError):
+        evidence_id_for(-1)
+
+
+# ---------------------------------------------------------------------------
 # 6. Retrieved text is data
 # ---------------------------------------------------------------------------
 
@@ -595,6 +768,8 @@ async def test_a_runner_with_no_criteria_is_refused(semantics: PolicySemantics) 
             semantics=semantics,
             decision_config_version=CONFIG_VERSION,
             gate=live_gate(),
+            mode=RunMode.PRODUCTION,
+            applicability=FixtureApplicability(),  # type: ignore[arg-type]
         )
 
 
@@ -654,6 +829,8 @@ async def test_no_model_call_happens_when_the_gate_is_blocked(
             semantics=semantics,
             decision_config_version=CONFIG_VERSION,
             gate=_blocked(),
+            mode=RunMode.PRODUCTION,
+            applicability=FixtureApplicability(),  # type: ignore[arg-type]
         )
     assert gateway.calls == []
 
@@ -670,6 +847,8 @@ async def test_a_truthy_stand_in_is_not_a_gate(semantics: PolicySemantics) -> No
                 semantics=semantics,
                 decision_config_version=CONFIG_VERSION,
                 gate=impostor,  # type: ignore[arg-type]
+                mode=RunMode.PRODUCTION,
+                applicability=FixtureApplicability(),  # type: ignore[arg-type]
             )
 
 
@@ -687,6 +866,8 @@ async def test_the_gate_has_no_default(semantics: PolicySemantics) -> None:
             criteria=CRITERIA,
             semantics=semantics,
             decision_config_version=CONFIG_VERSION,
+            mode=RunMode.PRODUCTION,
+            applicability=FixtureApplicability(),  # type: ignore[arg-type]
         )
 
 

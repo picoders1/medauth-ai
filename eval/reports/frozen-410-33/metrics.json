@@ -1,0 +1,431 @@
+{
+  "abstention": {
+    "abstention_count": 25,
+    "abstention_precision": {
+      "ci95": [
+        0.2667,
+        0.6293
+      ],
+      "successes": 11,
+      "total": 25,
+      "value": 0.44
+    },
+    "abstention_recall": {
+      "ci95": [
+        0.6461,
+        0.9851
+      ],
+      "successes": 11,
+      "total": 12,
+      "value": 0.9167
+    },
+    "coverage": {
+      "ci95": [
+        0.0068,
+        0.1889
+      ],
+      "successes": 1,
+      "total": 26,
+      "value": 0.0385
+    },
+    "coverage_note": "The share of cases receiving a definitive recommendation. LOW coverage is not a defect here - it is what fail-closed produces when the model path fails.",
+    "reasons": {
+      "CONTRADICTORY_EVIDENCE": 4,
+      "MODEL_SCHEMA_FAILURE": 10
+    },
+    "scored_gate": "UNCALIBRATED",
+    "scored_gate_note": "No threshold exists and none was calibrated on this set. Every abstention below is STRUCTURAL.",
+    "unsafe_definitive_when_abstention_expected": {
+      "cases": [
+        "CASE-0073"
+      ],
+      "count": 1,
+      "note": "Higher severity than an ordinary classification error: the system committed where the gold set says it should have asked.",
+      "severity": "HIGH"
+    }
+  },
+  "audit": {
+    "all_name_config_version": true,
+    "cases_with_audit_events": 26
+  },
+  "cases_attempted": 26,
+  "cases_excluded": 0,
+  "code_commit": "9c2f42487a360844e98506b1f37176cf6c0570cf",
+  "criterion": {
+    "accuracy_over_all_expected": {
+      "ci95": [
+        0.2277,
+        0.3936
+      ],
+      "successes": 35,
+      "total": 115,
+      "value": 0.3043
+    },
+    "accuracy_over_assessed": {
+      "ci95": [
+        0.4185,
+        0.6541
+      ],
+      "successes": 35,
+      "total": 65,
+      "value": 0.5385
+    },
+    "assessed": 65,
+    "confusion_matrix": {
+      "NOT_SATISFIED": {
+        "NOT_SATISFIED": 2,
+        "SATISFIED": 10,
+        "UNKNOWN": 2
+      },
+      "SATISFIED": {
+        "NOT_SATISFIED": 3,
+        "SATISFIED": 29,
+        "UNKNOWN": 10
+      },
+      "UNKNOWN": {
+        "SATISFIED": 5,
+        "UNKNOWN": 4
+      }
+    },
+    "correct": 35,
+    "expected_total": 115,
+    "incorrect": 30,
+    "macro_f1": 0.4016,
+    "not_assessed": 50,
+    "not_assessed_note": "Criteria the system never assessed, because the case failed before adjudication. Counted, never excluded - dropping them would score an easier corpus than the one named.",
+    "per_state": {
+      "NOT_SATISFIED": {
+        "accuracy": {
+          "ci95": [
+            0.0401,
+            0.3994
+          ],
+          "successes": 2,
+          "total": 14,
+          "value": 0.1429
+        },
+        "f1": 0.2105,
+        "fn": 12,
+        "fp": 3,
+        "precision": 0.4,
+        "recall": 0.1429,
+        "support": 14,
+        "tp": 2
+      },
+      "SATISFIED": {
+        "accuracy": {
+          "ci95": [
+            0.5397,
+            0.8093
+          ],
+          "successes": 29,
+          "total": 42,
+          "value": 0.6905
+        },
+        "f1": 0.6744,
+        "fn": 13,
+        "fp": 15,
+        "precision": 0.6591,
+        "recall": 0.6905,
+        "support": 42,
+        "tp": 29
+      },
+      "UNKNOWN": {
+        "accuracy": {
+          "ci95": [
+            0.1888,
+            0.7333
+          ],
+          "successes": 4,
+          "total": 9,
+          "value": 0.4444
+        },
+        "f1": 0.32,
+        "fn": 5,
+        "fp": 12,
+        "precision": 0.25,
+        "recall": 0.4444,
+        "support": 9,
+        "tp": 4
+      }
+    }
+  },
+  "decision": {
+    "accuracy": {
+      "ci95": [
+        0.1103,
+        0.4205
+      ],
+      "successes": 6,
+      "total": 26,
+      "value": 0.2308
+    },
+    "accuracy_right_for_the_right_reason": {
+      "ci95": [
+        0.04,
+        0.2898
+      ],
+      "successes": 3,
+      "total": 26,
+      "value": 0.1154
+    },
+    "confusion_matrix": {
+      "APPROVE_RECOMMENDED": {
+        "HUMAN_REVIEW": 4,
+        "NEEDS_INFO": 3
+      },
+      "DENY_RECOMMENDED": {
+        "HUMAN_REVIEW": 5,
+        "NEEDS_INFO": 2
+      },
+      "HUMAN_REVIEW": {
+        "HUMAN_REVIEW": 1,
+        "NEEDS_INFO": 1
+      },
+      "NEEDS_INFO": {
+        "DENY_RECOMMENDED": 1,
+        "HUMAN_REVIEW": 4,
+        "NEEDS_INFO": 5
+      }
+    },
+    "denial_precision": {
+      "ci95": null,
+      "note": "support 1 < 5: reported as a count. An interval here would invite reading a handful of cases as a rate.",
+      "successes": 0,
+      "total": 1,
+      "value": 0.0
+    },
+    "denial_precision_note": "Reported alone, with its own denominator. A wrong denial withholds care; averaging it into macro-F1 hides it.",
+    "macro_f1": 0.3006,
+    "macro_precision": 0.1753,
+    "macro_recall": 0.25,
+    "outcome_correct_wrong_rule": [
+      {
+        "actual_rule": 4,
+        "case_id": "CASE-0070",
+        "expected_rule": 5
+      },
+      {
+        "actual_rule": 6,
+        "case_id": "CASE-0071",
+        "expected_rule": 1
+      },
+      {
+        "actual_rule": 6,
+        "case_id": "CASE-0074",
+        "expected_rule": 1
+      }
+    ],
+    "per_class": {
+      "APPROVE_RECOMMENDED": {
+        "f1": null,
+        "fn": 7,
+        "fp": 0,
+        "precision": null,
+        "recall": 0.0,
+        "support": 7,
+        "tp": 0
+      },
+      "DENY_RECOMMENDED": {
+        "f1": null,
+        "fn": 7,
+        "fp": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 7,
+        "tp": 0
+      },
+      "HUMAN_REVIEW": {
+        "f1": 0.125,
+        "fn": 1,
+        "fp": 13,
+        "note": "support 2: too few cases for a meaningful rate. Reported for completeness, not as an estimate.",
+        "precision": 0.0714,
+        "recall": 0.5,
+        "support": 2,
+        "tp": 1
+      },
+      "NEEDS_INFO": {
+        "f1": 0.4762,
+        "fn": 5,
+        "fp": 6,
+        "precision": 0.4545,
+        "recall": 0.5,
+        "support": 10,
+        "tp": 5
+      }
+    },
+    "right_reason_note": "Outcome AND decision-table row both match. The gap between this and `accuracy` is cases that reached the correct answer by a route the gold label does not describe."
+  },
+  "experiment": "frozen-410-33",
+  "grounding": {
+    "assessments_citing_evidence": {
+      "ci95": [
+        0.6721,
+        0.8527
+      ],
+      "successes": 62,
+      "total": 80,
+      "value": 0.775
+    },
+    "cases_reaching_citation_validation": 16,
+    "citation_failure_kinds": {},
+    "citation_validity": {
+      "ci95": [
+        0.8064,
+        1.0
+      ],
+      "successes": 16,
+      "total": 16,
+      "value": 1.0
+    },
+    "citations_verified_total": 69,
+    "evidence_completeness_note": "The share of assessments that cite at least one entry. UNKNOWN is legitimately uncited, so this is NOT a defect rate - it is the proportion of verdicts that rest on something.",
+    "invalid_citation_finalisation_rate": {
+      "ci95": [
+        0.0,
+        0.1287
+      ],
+      "successes": 0,
+      "total": 26,
+      "value": 0.0
+    },
+    "llm_as_judge": null,
+    "llm_as_judge_note": "Not used. Every grounding number here is deterministic span verification against the retrieved chunk. A model judging its own grounding would be the same component marking its own work.",
+    "unsupported_claim_note": "Zero by construction, not by measurement: the contract refuses a decided assessment with no evidence, and a fabricated id is dropped before it can support one. Reported so the zero is not read as an observation.",
+    "unsupported_claim_rate": {
+      "ci95": [
+        0.0,
+        0.0458
+      ],
+      "successes": 0,
+      "total": 80,
+      "value": 0.0
+    }
+  },
+  "interpretation": "MODEL-BACKED SYSTEM PERFORMANCE ON A SMALL FROZEN ENGINEERING GOLD SET. Not clinical accuracy, not clinical validation, not model accuracy.",
+  "limitations": [
+    "one policy family and one version (42 CFR 410.33:2026-08-13)",
+    "26 cases",
+    "synthetic, constructed clinical text",
+    "labels derived by construction from the same decide() the system runs",
+    "no clinical validation and no qualified clinical review",
+    "retrieval configuration is an unresolved engineering default",
+    "confidence is UNCALIBRATED; every abstention is structural",
+    "R-86 is a live provider/decoder failure, mitigated but not fixed"
+  ],
+  "manifest_digest": "sha256:6268b92cf44e8536",
+  "operational": {
+    "completion_tokens": 21731,
+    "cost": null,
+    "cost_note": "Not computed. No price basis is recorded for this deployment and inventing one would be a fabricated number.",
+    "model_calls": 105,
+    "prompt_tokens": 165233,
+    "wall_ms_p50": 15129.1,
+    "wall_ms_p95": 34853.1
+  },
+  "r86": {
+    "affected_cases": [
+      "CASE-0040",
+      "CASE-0046",
+      "CASE-0048",
+      "CASE-0051",
+      "CASE-0052",
+      "CASE-0056",
+      "CASE-0060",
+      "CASE-0066",
+      "CASE-0067",
+      "CASE-0070"
+    ],
+    "became_approve_or_deny": [],
+    "cases_excluded": 0,
+    "classification": "PROVIDER/DECODER_FAILURE",
+    "exclusion_note": "No affected case was excluded. Silently dropping them would report a number about the cases that happened to succeed.",
+    "final_behaviour": [
+      "HUMAN_REVIEW"
+    ],
+    "occurrence_count": 10,
+    "occurrence_rate": {
+      "ci95": [
+        0.2243,
+        0.5747
+      ],
+      "successes": 10,
+      "total": 26,
+      "value": 0.3846
+    },
+    "retries_per_occurrence": 3,
+    "retry_note": "2 bounded schema repairs plus the initial attempt.",
+    "status": "NOT FIXED - mitigated only (see docs/escalations/R-86-unbounded-whitespace.md)"
+  },
+  "safety": {
+    "all_zero": true,
+    "note": "A non-zero here is not tuned around. It is a root-cause investigation, and the number stays in the record either way.",
+    "target": "0 for every invariant",
+    "violations": {
+      "contradiction_bypass_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "invalid_citation_finalisation_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "no_citation_decision_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "policy_scope_violation_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "unresolved_dependency_decision_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "unsupported_decision_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      },
+      "wrong_policy_version_rate": {
+        "ci95": [
+          0.0,
+          0.1287
+        ],
+        "successes": 0,
+        "total": 26,
+        "value": 0.0
+      }
+    }
+  }
+}

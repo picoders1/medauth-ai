@@ -295,6 +295,59 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **Model reasoning quality** | A held-out benchmark | — | **`MODEL_REASONING_QUALITY_NOT_YET_EVALUATED`** |
 | **Retrieval configuration is justified** | A ready benchmark | — | **Refused.** `NOT_READY`, and Phase 12 tuned nothing |
 
+## Phase 13 — guardrail closure and retrieval evaluation
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Contradiction detection is reachable in the real runtime** | Decision-table row 5 produced by a live pipeline, not a unit call | `pytest -k contradiction_stops_the_case` | **Produced** — R-89 closed; 3 mutations catch a regression |
+| **The detector does not fire on ordinary cases** | A control case that must stay quiet | `pytest -k not_flagged_as_contradictory` | **Produced** — half the contradiction tests exist for this; a detector that over-fires is switched off |
+| **UNDETERMINED is non-decisive** | It neither stops a case nor clears one | `pytest -k undetermined` | **Produced** — "could not check" is kept apart from "checked and clean" |
+| **Semantic contradiction is detected** | Conflicting values across different spans | — | **Refused.** Out of scope by design: judging it requires reading, and a detector that inferred clinical meaning would be adjudicating the adjudicator |
+| **A fabricated evidence id cannot support a verdict** | Adversarial ids rejected structurally | `pytest -k forged_evidence_id` | **Produced** — 13 adversarial ids incl. the fence delimiter R-88 observed live |
+| **R-86 is fixed** | A change in the decoder | — | **Refused.** Mitigated only. `docs/escalations/R-86-unbounded-whitespace.md` — reproducible 3/3 both ways, and not ours to fix |
+| **retrieval_v3 is provenance-clean and scored once** | Integrity check before scoring, budget respected | `eval/reports/20260825T100405Z__retrieval-v3/` | **Produced** — 36 queries, sha `c8a7d9e2…`, budget 1/1 |
+| **A retrieval configuration is empirically selected** | A statistically supported separation | exact McNemar, 15 pairs | **NOT produced.** Best p = 0.0625, which is the **minimum achievable at n=31**. `RETRIEVAL_CONFIGURATION_UNRESOLVED` |
+| **The adopted reranker is an engineering default** | Point estimates and latency, labelled as such | `docs/evaluation/retrieval-configuration-decision.md` | **Produced** — and explicitly not a selection |
+| **The retrieval configuration is optimal** | A ready benchmark that separates arms | — | **Refused** |
+| **The encoder choice matters** | A measurable difference | — | **Refused.** Both encoders identical on every query at `top_k=40` (R-92) |
+| **The 26-case evaluation is ready to run** | A manifest frozen before any number exists | `data/review/eval_410_33_frozen.json` | **Produced** — `FROZEN_NOT_RUN`, 24 metrics named in advance |
+| **The 26-case evaluation result** | A run against the frozen split | — | **NOT produced.** Running it spends a scoring from the gold_v1 budget |
+| **Clinical accuracy** | — | — | **Refused**, unchanged |
+
+## Frozen 410.33 evaluation (Phase 14)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The experiment was frozen before it ran** | A manifest with an earlier timestamp than the run | `eval/reports/frozen-410-33/manifest.json` | **Produced** — frozen 10:59:18, ran 11:07:42 |
+| **All 26 cases attempted, none excluded** | Per-case records for the full frozen set | `per_case.json` | **Produced** — 26/26, `cases_excluded: 0` |
+| **Decision accuracy on this set** | A scored run against frozen labels | `metrics.json` | **Produced** — 6/26 = 0.2308 (0.1103–0.4205). **Right for the right reason: 3/26** |
+| **Safety invariants hold** | Seven rates, all zero | Same | **Produced** — 0/26 on every one |
+| **Citation validity** | Deterministic span verification | Same | **Produced** — 1.0000 (16/16), zero failures, no LLM-as-judge |
+| **The system produced any approval** | — | — | **NOT produced.** Zero approvals against 7 expected |
+| **Denial precision** | Own denominator | Same | **Produced** — 0/1. The single denial was the unsafe one |
+| **This measures system reasoning performance** | An evaluation not dominated by a provider defect | — | **Refused.** `EVALUATION_MATERIALLY_DEGRADED_BY_PROVIDER_FAILURE` — R-86 removed 38% of cases, and the survivors are not a random sample |
+| **The slice resolves policy applicability** | Row 1 reachable | — | **Refused.** It does not resolve; R-93. One denial resulted from adjudicating an inapplicable policy |
+| **Clinical accuracy / validation** | — | — | **Refused**, unchanged |
+| **The retrieval configuration is justified by this run** | — | — | **Refused.** Fixed as a pre-registered engineering default, deliberately not a variable |
+
+## Policy applicability and the Phase-15 run (Phase 15)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Policy applicability is resolved at runtime** | A stage that runs before intake, over six states, and refuses on five of them | `app/policy/applicability.py`, `app/policy/live_applicability.py`; `pytest tests/unit/test_policy_applicability.py` | **Produced** (Phase 15) — 26/26 cases recorded a resolved state and a reason; `run_mode: PRODUCTION` on every one |
+| **An inapplicable policy cannot produce a definitive decision** | A regression reproducing the Phase-14 conditions, proven load-bearing | `pytest tests/integration/test_case_0073_regression.py`; `python scripts/mutation_guard.py` | **Produced** (Phase 15) — 4 of 19 mutations target this rule and all 4 are caught |
+| **No model output can bypass policy applicability** | Seven attack shapes against five refusing states, asserting on model calls and not only on outcomes | `pytest tests/security/test_applicability_cannot_be_bypassed.py` | **Produced** (Phase 15) — 15 tests; applicability decides before the model is called |
+| **The Phase-15 run exercised a refusing applicability state** | At least one case reaching a non-`RESOLVED` state | — | **NOT produced.** All 26 cases resolved. The refusing states are verified by fixtures and mutations, **not by this run** |
+| **The unsafe denial was removed by the applicability fix** | CASE-0073 taking a different path because applicability refused | — | **Refused.** CASE-0073 **resolves** (R-97), so the fix did not change its path. The Phase-14 denial did not recur, and that is a different fact from having been prevented |
+| **Decision accuracy on this run** | A scored run against frozen labels | `eval/reports/phase15-410-33/metrics.json` | **Produced** — 8/26 = 0.3077 (0.1650–0.4999). **Right for the right reason: 4/26.** Carries `DEGRADED_BY_PROVIDER_FAILURE` |
+| **This measures system reasoning performance** | An experiment the pre-registered rule classifies as valid | — | **Refused.** `provider-failure-validity.v1` returns `DEGRADED_BY_PROVIDER_FAILURE` on condition 1 (10/26 = 0.3846) |
+| **Phase 15 is an improvement over Phase 14** | Two runs both interpretable as performance | — | **Refused.** Neither run is interpretable as performance, and comparing two degraded numbers compares two outage draws |
+| **Safety invariants hold** | Seven rates, all zero | Same | **Produced** — 0/26 on every one, **and zero unsafe definitive decisions** (Phase 14 had one) |
+| **Citation validity** | Deterministic span verification | Same | **Produced** — 1.0000 (16/16), 59 citations verified, no LLM-as-judge |
+| **The system produced any approval or denial** | — | — | **NOT produced.** Zero of each, against 7 expected of each. Coverage 0.0000 |
+| **R-86 is fixed** | A change in the decoder, evidenced by the provider | — | **Refused.** Not fixed. Phase 15 established it is input-length dependent; ownership is still undetermined |
+| **gold_v1's not-applicable cases are labellable from their input** | Structured input that a deterministic resolver refuses | — | **Refused (R-97).** Three cases encode non-applicability only in the narrative. Reported as `DATASET_DEFECT`, never excluded; a gold_v2 is OD-37 |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

@@ -277,10 +277,26 @@ def test_gold_v1_is_byte_identical() -> None:
     import hashlib
 
     manifest = json.loads(GOLD_MANIFEST.read_text(encoding="utf-8"))
+    # The CASES are what must be byte-identical. The manifest's budget counter
+    # legitimately moves when a scoring is spent - freezing that too would make the
+    # budget unrecordable.
     assert manifest["sha256"]["gold"] == hashlib.sha256(GOLD.read_bytes()).hexdigest()
     assert manifest["frozen"] is True
-    assert manifest["scoring_budget"]["scorings_spent"] == 0
     assert len(_jsonl(GOLD)) == 156
+
+    # **2026-08-25: the gold set was scored once**, deliberately, by the frozen
+    # 410.33 experiment. This asserted `scorings_spent == 0`, which was right until
+    # it was spent and would now assert the evaluation never happened.
+    #
+    # The enduring invariant is the one the budget exists for: spend must never
+    # exceed the allowance, and every spend must name the experiment that took it.
+    # Re-scoring a frozen split until a number improves is how an evaluation becomes
+    # fiction, and this is what stands in the way.
+    budget = manifest["scoring_budget"]
+    assert budget["scorings_spent"] <= budget["allowed_scorings"]
+    assert len(budget.get("spent_by", [])) == budget["scorings_spent"]
+    for spend in budget.get("spent_by", []):
+        assert spend["experiment"] and spend["report"]
 
 
 def test_no_gold_case_references_a_criterion_added_in_phase_7() -> None:
@@ -382,13 +398,34 @@ def test_v3_contains_no_query_that_cannot_resolve_in_production() -> None:
         assert verdicts[question["id"]].startswith("VALID"), question["id"]
 
 
-def test_v3_has_never_been_scored() -> None:
-    """No number from v2's report may be attributed to it - denominators differ."""
+def test_v3_scoring_matches_its_own_budget() -> None:
+    """**The world changed on 2026-08-25: v3 was scored, once, under OD-28.**
+
+    This asserted `scored is False` and that no report existed. That was right until
+    the scoring happened, and keeping it would assert the project had not progressed.
+
+    What it checks now cannot go stale and is the property that actually protects the
+    set: the dataset's own record of how often it has been scored must agree with how
+    many reports exist. A hold-out re-scored until a number improves is how an
+    evaluation becomes fiction, and the budget is the only thing standing in the way.
+    """
     spec = yaml.safe_load(V3.read_text(encoding="utf-8"))
-    assert spec["scored"] is False
-    assert "NEVER been scored" in spec["scoring_note"]
-    reports = list((REPO / "eval" / "reports").glob("*retrieval-v3*"))
-    assert not reports, f"v3 claims to be unscored but a report exists: {reports}"
+    reports = sorted((REPO / "eval" / "reports").glob("*retrieval-v3*"))
+
+    if not spec["scored"]:
+        assert not reports, f"v3 claims to be unscored but a report exists: {reports}"
+        return
+
+    assert spec["scorings_spent"] == len(reports), (
+        f"v3 records {spec['scorings_spent']} scoring(s) but {len(reports)} report(s) "
+        "exist. The record and the artefacts must agree."
+    )
+    assert spec["scorings_spent"] <= spec["scoring_budget"], (
+        "v3 has been scored more times than its budget allows. Additional scorings "
+        "must be declared in an ADR in advance."
+    )
+    # And v2's numbers still may not be attributed to it - the denominators differ.
+    assert spec["derived_from"].endswith("retrieval_v2/questions.yaml")
 
 
 def test_v3_retains_every_query_category() -> None:

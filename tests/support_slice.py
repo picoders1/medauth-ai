@@ -26,8 +26,8 @@ from app.contracts.slice import (
     IntakeExtraction,
 )
 from app.core.identity import PolicyIdentity, PolicyType
-from app.core.types import CriterionKind
-from app.graph.slice import SliceCriterion
+from app.core.types import CodeSystem, CriterionKind
+from app.graph.slice import ApplicabilityPort, SliceCriterion
 from app.llm.gateway import (
     GatewayFailure,
     GatewayOutcome,
@@ -35,6 +35,12 @@ from app.llm.gateway import (
     ModelRequest,
     ModelResponse,
     ModelRole,
+)
+from app.policy.applicability import (
+    ApplicabilityFinding,
+    ApplicabilityRequest,
+    CandidateCensus,
+    classify,
 )
 from app.retrieval.evidence import EvidenceChunk, content_hash
 from tests.corpus import skip_reason
@@ -306,3 +312,64 @@ def _criterion_from(instructions: str) -> str:
 #: a signature or property drift becomes a type error at check time rather than an
 #: `isinstance` surprise nobody runs.
 _CONFORMS: ModelGateway = FakeGateway()
+
+
+# ---------------------------------------------------------------------------
+# Applicability (Phase 15, R-93)
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class FixtureApplicability:
+    """An applicability port whose answer the test states outright.
+
+    The default is `applies()` - the designated policy governs - because that is the
+    precondition of every test *about something else*, and a double that abstained
+    by default would make those tests pass for the wrong reason.
+
+    That default is also why `does_not_apply()` exists as a named constructor rather
+    than as a hand-built finding at each call site: the CASE-0073 regression has to
+    say what it is testing in one line, and a reader has to be able to see that the
+    only thing changed from the passing case is applicability.
+    """
+
+    finding: ApplicabilityFinding | None = None
+    #: A port that raises breaks its own contract. Tests need to prove the slice
+    #: survives one anyway, so the double can be told to.
+    raises: BaseException | None = None
+    requests: list[ApplicabilityRequest] = field(default_factory=list)
+
+    async def applicability_for(
+        self, request: ApplicabilityRequest, *, designated: PolicyIdentity
+    ) -> ApplicabilityFinding:
+        self.requests.append(request)
+        if self.raises is not None:
+            raise self.raises
+        if self.finding is not None:
+            return self.finding
+        return classify(
+            request,
+            designated=designated,
+            applicable=(designated,),
+            census=CandidateCensus(total=1, in_force=1, in_jurisdiction=1),
+        )
+
+
+def does_not_apply(
+    designated: PolicyIdentity = IDENTITY, *, code: str = "99199"
+) -> ApplicabilityFinding:
+    """The CASE-0073 shape: no policy in the corpus lists the requested procedure.
+
+    Built through `classify()` rather than by hand, so the fixture cannot state a
+    state/reason pair the real classifier would never produce.
+    """
+    return classify(
+        ApplicabilityRequest(procedure_code=code, code_system=CodeSystem.HCPCS, as_of=AS_OF),
+        designated=designated,
+        applicable=(),
+        census=CandidateCensus(),
+    )
+
+
+#: Static proof the double satisfies the port. Checked by mypy, like `_CONFORMS`.
+_APPLICABILITY_CONFORMS: ApplicabilityPort = FixtureApplicability()

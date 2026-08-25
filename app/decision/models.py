@@ -78,6 +78,30 @@ class DecisionRule(IntEnum):
     #: of all places.
     POLICY_SEMANTICS_UNVERIFIED = 13
 
+    #: Phase 15. What deterministic policy *applicability* concluded, when it
+    #: concluded something other than "the designated policy governs".
+    #:
+    #: These three fire immediately after rows 1 and 2 - with which they form one
+    #: block - and therefore before every guardrail row and before any approval or
+    #: denial. That position is the R-93 fix: until Phase 15 the runtime asserted
+    #: `RESOLVED` because it had been handed a policy identity, so rows 1 and 2 were
+    #: unreachable from the live slice and a case whose policy did not govern was
+    #: adjudicated against it anyway.
+    #:
+    #:   POLICY_TEMPORALLY_UNRESOLVED  a policy lists the procedure and no version of
+    #:                             it was in force on the date of service. Not the
+    #:                             same claim as row 1: the corpus HAS the policy.
+    #:   RESOLUTION_INSUFFICIENT_INFORMATION
+    #:                             the request cannot establish applicability at all
+    #:                             - no code, no code system, or no date of service.
+    #:                             A question for the submitter, so NEEDS_INFO.
+    #:   POLICY_RESOLUTION_ERROR   resolution failed, or returned a policy other than
+    #:                             the one this runtime adjudicates. A wiring or
+    #:                             infrastructure fault; it fails toward the human.
+    POLICY_TEMPORALLY_UNRESOLVED = 14
+    RESOLUTION_INSUFFICIENT_INFORMATION = 15
+    POLICY_RESOLUTION_ERROR = 16
+
 
 class Recommendation(BaseModel):
     """The system's output. Produced by ``decide()``, never by a model."""

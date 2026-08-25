@@ -85,6 +85,27 @@ class AbstentionReason(StrEnum):
     #: inconsistency.
     CONTRADICTORY_EVIDENCE = "CONTRADICTORY_EVIDENCE"
 
+    # -- Phase 15: what applicability resolution concluded -------------------
+    #
+    # `NO_APPLICABLE_POLICY` above is the fourth member of this group and predates
+    # them; it keeps its name because it is written into committed artefacts.
+
+    #: Several policies could govern, or one document has overlapping in-force
+    #: versions. Which one controls is a human judgement and is never ranked.
+    MULTIPLE_CANDIDATE_POLICIES = "MULTIPLE_CANDIDATE_POLICIES"
+
+    #: A policy lists the procedure and no version of it was in force on the date
+    #: of service. Distinct from "no policy governs": the corpus has the policy.
+    POLICY_TEMPORALLY_UNRESOLVED = "POLICY_TEMPORALLY_UNRESOLVED"
+
+    #: The request cannot establish applicability at all - no procedure code, no
+    #: code system, or no date of service. The submitter can answer it.
+    INSUFFICIENT_APPLICABILITY_INFORMATION = "INSUFFICIENT_APPLICABILITY_INFORMATION"
+
+    #: Resolution failed, or returned a policy other than the one this runtime is
+    #: wired to adjudicate. A wiring or infrastructure fault, never a denial.
+    POLICY_RESOLUTION_ERROR = "POLICY_RESOLUTION_ERROR"
+
 
 class ScoredGate(StrEnum):
     """The state of the confidence-threshold gate.
@@ -118,6 +139,12 @@ _RULE_FOR: dict[AbstentionReason, DecisionRule] = {
     AbstentionReason.MODEL_SCHEMA_FAILURE: DecisionRule.MODEL_PATH_FAILED,
     AbstentionReason.RETRIEVAL_FAILURE: DecisionRule.MODEL_PATH_FAILED,
     AbstentionReason.CONTRADICTORY_EVIDENCE: DecisionRule.CONTRADICTORY_VERDICTS,
+    AbstentionReason.MULTIPLE_CANDIDATE_POLICIES: DecisionRule.CONFLICTING_POLICY,
+    AbstentionReason.POLICY_TEMPORALLY_UNRESOLVED: DecisionRule.POLICY_TEMPORALLY_UNRESOLVED,
+    AbstentionReason.INSUFFICIENT_APPLICABILITY_INFORMATION: (
+        DecisionRule.RESOLUTION_INSUFFICIENT_INFORMATION
+    ),
+    AbstentionReason.POLICY_RESOLUTION_ERROR: DecisionRule.POLICY_RESOLUTION_ERROR,
 }
 
 #: The outcome each reason produces. Only ONE reason yields `NO_DECISION`, and none
@@ -132,6 +159,10 @@ _OUTCOME_FOR: dict[AbstentionReason, Outcome] = {
     AbstentionReason.MODEL_SCHEMA_FAILURE: Outcome.HUMAN_REVIEW,
     AbstentionReason.RETRIEVAL_FAILURE: Outcome.HUMAN_REVIEW,
     AbstentionReason.CONTRADICTORY_EVIDENCE: Outcome.HUMAN_REVIEW,
+    AbstentionReason.MULTIPLE_CANDIDATE_POLICIES: Outcome.HUMAN_REVIEW,
+    AbstentionReason.POLICY_TEMPORALLY_UNRESOLVED: Outcome.HUMAN_REVIEW,
+    AbstentionReason.INSUFFICIENT_APPLICABILITY_INFORMATION: Outcome.NEEDS_INFO,
+    AbstentionReason.POLICY_RESOLUTION_ERROR: Outcome.HUMAN_REVIEW,
 }
 
 
@@ -148,6 +179,12 @@ _AUDIT_EVENT_FOR: dict[AbstentionReason, str] = {
     AbstentionReason.MODEL_SCHEMA_FAILURE: "abstention.model_schema_failure",
     AbstentionReason.RETRIEVAL_FAILURE: "abstention.retrieval_failure",
     AbstentionReason.CONTRADICTORY_EVIDENCE: "abstention.contradictory_evidence",
+    AbstentionReason.MULTIPLE_CANDIDATE_POLICIES: "abstention.multiple_candidate_policies",
+    AbstentionReason.POLICY_TEMPORALLY_UNRESOLVED: "abstention.policy_temporally_unresolved",
+    AbstentionReason.INSUFFICIENT_APPLICABILITY_INFORMATION: (
+        "abstention.insufficient_applicability_information"
+    ),
+    AbstentionReason.POLICY_RESOLUTION_ERROR: "abstention.policy_resolution_error",
 }
 
 
@@ -234,6 +271,26 @@ def abstention_for(
         ),
         AbstentionReason.CONTRADICTORY_EVIDENCE: (
             "verdicts disagree; a human must resolve which reading governs"
+        ),
+        AbstentionReason.MULTIPLE_CANDIDATE_POLICIES: (
+            "more than one policy could govern this request; a human must decide "
+            "which controls. Ranking them by similarity is exactly the failure "
+            "deterministic resolution exists to prevent (ADR-004)"
+        ),
+        AbstentionReason.POLICY_TEMPORALLY_UNRESOLVED: (
+            "a policy lists this procedure but no version of it was in force on the "
+            "date of service; confirm the date, or have a reviewer establish which "
+            "version governed. Version selection is by date of service, never latest"
+        ),
+        AbstentionReason.INSUFFICIENT_APPLICABILITY_INFORMATION: (
+            "supply the missing element of the request named in `subjects` - "
+            "procedure code, code system or date of service. Applicability cannot "
+            "be inferred from the clinical narrative"
+        ),
+        AbstentionReason.POLICY_RESOLUTION_ERROR: (
+            "policy resolution failed or returned a policy this runtime is not "
+            "wired to adjudicate; this is an engineering fault. Route to a human "
+            "and fix the wiring - never re-run against whatever policy was loaded"
         ),
     }
     return AbstentionRecord(

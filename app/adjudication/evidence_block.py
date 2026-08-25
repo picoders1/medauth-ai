@@ -23,13 +23,17 @@ in a comment.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 from app.retrieval.evidence import EvidenceChunk
 
 __all__ = [
+    "EVIDENCE_ID_PATTERN",
     "FENCE",
     "EvidenceEntry",
+    "evidence_id_for",
+    "is_wellformed_evidence_id",
     "render_evidence_block",
     "render_fact_block",
 ]
@@ -57,6 +61,35 @@ _FACT_FRAME_OPEN = (
 )
 
 
+#: The only shape an evidence id may take. `E` followed by digits, nothing else.
+#:
+#: R-88: the first live call returned `evidence_ids: ["MEDAUTH-DATA-8f2a"]` - the
+#: model cited the FENCE DELIMITER as an evidence id. It was contained (an id outside
+#: the criterion's set is dropped), but containment by membership alone means the
+#: only thing standing between a fabricated id and the record is a set lookup.
+#:
+#: A shape check is a second, independent barrier: an id that is not `E<digits>` is
+#: rejected before membership is even consulted, so a delimiter, a chunk id, a
+#: section path or a sentence cannot be an id no matter what the set contains.
+EVIDENCE_ID_PATTERN = re.compile(r"^E[0-9]{1,4}$")
+
+
+def evidence_id_for(index: int) -> str:
+    """The id assigned to the nth entry. **We assign these; the model never does.**"""
+    if index < 0:
+        raise ValueError("evidence ids are assigned from a zero-based position")
+    return f"E{index + 1}"
+
+
+def is_wellformed_evidence_id(value: str) -> bool:
+    """Whether `value` could be an id we issued. Shape only, not membership.
+
+    Deliberately separate from "is it in this criterion's set". Two independent
+    checks fail independently; one check doing both work fails once.
+    """
+    return bool(EVIDENCE_ID_PATTERN.match(value))
+
+
 @dataclass(frozen=True, slots=True)
 class EvidenceEntry:
     """One retrieved passage, as the model sees it.
@@ -67,6 +100,17 @@ class EvidenceEntry:
 
     evidence_id: str
     chunk: EvidenceChunk
+
+    def __post_init__(self) -> None:
+        # Refused at construction. An entry carrying a malformed id would put a
+        # value into the known set that the shape check would then reject, and a
+        # set whose members fail their own validator is worse than no validator.
+        if not is_wellformed_evidence_id(self.evidence_id):
+            raise ValueError(
+                f"{self.evidence_id!r} is not a well-formed evidence id. Ids are "
+                "assigned by us as E1, E2, ... - never taken from a chunk, a section "
+                "path, or anything a model produced."
+            )
 
 
 def _neutralise(text: str) -> str:

@@ -44,7 +44,11 @@ relevance_labels:
 
     '
   NOT_RELEVANT: Everything else. The default; not enumerated per query.
-scored: false
+scored: true
+scored_at: 2026-08-25
+scored_by: eval/reports/20260825T100405Z__retrieval-v3
+scorings_spent: 1
+scoring_budget: 1
 scoring_note: This set has NEVER been scored. No number from v2's report may be attributed to it - the
   denominators differ. Re-measurement is OD-28.
 excluded_from_v2:

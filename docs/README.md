@@ -39,6 +39,8 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [vertical-slice-runtime.md](architecture/vertical-slice-runtime.md) — ports, injection, what raises and what abstains
 - [phase12-preconditions.md](architecture/phase12-preconditions.md) — **what an independent audit found, and what closed it**
 - [phase12-model-activation.md](architecture/phase12-model-activation.md) — **the first live model call, and the three defects it exposed**
+- [phase13-guardrail-closure.md](architecture/phase13-guardrail-closure.md) — **row 5 made reachable, evidence ids hardened, retrieval scored once**
+- [phase15-applicability-resolution.md](architecture/phase15-applicability-resolution.md) — **R-93 closed: which policy applies is now resolved, not asserted**
 - [model-gateway.md](architecture/model-gateway.md) — the seam a model call crosses; interface only
 - [implementation-roadmap.md](architecture/implementation-roadmap.md) — Phases 0–9
 
@@ -94,6 +96,9 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/retrieval-evaluation-v2.md](evaluation/retrieval-evaluation-v2.md) — v2 results: discriminates at rank 1, saturates by rank 3
 - [evaluation/gold-set-protection.md](evaluation/gold-set-protection.md) — what freezing gold_v1 means, and what would force a gold_v2
 - [evaluation/retrieval-provenance-audit.md](evaluation/retrieval-provenance-audit.md) — six classifications across all three sets
+- [evaluation/frozen-410-33-results.md](evaluation/frozen-410-33-results.md) — **the first controlled evaluation: 6/26, and the gap it found**. Sealed; `EVALUATION_NOT_INTERPRETABLE`
+- [evaluation/phase15-410-33-results.md](evaluation/phase15-410-33-results.md) — **the same 26 cases, a different system: 8/26, zero unsafe decisions, still degraded**
+- [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart
 - [evaluation/model-capability-evaluation.md](evaluation/model-capability-evaluation.md) — what the decoder does, scoped to the schema tested
 - [evaluation/first-slice-evaluation.md](evaluation/first-slice-evaluation.md) — 9/9 on controlled fixtures, and everything it does **not** measure
@@ -117,6 +122,11 @@ submission and acceptance are two acts. Neither can be performed by this reposit
 
 - [review/FOCUS-001-submission-instructions.md](review/FOCUS-001-submission-instructions.md) — how to record an answer, step by step
 - [adr/ADR-026-single-party-decision-exemption.md](adr/ADR-026-single-party-decision-exemption.md) — **the independent-acceptance control, deliberately relaxed and marked**
+- [adr/ADR-028-runtime-applicability-and-experiment-validity.md](adr/ADR-028-runtime-applicability-and-experiment-validity.md) — **applicability at runtime, and a validity rule fixed before the run**
+
+## Escalations
+
+- [escalations/R-86-unbounded-whitespace.md](escalations/R-86-unbounded-whitespace.md) — **grammar-constrained decoding that never terminates**; reproducible, and not ours to fix
 
 ## Governance
 

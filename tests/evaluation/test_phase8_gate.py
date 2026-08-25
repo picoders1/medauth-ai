@@ -235,10 +235,22 @@ def test_v3_is_provenance_clean_and_v1_v2_are_not(provenance: dict[str, Any]) ->
 def test_no_benchmark_is_ready_and_that_is_stated(readiness: dict[str, Any]) -> None:
     """A clean set that cannot discriminate is not ready; a discriminating set that
     is contaminated is not ready. If none qualifies, say so."""
+    # **2026-08-25: v3 was scored and the gate flipped to READY.** This asserted
+    # NOT_READY, which was a fact about the corpus rather than about the gate. What
+    # it guards now holds either way: the status and the ready-set list must agree,
+    # and a set may only be listed ready if it passes BOTH conditions.
     assert readiness["status"] in {"RETRIEVAL_BENCHMARK_READY", "RETRIEVAL_BENCHMARK_NOT_READY"}
-    assert readiness["status"] == "RETRIEVAL_BENCHMARK_NOT_READY"
-    assert readiness["ready_sets"] == []
-    assert "manufacture a result" in readiness["note"]
+    ready = readiness["ready_sets"]
+    if readiness["status"] == "RETRIEVAL_BENCHMARK_NOT_READY":
+        assert ready == []
+        assert "manufacture a result" in readiness["note"]
+    else:
+        assert ready, "READY with no ready set is the 'close enough' this refuses"
+        by_set = {e["set"]: e for e in readiness["assessment"]}
+        for name in ready:
+            assert by_set[name]["checks"]["provenance_clean"] is True
+            assert by_set[name]["checks"]["discriminates_between_arms"] is True
+            assert by_set[name]["checks"]["has_been_scored"] is True
 
 
 def test_readiness_requires_both_clean_provenance_and_discrimination(
@@ -246,10 +258,15 @@ def test_readiness_requires_both_clean_provenance_and_discrimination(
 ) -> None:
     """Each set fails for its own reason, and both reasons are real."""
     by_set = {entry["set"]: entry for entry in readiness["assessment"]}
+    # v2 discriminates and is contaminated. That has not changed and is why v3 exists.
     assert "provenance_clean" in by_set["retrieval_v2"]["failed_checks"]
     assert by_set["retrieval_v2"]["checks"]["discriminates_between_arms"] is True
+    # v3 is clean. **2026-08-25: it has now also been scored**, so it no longer fails
+    # `has_been_scored` - the check the earlier version asserted it failed.
     assert by_set["retrieval_v3"]["checks"]["provenance_clean"] is True
-    assert "has_been_scored" in by_set["retrieval_v3"]["failed_checks"]
+    assert by_set["retrieval_v3"]["failed_checks"] == [] or (
+        "has_been_scored" in by_set["retrieval_v3"]["failed_checks"]
+    ), "v3 must be either clean-and-scored or explicitly unscored, never in between"
 
 
 def test_an_unscored_set_does_not_pass_the_discrimination_check(
@@ -375,7 +392,11 @@ def test_gold_v1_is_byte_identical() -> None:
     manifest = json.loads(GOLD_MANIFEST.read_text(encoding="utf-8"))
     assert manifest["sha256"]["gold"] == hashlib.sha256(GOLD.read_bytes()).hexdigest()
     assert manifest["frozen"] is True
-    assert manifest["scoring_budget"]["scorings_spent"] == 0
+    # **2026-08-25: one scoring was spent** by the frozen 410.33 experiment. The
+    # cases stay byte-identical; the budget counter is meant to move.
+    budget = manifest["scoring_budget"]
+    assert budget["scorings_spent"] <= budget["allowed_scorings"]
+    assert len(budget.get("spent_by", [])) == budget["scorings_spent"]
     assert len(_jsonl(GOLD)) == 156
     assert len(_jsonl(SYNTHETIC)) == 222
 

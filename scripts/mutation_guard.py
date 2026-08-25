@@ -117,6 +117,33 @@ MUTATIONS: tuple[Mutation, ...] = (
         keyword="distinguishable or review_required",
     ),
     Mutation(
+        name="contradiction-never-reaches-row-5",
+        rule="a detected contradiction must reach decision-table row 5",
+        path="app/guardrail/contradiction.py",
+        old="        if report.state is ContradictionState.CONTRADICTION",
+        new="        if False  # MUTATION: row 5 unreachable again (R-89)",
+        tests="tests/unit/test_contradiction.py tests/integration/test_first_vertical_slice.py",
+        keyword="row_5 or contradiction_stops",
+    ),
+    Mutation(
+        name="undetermined-treated-as-contradiction",
+        rule="UNDETERMINED must be non-decisive - it must not stop a case",
+        path="app/guardrail/contradiction.py",
+        old="        if report.state is ContradictionState.CONTRADICTION",
+        new="        if report.state is not ContradictionState.CONTRADICTION  # MUTATION",
+        tests="tests/unit/test_contradiction.py",
+        keyword="row_5 or undetermined_does_not_reach",
+    ),
+    Mutation(
+        name="contradiction-detector-silenced",
+        rule="structural conflicts must be detected, not assumed absent",
+        path="app/guardrail/contradiction.py",
+        old="    if findings:",
+        new="    if False:  # MUTATION: detector never reports a conflict",
+        tests="tests/unit/test_contradiction.py",
+        keyword="opposite_verdicts or twice_differently or same_span",
+    ),
+    Mutation(
         name="invalid-citation-accepted",
         rule="a citation failure must stop the case",
         path="app/graph/slice.py",
@@ -138,10 +165,25 @@ MUTATIONS: tuple[Mutation, ...] = (
         name="fabricated-evidence-trusted",
         rule="an evidence id the model invented must not support a verdict",
         path="app/adjudication/assess.py",
-        old="    cited = tuple(eid for eid in answer.evidence_ids if eid in known)",
-        new="    cited = tuple(answer.evidence_ids)  # MUTATION: invented ids trusted",
+        old="        eid for eid in answer.evidence_ids if is_wellformed_evidence_id(eid) and eid in known",
+        new="        eid for eid in answer.evidence_ids  # MUTATION: invented ids trusted",
         tests="tests/integration/test_first_vertical_slice.py",
         keyword="citing_evidence_it_was_not_given or unevidenced_refusal",
+    ),
+    Mutation(
+        # NOT the shape check in `assess.py`. That one is redundant with membership -
+        # every forged id is also absent from the set - so removing it survives, and
+        # a mutation that survives because the rule is defended twice is not a
+        # finding. The load-bearing guard is the one that keeps a malformed id OUT of
+        # the known set, because a set whose members fail their own validator would
+        # make the shape check meaningless.
+        name="evidence-id-entry-guard-removed",
+        rule="an evidence entry must not be constructible with a malformed id",
+        path="app/adjudication/evidence_block.py",
+        old="        if not is_wellformed_evidence_id(self.evidence_id):",
+        new="        if False:  # MUTATION: malformed ids admitted to the known set",
+        tests="tests/integration/test_first_vertical_slice.py",
+        keyword="entry_cannot_be_built",
     ),
     Mutation(
         name="self-acceptance-permitted",
@@ -164,6 +206,65 @@ MUTATIONS: tuple[Mutation, ...] = (
         new="                if False:  # MUTATION: 403 falls through to the retry path",
         tests="tests/unit/test_firewall_gateway.py",
         keyword="never_retried or block_is_classified",
+    ),
+    # -- Phase 15: policy applicability (R-93) ------------------------------
+    Mutation(
+        # THE R-93 mutation. Removing the refusal is exactly the Phase-14 runtime:
+        # applicability still runs, still records its finding, and nothing acts on
+        # it - which is the shape the defect actually had. A mutation that deleted
+        # the whole stage would also break the audit-trail assertions, and would
+        # then be caught by a test that is not the regression.
+        name="applicability-stage-removed",
+        rule="a policy that does not govern the case must not be adjudicated",
+        path="app/graph/slice.py",
+        old="        if not finding.permits_adjudication:",
+        new="        if False:  # MUTATION: an inapplicable policy is adjudicated anyway",
+        tests="tests/integration/test_case_0073_regression.py",
+        keyword="inapplicable_policy_cannot_produce_a_denial or no_refusing_state",
+    ),
+    Mutation(
+        # A PRODUCTION runner with no resolver IS the Phase-14 runtime. Without this
+        # guard the fix is present and skippable, and skipping it needs no edit to
+        # any file that mentions applicability.
+        name="production-runs-without-a-resolver",
+        rule="production must not assume the policy it was handed governs the case",
+        path="app/graph/slice.py",
+        old="        if mode in PRODUCTION_MODES and applicability is None:",
+        new="        if False:  # MUTATION: PRODUCTION without an ApplicabilityPort",
+        tests="tests/integration/test_case_0073_regression.py",
+        keyword="without_a_resolver_cannot_be_constructed",
+    ),
+    Mutation(
+        # NOT the `ResolutionState(...)` in `run()`. That one is reachable only when
+        # the state IS RESOLVED - the refusal above returns first - so replacing it
+        # with the Phase-14 literal `ResolutionState(RESOLVED, 1)` is genuinely
+        # equivalent and SURVIVES. A mutation that survives because the rule is
+        # defended upstream is not a finding, and the harness reported it as
+        # SURVIVED until the anchor was moved here. Measured, not assumed.
+        #
+        # This one is load-bearing: the refusal path is where a non-RESOLVED state
+        # is turned into a row of the table. Hardcoding RESOLVED here makes every
+        # refusal fall through to the totality guard, and a reviewer is told
+        # "unclassified" about a case the system understood perfectly well.
+        name="refusal-reports-a-generic-row",
+        rule="a refusal must name the applicability row, not fall through to UNCLASSIFIED",
+        path="app/graph/slice.py",
+        old="            GuardrailState.PASSED,\n            ResolutionState(status=finding.state, version_count=finding.version_count),",
+        new="            GuardrailState.PASSED,\n            ResolutionState(status=ResolutionStatus.RESOLVED, version_count=1),  # MUTATION",
+        tests="tests/integration/test_case_0073_regression.py",
+        keyword="inapplicable_policy_cannot_produce_a_denial or names_the_policy_reason",
+    ),
+    Mutation(
+        # Collapsing the six states into "resolved or not" is the simplification a
+        # maintainer would actually write, and it makes TEMPORALLY_UNRESOLVED,
+        # INSUFFICIENT_INFORMATION and RESOLUTION_ERROR all read as coverage answers.
+        name="only-resolved-is-checked-by-identity",
+        rule="every non-RESOLVED state must refuse, not just NOT_APPLICABLE",
+        path="app/core/types.py",
+        old="        return self is ResolutionStatus.RESOLVED",
+        new="        return self is not ResolutionStatus.NONE_APPLICABLE  # MUTATION",
+        tests="tests/unit/test_policy_applicability.py tests/integration/test_case_0073_regression.py",
+        keyword="only_resolved_permits or no_refusing_state",
     ),
     Mutation(
         name="gold-v1-protection-removed",

@@ -17,7 +17,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.adjudication.evidence_block import EvidenceEntry, render_evidence_block, render_fact_block
+from app.adjudication.evidence_block import (
+    EvidenceEntry,
+    is_wellformed_evidence_id,
+    render_evidence_block,
+    render_fact_block,
+)
 from app.contracts.slice import AssessmentState, CriterionAssessment
 from app.llm.gateway import ModelGateway, ModelRequest, ModelRole
 
@@ -96,7 +101,18 @@ async def assess_criterion(
     answer = response.value
 
     known = {entry.evidence_id for entry in request.evidence}
-    cited = tuple(eid for eid in answer.evidence_ids if eid in known)
+    # TWO independent checks, in this order (R-88):
+    #
+    #   shape      - could we ever have issued this? `E<digits>` and nothing else.
+    #   membership - did we issue it for THIS criterion?
+    #
+    # The first live call cited the fence delimiter as an evidence id. Membership
+    # alone would have caught it, but only because that string happened not to be in
+    # the set - which is containment by coincidence. A shape check rejects a
+    # delimiter, a chunk id or a sentence before the set is consulted at all.
+    cited = tuple(
+        eid for eid in answer.evidence_ids if is_wellformed_evidence_id(eid) and eid in known
+    )
 
     # An evidence id the model invented is dropped rather than trusted. If dropping
     # it leaves a decided assessment with nothing behind it, the assessment becomes

@@ -1,0 +1,1233 @@
+[
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0038",
+    "category": "CLEARLY_SATISFIES",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 4
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0040",
+    "category": "CLEARLY_SATISFIES",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0041",
+    "category": "CLEARLY_SATISFIES",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 5
+    },
+    "contradiction_state": "CONTRADICTION",
+    "deterministic_rule": 5,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "CONTRADICTION",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "structural conflict detected; routed to a human by row 5",
+    "severity": "LOW (behaved as designed)",
+    "stage_of_failure": "CONTRADICTION"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0043",
+    "category": "CLEARLY_SATISFIES",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 3
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C04', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0044",
+    "category": "CLEARLY_FAILS",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 3
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C01', '42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0045",
+    "category": "CLEARLY_FAILS",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 6
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0046",
+    "category": "CLEARLY_FAILS",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0048",
+    "category": "CLEARLY_FAILS",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0051",
+    "category": "EXCLUSION_PRESENT",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0052",
+    "category": "EXCLUSION_PRESENT",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "case_id": "CASE-0053",
+    "category": "EXCLUSION_PRESENT",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 4
+    },
+    "contradiction_state": "CONTRADICTION",
+    "deterministic_rule": 5,
+    "expected": "DENY_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "guardrail_state": "CONTRADICTION",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "structural conflict detected; routed to a human by row 5",
+    "severity": "LOW (behaved as designed)",
+    "stage_of_failure": "CONTRADICTION"
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "case_id": "CASE-0055",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 4
+    },
+    "contradiction_state": "CONTRADICTION",
+    "deterministic_rule": 5,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "CONTRADICTION",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "structural conflict detected; routed to a human by row 5",
+    "severity": "LOW (behaved as designed)",
+    "stage_of_failure": "CONTRADICTION"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0056",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0060",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "case_id": "CASE-0063",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 4
+    },
+    "contradiction_state": "CONTRADICTION",
+    "deterministic_rule": 5,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "CONTRADICTION",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "structural conflict detected; routed to a human by row 5",
+    "severity": "LOW (behaved as designed)",
+    "stage_of_failure": "CONTRADICTION"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0064",
+    "category": "BORDERLINE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 6
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0066",
+    "category": "BORDERLINE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0067",
+    "category": "BORDERLINE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "APPROVE_RECOMMENDED",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0069",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 2
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "HUMAN_REVIEW",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "criterion verdicts differ from the gold labels: ['42_CFR_410_33_2026_08_13_C02', '42_CFR_410_33_2026_08_13_C03', '42_CFR_410_33_2026_08_13_C04', '42_CFR_410_33_2026_08_13_C05']",
+    "severity": "MEDIUM",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual": "HUMAN_REVIEW",
+    "actual_criterion_states": {},
+    "case_id": "CASE-0070",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 0
+    },
+    "contradiction_state": "UNDETERMINED",
+    "deterministic_rule": 4,
+    "expected": "HUMAN_REVIEW",
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Escalation R-86 (decoder-side stop condition). NOT a prompt fix.",
+    "retrieved_evidence": {},
+    "root_cause": "R-86: the intake call never terminated; bounded repair exhausted. PROVIDER/DECODER failure, not a reasoning error.",
+    "severity": "HIGH (availability)",
+    "stage_of_failure": "MODEL_ASSESSMENT"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0071",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 4
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {},
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "The gold label expects row 1 (no applicable policy resolves). The slice does not RESOLVE - it is given a policy identity and asserts ResolutionState(RESOLVED), so row 1 is unreachable and the case is adjudicated against a policy that should not have applied. The citations were valid, which is exactly the failure ADR-004 names: a confidently-cited answer from an inapplicable policy passes every grounding metric.",
+    "severity": "HIGH (right answer, wrong reason)",
+    "stage_of_failure": "POLICY_RESOLUTION"
+  },
+  {
+    "abstention_state": null,
+    "actual": "DENY_RECOMMENDED",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0073",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 7
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 7,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {},
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "The gold label expects row 1 (no applicable policy resolves). The slice does not RESOLVE - it is given a policy identity and asserts ResolutionState(RESOLVED), so row 1 is unreachable and the case is adjudicated against a policy that should not have applied. The citations were valid, which is exactly the failure ADR-004 names: a confidently-cited answer from an inapplicable policy passes every grounding metric.",
+    "severity": "HIGH (unsafe)",
+    "stage_of_failure": "POLICY_RESOLUTION"
+  },
+  {
+    "abstention_state": null,
+    "actual": "NEEDS_INFO",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "case_id": "CASE-0074",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_state": {
+      "failures": [],
+      "valid": true,
+      "verified": 5
+    },
+    "contradiction_state": "NO_CONTRADICTION",
+    "deterministic_rule": 6,
+    "expected": "NEEDS_INFO",
+    "expected_criterion_states": {},
+    "guardrail_state": "PASSED",
+    "policy": "REGULATION:42 CFR 410.33:2026-08-13",
+    "proposed_remediation": "Requires a new code version and a new experiment manifest.",
+    "retrieved_evidence": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "root_cause": "The gold label expects row 1 (no applicable policy resolves). The slice does not RESOLVE - it is given a policy identity and asserts ResolutionState(RESOLVED), so row 1 is unreachable and the case is adjudicated against a policy that should not have applied. The citations were valid, which is exactly the failure ADR-004 names: a confidently-cited answer from an inapplicable policy passes every grounding metric.",
+    "severity": "HIGH (right answer, wrong reason)",
+    "stage_of_failure": "POLICY_RESOLUTION"
+  }
+]

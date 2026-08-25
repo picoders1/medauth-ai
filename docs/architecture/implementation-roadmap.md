@@ -1,8 +1,8 @@
 # Implementation Roadmap
 
-**Status:** **Phases 0-11 delivered; Phase 12 IN PROGRESS.** The first live model call was
-made on 2026-08-25. This document is written so a future
-session can execute phase by phase without rediscovering the architecture.
+**Status:** **Phases 0-15 delivered.** The first live model call was made on 2026-08-25;
+the runtime resolves policy applicability as of Phase 15. This document is written so a
+future session can execute phase by phase without rediscovering the architecture.
 
 | Phase | State |
 |---|---|
@@ -19,6 +19,9 @@ session can execute phase by phase without rediscovering the architecture.
 | 11 First AI vertical slice | **Complete** - `3c921a9`. Pipeline verified end to end; **zero model calls**, so real model behaviour is unverified |
 | Pre-12 remediation | **Complete** - CI reproducibility, runtime gate, concrete gateway, mutation harness |
 | 12 Real model activation | **IN PROGRESS.** A model has been called live: probe, smoke and a 7-scenario matrix all executed. Three defects found and fixed, one (R-86) mitigated but not eliminated. See `docs/architecture/phase12-model-activation.md`. Not marked complete - the acceptance criteria include items this phase deliberately did not attempt |
+| 13 Guardrail closure + retrieval evaluation | **Complete.** R-89 resolved (row 5 reachable), R-88 structurally blocked, R-86 escalated (mitigated, not fixed), retrieval_v3 scored once under OD-28 with no winner forced, 26-case harness frozen and not run |
+| 14 Frozen 410.33 evaluation | **Complete.** Manifest frozen before the run, 26/26 attempted, none excluded. Decision accuracy 6/26 (3/26 right for the right reason). Found **R-93**: the slice does not resolve policy applicability, and one case produced a fully-cited denial against an inapplicable policy. R-86 removed 38% of cases; fail-closed held. OD-35/36 pre-registered as ADR-027 |
+| 15 Applicability resolution + provider disposition | **Complete.** **R-93 resolved**: applicability is a runtime stage running before intake, in SQL, over six states, and only `RESOLVED` continues (ADR-028). CASE-0073 regression is load-bearing - 4 of 19 mutations target it. R-86 investigated as far as this side of the firewall reaches and found **input-length dependent**; still unowned, still not fixed. `provider-failure-validity.v1` pre-registered before the run. Phase-14 artefacts sealed with checksums. Fresh 26-case run under a new manifest: 8/26 (4/26 right for the right reason), **0 unsafe definitive decisions**, and the pre-registered rule returns `DEGRADED_BY_PROVIDER_FAILURE` - so the figure is **not** performance evidence. Found **R-97**: gold_v1's three not-applicable cases are unreachable from their own structured input |
 
 An independent audit on 2026-08-25 found this table nine phases stale. It is a
 current-state document and drift in it is a defect, not a chore.

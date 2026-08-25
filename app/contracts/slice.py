@@ -341,6 +341,20 @@ class AuditEvent(_Strict):
     criterion_ids: tuple[str, ...] = ()
     outcome: str | None = None
     abstention_reason: str | None = None
+    #: What contradiction analysis concluded, so a reviewer can tell "checked and
+    #: clean" from "could not check" without re-running the case.
+    contradiction_state: str | None = None
+    #: What applicability resolution concluded, and why. Phase 14 emitted neither,
+    #: because neither existed: the runtime asserted RESOLVED and a reader of the
+    #: trail could not tell an applicability that was checked from one that was
+    #: assumed (R-93). Two fields rather than one - the state routes the case, the
+    #: reason is what a reviewer is owed.
+    resolution_state: str | None = None
+    resolution_reason: str | None = None
+    #: The provider's request id where one was returned. Ours is not a substitute:
+    #: a trace that cannot be matched against the provider's log is half a trace.
+    request_id: str | None = None
+    model_digest: str | None = None
     #: Which committed decision-policy version produced this. An audit row that
     #: cannot name it cannot be reproduced.
     decision_config_version: str = Field(min_length=1)

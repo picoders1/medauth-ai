@@ -39,6 +39,20 @@ are met" is a statement about a regulation, "approve" is advice to a reviewer th
 also weighs evidence quality, guardrail state and open questions - and a system
 that conflates them cannot say which of the two it got wrong.
 
+---
+
+**Phase 15: applicability is resolved, not asserted.**
+
+Rows 1, 2, 14, 15 and 16 form one block at the top of the table and are looked up in
+`_ROUTE_FOR_RESOLUTION` rather than branched. Until Phase 15 the live slice passed
+`ResolutionState(RESOLVED)` because it had been handed a policy identity, which made
+rows 1 and 2 unreachable from the runtime and let a case be adjudicated against a
+policy that did not govern it - a denial with seven verified citations, which every
+grounding metric passed (R-93, ADR-004). The table already refused that; nothing
+ever asked it. What changed in Phase 15 is upstream, and what changed here is that
+the refusal is now total over the state space instead of covering the two states
+somebody thought of.
+
 **Row order is still the safety design.** Rows 1-6 are all evaluated before any
 denial is reachable, and row 6 (an open question) precedes rows 7 and 8 (evidenced
 failure). That is the difference between "the note does not say" and "the note says
@@ -162,6 +176,39 @@ def _leaf_ids(node: Node) -> tuple[str, ...]:
             return _leaf_ids(condition) + _leaf_ids(then)
 
 
+#: Where a case goes when applicability concluded something other than RESOLVED.
+#:
+#: Declared as data, and deliberately NOT total over `ResolutionStatus`: `RESOLVED`
+#: is absent because it is the one value that continues past this block. Every other
+#: member must appear, and `test_every_resolution_status_is_routed` fails if one does
+#: not - so the failure mode for a new state is a red test, never a silent fallthrough
+#: into adjudication.
+#:
+#: **No entry produces an approval or a denial**, and a test asserts that over the
+#: whole mapping rather than over the entries someone remembered to check.
+_ROUTE_FOR_RESOLUTION: dict[ResolutionStatus, tuple[Outcome, DecisionRule]] = {
+    # Absence of an NCD/LCD generally means contractor discretion, not non-coverage.
+    ResolutionStatus.NONE_APPLICABLE: (Outcome.NEEDS_INFO, DecisionRule.NO_APPLICABLE_POLICY),
+    # Which of several policies governs is a human judgement, not a ranking.
+    ResolutionStatus.CONFLICTING: (Outcome.HUMAN_REVIEW, DecisionRule.CONFLICTING_POLICY),
+    # The corpus has the policy and cannot place the request in any of its windows.
+    ResolutionStatus.TEMPORALLY_UNRESOLVED: (
+        Outcome.HUMAN_REVIEW,
+        DecisionRule.POLICY_TEMPORALLY_UNRESOLVED,
+    ),
+    # The submitter can answer this one, so it is a request for information.
+    ResolutionStatus.INSUFFICIENT_INFORMATION: (
+        Outcome.NEEDS_INFO,
+        DecisionRule.RESOLUTION_INSUFFICIENT_INFORMATION,
+    ),
+    # A wiring or infrastructure fault. Fail toward the human, never toward a denial.
+    ResolutionStatus.RESOLUTION_ERROR: (
+        Outcome.HUMAN_REVIEW,
+        DecisionRule.POLICY_RESOLUTION_ERROR,
+    ),
+}
+
+
 def decide(
     criteria: tuple[CriterionOutcome, ...],
     guardrail: GuardrailState,
@@ -210,14 +257,19 @@ def decide(
             semantics_origin=semantics.origin,
         )
 
-    # 1 - No applicable policy. Absence of an NCD/LCD generally means contractor
-    #     discretion, not non-coverage. This must never be a denial.
-    if resolution.status is ResolutionStatus.NONE_APPLICABLE:
-        return result(Outcome.NEEDS_INFO, DecisionRule.NO_APPLICABLE_POLICY)
-
-    # 2 - Conflicting policies. Which governs is a human judgement.
-    if resolution.status is ResolutionStatus.CONFLICTING:
-        return result(Outcome.HUMAN_REVIEW, DecisionRule.CONFLICTING_POLICY)
+    # 1, 2, 14, 15, 16 - what applicability concluded, when it concluded anything
+    #     other than "the designated policy governs". Looked up rather than
+    #     branched, so that a seventh `ResolutionStatus` cannot be introduced
+    #     without deciding where a case carrying it goes; `_ROUTE_FOR_RESOLUTION`
+    #     is checked for totality by a test.
+    #
+    #     This block is FIRST. Every guardrail row, every approval and every denial
+    #     is downstream of it, which is what makes "an inapplicable policy cannot
+    #     produce a definitive decision" a property of the table rather than a
+    #     property of whoever called it (R-93).
+    route = _ROUTE_FOR_RESOLUTION.get(resolution.status)
+    if route is not None:
+        return result(*route)
 
     # 3 - Any unverifiable citation stops the case. Not a warning, not a lowered
     #     score: no evidence, no decision.

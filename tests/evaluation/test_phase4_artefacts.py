@@ -61,10 +61,17 @@ def test_gold_v1_is_byte_identical_to_its_manifest() -> None:
     assert manifest["sha256"]["gold"] == hashlib.sha256(GOLD.read_bytes()).hexdigest()
 
 
-def test_gold_v1_still_declares_zero_scorings_spent() -> None:
-    """Phase 4 measured retrieval, never the gold set. The budget must show it."""
+def test_gold_v1_scorings_never_exceed_the_budget() -> None:
+    """Phase 4 measured retrieval, never the gold set, and asserted zero spend.
+
+    **2026-08-25: Phase 14 spent one**, on the frozen 410.33 experiment. The
+    assertion that survives is the one the budget is for: a hold-out re-scored until
+    a number improves is how an evaluation becomes fiction.
+    """
     manifest = json.loads(GOLD_MANIFEST.read_text(encoding="utf-8"))
-    assert manifest["scoring_budget"]["scorings_spent"] == 0
+    budget = manifest["scoring_budget"]
+    assert budget["scorings_spent"] <= budget["allowed_scorings"]
+    assert len(budget.get("spent_by", [])) == budget["scorings_spent"]
 
 
 def test_no_gold_v2_exists_without_a_recorded_reason() -> None:

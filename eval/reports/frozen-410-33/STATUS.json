@@ -1,0 +1,28 @@
+{
+  "decision_accuracy_interpretation": "EVALUATION_NOT_INTERPRETABLE",
+  "decision_accuracy_note": "6/26 = 0.2308 is a real measurement of a system that did not resolve applicability and lost 38% of its sample to a provider defect. It is NOT a baseline for model improvement and must not be quoted as one.",
+  "experiment": "frozen-410-33",
+  "files": {
+    "failures.json": "sha256:60f3d9cef498978ffeea8b0e7a0e002074a14f5ba4cff564947556ce9f3ad186",
+    "manifest.json": "sha256:bd3833ffd3dea3528b9da001f78534b632a44b8676458db17af0b07d54088164",
+    "metrics.json": "sha256:2e9da02412316790421f2afd09b70c971d4c56c656ae8cc2043b6cef19da7a07",
+    "per_case.json": "sha256:a6bf0d6c9e03b87d23bbf0e5c55110a1e04d3ad06d57bbd6376c1c52a64ef2d1"
+  },
+  "immutable": true,
+  "phase": 14,
+  "ran_at": "2026-08-25T11:07:42.262458+00:00",
+  "sealed_at": "2026-08-25",
+  "sealed_by_phase": 15,
+  "status": "EVALUATION_DEGRADED_BY_R-86_AND_R-93",
+  "superseded_by": "eval/reports/phase15-410-33/",
+  "supersession_note": "Phase 15 is a SEPARATE experiment under a new manifest, not a continuation. Nothing in this directory may be overwritten, re-scored or re-run.",
+  "what_remains_interpretable": [
+    "citation validity 16/16 - deterministic span verification, no model judged it",
+    "the seven structural safety invariants, all 0/26, over the cases that ran",
+    "R-86 never became an approval or a denial: fail-closed held"
+  ],
+  "why": [
+    "R-93: the runtime asserted ResolutionState(RESOLVED) rather than resolving applicability, so decision-table rows 1 and 2 were unreachable. CASE-0073 produced DENY_RECOMMENDED with 7 verified citations against a policy its own gold record says does not govern it.",
+    "R-86: a provider/decoder defect removed 10 of 26 cases (0.3846). The pre-registered rule provider-failure-validity.v1, applied retrospectively, returns DEGRADED_BY_PROVIDER_FAILURE on condition 1."
+  ]
+}

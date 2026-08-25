@@ -58,9 +58,39 @@
   },
   "provenance": "synthetic",
   "scoring_budget": {
-    "allowed_scorings": 1,
+    "allowance_declarations": [
+      {
+        "declared_in": "ADR-015 / the gold_v1 freeze",
+        "note": "the original allowance",
+        "scoring": 1
+      },
+      {
+        "declared_at": "2026-08-25",
+        "declared_in": "docs/adr/ADR-028-runtime-applicability-and-experiment-validity.md",
+        "for": "the Phase-15 run, after R-93 made applicability a runtime stage",
+        "note": "Declared BEFORE the run, as the regime requires. The system under test is different code, not the same code re-drawn: Phase 14 had no applicability stage. Nothing was tuned against the Phase-14 result, and the pre-run gate checks that against the Phase-13 freeze.",
+        "scoring": 2
+      }
+    ],
+    "allowed_scorings": 2,
     "note": "Additional scorings must be declared in an ADR in advance. Re-scoring a frozen split until a number improves is how an evaluation becomes fiction.",
-    "scorings_spent": 0
+    "scorings_spent": 2,
+    "spent_by": [
+      {
+        "at": "2026-08-25",
+        "experiment": "frozen-410-33",
+        "note": "One scoring of a subset of the gold split. Recorded because a budget nobody decrements is decorative. Any further scoring must be declared in an ADR in advance.",
+        "report": "eval/reports/frozen-410-33/",
+        "scope": "the 26 gold cases on 42 CFR 410.33:2026-08-13"
+      },
+      {
+        "at": "2026-08-25",
+        "experiment": "phase15-410-33",
+        "note": "Scoring 2 of 2, declared in advance in ADR-028 Part 1b. A DIFFERENT system: Phase 14 had no applicability stage. Nothing was tuned against the Phase-14 result, checked by the pre-run gate against the Phase-13 freeze. The budget is now exhausted; a third scoring needs its own ADR.",
+        "report": "eval/reports/phase15-410-33/",
+        "scope": "the same 26 gold cases on 42 CFR 410.33:2026-08-13"
+      }
+    ]
   },
   "sha256": {
     "development": "fef4960f0630e439e8b2fcb71255c2e4311ffa12a720076f6e27b15f0cfa3c43",

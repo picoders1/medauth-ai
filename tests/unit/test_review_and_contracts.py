@@ -299,6 +299,15 @@ def test_the_structural_states_the_brief_requires_all_exist() -> None:
     it was missing while every other structural refusal had a name. States may be
     ADDED here; one may never quietly disappear, which is why this asserts an exact
     set rather than a subset.
+
+    **Phase 15 note: four applicability states were added**, and the expectation
+    below changed because the world did. Until Phase 15 the runtime asserted that
+    its designated policy applied, so the only applicability abstention it could
+    ever produce was the one gold-set generation used. Resolving applicability for
+    real makes five outcomes reachable, and the four new ones are named here rather
+    than folded into `NO_APPLICABLE_POLICY` - "no policy governs this" and "several
+    might" and "the resolver was unreachable" are different sentences to put in
+    front of a reviewer (R-93).
     """
     required = {
         "NO_APPLICABLE_POLICY",
@@ -310,6 +319,11 @@ def test_the_structural_states_the_brief_requires_all_exist() -> None:
         "MODEL_SCHEMA_FAILURE",
         "RETRIEVAL_FAILURE",
         "CONTRADICTORY_EVIDENCE",
+        # Phase 15 (R-93).
+        "MULTIPLE_CANDIDATE_POLICIES",
+        "POLICY_TEMPORALLY_UNRESOLVED",
+        "INSUFFICIENT_APPLICABILITY_INFORMATION",
+        "POLICY_RESOLUTION_ERROR",
     }
     assert {reason.value for reason in AbstentionReason} == required
 

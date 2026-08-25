@@ -673,6 +673,20 @@ def _pre_phase4_decide(
     return Outcome.HUMAN_REVIEW, DecisionRule.UNCLASSIFIED
 
 
+#: The resolution states the pre-Phase-4 table modelled.
+#:
+#: Phase 15 added `TEMPORALLY_UNRESOLVED`, `INSUFFICIENT_INFORMATION` and
+#: `RESOLUTION_ERROR`. Feeding them to `_pre_phase4_decide` compares the rewrite
+#: against an implementation that had no opinion about them - it falls through to
+#: whatever the criteria say, which is not a divergence anyone chose. The three new
+#: states get their own assertion below instead, on the property that matters.
+_PRE_PHASE4_STATUSES = (
+    ResolutionStatus.RESOLVED,
+    ResolutionStatus.NONE_APPLICABLE,
+    ResolutionStatus.CONFLICTING,
+)
+
+
 def _exhaustive_comparison() -> list[tuple[Outcome, Outcome]]:
     """Every input up to 2 required + 2 exclusion criteria, all states."""
     cells = [(v, e) for v in Verdict for e in (True, False)]
@@ -685,7 +699,7 @@ def _exhaustive_comparison() -> list[tuple[Outcome, Outcome]]:
                         CriterionOutcome(f"R{i}", R, v, e) for i, (v, e) in enumerate(req)
                     ) + tuple(CriterionOutcome(f"X{i}", X, v, e) for i, (v, e) in enumerate(exc))
                     for guardrail in GuardrailState:
-                        for status in ResolutionStatus:
+                        for status in _PRE_PHASE4_STATUSES:
                             resolution = ResolutionState(status=status, version_count=1)
                             new = decide(
                                 criteria,
@@ -726,6 +740,62 @@ def test_the_known_divergences_are_exactly_these_two() -> None:
     """
     classes = {(old, new) for old, new in _exhaustive_comparison()}
     assert classes == {(Outcome.DENY_RECOMMENDED, Outcome.NEEDS_INFO)}
+
+
+def test_no_phase_15_resolution_state_can_reach_a_denial() -> None:
+    """The three states added in Phase 15, over the same exhaustive input space.
+
+    They are excluded from the pre-Phase-4 comparison above because that table had
+    no opinion about them - there is nothing to diverge *from*. What can still be
+    asserted, and is the only thing worth asserting, is the safety property: a case
+    whose applicability is temporally unresolved, under-specified or errored must
+    never reach an approval or a denial, whatever its criteria say.
+
+    Non-vacuity is by pairing: the same criteria under `RESOLVED` must reach both a
+    denial and an approval somewhere in the space, or this would pass over a corpus
+    of inputs that never adjudicates anything.
+    """
+    added = (
+        ResolutionStatus.TEMPORALLY_UNRESOLVED,
+        ResolutionStatus.INSUFFICIENT_INFORMATION,
+        ResolutionStatus.RESOLUTION_ERROR,
+    )
+    definitive = {Outcome.APPROVE_RECOMMENDED, Outcome.DENY_RECOMMENDED}
+    cells = [(v, e) for v in Verdict for e in (True, False)]
+    reached_under_resolved: set[Outcome] = set()
+
+    for n_req in range(3):
+        for n_exc in range(3):
+            for req in product(cells, repeat=n_req):
+                for exc in product(cells, repeat=n_exc):
+                    criteria = tuple(
+                        CriterionOutcome(f"R{i}", R, v, e) for i, (v, e) in enumerate(req)
+                    ) + tuple(CriterionOutcome(f"X{i}", X, v, e) for i, (v, e) in enumerate(exc))
+                    semantics = attested_assumption(criteria)
+                    for guardrail in GuardrailState:
+                        for status in added:
+                            outcome = decide(
+                                criteria,
+                                guardrail,
+                                ResolutionState(status=status, version_count=1),
+                                semantics,
+                            ).outcome
+                            assert outcome not in definitive, (
+                                f"{status.value} reached {outcome.value}"
+                            )
+                        reached_under_resolved.add(
+                            decide(
+                                criteria,
+                                GuardrailState.PASSED,
+                                ResolutionState(ResolutionStatus.RESOLVED, 1),
+                                semantics,
+                            ).outcome
+                        )
+
+    assert definitive <= reached_under_resolved, (
+        "the input space never adjudicates under RESOLVED, so the assertion above "
+        f"proves nothing; reached {sorted(o.value for o in reached_under_resolved)}"
+    )
 
 
 def test_the_divergence_is_unreachable_from_the_current_datasets() -> None:

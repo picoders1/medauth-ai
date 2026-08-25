@@ -130,10 +130,16 @@ def test_the_criteria_inventory_grew_only_by_addition() -> None:
         assert criterion["provenance"].startswith("authoritative-source"), cid
 
 
-def test_the_gold_set_declares_itself_frozen_and_unscored(gold_manifest: dict[str, Any]) -> None:
+def test_the_gold_set_declares_itself_frozen_and_within_budget(
+    gold_manifest: dict[str, Any],
+) -> None:
+    """**2026-08-25: one scoring was spent.** Frozen still means frozen - the cases
+    do not change - but "unscored" was a fact about the calendar, not the design."""
+    budget = gold_manifest["scoring_budget"]
     assert gold_manifest["frozen"] is True
-    assert gold_manifest["scoring_budget"]["scorings_spent"] == 0
-    assert gold_manifest["scoring_budget"]["allowed_scorings"] >= 1
+    assert budget["allowed_scorings"] >= 1
+    assert budget["scorings_spent"] <= budget["allowed_scorings"]
+    assert len(budget.get("spent_by", [])) == budget["scorings_spent"]
 
 
 def test_the_gold_set_does_not_claim_clinical_validation(gold_manifest: dict[str, Any]) -> None:

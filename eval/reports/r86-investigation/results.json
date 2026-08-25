@@ -1,0 +1,505 @@
+{
+  "arms": {
+    "A": {
+      "compact_instruction": false,
+      "errors": 0,
+      "interpretation": "Padding here is reproduction. Absence would mean the defect moved.",
+      "max_tokens": 512,
+      "mode": "json_schema",
+      "model": "structured",
+      "observations": [
+        {
+          "arm": "A",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 524.3,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 1,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "A",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 278.1,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 2,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "A",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 283.4,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 3,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does the failing shape still reproduce?",
+      "runs": 3
+    },
+    "B": {
+      "compact_instruction": true,
+      "errors": 0,
+      "interpretation": "Termination here says the mitigation works; it says nothing about a fix.",
+      "max_tokens": 512,
+      "mode": "json_schema",
+      "model": "structured",
+      "observations": [
+        {
+          "arm": "B",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 285.2,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 62,
+          "run": 1,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "B",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 293.6,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 62,
+          "run": 2,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "B",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 296.7,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 62,
+          "run": 3,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does the compact-output mitigation still hold?",
+      "runs": 3
+    },
+    "C": {
+      "compact_instruction": false,
+      "errors": 3,
+      "interpretation": "No padding weakens FIREWALL_PROXY - one proxy, two behaviours. It does not exclude it: a proxy could transform per model.",
+      "max_tokens": 512,
+      "mode": "json_schema",
+      "model": "alternate",
+      "observations": [
+        {
+          "arm": "C",
+          "body_chars": 0,
+          "completion_tokens": 0,
+          "error": "UpstreamFailureError: model path failed after 1 attempts: upstream returned 502",
+          "finish_reason": null,
+          "latency_ms": 0.0,
+          "padded": false,
+          "parsed": false,
+          "prompt_tokens": 0,
+          "run": 1,
+          "schema_valid": false,
+          "whitespace_fraction": 0.0
+        },
+        {
+          "arm": "C",
+          "body_chars": 0,
+          "completion_tokens": 0,
+          "error": "UpstreamFailureError: model path failed after 1 attempts: upstream returned 502",
+          "finish_reason": null,
+          "latency_ms": 0.0,
+          "padded": false,
+          "parsed": false,
+          "prompt_tokens": 0,
+          "run": 2,
+          "schema_valid": false,
+          "whitespace_fraction": 0.0
+        },
+        {
+          "arm": "C",
+          "body_chars": 0,
+          "completion_tokens": 0,
+          "error": "UpstreamFailureError: model path failed after 1 attempts: upstream returned 502",
+          "finish_reason": null,
+          "latency_ms": 0.0,
+          "padded": false,
+          "parsed": false,
+          "prompt_tokens": 0,
+          "run": 3,
+          "schema_valid": false,
+          "whitespace_fraction": 0.0
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does a different model on the same firewall path pad?",
+      "runs": 3
+    },
+    "D": {
+      "compact_instruction": false,
+      "errors": 0,
+      "interpretation": "No padding localises the behaviour to constrained decoding. Note the declared difference: json_object mode requires the word 'json' in the system turn, so this arm is not byte-identical to A.",
+      "max_tokens": 512,
+      "mode": "json_object",
+      "model": "structured",
+      "observations": [
+        {
+          "arm": "D",
+          "body_chars": 46,
+          "completion_tokens": 17,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 324.5,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 39,
+          "run": 1,
+          "schema_valid": false,
+          "whitespace_fraction": 0.1087
+        },
+        {
+          "arm": "D",
+          "body_chars": 46,
+          "completion_tokens": 17,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 300.9,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 39,
+          "run": 2,
+          "schema_valid": false,
+          "whitespace_fraction": 0.1087
+        },
+        {
+          "arm": "D",
+          "body_chars": 46,
+          "completion_tokens": 17,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 319.5,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 39,
+          "run": 3,
+          "schema_valid": false,
+          "whitespace_fraction": 0.1087
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does the same model pad without the grammar constraint?",
+      "runs": 3
+    },
+    "E1": {
+      "compact_instruction": false,
+      "errors": 0,
+      "interpretation": "Filling every ceiling means generated-to-limit, not a fixed artefact.",
+      "max_tokens": 256,
+      "mode": "json_schema",
+      "model": "structured",
+      "observations": [
+        {
+          "arm": "E1",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 297.9,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 1,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "E1",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 316.4,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 2,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "E1",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 308.0,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 3,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does the padding fill a 256-token ceiling exactly?",
+      "runs": 3
+    },
+    "E2": {
+      "compact_instruction": false,
+      "errors": 0,
+      "interpretation": "Same, at a different ceiling. Two points is a line; three is a claim.",
+      "max_tokens": 1024,
+      "mode": "json_schema",
+      "model": "structured",
+      "observations": [
+        {
+          "arm": "E2",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 301.6,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 1,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "E2",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 349.2,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 2,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        },
+        {
+          "arm": "E2",
+          "body_chars": 41,
+          "completion_tokens": 15,
+          "error": "",
+          "finish_reason": "stop",
+          "latency_ms": 326.5,
+          "padded": false,
+          "parsed": true,
+          "prompt_tokens": 35,
+          "run": 3,
+          "schema_valid": true,
+          "whitespace_fraction": 0.122
+        }
+      ],
+      "padded_runs": 0,
+      "question": "Does the padding fill a 1024-token ceiling exactly?",
+      "runs": 3
+    }
+  },
+  "arms_not_run": [],
+  "boundary": "Every arm goes through the firewall on the same caller key. MEDAUTH holds no provider credential and does not attempt to reach the provider directly.",
+  "clinical_content": "none - synthetic two-field schema and a fixed string",
+  "git_commit": "9c2f42487a360844e98506b1f37176cf6c0570cf",
+  "investigation": "R-86",
+  "models": {
+    "alternate_digest": "sha256:ae0a6a0b7a54",
+    "note": "digests only; concrete ids are deployment values held in .env",
+    "structured_digest": "sha256:31d69bc24c21"
+  },
+  "phase14_shape": {
+    "arms": {
+      "F-short": {
+        "errors": 0,
+        "observations": [
+          {
+            "arm": "F-short",
+            "body_chars": 1211,
+            "completion_tokens": 478,
+            "error": "",
+            "finish_reason": "stop",
+            "latency_ms": 2130.3,
+            "padded": false,
+            "parsed": true,
+            "prompt_tokens": 428,
+            "run": 1,
+            "schema_valid": true,
+            "whitespace_fraction": 0.0933
+          },
+          {
+            "arm": "F-short",
+            "body_chars": 840,
+            "completion_tokens": 306,
+            "error": "",
+            "finish_reason": "stop",
+            "latency_ms": 1453.6,
+            "padded": false,
+            "parsed": true,
+            "prompt_tokens": 419,
+            "run": 2,
+            "schema_valid": true,
+            "whitespace_fraction": 0.0952
+          },
+          {
+            "arm": "F-short",
+            "body_chars": 880,
+            "completion_tokens": 313,
+            "error": "",
+            "finish_reason": "stop",
+            "latency_ms": 1605.9,
+            "padded": false,
+            "parsed": true,
+            "prompt_tokens": 420,
+            "run": 3,
+            "schema_valid": true,
+            "whitespace_fraction": 0.0943
+          }
+        ],
+        "padded_runs": 0,
+        "runs": 3
+      },
+      "G-long": {
+        "errors": 0,
+        "observations": [
+          {
+            "arm": "G-long",
+            "body_chars": 2376,
+            "completion_tokens": 1536,
+            "error": "",
+            "finish_reason": "length",
+            "latency_ms": 6375.6,
+            "padded": true,
+            "parsed": false,
+            "prompt_tokens": 516,
+            "run": 1,
+            "schema_valid": false,
+            "whitespace_fraction": 0.9268
+          },
+          {
+            "arm": "G-long",
+            "body_chars": 1723,
+            "completion_tokens": 683,
+            "error": "",
+            "finish_reason": "stop",
+            "latency_ms": 3004.6,
+            "padded": false,
+            "parsed": true,
+            "prompt_tokens": 498,
+            "run": 2,
+            "schema_valid": true,
+            "whitespace_fraction": 0.2037
+          },
+          {
+            "arm": "G-long",
+            "body_chars": 2389,
+            "completion_tokens": 1536,
+            "error": "",
+            "finish_reason": "length",
+            "latency_ms": 6345.3,
+            "padded": true,
+            "parsed": false,
+            "prompt_tokens": 512,
+            "run": 3,
+            "schema_valid": false,
+            "whitespace_fraction": 0.9205
+          }
+        ],
+        "padded_runs": 2,
+        "runs": 3
+      }
+    },
+    "clinical_text_in_this_report": "none - lengths and token counts only",
+    "max_output_tokens": 1536,
+    "prompt_id": "intake.v2",
+    "schema": "IntakeExtraction"
+  },
+  "python": "3.12.3",
+  "ran_at": "2026-08-25T12:29:19.109719+00:00",
+  "runs_per_arm": 3,
+  "verdict": {
+    "avenue_closed": "Streaming would discriminate cleanly - incremental tokens are generated, a padded body delivered whole is not - and the firewall refuses stream:true with 400. Recorded as closed, not untried.",
+    "behaviour_is_grammar_specific": false,
+    "behaviour_is_length_dependent": true,
+    "behaviour_is_model_specific": false,
+    "claim_refused": "R-86 is fixed",
+    "excluded_by_prior_evidence": [
+      "REQUEST_SHAPE",
+      "TIMEOUT_HANDLING",
+      "MODEL_CONFIGURATION"
+    ],
+    "layer": "PROVIDER_DECODER or FIREWALL_PROXY - STILL INDISTINGUISHABLE",
+    "mitigation_still_holds": true,
+    "narrowing_evidence": [
+      "Whitespace rises monotonically with prompt length across the bands above, and the runaway is the tail of that curve rather than a separate failure mode. Phase 13 reduced the schema until the prompt was short, which is why its diagnosis could not see this. It does not identify the owning layer - both a decoder and a proxy could scale with input - but it tells the owner what to vary."
+    ],
+    "phase14_shape_note": "The exact Phase-14 intake request - production _SYSTEM, intake.v2 instructions, fenced note, hardened IntakeExtraction schema, 1536-token ceiling - over real gold notes. This is the shape that failed 10 of 26 times on 2026-08-25, not a reduction of it.",
+    "phase14_shape_reproduced": true,
+    "reduced_probe_reproduced": false,
+    "reproduced": true,
+    "still_required_from_the_owner": [
+      "a request issued provider-side, outside the firewall, with the same schema and ceiling",
+      "whether the provider's decoder emits the padding or the proxy appends it",
+      "whether any provider-side setting bounds it"
+    ],
+    "whitespace_gradient": {
+      "F-short": {
+        "padded": 0,
+        "prompt_tokens_max": 428,
+        "prompt_tokens_min": 419,
+        "runs": 3,
+        "whitespace_max": 0.0952,
+        "whitespace_min": 0.0933
+      },
+      "G-long": {
+        "padded": 2,
+        "prompt_tokens_max": 516,
+        "prompt_tokens_min": 498,
+        "runs": 3,
+        "whitespace_max": 0.9268,
+        "whitespace_min": 0.2037
+      },
+      "reduced_probe": {
+        "padded": 0,
+        "prompt_tokens_max": 35,
+        "prompt_tokens_min": 35,
+        "runs": 3,
+        "whitespace_max": 0.122,
+        "whitespace_min": 0.122
+      }
+    }
+  }
+}

@@ -68,11 +68,68 @@ class CitationStatus(StrEnum):
 
 
 class ResolutionStatus(StrEnum):
-    """Outcome of deterministic policy resolution (ADR-004)."""
+    """Outcome of deterministic policy resolution (ADR-004, ADR-028).
 
+    Six distinct states, and **none of them may be collapsed into ``RESOLVED``**.
+    Phase 14 shipped a runtime that asserted ``RESOLVED`` because it had been handed
+    a policy identity, which made every other state unreachable and produced a
+    fully-cited denial against a policy that did not govern the case (R-93). Only
+    ``RESOLVED`` permits retrieval or adjudication; every other member routes to a
+    human or to a request for information, and the routing is declared as data in
+    `app.decision.table` so a seventh member cannot be added without deciding where
+    it goes.
+
+    **Two names per concept, on purpose.** ``NONE_APPLICABLE`` and ``CONFLICTING``
+    are the values this repository has written into `data/gold/cases/gold_v1.jsonl`
+    and into committed evaluation reports since Phase 2. Phase 15 names the same two
+    states ``NOT_APPLICABLE`` and ``MULTIPLE_CANDIDATES``; they are declared below as
+    enum *aliases*, so `ResolutionStatus.NOT_APPLICABLE is
+    ResolutionStatus.NONE_APPLICABLE` and the serialised value is unchanged.
+    Renaming instead would have rewritten a frozen dataset and four immutable
+    reports to gain nothing a reader could check.
+    """
+
+    #: The designated policy version governs this request. The ONLY state from which
+    #: retrieval and adjudication may proceed.
     RESOLVED = "RESOLVED"
+
+    #: No policy governs this request. Absence of an NCD/LCD generally means
+    #: contractor discretion, not non-coverage - so this is never a denial (row 1).
     NONE_APPLICABLE = "NONE_APPLICABLE"
+
+    #: Several policies could govern and which one does is a human judgement. Also
+    #: covers a corpus defect - two versions of one document in force at once.
     CONFLICTING = "CONFLICTING"
+
+    #: A policy lists the procedure, but no version of it was in force on the date of
+    #: service. Distinct from NONE_APPLICABLE: the corpus has the policy and cannot
+    #: place the request inside any of its windows, which is a temporal answer rather
+    #: than a coverage one.
+    TEMPORALLY_UNRESOLVED = "TEMPORALLY_UNRESOLVED"
+
+    #: The request does not carry enough to decide applicability at all - no
+    #: procedure code, no code system, no date of service. A question for the
+    #: submitter, not for a reviewer.
+    INSUFFICIENT_INFORMATION = "INSUFFICIENT_INFORMATION"
+
+    #: Resolution could not be performed, or produced a policy other than the one
+    #: this runtime is wired to adjudicate. A wiring or infrastructure fault; it
+    #: fails toward the human, never toward a denial.
+    RESOLUTION_ERROR = "RESOLUTION_ERROR"
+
+    # Phase-15 vocabulary. Aliases - same member, same value, no new state.
+    NOT_APPLICABLE = "NONE_APPLICABLE"
+    MULTIPLE_CANDIDATES = "CONFLICTING"
+
+    @property
+    def permits_adjudication(self) -> bool:
+        """Whether a case in this state may reach retrieval and a model.
+
+        Written as an identity test against the one admitting value rather than as
+        a membership test over the refusing ones: a new state added tomorrow is
+        refused by default instead of admitted by omission.
+        """
+        return self is ResolutionStatus.RESOLVED
 
 
 class CodeSystem(StrEnum):

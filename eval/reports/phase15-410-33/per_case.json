@@ -1,0 +1,2219 @@
+[
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0038",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 11.4,
+      "intake": 23003.5
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 23015.1
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0040",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.4,
+      "intake": 21665.6
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 21674.2
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0041",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 6.3,
+      "assessment": 26813.3,
+      "citations": 3.5,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2390.8
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1235,
+      "prompt": 10233
+    },
+    "wall_ms": 29214.1
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0043",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 4.7,
+      "assessment": 10042.0,
+      "citations": 5.1,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2879.0
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1280,
+      "prompt": 10394
+    },
+    "wall_ms": 12931.1
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 3,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0044",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 3,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 4.4,
+      "assessment": 10208.8,
+      "citations": 4.9,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2681.3
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1143,
+      "prompt": 10373
+    },
+    "wall_ms": 12899.7
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0045",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 5.1,
+      "assessment": 8139.5,
+      "citations": 5.3,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 1501.1
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 954,
+      "prompt": 10028
+    },
+    "wall_ms": 9651.3
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0046",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 4.2,
+      "intake": 21492.4
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 21496.7
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0048",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 3.6,
+      "intake": 23637.6
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 23641.3
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0051",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.8,
+      "assessment": 9841.1,
+      "citations": 7.3,
+      "contradiction": 0.1,
+      "decision": 0.2,
+      "intake": 5207.0
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1595,
+      "prompt": 10577
+    },
+    "wall_ms": 15064.7
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0052",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 7.9,
+      "intake": 19545.3
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 19553.5
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 3,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0053",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 3,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 7.8,
+      "assessment": 8888.9,
+      "citations": 7.0,
+      "contradiction": 0.1,
+      "decision": 0.2,
+      "intake": 3596.5
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1515,
+      "prompt": 10513
+    },
+    "wall_ms": 12500.7
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 3,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0054",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 3,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 10.0,
+      "assessment": 11989.0,
+      "citations": 5.8,
+      "contradiction": 0.0,
+      "decision": 0.2,
+      "intake": 2883.0
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1371,
+      "prompt": 10295
+    },
+    "wall_ms": 14888.4
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0055",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.6,
+      "assessment": 11469.8,
+      "citations": 4.5,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 6849.7
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1396,
+      "prompt": 10496
+    },
+    "wall_ms": 18332.9
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0056",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 6.3,
+      "intake": 81402.2
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 81408.7
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0059",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 4,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.6,
+      "assessment": 8961.4,
+      "citations": 6.6,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2221.5
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1185,
+      "prompt": 10176
+    },
+    "wall_ms": 11198.5
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0060",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 7.5,
+      "intake": 20532.2
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 20540.0
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0062",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.2,
+      "assessment": 8918.9,
+      "citations": 6.2,
+      "contradiction": 0.1,
+      "decision": 0.1,
+      "intake": 3160.1
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1479,
+      "prompt": 10385
+    },
+    "wall_ms": 12093.8
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 5,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "abstention.contradictory_evidence"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0063",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "CONTRADICTION",
+    "latency_ms": {
+      "applicability": 7.8,
+      "assessment": 10751.7,
+      "citations": 4.4,
+      "contradiction": 0.1,
+      "intake": 2240.9
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1198,
+      "prompt": 10211
+    },
+    "wall_ms": 13005.0
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0064",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 7.2,
+      "assessment": 8580.8,
+      "citations": 6.3,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 3312.7
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1162,
+      "prompt": 10274
+    },
+    "wall_ms": 11907.3
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0066",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.9,
+      "intake": 20185.2
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 20194.4
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0067",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.9,
+      "intake": 26838.8
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 26847.9
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 1,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0069",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 1,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "HUMAN_REVIEW",
+    "expected_rule": 5,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 9.6,
+      "assessment": 8917.4,
+      "citations": 2.0,
+      "contradiction": 0.0,
+      "decision": 0.2,
+      "intake": 5196.4
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1642,
+      "prompt": 10690
+    },
+    "wall_ms": 14125.8
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0070",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "HUMAN_REVIEW",
+    "expected_rule": 5,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.5,
+      "intake": 19340.2
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": true,
+    "retrieved_evidence_ids": {},
+    "run_mode": "PRODUCTION",
+    "tokens": {},
+    "wall_ms": 19349.0
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0071",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 8.6,
+      "assessment": 10185.8,
+      "citations": 6.1,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 4624.2
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1166,
+      "prompt": 10298
+    },
+    "wall_ms": 14825.0
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0073",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 5,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 6.2,
+      "assessment": 8880.0,
+      "citations": 10.2,
+      "contradiction": 0.1,
+      "decision": 0.2,
+      "intake": 1508.6
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 784,
+      "prompt": 9720
+    },
+    "wall_ms": 10405.4
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "applicability_census": {
+      "in_force": 1,
+      "in_jurisdiction": 1,
+      "total": 1
+    },
+    "applicability_reason": "DESIGNATED_POLICY_APPLIES",
+    "applicability_resolved": true,
+    "applicability_selected": "REGULATION:42 CFR 410.33:2026-08-13",
+    "applicability_state": "RESOLVED",
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.applicability.resolved",
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0074",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "applicability": 9.1,
+      "assessment": 8935.2,
+      "citations": 6.7,
+      "contradiction": 0.0,
+      "decision": 0.2,
+      "intake": 1711.3
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "provider_failure": false,
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "run_mode": "PRODUCTION",
+    "tokens": {
+      "completion": 1071,
+      "prompt": 10004
+    },
+    "wall_ms": 10662.7
+  }
+]

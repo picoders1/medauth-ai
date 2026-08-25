@@ -1,0 +1,159 @@
+{
+  "borderline_cases": [
+    "CASE-0064",
+    "CASE-0066",
+    "CASE-0067"
+  ],
+  "case_count": 26,
+  "case_id_digest": "sha256:6268b92cf44e8536",
+  "case_ids": [
+    "CASE-0038",
+    "CASE-0040",
+    "CASE-0041",
+    "CASE-0043",
+    "CASE-0044",
+    "CASE-0045",
+    "CASE-0046",
+    "CASE-0048",
+    "CASE-0051",
+    "CASE-0052",
+    "CASE-0053",
+    "CASE-0054",
+    "CASE-0055",
+    "CASE-0056",
+    "CASE-0059",
+    "CASE-0060",
+    "CASE-0062",
+    "CASE-0063",
+    "CASE-0064",
+    "CASE-0066",
+    "CASE-0067",
+    "CASE-0069",
+    "CASE-0070",
+    "CASE-0071",
+    "CASE-0073",
+    "CASE-0074"
+  ],
+  "categories": {
+    "BORDERLINE": 3,
+    "CLEARLY_FAILS": 4,
+    "CLEARLY_SATISFIES": 4,
+    "CONFLICTING_EVIDENCE": 2,
+    "EXCLUSION_PRESENT": 3,
+    "INSUFFICIENT_EVIDENCE": 3,
+    "MISSING_DOCUMENTATION": 4,
+    "POLICY_NOT_APPLICABLE": 3
+  },
+  "configuration_fixed_for_experiment": {
+    "confidence_threshold": "UNCALIBRATED - none is selected, and none may be",
+    "prompt_ids": [
+      "intake.v2",
+      "adjudication.v1"
+    ],
+    "reranker": "engineering default (see retrieval-configuration-decision.md)",
+    "retrieval": "RETRIEVAL_CONFIGURATION_UNRESOLVED",
+    "retrieval_note": "Not selected on evidence - v3 cannot separate the arms at n=31. The configuration is FIXED for this experiment so it is not a variable, and no claim about it may be drawn from the result."
+  },
+  "criteria": [
+    "42_CFR_410_33_2026_08_13_C01",
+    "42_CFR_410_33_2026_08_13_C02",
+    "42_CFR_410_33_2026_08_13_C03",
+    "42_CFR_410_33_2026_08_13_C04",
+    "42_CFR_410_33_2026_08_13_C05"
+  ],
+  "expected_criterion_states": {
+    "NOT_SATISFIED": 24,
+    "SATISFIED": 78,
+    "UNKNOWN": 13
+  },
+  "expected_decisions": {
+    "APPROVE_RECOMMENDED": 7,
+    "DENY_RECOMMENDED": 7,
+    "HUMAN_REVIEW": 2,
+    "NEEDS_INFO": 10
+  },
+  "expected_rules": {
+    "1": 3,
+    "5": 2,
+    "6": 7,
+    "7": 3,
+    "8": 4,
+    "9": 7
+  },
+  "frozen_at": "2026-08-25T10:24:03.599496+00:00",
+  "git_commit": "9c2f424",
+  "gold_immutable": true,
+  "gold_set_version": "gold_v1",
+  "gold_sha256": "ca990b804cf8fd38950bb1dc84e9e1f2a100d5cb579d124109b2d13387f2d0c9",
+  "gold_v2_note": "FOCUS-001 was answered LEAVE_C03_NOT_ADJUDICABLE, which changes no criterion, so no label was invalidated and no gold_v2 is required. That state is recorded explicitly rather than left as an absence.",
+  "gold_v2_required": false,
+  "note": "The manifest a later run must match. Frozen BEFORE any number exists, so the run cannot be shaped by its own result. Running it spends a scoring from the gold_v1 budget and is a separate, deliberate act.",
+  "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+  "prohibitions": [
+    "No prompt may be tuned against these cases.",
+    "No threshold may be calibrated on them.",
+    "No case may be excluded after seeing a result.",
+    "No label may be changed.",
+    "Running this spends a scoring from the gold_v1 budget (allowed 1)."
+  ],
+  "required_failure_fields": [
+    "case_id",
+    "policy_version",
+    "expected_outcome",
+    "actual_outcome",
+    "expected_rule",
+    "actual_rule",
+    "failed_criterion_ids",
+    "evidence_retrieved",
+    "evidence_missing",
+    "citation_status",
+    "model_assessments",
+    "guardrail_state",
+    "contradiction_state",
+    "abstention_reason",
+    "reason_for_failure"
+  ],
+  "required_metrics": {
+    "abstention": [
+      "abstention_precision",
+      "abstention_recall",
+      "coverage",
+      "unsafe_decision_rate"
+    ],
+    "criterion": [
+      "satisfied_accuracy",
+      "not_satisfied_accuracy",
+      "unknown_accuracy",
+      "criterion_confusion_matrix"
+    ],
+    "decision": [
+      "decision_accuracy",
+      "macro_f1",
+      "confusion_matrix",
+      "denial_precision",
+      "approval_precision"
+    ],
+    "grounding": [
+      "citation_validity",
+      "citation_precision",
+      "citation_recall",
+      "unsupported_claim_rate",
+      "evidence_completeness"
+    ],
+    "operational": [
+      "p50_latency_ms",
+      "p95_latency_ms",
+      "model_latency_ms",
+      "retrieval_latency_ms",
+      "prompt_tokens",
+      "completion_tokens"
+    ]
+  },
+  "split": "gold (frozen)",
+  "statistics": {
+    "denial_precision": "reported separately, own denominator and interval",
+    "paired_comparisons": "exact McNemar",
+    "single_rates": "Wilson"
+  },
+  "status": "FROZEN_NOT_RUN"
+}

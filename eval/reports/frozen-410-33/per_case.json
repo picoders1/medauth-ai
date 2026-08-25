@@ -1,0 +1,1916 @@
+[
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0038",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 28614.4,
+      "citations": 6.3,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 9956.2
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 2960,
+      "prompt": 11143
+    },
+    "wall_ms": 38577.2
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0040",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 23640.2
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 23640.4
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 5,
+    "assessments_total": 5,
+    "assessments_with_evidence": 5,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "abstention.contradictory_evidence"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0041",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 5,
+    "contradiction_state": "CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "CONTRADICTION",
+    "latency_ms": {
+      "assessment": 8534.3,
+      "citations": 7.2,
+      "contradiction": 0.1,
+      "intake": 4933.4
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1245,
+      "prompt": 10233
+    },
+    "wall_ms": 13475.1
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 3,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0043",
+    "category": "CLEARLY_SATISFIES",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 3,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 7513.8,
+      "citations": 4.3,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 3255.4
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1254,
+      "prompt": 10394
+    },
+    "wall_ms": 10773.8
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 3,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0044",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 3,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 8352.6,
+      "citations": 4.8,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 3219.7
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1123,
+      "prompt": 10373
+    },
+    "wall_ms": 11577.4
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0045",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 6,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 9509.0,
+      "citations": 8.1,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 1844.6
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1034,
+      "prompt": 10028
+    },
+    "wall_ms": 11362.0
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0046",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 25370.5
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 25370.7
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0048",
+    "category": "CLEARLY_FAILS",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 8,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 32471.0
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 32471.1
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0051",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 19995.1,
+      "intake": 7226.8
+    },
+    "model_calls": 0,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {},
+    "wall_ms": 27222.2
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0052",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 25107.3
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 25107.5
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 5,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "abstention.contradictory_evidence"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0053",
+    "category": "EXCLUSION_PRESENT",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "expected_recommendation": "DENY_RECOMMENDED",
+    "expected_rule": 7,
+    "guardrail_state": "CONTRADICTION",
+    "latency_ms": {
+      "assessment": 9194.0,
+      "citations": 4.4,
+      "contradiction": 0.0,
+      "intake": 9140.3
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1503,
+      "prompt": 10513
+    },
+    "wall_ms": 18338.9
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0054",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 4,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 8464.7,
+      "citations": 4.6,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2920.9
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1322,
+      "prompt": 10295
+    },
+    "wall_ms": 11390.3
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 5,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "abstention.contradictory_evidence"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0055",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "CONTRADICTION",
+    "latency_ms": {
+      "assessment": 9151.6,
+      "citations": 5.8,
+      "contradiction": 0.1,
+      "intake": 3117.7
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1415,
+      "prompt": 10496
+    },
+    "wall_ms": 12275.3
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0056",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 37323.4
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 37323.5
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0059",
+    "category": "MISSING_DOCUMENTATION",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 4,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 7830.7,
+      "citations": 3.5,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 3725.0
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1182,
+      "prompt": 10176
+    },
+    "wall_ms": 11559.5
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0060",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 34852.9
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 34853.1
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0062",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 2,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 9277.5,
+      "citations": 5.6,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 5845.7
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1464,
+      "prompt": 10385
+    },
+    "wall_ms": 15129.1
+  },
+  {
+    "abstention_state": "CONTRADICTORY_EVIDENCE",
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 5,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "abstention.contradictory_evidence"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0063",
+    "category": "INSUFFICIENT_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 6,
+    "guardrail_state": "CONTRADICTION",
+    "latency_ms": {
+      "assessment": 8506.7,
+      "citations": 4.9,
+      "contradiction": 0.0,
+      "intake": 2303.5
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1168,
+      "prompt": 10211
+    },
+    "wall_ms": 10815.3
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0064",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 6,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 3,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 10025.7,
+      "citations": 8.4,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2703.2
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1256,
+      "prompt": 10274
+    },
+    "wall_ms": 12737.6
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0066",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 22911.9
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 22912.1
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": true,
+    "case_id": "CASE-0067",
+    "category": "BORDERLINE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "APPROVE_RECOMMENDED",
+    "expected_rule": 9,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 31692.3
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 31692.5
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C04": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 2,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0069",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 2,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 5,
+    "criterion_correct": 1,
+    "decision_correct": false,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "HUMAN_REVIEW",
+    "expected_rule": 5,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 8462.7,
+      "citations": 3.1,
+      "contradiction": 0.0,
+      "decision": 0.2,
+      "intake": 4607.1
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1638,
+      "prompt": 10690
+    },
+    "wall_ms": 13073.2
+  },
+  {
+    "abstention_state": "MODEL_SCHEMA_FAILURE",
+    "actual_criterion_states": {},
+    "actual_recommendation": "HUMAN_REVIEW",
+    "actual_rule": 4,
+    "assessments_total": 0,
+    "assessments_with_evidence": 0,
+    "audit_complete": true,
+    "audit_events": [
+      "abstention.model_schema_failure"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0070",
+    "category": "CONFLICTING_EVIDENCE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 0,
+    "contradiction_state": "UNDETERMINED",
+    "criterion_comparable": 5,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "NOT_SATISFIED"
+    },
+    "expected_recommendation": "HUMAN_REVIEW",
+    "expected_rule": 5,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "intake": 24009.9
+    },
+    "model_calls": 1,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {},
+    "tokens": {},
+    "wall_ms": 24010.0
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0071",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 4,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 7293.3,
+      "citations": 4.0,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 2203.8
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1217,
+      "prompt": 10298
+    },
+    "wall_ms": 9501.2
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "NOT_SATISFIED",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "DENY_RECOMMENDED",
+    "actual_rule": 7,
+    "assessments_total": 5,
+    "assessments_with_evidence": 5,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0073",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 7,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": false,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 8325.4,
+      "citations": 12.7,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 683.2
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 849,
+      "prompt": 9720
+    },
+    "wall_ms": 9021.6
+  },
+  {
+    "abstention_state": null,
+    "actual_criterion_states": {
+      "42_CFR_410_33_2026_08_13_C01": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C02": "UNKNOWN",
+      "42_CFR_410_33_2026_08_13_C03": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C04": "SATISFIED",
+      "42_CFR_410_33_2026_08_13_C05": "SATISFIED"
+    },
+    "actual_recommendation": "NEEDS_INFO",
+    "actual_rule": 6,
+    "assessments_total": 5,
+    "assessments_with_evidence": 4,
+    "audit_complete": true,
+    "audit_events": [
+      "slice.intake.completed",
+      "slice.assessment.completed",
+      "slice.contradiction.analysed",
+      "slice.decision.computed"
+    ],
+    "borderline": false,
+    "case_id": "CASE-0074",
+    "category": "POLICY_NOT_APPLICABLE",
+    "citation_failures": [],
+    "citation_valid": true,
+    "citations_verified": 5,
+    "contradiction_state": "NO_CONTRADICTION",
+    "criterion_comparable": 0,
+    "criterion_correct": 0,
+    "decision_correct": true,
+    "expected_criterion_states": {},
+    "expected_recommendation": "NEEDS_INFO",
+    "expected_rule": 1,
+    "guardrail_state": "PASSED",
+    "latency_ms": {
+      "assessment": 7234.8,
+      "citations": 6.5,
+      "contradiction": 0.0,
+      "decision": 0.1,
+      "intake": 1749.5
+    },
+    "model_calls": 6,
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "policy_version": "2026-08-13",
+    "retrieved_evidence_ids": {
+      "42_CFR_410_33_2026_08_13_C01": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522"
+      ],
+      "42_CFR_410_33_2026_08_13_C02": [
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "97674488-d824-473c-9018-b5c6112db622",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C03": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "3782e6af-a24c-4e79-8a81-d1e38d720d0b"
+      ],
+      "42_CFR_410_33_2026_08_13_C04": [
+        "83d44742-3e37-4ff7-9ea5-7cf1a7639522",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "7b6e8b4b-c751-4462-9ed3-4351b6dda00d",
+        "d9409586-0031-4102-a20f-9eee3dd11528",
+        "0cc62fb8-a6b3-4612-bf60-14567d8c865b"
+      ],
+      "42_CFR_410_33_2026_08_13_C05": [
+        "97674488-d824-473c-9018-b5c6112db622",
+        "dcee52c4-d9c8-470c-be7a-2816e0bd6a8a",
+        "f9c4b6f6-4e9a-4446-ab57-4c607b934626",
+        "4afc60cd-ab20-41ad-bdc9-4655c80a0eb8",
+        "c34ea35c-4602-495c-bbd9-cbb769e5742d"
+      ]
+    },
+    "tokens": {
+      "completion": 1101,
+      "prompt": 10004
+    },
+    "wall_ms": 8991.0
+  }
+]
