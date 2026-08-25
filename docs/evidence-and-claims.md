@@ -389,6 +389,23 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **Grounding accuracy** | Chunk-level ground truth | — | **Refused (OD-42).** Citation *validity* is reportable and is marked `GROUNDING_SCOPE_LIMITED_BY_OD42`; accuracy is `unavailable`, never `0.0` |
 | **Cost** | A price basis for the deployed model | — | **`COST_NOT_AVAILABLE`**, unchanged |
 
+## R-86 handoff and evaluation hold (Phase 18)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The reproducer is frozen in one exportable artefact** | A self-verifying manifest carrying every value needed to reproduce the failing request | `data/escalations/r86-reproducer.manifest.json` | **Produced** — `r86-reproducer-001`, seal verifies against its own digest |
+| **It carries no secret and no clinical text** | Checked against the live secrets themselves, not a pattern | `pytest tests/evaluation/test_evaluation_hold.py` | **Produced** — caller key appears only as a salted digest |
+| **An external owner can reproduce the exact request** | Model, schema, prompt, gateway and firewall digests, temperature, ceiling, prompt tokens, cell | Same | **Produced** — and the escalation quotes the digests, pinned by test |
+| **The responsible layer is named** | A request issued provider-side | — | **Refused.** `INDETERMINATE`; the escalation asks and does not answer, asserted by test |
+| **A revalidation path exists and works** | The harness run end to end against the live path | `eval/reports/r86-revalidation/20260825T155710Z.json` | **Produced** — FAIL, 12/12 trials, configuration matching the seal |
+| **R-86 is fixed** | A PASS under the sealed configuration | — | **Refused.** The first revalidation is evidence it is not |
+| **The official evaluation cannot be run while R-86 is unresolved** | A single authority with no override parameter and no environment read | `eval/official_gate.py`; `pytest tests/evaluation/test_official_gate.py` | **Produced** — asserted over the module's AST, and over every script's argparse flags |
+| **No forced evaluation path exists** | Every runner parsed for bypass flags | Same | **Produced** |
+| **A replay cannot authorise an official evaluation** | Replay excluded by absence, not by branch | Same | **Produced** |
+| **The frozen artefacts are unchanged** | Digests for gold_v1, gold_v2 and retrieval_v4 | `pytest tests/evaluation/test_evaluation_hold.py` | **Produced** — gold_v2 scoring 0 of 1, unspent |
+| **No new evaluation metric was produced** | Revalidation records checked for accuracy-shaped fields | Same | **Produced** — no accuracy, F1 or confusion matrix in any revalidation |
+| **Earlier phases were not reinterpreted** | Phase 14's seal and Phase 15's source digests re-verified | Same | **Produced** |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

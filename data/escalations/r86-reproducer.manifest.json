@@ -1,0 +1,154 @@
+{
+  "acceptance": {
+    "cells_read": [
+      "intake/gold_note/long",
+      "intake/gold_note/short"
+    ],
+    "max_failure_rate": 0.1,
+    "note": "The threshold is the pre-registered one and may not be adjusted to match observed behaviour. Closure requires the registered shape to succeed, not a different shape to be substituted.",
+    "trials_required": 6,
+    "validity_rule_id": "provider-failure-validity.v1"
+  },
+  "classification": {
+    "attribution": "INDETERMINATE",
+    "evaluation_impact": "OFFICIAL EVALUATION BLOCKED",
+    "ownership": "OUTSIDE ENGINEERING CONTROL",
+    "status": "VERIFIED FAILURE"
+  },
+  "contrast": {
+    "length_alone": {
+      "experiment": "r86-gradient-001",
+      "failures": 0,
+      "max_prompt_tokens": 908,
+      "observations": 56,
+      "reading": "A seven-band length sweep on a two-field schema produced zero failures at up to 908 prompt tokens. Length alone does not reproduce it."
+    },
+    "note": "Two comparisons make this a specific defect rather than 'it sometimes fails'. Both are from the same registered matrix, same model, same transport, same day.",
+    "same_schema_same_length_different_content": {
+      "cell": "intake/filler/long",
+      "failures": 0,
+      "prompt_tokens": 522,
+      "reading": "Ten MORE prompt tokens than the failing cell, identical schema and transport, synthetic filler instead of a clinical note: zero failures.",
+      "trials": 6
+    }
+  },
+  "digests": {
+    "caller_key_id": "sha256:bec21976619c4fca",
+    "caller_key_note": "A digest of the caller key salted with the firewall base URL. It answers 'is this the key you issued?' without the key, the URL or any credential appearing in this file.",
+    "firewall_configuration": "sha256:0a917efe43c803fb",
+    "gateway_configuration": "sha256:47b96c93a407ed4c",
+    "intake_instructions_template": "sha256:7b8dbe35d695c620",
+    "model": "sha256:31d69bc24c21367e",
+    "note_frame": "sha256:6ff74b0717836916",
+    "schema": "sha256:a89278d7f1c9eba5",
+    "system_prompt": "sha256:0c841e5dd15eb5a2"
+  },
+  "excluded_from_this_file": [
+    "the caller key",
+    "any provider credential",
+    "the firewall base URL",
+    "the model id",
+    "clinical text or any note payload",
+    "raw response bodies"
+  ],
+  "experiment_id": "r86-reproducer-001",
+  "git_commit": "ba06f71bbd4c3c4d707b1930876360ee13530c4b",
+  "observed": {
+    "attribution": [
+      "INDETERMINATE"
+    ],
+    "body_chars": [
+      2389
+    ],
+    "completion_tokens": [
+      1536
+    ],
+    "determinism": {
+      "deterministic": true,
+      "evidence": "Every trial returned the identical completion-token count, whitespace fraction and body length at temperature 0."
+    },
+    "failure_classification": "SCHEMA_GRAMMAR_FAILURE (R-86 signature)",
+    "failure_rate": 1.0,
+    "failures": 6,
+    "finish_reason": [
+      "length"
+    ],
+    "median_latency_ms": 6475.8,
+    "parsed_as_json": [
+      false
+    ],
+    "successes": 0,
+    "trials": 6,
+    "whitespace_fraction": [
+      0.9205
+    ]
+  },
+  "prompt_versions": {
+    "adjudication": "adjudication.v1",
+    "intake": "intake.v2"
+  },
+  "purpose": "The single canonical reproducer for R-86, for the owner of the provider or the firewall. Every value needed to reproduce the failing request is here; nothing that must not leave this machine is.",
+  "request": {
+    "attempts_per_observation": 1,
+    "cell": "intake/gold_note/long",
+    "cell_meaning": "production IntakeExtraction schema, a real (synthetic) clinical note at the longer end of the corpus, sent through the firewall",
+    "endpoint": "POST /v1/chat/completions",
+    "max_tokens": 1536,
+    "message_roles": [
+      "system",
+      "user"
+    ],
+    "messages": [
+      {
+        "content_digest": "sha256:0c841e5dd15eb5a2",
+        "role": "system"
+      },
+      {
+        "content_digest": "per-note; see prompt_tokens",
+        "role": "user"
+      }
+    ],
+    "prompt_token_range": [
+      512,
+      512
+    ],
+    "prompt_tokens_observed": 512,
+    "stream": false,
+    "strict": true,
+    "structured_mode": "json_schema",
+    "temperature": 0.0
+  },
+  "risk": "R-86",
+  "ruled_out": [
+    "REQUEST_SHAPE as a whole - identical bodies differing only in content succeed",
+    "MODEL_CONFIGURATION - temperature, max_tokens and stream are identical across arms",
+    "TIMEOUT_HANDLING - the client timeout is not reached; the ceiling is",
+    "input length alone - 0/56 up to 908 prompt tokens on a reduced schema",
+    "schema shape alone - 0/24 on the production schema with filler content",
+    "intermittency - 6/6 identical responses at temperature 0"
+  ],
+  "schema_shape": {
+    "name": "IntakeExtraction",
+    "note": "Five sibling arrays of objects. Every array is legal when empty, so the grammar admits a complete document at any point - which is what makes 'the schema is satisfied' compatible with 'the document never closes'.",
+    "properties": [
+      "case_id",
+      "clinical_facts",
+      "diagnoses",
+      "documentation_facts",
+      "procedures",
+      "temporal_facts"
+    ],
+    "top_level_arrays": 5
+  },
+  "sealed_at": "2026-08-25T15:54:03.584948+00:00",
+  "sealed_sha256": "271127edace3d94d70445ebcc12ac658b3d4929d01541bcda1a6f3c7edee11f0",
+  "source_artefacts": {
+    "escalation": "docs/escalations/R-86-unbounded-whitespace.md",
+    "factorial": "eval/reports/r86-gradient/factorial_results.json",
+    "gate_recheck": "eval/reports/r86-gate-recheck/results.json",
+    "length_gradient": "eval/reports/r86-gradient/results.json"
+  },
+  "still_ambiguous": [
+    "PROVIDER_DECODER versus FIREWALL_PROXY - MEDAUTH observes one hop"
+  ]
+}

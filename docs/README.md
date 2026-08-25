@@ -110,6 +110,10 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/phase16-metrics.md](evaluation/phase16-metrics.md) — NOT PRODUCED, and why that is the correct entry
 - [evaluation/phase16-failure-analysis.md](evaluation/phase16-failure-analysis.md) — one failure, and it is not a case
 - [evaluation/od42-grounding-scope.md](evaluation/od42-grounding-scope.md) — what "grounding" may and may not mean here
+- [evaluation/official-evaluation-gate.md](evaluation/official-evaluation-gate.md) — **the sole authorisation boundary; no override exists to pass**
+- [evaluation/evaluation-hold.md](evaluation/evaluation-hold.md) — **what is frozen, and the one thing that lifts it**
+- [operations/r86-provider-escalation.md](operations/r86-provider-escalation.md) — **the handoff: one question, and it is not answered here**
+- [operations/r86-revalidation.md](operations/r86-revalidation.md) — the runbook for "they say it's fixed"
 - [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart
 - [evaluation/model-capability-evaluation.md](evaluation/model-capability-evaluation.md) — what the decoder does, scoped to the schema tested
