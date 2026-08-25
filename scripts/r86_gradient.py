@@ -485,7 +485,19 @@ def _factorial_request(cell: Cell) -> tuple[list[dict[str, str]], dict[str, Any]
     return messages, response_format, _digest(body), label
 
 
-async def _observe_cell(client: LlmClient, cell: Cell, trial: int) -> Observation:
+async def _observe_cell(
+    client: LlmClient, cell: Cell, trial: int, *, temperature: float = TEMPERATURE
+) -> Observation:
+    """One observation of one cell.
+
+    `temperature` defaults to the registered `TEMPERATURE` and exists so
+    `scripts/r86_temperature_perturbation.py` can vary exactly that one field while
+    building the request through **this** function rather than a copy of it. A second
+    implementation of "build the failing request" would agree with this one until it
+    did not, and the whole value of that experiment is that one field differs.
+
+    The default is asserted by test, so the registered path cannot drift through it.
+    """
     from app.core.errors import SchemaValidationError
 
     messages, response_format, digest, label = _factorial_request(cell)
@@ -502,7 +514,7 @@ async def _observe_cell(client: LlmClient, cell: Cell, trial: int) -> Observatio
     try:
         response = await client.chat(
             messages,
-            temperature=TEMPERATURE,
+            temperature=temperature,
             max_tokens=MAX_OUTPUT_TOKENS,
             response_format=response_format,
         )

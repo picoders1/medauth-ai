@@ -27,12 +27,15 @@ unchanged and either passes or does not.
 
 ## 2. What is *not* a fix to this configuration
 
-If the provider's answer is:
+If the provider's answer is *"point at something else"* — any of:
 
-- use a **different model**
-- use a **different schema**
-- use a **different API mode** (`tool_call`, `json_object`, unconstrained)
-- use a **different runtime**
+- a **different model**
+- a **different model version**
+- a **different decoder / runtime** we must select
+- a **different schema**
+- a **different API mode** (`tool_call`, `json_object`, unconstrained)
+- a **different constrained-decoding implementation** we must request
+- a **different temperature**
 
 then R-86 is **not closed**. The defect in the registered configuration is exactly as
 present as it was; a different configuration has merely been proposed alongside it.
@@ -60,6 +63,34 @@ everything about it looks correct except what it is about.
 R-86 in that world stays open against the configuration it was raised against, with a
 note that the deployment moved away from it. A defect does not stop existing because
 something else is now in use.
+
+### 2b. The line between §1 and §2, and where it is blurry
+
+§1 lists a *decoder/runtime fix* and a *constrained-decoding implementation change* as
+things that could **close** R-86, while §2 lists a different decoder/runtime and a
+different constrained-decoding implementation as `NEW_SYSTEM_CONFIGURATION`. Those look
+contradictory. The distinguishing test is:
+
+> **Does the registered request, unchanged, still reach the configuration the seal
+> identifies?**
+
+- **The provider repairs their stack**, and we send exactly what we always sent →
+  candidate for closure. The reproducer re-runs as-is; nothing on our side moves.
+- **We are asked to select something different** — another model, version, endpoint,
+  API mode, decoding implementation or temperature → `NEW_SYSTEM_CONFIGURATION`. A
+  registered field has changed, and the seal's drift check will say so before the run.
+
+**A limitation, stated rather than glossed.** `verify_against_seal()` detects changes on
+**our** side. The model digest hashes the model *identifier we send*, not the weights,
+runtime or decoding implementation behind it. So a provider who swaps their serving
+stack under the same model name produces **no detectable drift here** — the reproducer
+would re-run, and could pass, against a materially different system.
+
+That is not a hole we can close from this side, and pretending otherwise would be worse
+than recording it. The mitigation is procedural, not technical: **a remediation must
+arrive with a statement of what changed** (§4), and that statement is what the
+revalidation result gets read against. A PASS with no accompanying account of what was
+fixed is a PASS whose subject is unknown, and should be treated as one.
 
 ## 3. What is not a fix at all (Part H)
 

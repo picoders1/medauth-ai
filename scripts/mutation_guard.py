@@ -331,6 +331,42 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- R-86 temperature perturbation: only one variable may differ ---------
+    Mutation(
+        # The way the registered reproducer could silently start running at a
+        # different temperature: change the default on the observation path. Every
+        # future revalidation would then measure a system the seal does not describe.
+        name="reproducer-observation-default-temperature-moved",
+        rule="the reproducer's observation path must default to the registered TEMPERATURE",
+        path="scripts/r86_gradient.py",
+        old="    client: LlmClient, cell: Cell, trial: int, *, temperature: float = TEMPERATURE",
+        new="    client: LlmClient, cell: Cell, trial: int, *, temperature: float = 0.2  # MUTATION",
+        tests="tests/evaluation/test_temperature_perturbation.py",
+        keyword="registered",
+    ),
+    Mutation(
+        # A diagnostic manifest that can be re-frozen lets the registration follow the
+        # result - trial count and outcome bands included.
+        name="perturbation-manifest-can-be-refrozen",
+        rule="a diagnostic registration may not be re-taken after the numbers are in",
+        path="scripts/r86_temperature_perturbation.py",
+        old="        if MANIFEST.is_file():",
+        new="        if False:  # MUTATION",
+        tests="tests/evaluation/test_temperature_perturbation.py",
+        keyword="refrozen",
+    ),
+    Mutation(
+        # The classifier collapsed to one answer. Every band test above would still
+        # pass on the band that happened to be observed; only the reachability
+        # parametrisation catches it.
+        name="perturbation-outcome-bands-collapsed",
+        rule="every pre-registered outcome band must remain reachable",
+        path="scripts/r86_temperature_perturbation.py",
+        old='    "RUNAWAY_REDUCED": (0, 2),',
+        new='    "RUNAWAY_REDUCED": (0, 0),  # MUTATION',
+        tests="tests/evaluation/test_temperature_perturbation.py",
+        keyword="vacuous",
+    ),
     # -- R-86 closure: the two termination conditions Part F named -----------
     Mutation(
         # The exact defect the closure work found, restored. Without this condition a

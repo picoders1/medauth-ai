@@ -1,0 +1,87 @@
+{
+  "analysis_plan": [
+    "Compare failure rate, valid-JSON rate, termination reason, whitespace fraction, non-whitespace character count, determinism and output length against the registered temperature 0.0 observations already committed.",
+    "Do not compare clinical correctness. Do not compare model quality.",
+    "Classify into exactly one pre-registered band and use its registered interpretation verbatim."
+  ],
+  "attempts_per_observation": 1,
+  "cannot_authorise": "This experiment cannot open the official evaluation gate under any outcome. The official system is registered at temperature 0.0; a result obtained at 0.2 describes a different decoding path. eval/official_gate.py reads only sealed revalidations and does not know this experiment exists.",
+  "changed": {
+    "field": "temperature",
+    "note": "The ONLY field that differs. The reproducer's own TEMPERATURE constant remains 0.0 and is asserted to; this runner passes 0.2 at call time under this experiment id.",
+    "perturbed": 0.2,
+    "registered": 0.0
+  },
+  "completion_ceiling": 1536,
+  "created_at": "2026-08-25T18:26:45.959659+00:00",
+  "digests": {
+    "caller_key_id": "sha256:bec21976619c4fca",
+    "firewall_configuration": "sha256:0a917efe43c803fb",
+    "gateway_configuration": "sha256:47b96c93a407ed4c",
+    "intake_instructions_template": "sha256:7b8dbe35d695c620",
+    "model": "sha256:31d69bc24c21367e",
+    "note_frame": "sha256:6ff74b0717836916",
+    "schema": "sha256:a89278d7f1c9eba5",
+    "system_prompt": "sha256:0c841e5dd15eb5a2"
+  },
+  "digests_agree_with_parent_seal": true,
+  "experiment_id": "r86-temperature-perturbation-001",
+  "failing_cell": "intake/gold_note/long",
+  "failure_classification": {
+    "note": "A trial fails if it does not satisfy r86-closure.v1: schema-valid, parsed, closed, not stopped by exhausting the ceiling, and not whitespace-dominated at the ceiling. The same rule the closure gate uses, so the two cannot disagree about what a failure is.",
+    "rule_id": "r86-closure.v1"
+  },
+  "git_commit": "778aca5db9fe3260125c837a9e2b8c1af7e22b4e",
+  "hypothesis": "The R-86 runaway on intake/gold_note/long is observed under greedy decoding at temperature 0.0. If a small perturbation changes the observed behaviour, the failure is sensitive to the decoding path; if it does not, it is not sensitive AT THIS VALUE. Neither result identifies a root cause.",
+  "parent_experiment_id": "r86-reproducer-001",
+  "parent_seal_digests": {
+    "caller_key_id": "sha256:bec21976619c4fca",
+    "caller_key_note": "A digest of the caller key salted with the firewall base URL. It answers 'is this the key you issued?' without the key, the URL or any credential appearing in this file.",
+    "firewall_configuration": "sha256:0a917efe43c803fb",
+    "gateway_configuration": "sha256:47b96c93a407ed4c",
+    "intake_instructions_template": "sha256:7b8dbe35d695c620",
+    "model": "sha256:31d69bc24c21367e",
+    "note_frame": "sha256:6ff74b0717836916",
+    "schema": "sha256:a89278d7f1c9eba5",
+    "system_prompt": "sha256:0c841e5dd15eb5a2"
+  },
+  "parent_seal_sha256": "271127edace3d94d70445ebcc12ac658b3d4929d01541bcda1a6f3c7edee11f0",
+  "purpose": "Diagnostic only. Test whether a small amount of decoding stochasticity changes the observed constrained-decoding runaway on the registered R-86 failing cell. This is not a fix, not an official evaluation, not a model-quality benchmark, and not a production configuration change.",
+  "python": "3.12.3",
+  "stream": false,
+  "strict": true,
+  "structured_mode": "json_schema",
+  "success_criterion": {
+    "bands": {
+      "MIXED": [
+        3,
+        5
+      ],
+      "RUNAWAY_PERSISTS": [
+        6,
+        6
+      ],
+      "RUNAWAY_REDUCED": [
+        0,
+        2
+      ]
+    },
+    "note": "There is none, deliberately. This is a diagnostic and has nothing to pass. The outcome bands below classify what was observed; they do not authorise anything."
+  },
+  "trial_count": 6,
+  "trial_count_note": "Fixed before the run. It may not be changed after seeing results; the runner refuses a count that disagrees with this manifest.",
+  "unchanged": [
+    "model",
+    "model digest",
+    "prompt",
+    "prompt digest",
+    "schema",
+    "schema digest",
+    "input/request shape",
+    "gateway",
+    "firewall",
+    "caller identity",
+    "completion ceiling",
+    "request mode"
+  ]
+}

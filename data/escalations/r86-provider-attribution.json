@@ -1,88 +1,93 @@
 {
   "attribution_id": "r86-provider-attribution-001",
-  "supersedes_attribution_in": "data/escalations/r86-handoff-status.json",
+  "character_economy_analysis": {
+    "derived_from": [
+      "eval/reports/r86-gradient/factorial_results.json",
+      "eval/reports/r86-revalidation/20260825T155710Z.json"
+    ],
+    "explicitly_still_not_established": "Which provider component. No hypothesis is selected. The greedy-fixed-point reading is recorded as consistent with every measurement and cheap to kill, NOT as a conclusion - MEDAUTH has no view into the decoder.",
+    "failing_cell": {
+      "body_chars": 2389,
+      "completion_tokens": 1536,
+      "finish_reason": "length",
+      "identical_across_observations": 12,
+      "non_whitespace_chars": 190,
+      "observed_in_two_independent_runs_hours_apart": true,
+      "parsed_as_json": false,
+      "whitespace_fraction": 0.9205
+    },
+    "findings": [
+      "It did not run out of room: 190 non-whitespace characters is LESS than any other intake cell, and a sixth of the 1098 produced by intake/gold_note/short which terminated in 478 tokens.",
+      "The document never closes, so the whitespace is emitted while it is still OPEN. Trailing whitespace after a complete document would still parse; this does not. This contradicts the 'after a structurally complete state' wording the escalation carried since Phase 16.",
+      "It is a deterministic fixed point: byte-identical across 12 observations in two runs taken hours apart at temperature 0.",
+      "An exit exists and is reachable: intake/filler/long entered a 770-character whitespace stretch under the same schema and still closed, which argues against a grammar with no terminal state."
+    ],
+    "new_model_calls_made": 0,
+    "note": "Arithmetic over already-committed observations. No provider was contacted to derive any of this.",
+    "partial_answers_to_owner_checklist": {
+      "1": "NOT_ON_THE_WIRE - the document never closes; what the decoder believed internally is not visible to us",
+      "10": "YES - the flat schema terminates on the same clinical content, 0/24 across all four flat cells",
+      "11": "YES - schema structure is the only factor that never fails: flat 0/24, intake 6/24",
+      "4": "AN_EXIT_EXISTS - intake/filler/long escaped a whitespace stretch under the same schema"
+    },
+    "schema_minimum": {
+      "array_fields_legal_when_empty": 5,
+      "minimal_satisfying_document_chars_compact": 110,
+      "note": "The failing response carries 190 non-whitespace characters against a 110-character minimum - the neighbourhood of a nearly-empty extraction - and still never closed.",
+      "required_fields": [
+        "case_id"
+      ]
+    }
+  },
+  "digests": {
+    "model": "sha256:31d69bc24c21367e",
+    "model_matches_seal": true,
+    "note": "Digest-only, under the convention the sealed manifest uses. No base URL, caller key, provider credential, model name or host name appears in this repository.",
+    "schema": "sha256:a89278d7f1c9eba5",
+    "upstream_host": "sha256:334329af9cb116de"
+  },
   "does_not_modify": {
     "artefact": "data/escalations/r86-reproducer.manifest.json",
     "reason": "The sealed reproducer records the attribution that existed when it was sealed. A seal rewritten whenever the world moves is a document about today, not a record of a moment. Its classification.attribution remains INDETERMINATE and two tests assert that it does.",
     "sealed_sha256": "sha256:271127edace3d94d"
   },
-
-  "r86": {
-    "status": "VERIFIED_FAILURE",
-    "attribution": "PROVIDER_SIDE",
-    "firewall_hypothesis": "RULED_OUT_BY_UPSTREAM_CAPTURE",
+  "establishes": {
+    "basis": [
+      "firewall output_chars 2389 == MEDAUTH body_chars 2389 (production cell)",
+      "firewall input_chars 1058 == MEDAUTH payload_chars 1058 (production cell)",
+      "firewall output_chars 1211 == MEDAUTH body_chars 1211 (control cell)",
+      "firewall input_chars 532 == MEDAUTH payload_chars 532 (control cell)",
+      "decision=allow with 4 detectors executed and 0 detected on every trial, so the only body-mutating path in the firewall (set_response_text under Action.REDACT) was never entered"
+    ],
+    "claim": "The provider response observed upstream of the proxy is identical, in every measured characteristic, to the provider response observed by MEDAUTH downstream of it.",
+    "therefore": "The whitespace-dominated, non-terminating response was already present when the firewall received it from the provider."
+  },
+  "evidence_source": {
+    "artefact": "data/escalations/r86-firewall-capture.json",
+    "kind": "FIREWALL_OWNER_AUDIT_TRAIL",
+    "medauth_record": "eval/reports/r86-revalidation/20260825T155710Z.json",
+    "method": "docs/operations/r86-firewall-capture.md",
+    "obtained_at": "2026-08-25",
+    "obtained_by": "the firewall operator, from the firewall's own append-only records"
+  },
+  "explicitly_not_established": {
+    "hypotheses_listed_not_selected": "docs/operations/r86-provider-root-cause.md",
+    "note": "This localises the defect to the provider side of the proxy hop. It does NOT identify which component within the provider's serving stack produces the padding - decoder, grammar implementation, sampler, runtime or configuration - and no such claim is made. One layer is eliminated; the other is not resolved further.",
     "provider_component": "UNKNOWN",
-    "resolution": "UNRESOLVED",
-    "official_evaluation": "BLOCKED"
+    "root_cause": "NOT_ESTABLISHED"
   },
-
-  "reproducer": {
-    "id": "r86-reproducer-001",
-    "cell": "intake/gold_note/long",
-    "control_cell": "intake/gold_note/short",
-    "request_shape_unchanged": true,
-    "endpoint": "POST /v1/chat/completions through the firewall, one caller key",
-    "response_format": "json_schema, strict: true",
-    "temperature": 0.0,
-    "max_tokens": 1536,
-    "stream": false,
-    "attempts_per_observation": 1,
-    "trials_required": 6
+  "final_state_note": "Local diagnostics are exhausted. Two experiments (r86-factorial-001, r86-temperature-perturbation-001) and one owner-side capture (r86-firewall-capture-001) have narrowed the question without entering the provider. Everything further requires provider-internal visibility that MEDAUTH correctly does not have.",
+  "firewall_hypothesis_retirement": {
+    "exact_statement": "The firewall-side response transformation hypothesis is ruled out for the registered R-86 reproducer based on matching upstream and downstream response lengths/content characteristics.",
+    "hypothesis": "FIREWALL_PROXY_TRANSFORMATION",
+    "not_claimed": [
+      "The firewall can never corrupt responses.",
+      "The firewall is correct in general.",
+      "Any other firewall failure mode has been tested or excluded."
+    ],
+    "scope": "This registered reproducer, these twelve trials, this configuration. Nothing is generalised beyond them.",
+    "state": "RULED_OUT_FOR_THIS_REPRODUCER"
   },
-
-  "digests": {
-    "model": "sha256:31d69bc24c21367e",
-    "model_matches_seal": true,
-    "schema": "sha256:a89278d7f1c9eba5",
-    "upstream_host": "sha256:334329af9cb116de",
-    "note": "Digest-only, under the convention the sealed manifest uses. No base URL, caller key, provider credential, model name or host name appears in this repository."
-  },
-
-  "measurements": {
-    "production_cell": {
-      "trials": 6,
-      "firewall_input_chars": 1058,
-      "medauth_payload_chars": 1058,
-      "firewall_output_chars": 2389,
-      "medauth_body_chars": 2389,
-      "http_status": 200,
-      "firewall_decision": "allow",
-      "detectors_executed": 4,
-      "detectors_detected": 0,
-      "detectors_errored": 0,
-      "upstream_latency_ms_range": [6323, 6447],
-      "medauth_finish_reason": "length",
-      "medauth_parsed_as_json": false,
-      "medauth_satisfied_schema": false,
-      "medauth_completion_tokens": 1536,
-      "medauth_whitespace_fraction": 0.9205,
-      "deterministic": true,
-      "failures": 6,
-      "successes": 0
-    },
-    "control_cell": {
-      "trials": 6,
-      "firewall_input_chars": 532,
-      "medauth_payload_chars": 532,
-      "firewall_output_chars": 1211,
-      "medauth_body_chars": 1211,
-      "http_status": 200,
-      "firewall_decision": "allow",
-      "detectors_executed": 4,
-      "detectors_detected": 0,
-      "detectors_errored": 0,
-      "upstream_latency_ms_range": [2101, 2586],
-      "medauth_finish_reason": "stop",
-      "medauth_parsed_as_json": true,
-      "medauth_satisfied_schema": true,
-      "medauth_completion_tokens": 478,
-      "medauth_whitespace_fraction": 0.0933,
-      "deterministic": true,
-      "failures": 0,
-      "successes": 6
-    }
-  },
-
   "firewall_trace_identifiers": [
     "138e8afd31014358b2432c277e93d82d",
     "d48809f9cc4e403c890a424b4e3dd949",
@@ -91,53 +96,122 @@
     "af091b403ff5407b9113880bf1d08e8b",
     "d16cdeda62b84ee0b91c5d832c6cd627"
   ],
-
-  "evidence_source": {
-    "kind": "FIREWALL_OWNER_AUDIT_TRAIL",
-    "artefact": "data/escalations/r86-firewall-capture.json",
-    "method": "docs/operations/r86-firewall-capture.md",
-    "medauth_record": "eval/reports/r86-revalidation/20260825T155710Z.json",
-    "obtained_at": "2026-08-25",
-    "obtained_by": "the firewall operator, from the firewall's own append-only records"
-  },
-
-  "establishes": {
-    "claim": "The provider response observed upstream of the proxy is identical, in every measured characteristic, to the provider response observed by MEDAUTH downstream of it.",
-    "basis": [
-      "firewall output_chars 2389 == MEDAUTH body_chars 2389 (production cell)",
-      "firewall input_chars 1058 == MEDAUTH payload_chars 1058 (production cell)",
-      "firewall output_chars 1211 == MEDAUTH body_chars 1211 (control cell)",
-      "firewall input_chars 532 == MEDAUTH payload_chars 532 (control cell)",
-      "decision=allow with 4 detectors executed and 0 detected on every trial, so the only body-mutating path in the firewall (set_response_text under Action.REDACT) was never entered"
-    ],
-    "therefore": "The whitespace-dominated, non-terminating response was already present when the firewall received it from the provider."
-  },
-
-  "firewall_hypothesis_retirement": {
-    "hypothesis": "FIREWALL_PROXY_TRANSFORMATION",
-    "state": "RULED_OUT_FOR_THIS_REPRODUCER",
-    "exact_statement": "The firewall-side response transformation hypothesis is ruled out for the registered R-86 reproducer based on matching upstream and downstream response lengths/content characteristics.",
-    "not_claimed": [
-      "The firewall can never corrupt responses.",
-      "The firewall is correct in general.",
-      "Any other firewall failure mode has been tested or excluded."
-    ],
-    "scope": "This registered reproducer, these twelve trials, this configuration. Nothing is generalised beyond them."
-  },
-
-  "explicitly_not_established": {
-    "provider_component": "UNKNOWN",
-    "note": "This localises the defect to the provider side of the proxy hop. It does NOT identify which component within the provider's serving stack produces the padding - decoder, grammar implementation, sampler, runtime or configuration - and no such claim is made. One layer is eliminated; the other is not resolved further.",
-    "root_cause": "NOT_ESTABLISHED",
-    "hypotheses_listed_not_selected": "docs/operations/r86-provider-root-cause.md"
-  },
-
   "gate_effect": {
     "official_evaluation": "BLOCKED",
+    "only_transition": "provider-side fix evidence -> scripts/r86_revalidate.py --write -> PASS -> the official evaluation gate opens. FAIL and INCONCLUSIVE both remain blocked.",
     "unchanged_by_this_artefact": true,
-    "why": "Attribution is not a fix. The production cell still fails 6/6, the gate still reads 6/12 = 0.5000 against the pre-registered ceiling of 0.10, and R-86 remains a VERIFIED FAILURE. This evidence is not grounds for a revalidation either: revalidation asks whether the defect is gone, and this says it is present.",
-    "only_transition": "provider-side fix evidence -> scripts/r86_revalidate.py --write -> PASS -> the official evaluation gate opens. FAIL and INCONCLUSIVE both remain blocked."
+    "why": "Attribution is not a fix. The production cell still fails 6/6, the gate still reads 6/12 = 0.5000 against the pre-registered ceiling of 0.10, and R-86 remains a VERIFIED FAILURE. This evidence is not grounds for a revalidation either: revalidation asks whether the defect is gone, and this says it is present."
   },
-
+  "hypothesis_register": {
+    "entries": [
+      {
+        "as_stated": "grammar/whitespace handling after a structurally complete state",
+        "id": "H-WHITESPACE-AFTER-COMPLETE",
+        "raised_in": "docs/operations/r86-provider-escalation.md (Phase 16)",
+        "reason": "The failing responses remain structurally INCOMPLETE. parsed_as_json is false on all eighteen observations across three runs; trailing whitespace after a complete document would still parse. The 'after a structurally complete state' clause is not supported as stated.",
+        "state": "NARROWED / NOT ESTABLISHED",
+        "what_survives": "Whitespace is legal between tokens of an OPEN document too, so a whitespace-consumption mechanism is not excluded - only the claim that it begins after completion."
+      },
+      {
+        "as_stated": "a greedy fixed point on a whitespace token at temperature 0",
+        "id": "H-WHITESPACE-FIXED-POINT",
+        "raised_in": "docs/operations/r86-provider-root-cause.md section 3b",
+        "reason": "r86-temperature-perturbation-001 trial 5 escaped the whitespace pattern entirely - 3316 non-whitespace characters at 13% whitespace - and STILL reached the ceiling without closing. The sampler left the whitespace path and termination did not follow.",
+        "state": "NARROWED / NOT ESTABLISHED",
+        "what_survives": "Five of six trials at temperature 0.2 were byte-identical to greedy, which is consistent with the whitespace continuation holding a large share of the probability mass. That is an observation, not a mechanism."
+      },
+      {
+        "as_stated": "the answer was genuinely too long for the 1536-token ceiling",
+        "id": "H-LENGTH-EXHAUSTION",
+        "raised_in": "implicit in early readings of finish_reason=length",
+        "reason": "The failing cell produces 190 non-whitespace characters - LESS than any other intake cell, and a sixth of the 1098 produced by intake/gold_note/short which terminated cleanly in 478 tokens. It did not run out of room; it stopped producing content.",
+        "residual": "Trial 5 of the temperature diagnostic produced 3316 non-whitespace characters and also hit the ceiling. That single observation is NOT excluded as an ordinary length truncation, and is recorded as ambiguous rather than folded into either reading.",
+        "state": "RETIRED"
+      }
+    ],
+    "note": "Hypotheses are NARROWED or RETIRED here, never deleted from the reports that raised them. A record that erases what was believed at the time cannot be audited.",
+    "standing_statement": "The observed whitespace-heavy behavior is a manifestation of the non-termination/failure mode, not yet established as the underlying cause."
+  },
+  "measurements": {
+    "control_cell": {
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "detectors_executed": 4,
+      "deterministic": true,
+      "failures": 0,
+      "firewall_decision": "allow",
+      "firewall_input_chars": 532,
+      "firewall_output_chars": 1211,
+      "http_status": 200,
+      "medauth_body_chars": 1211,
+      "medauth_completion_tokens": 478,
+      "medauth_finish_reason": "stop",
+      "medauth_parsed_as_json": true,
+      "medauth_payload_chars": 532,
+      "medauth_satisfied_schema": true,
+      "medauth_whitespace_fraction": 0.0933,
+      "successes": 6,
+      "trials": 6,
+      "upstream_latency_ms_range": [
+        2101,
+        2586
+      ]
+    },
+    "production_cell": {
+      "detectors_detected": 0,
+      "detectors_errored": 0,
+      "detectors_executed": 4,
+      "deterministic": true,
+      "failures": 6,
+      "firewall_decision": "allow",
+      "firewall_input_chars": 1058,
+      "firewall_output_chars": 2389,
+      "http_status": 200,
+      "medauth_body_chars": 2389,
+      "medauth_completion_tokens": 1536,
+      "medauth_finish_reason": "length",
+      "medauth_parsed_as_json": false,
+      "medauth_payload_chars": 1058,
+      "medauth_satisfied_schema": false,
+      "medauth_whitespace_fraction": 0.9205,
+      "successes": 0,
+      "trials": 6,
+      "upstream_latency_ms_range": [
+        6323,
+        6447
+      ]
+    }
+  },
+  "r86": {
+    "attribution": "PROVIDER_SIDE",
+    "firewall_hypothesis": "RULED_OUT_FOR_REGISTERED_REPRODUCER",
+    "not_claimed": [
+      "the provider decoder is specifically identified",
+      "a grammar bug is proven",
+      "an EOS bug is proven",
+      "a whitespace bug is proven",
+      "a greedy-decoding bug is proven"
+    ],
+    "not_claimed_note": "All five remain hypotheses. Two diagnostics have narrowed the space and neither has entered it - MEDAUTH observes an HTTP response and has no view into the decoder.",
+    "official_evaluation": "BLOCKED",
+    "provider_component": "UNKNOWN",
+    "resolution": "UNRESOLVED",
+    "root_cause": "NOT_ESTABLISHED",
+    "status": "VERIFIED_FAILURE"
+  },
+  "reproducer": {
+    "attempts_per_observation": 1,
+    "cell": "intake/gold_note/long",
+    "control_cell": "intake/gold_note/short",
+    "endpoint": "POST /v1/chat/completions through the firewall, one caller key",
+    "id": "r86-reproducer-001",
+    "max_tokens": 1536,
+    "request_shape_unchanged": true,
+    "response_format": "json_schema, strict: true",
+    "stream": false,
+    "temperature": 0.0,
+    "trials_required": 6
+  },
+  "supersedes_attribution_in": "data/escalations/r86-handoff-status.json",
   "timestamp": "2026-08-25"
 }

@@ -100,13 +100,64 @@ def test_attribution_evidence_cannot_rewrite_historical_experiment_state() -> No
 
 
 def test_r86_is_attributed_provider_side_and_still_unresolved() -> None:
+    """The final evidence model (Phase 22).
+
+    `firewall_hypothesis` reads `RULED_OUT_FOR_REGISTERED_REPRODUCER` rather than
+    `RULED_OUT_BY_UPSTREAM_CAPTURE`: the earlier value named the *method*, and a value
+    that names the method invites the scope to be forgotten. This one carries the
+    scope in the value itself.
+    """
     record = attribution()["r86"]
     assert record["status"] == "VERIFIED_FAILURE"
     assert record["attribution"] == "PROVIDER_SIDE"
-    assert record["firewall_hypothesis"] == "RULED_OUT_BY_UPSTREAM_CAPTURE"
+    assert record["firewall_hypothesis"] == "RULED_OUT_FOR_REGISTERED_REPRODUCER"
+    assert record["root_cause"] == "NOT_ESTABLISHED"
     assert record["provider_component"] == "UNKNOWN"
     assert record["resolution"] == "UNRESOLVED"
     assert record["official_evaluation"] == "BLOCKED"
+
+
+def test_the_five_proof_claims_are_explicitly_refused() -> None:
+    """Part A. Every one of these is a sentence somebody could reasonably write from
+    the evidence, and none of them is carried by it."""
+    refused = " ".join(attribution()["r86"]["not_claimed"]).lower()
+    for claim in (
+        "decoder is specifically identified",
+        "grammar bug",
+        "eos bug",
+        "whitespace bug",
+        "greedy-decoding bug",
+    ):
+        assert claim in refused, f"{claim} is no longer explicitly refused"
+
+
+def test_the_narrow_whitespace_hypotheses_are_narrowed_not_deleted() -> None:
+    """Part B. A record that erases what was believed at the time cannot be audited."""
+    register = attribution()["hypothesis_register"]
+    states = {e["id"]: e["state"] for e in register["entries"]}
+    assert states["H-WHITESPACE-AFTER-COMPLETE"] == "NARROWED / NOT ESTABLISHED"
+    assert states["H-WHITESPACE-FIXED-POINT"] == "NARROWED / NOT ESTABLISHED"
+    assert states["H-LENGTH-EXHAUSTION"] == "RETIRED"
+    assert register["standing_statement"] == (
+        "The observed whitespace-heavy behavior is a manifestation of the "
+        "non-termination/failure mode, not yet established as the underlying cause."
+    )
+    # The historical reports that raised them must still say so.
+    escalation = (REPO / "docs/operations/r86-provider-escalation.md").read_text(encoding="utf-8")
+    assert "whitespace" in escalation.lower(), "the original framing was deleted rather than marked"
+
+
+def test_the_primary_provider_question_is_about_termination_not_whitespace() -> None:
+    """Part C. The question the package leads with decides what the provider looks at."""
+    text = (REPO / "docs/operations/r86-provider-root-cause.md").read_text(encoding="utf-8")
+    assert "non-terminating generation path while the" in text
+    assert "structurally incomplete" in text
+    assert "valid terminal state" in text
+    assert "This is the primary question" in text
+    # Ten secondary questions, and the evidence request.
+    assert "10. Is constrained decoding implemented through a separate decoder path" in text
+    assert "Provider-internal evidence we are asking for" in text
+    assert "not asking you to optimise MEDAUTH" in text.replace("optimize", "optimise")
 
 
 def test_the_firewall_hypothesis_is_retired_only_for_this_reproducer() -> None:
@@ -401,11 +452,35 @@ def test_the_threshold_is_unchanged_and_still_matches_the_seal() -> None:
 
 
 def test_a_substituted_configuration_is_not_a_fix() -> None:
+    """Part F, including the four substitutions Phase 22 added."""
     remediation = (REPO / "docs/operations/r86-provider-remediation.md").read_text(encoding="utf-8")
     assert "NEW_SYSTEM_CONFIGURATION" in remediation
-    for substitution in ("different model", "different schema", "different runtime"):
-        assert substitution in remediation
+    for substitution in (
+        "different model",
+        "different model version",
+        "different decoder / runtime",
+        "different schema",
+        "different API mode",
+        "different constrained-decoding implementation",
+        "different temperature",
+    ):
+        assert substitution in remediation, f"{substitution!r} is not classified"
     assert "existing experiment is not overwritten" in remediation.lower()
+
+
+def test_the_drift_check_states_what_it_cannot_see() -> None:
+    """The honest limit of the seal.
+
+    The model digest hashes the identifier we SEND, not the weights or runtime behind
+    it. A provider who swaps their serving stack under the same model name produces no
+    detectable drift, so the reproducer could pass against a materially different
+    system. That is unfixable from this side and must therefore be written down rather
+    than left for someone to discover after a PASS.
+    """
+    remediation = (REPO / "docs/operations/r86-provider-remediation.md").read_text(encoding="utf-8")
+    assert "no detectable drift here" in remediation
+    assert "identifier we *send*" in remediation or "identifier we send" in remediation
+    assert "PASS whose subject is unknown" in remediation
 
 
 def test_no_client_side_repair_is_offered_as_closure() -> None:
