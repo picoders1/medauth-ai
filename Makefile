@@ -15,6 +15,10 @@ lint:  ## Lint (blocking in CI)
 
 type:  ## Type-check, strict, app/ only
 	uv run mypy app
+	# Boundary-protocol test doubles. Narrow and deliberate - see the mypy scope
+	# note in pyproject.toml. A double that does not satisfy the contract it
+	# stands in for is testing a different object.
+	uv run mypy --strict tests/support_slice.py tests/gateway_contract.py
 
 test:  ## Fast suite: no containers, no network
 	uv run pytest -m "unit or api or security" -q
@@ -38,3 +42,7 @@ ready:  ## Readiness report
 
 probe:  ## Record model capabilities (writes eval/reports/)
 	uv run python scripts/probe_model_capabilities.py
+
+.PHONY: mutations
+mutations:  ## Break each safety rule on purpose; every one must make a test fail.
+	uv run python scripts/mutation_guard.py

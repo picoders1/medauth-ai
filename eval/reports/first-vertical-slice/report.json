@@ -1,13 +1,18 @@
 {
-  "decision_config_version": "slice.v1",
   "decision_table_agreement": "9/9",
-  "git_commit": "4e61b747745b1e32d4564eb9b5373c9fd7ec3301",
-  "model_calls": 0,
-  "model_reasoning_quality": "MODEL_REASONING_QUALITY_NOT_YET_EVALUATED",
+  "meta": {
+    "dataset": null,
+    "dataset_sha256": null,
+    "decision_config_version": "slice.v1",
+    "git_commit": "3c921a9e50923397f3b5d9984981406d6c65a4aa",
+    "model_calls": 0,
+    "model_reasoning_quality": "MODEL_REASONING_QUALITY_NOT_YET_EVALUATED",
+    "note_on_provenance": "No dataset was scored. This run exercises nine hand-built scenarios, not a frozen split, so dataset_sha256 and denominators are null rather than omitted - an absent key reads as an oversight, an explicit null does not.",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
+    "python": "3.12.3"
+  },
   "note": "Every model response in this run came from a deterministic fixture. The latencies below are the cost of the pipeline, NOT of inference, and nothing here measures clinical accuracy, clinical validation or model reasoning quality. The retrieval benchmark remains NOT_READY and no configuration comparison was run.",
-  "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
-  "policy_identity": "REGULATION:42 CFR 410.33:2026-08-13",
-  "python": "3.12.3",
   "report": "first-vertical-slice",
   "results": [
     {
@@ -26,10 +31,10 @@
       "scenario": "01-complete",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.926,
-        "citations": 1.872,
-        "decision": 0.07,
-        "intake": 1.873
+        "assessment": 1.721,
+        "citations": 1.787,
+        "decision": 0.055,
+        "intake": 1.437
       }
     },
     {
@@ -48,10 +53,10 @@
       "scenario": "02-missing-criterion",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.858,
-        "citations": 1.427,
-        "decision": 0.086,
-        "intake": 0.793
+        "assessment": 1.607,
+        "citations": 1.372,
+        "decision": 0.066,
+        "intake": 0.724
       }
     },
     {
@@ -70,10 +75,10 @@
       "scenario": "03-evidenced-refusal",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.789,
-        "citations": 1.888,
-        "decision": 0.062,
-        "intake": 0.737
+        "assessment": 1.568,
+        "citations": 1.784,
+        "decision": 0.047,
+        "intake": 0.703
       }
     },
     {
@@ -92,10 +97,10 @@
       "scenario": "04-exclusion-established",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.867,
-        "citations": 1.85,
-        "decision": 0.05,
-        "intake": 0.795
+        "assessment": 1.562,
+        "citations": 1.771,
+        "decision": 0.039,
+        "intake": 0.673
       }
     },
     {
@@ -116,9 +121,9 @@
       "scenario": "05-invalid-citation",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.99,
-        "citations": 1.554,
-        "intake": 0.706
+        "assessment": 1.599,
+        "citations": 1.451,
+        "intake": 0.653
       }
     },
     {
@@ -139,9 +144,9 @@
       "scenario": "06-wrong-version",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.777,
-        "citations": 1.586,
-        "intake": 0.735
+        "assessment": 1.588,
+        "citations": 1.424,
+        "intake": 0.646
       }
     },
     {
@@ -160,8 +165,8 @@
       "scenario": "07-retrieval-failure",
       "schema_valid": 0,
       "timings_ms": {
-        "intake": 0.76,
-        "retrieval": 0.004
+        "intake": 0.659,
+        "retrieval": 0.003
       }
     },
     {
@@ -180,7 +185,7 @@
       "scenario": "08-firewall-blocked",
       "schema_valid": 0,
       "timings_ms": {
-        "intake": 0.691
+        "intake": 0.683
       }
     },
     {
@@ -199,10 +204,10 @@
       "scenario": "09-fabricated-evidence",
       "schema_valid": 5,
       "timings_ms": {
-        "assessment": 1.764,
-        "citations": 1.399,
-        "decision": 0.056,
-        "intake": 0.728
+        "assessment": 1.577,
+        "citations": 1.297,
+        "decision": 0.042,
+        "intake": 0.649
       }
     }
   ],

@@ -1,13 +1,27 @@
 # Implementation Roadmap
 
-**Status:** **Phase 0 complete.** Phase 1 not started. This document is written so a future
+**Status:** **Phases 0-11 delivered** (HEAD `3c921a9`, 12 commits). Phase 12 is gated on the
+remediation recorded below. This document is written so a future
 session can execute phase by phase without rediscovering the architecture.
 
 | Phase | State |
 |---|---|
 | 0 Foundation | **Complete** - ruff + mypy strict clean, stack healthy, OD-1 resolved |
-| 1 Policy corpus & RAG | **Complete** - four mandatory temporal tests pass, corpus ingests end to end, OD-10 addressed on evidence |
-| 2-9 | Not started |
+| 1 Policy corpus & RAG | **Complete** - temporal tests pass, corpus ingests end to end, OD-10 addressed on evidence. **No dedicated commit**: the artefacts landed inside `41a9ac2` (Phase 2B) |
+| 2A | **Folded into 2B.** Never existed as a separate phase |
+| 2B Data foundation | **Complete** - `41a9ac2`. 156 gold / 222 synthetic, manifest hash pinned |
+| 3 Ground-truth authority | **Complete** - `17434a6`. 247 provisions recorded as awaiting review; no completeness claim made |
+| 4 Policy logic + retrieval eval | **Complete** - `04c0657`. Three-valued logic; no benchmark treated as authoritative |
+| 5-9 | **Complete** - squashed into `fe394d9` (162 files). Fail-closed semantics, NCD layer, production gate, slice contracts. **Five phases in one commit**, so a regression cannot be bisected to a phase |
+| 10 Reviewer-packet hardening | **Complete** - `987080e` |
+| — External decision | **Complete** - `e814e61`, `4d9630a`. ADR-026, FOCUS-001 accepted `LEAVE_C03_NOT_ADJUDICABLE`. Not an originally planned phase |
+| — OD-19 / 410.33 | **Complete** - `8fbc46a`, `4e61b74`. Logic declared; gate READY. Not an originally planned phase |
+| 11 First AI vertical slice | **Complete** - `3c921a9`. Pipeline verified end to end; **zero model calls**, so real model behaviour is unverified |
+| Pre-12 remediation | **Complete** - CI reproducibility, runtime gate, concrete gateway, mutation harness |
+| 12 Real model activation | **Not started.** Preconditions in `docs/architecture/phase12-preconditions.md` |
+
+An independent audit on 2026-08-25 found this table nine phases stale. It is a
+current-state document and drift in it is a defect, not a chore.
 
 **Rules that apply to every phase**
 

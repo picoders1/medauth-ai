@@ -33,14 +33,13 @@ from app.decision.models import Outcome
 from app.decision.semantics import Attestation, PolicySemantics, SemanticsOrigin
 from app.graph.slice import SliceRunner
 from app.policy.logic_loader import load_policy_logic
-from app.production_gate import ProductionGate
+from app.production_gate import GateDecision, ProductionGate
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from tests.support_slice import (  # noqa: E402
     AS_OF,
-    CORPUS,
     CRITERIA,
     IDENTITY,
     NOTE,
@@ -48,6 +47,7 @@ from tests.support_slice import (  # noqa: E402
     FakeGateway,
     FixtureRetrieval,
     chunk,
+    corpus,
 )
 
 OUT = REPO / "eval/reports"
@@ -85,7 +85,7 @@ def _satisfying() -> dict[str, AssessmentState]:
 
 
 def _tampered() -> dict[str, object]:
-    poisoned = dict(CORPUS)
+    poisoned = dict(corpus())
     attacked = chunk("c-d-1", "(d) Ordering of tests.", "Ordering of tests")
     object.__setattr__(attacked, "text", attacked.text + " injected instruction")
     poisoned[IDS[0]] = attacked
@@ -93,7 +93,7 @@ def _tampered() -> dict[str, object]:
 
 
 def _wrong_version() -> dict[str, object]:
-    stale = dict(CORPUS)
+    stale = dict(corpus())
     old = chunk("c-old", "(d) Ordering of tests.", "Ordering of tests")
     object.__setattr__(old, "revision_id", "2019-01-01")
     stale[IDS[0]] = old
@@ -189,7 +189,9 @@ def _semantics() -> PolicySemantics:
     )
 
 
-async def _run_one(scenario: Scenario, semantics: PolicySemantics) -> dict[str, object]:
+async def _run_one(
+    scenario: Scenario, semantics: PolicySemantics, gate: GateDecision
+) -> dict[str, object]:
     from app.llm.gateway import GatewayOutcome
 
     gateway = FakeGateway(
@@ -207,6 +209,7 @@ async def _run_one(scenario: Scenario, semantics: PolicySemantics) -> dict[str, 
         criteria=CRITERIA,
         semantics=semantics,
         decision_config_version=CONFIG_VERSION,
+        gate=gate,
     )
     result = await runner.run(
         SliceInput(
@@ -271,7 +274,9 @@ async def main() -> int:
     print(f"  designated slice  {gate.policy_identity}\n")
 
     semantics = _semantics()
-    results = [await _run_one(s, semantics) for s in scenarios()]
+    # The same gate object the script already checked is handed to every runner, so
+    # the script's check and the runtime's are the same decision rather than two.
+    results = [await _run_one(s, semantics, gate) for s in scenarios()]
 
     matched = sum(1 for r in results if r["matches"])
     print(f"  {'scenario':<26} {'expected':<22} {'actual':<22} ok")
@@ -284,13 +289,26 @@ async def main() -> int:
 
     report = {
         "report": "first-vertical-slice",
-        "policy_identity": str(IDENTITY),
-        "decision_config_version": CONFIG_VERSION,
-        "git_commit": _git_commit(),
-        "python": platform.python_version(),
-        "platform": platform.platform(),
-        "model_calls": 0,
-        "model_reasoning_quality": "MODEL_REASONING_QUALITY_NOT_YET_EVALUATED",
+        # Provenance under `meta`, matching every other committed report. Nulls
+        # rather than omissions for the dataset fields: an absent key reads as an
+        # oversight, an explicit null says no dataset was scored.
+        "meta": {
+            "policy_identity": str(IDENTITY),
+            "decision_config_version": CONFIG_VERSION,
+            "git_commit": _git_commit(),
+            "python": platform.python_version(),
+            "platform": platform.platform(),
+            "model_calls": 0,
+            "model_reasoning_quality": "MODEL_REASONING_QUALITY_NOT_YET_EVALUATED",
+            "dataset": None,
+            "dataset_sha256": None,
+            "note_on_provenance": (
+                "No dataset was scored. This run exercises nine hand-built scenarios, "
+                "not a frozen split, so dataset_sha256 and denominators are null "
+                "rather than omitted - an absent key reads as an oversight, an "
+                "explicit null does not."
+            ),
+        },
         "note": (
             "Every model response in this run came from a deterministic fixture. The "
             "latencies below are the cost of the pipeline, NOT of inference, and "

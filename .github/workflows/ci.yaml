@@ -44,8 +44,24 @@ jobs:
       - name: Type-check (strict)
         run: uv run mypy app
 
+      # Boundary-protocol test doubles. Narrow and deliberate - the scope note lives
+      # in pyproject.toml. A double that does not satisfy the contract it stands in
+      # for is testing a different object, and that went unnoticed for a whole phase.
+      - name: Type-check boundary doubles
+        run: uv run mypy --strict tests/support_slice.py tests/gateway_contract.py
+
+      # The restricted CFR corpus is NOT in the repository (AMA-copyright
+      # descriptors, ADR-003), so this runner has none. Corpus-dependent tests skip
+      # with a reason naming the missing files - `-rs` prints those reasons, so the
+      # log distinguishes RUN from SKIPPED rather than showing one green tick.
       - name: Test
-        run: uv run pytest -m "unit or api or security" -q
+        run: uv run pytest -m "unit or api or security" -q -rs
+
+      # The suite says the code does what the tests check. This says the tests would
+      # notice if it stopped. Three vacuous safety tests have been found by hand in
+      # this project; this makes that check repeatable.
+      - name: Safety mutations are caught
+        run: uv run python scripts/mutation_guard.py
 
       - name: No secrets in the tree
         run: |

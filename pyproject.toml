@@ -120,7 +120,22 @@ warn_unreachable = true
 plugins = ["pydantic.mypy"]
 exclude = ["migrations/versions/", "^build/"]
 
+# MYPY SCOPE
+#
+# `app` is checked in full and strictly. The test tree is not, and the reason is
+# specific rather than lax: 42 test modules use pytest idioms (untyped fixtures,
+# deliberately wrong arguments passed to prove a refusal) that a strict pass rejects
+# on principle, and typing them would mean annotating assertions.
+#
+# What IS checked is the part where silence was expensive: anything that implements
+# or stands in for a boundary protocol. `tests/support_slice.py` held a `FakeGateway`
+# that did not satisfy `ModelGateway` - wrong parameter name, missing `model_for` -
+# and nothing caught it for a whole phase, because mypy never looked at tests and
+# every caller passed positionally.
+#
+# The list below is the documented scope. Run it with `make typecheck`.
 [[tool.mypy.overrides]]
+
 module = ["tests.*", "eval.*"]
 disallow_untyped_defs = false
 
@@ -140,6 +155,7 @@ markers = [
     "security: security-critical behaviour (containment, fail-closed, leakage, boundaries)",
     "integration: requires PostgreSQL and/or the llm-firewall",
     "evaluation: exercises the evaluation harness; no model calls",
+    "corpus: needs the restricted CFR documents in data/cms/ (not committed; skipped when absent)",
 ]
 
 [tool.coverage.run]

@@ -54,6 +54,7 @@ from app.decision.table import CriterionOutcome, GuardrailState, ResolutionState
 from app.guardrail.citations import CitationReport, validate_citations
 from app.intake.extract import INTAKE_PROMPT_ID, extract_facts
 from app.llm.gateway import GatewayFailure, GatewayOutcome, ModelGateway
+from app.production_gate import GateDecision
 from app.retrieval.evidence import EvidenceChunk
 
 __all__ = [
@@ -160,8 +161,32 @@ class SliceRunner:
         criteria: tuple[SliceCriterion, ...],
         semantics: PolicySemantics,
         decision_config_version: str,
+        gate: GateDecision,
         clock: Callable[[], float] = time.perf_counter,
     ) -> None:
+        # THE GATE IS ENFORCED HERE, not only in the script that calls this.
+        #
+        # It used to live in `scripts/run_first_slice.py` alone, which made every
+        # admissibility argument in this repository conditional on a caller
+        # remembering to check - and a caller who constructed this class directly
+        # got no check at all. `gate` has no default for the same reason `semantics`
+        # has none: a default would be a value nobody established.
+        #
+        # Enforced at construction rather than in `run()` so a blocked runner cannot
+        # be built, held, and invoked later against a gate that was READY when it
+        # was made. There is no window in which an unusable runner exists.
+        if not isinstance(gate, GateDecision):
+            raise TypeError(
+                f"{identity}: gate must be a GateDecision produced by "
+                "ProductionGate.evaluate(); a truthy stand-in is not a gate"
+            )
+        gate.require()
+        if gate.policy_identity != str(identity):
+            raise PermissionError(
+                f"the gate designated {gate.policy_identity!r} but this runner was "
+                f"built for {str(identity)!r}. Running against a policy the gate did "
+                "not designate would measure something other than what it admitted."
+            )
         if not criteria:
             raise ValueError(
                 f"{identity}: a slice with no criteria would adjudicate nothing "
@@ -173,6 +198,7 @@ class SliceRunner:
         self._criteria = criteria
         self._semantics = semantics
         self._config_version = decision_config_version
+        self._gate = gate
         self._clock = clock
 
     # -- the run ----------------------------------------------------------

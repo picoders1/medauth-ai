@@ -37,6 +37,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [phase9-transition.md](architecture/phase9-transition.md) — what Phase 9 built, and the one thing it could not
 - [first-ai-vertical-slice.md](architecture/first-ai-vertical-slice.md) — **implemented and running**: one policy, nine scenarios, zero model calls
 - [vertical-slice-runtime.md](architecture/vertical-slice-runtime.md) — ports, injection, what raises and what abstains
+- [phase12-preconditions.md](architecture/phase12-preconditions.md) — **what an independent audit found, and what closed it**
 - [model-gateway.md](architecture/model-gateway.md) — the seam a model call crosses; interface only
 - [implementation-roadmap.md](architecture/implementation-roadmap.md) — Phases 0–9
 

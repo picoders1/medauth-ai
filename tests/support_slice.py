@@ -28,8 +28,21 @@ from app.contracts.slice import (
 from app.core.identity import PolicyIdentity, PolicyType
 from app.core.types import CriterionKind
 from app.graph.slice import SliceCriterion
-from app.llm.gateway import GatewayFailure, GatewayOutcome, ModelRequest, ModelResponse
+from app.llm.gateway import (
+    GatewayFailure,
+    GatewayOutcome,
+    ModelGateway,
+    ModelRequest,
+    ModelResponse,
+    ModelRole,
+)
 from app.retrieval.evidence import EvidenceChunk, content_hash
+from tests.corpus import skip_reason
+
+
+class CorpusUnavailable(RuntimeError):
+    """The restricted CFR corpus is not present. Never substituted for."""
+
 
 REPO = Path(__file__).resolve().parents[1]
 SOURCE = REPO / "data/cms/CFR-410_33-2026-08-13.md"
@@ -88,7 +101,13 @@ CRITERIA: tuple[SliceCriterion, ...] = (
 
 
 def _paragraph(starts_with: str) -> str:
-    """One paragraph of the real regulation, verbatim."""
+    """One paragraph of the real regulation, verbatim.
+
+    Raises rather than substituting when the corpus is absent. A fallback would
+    verify quotes against text CMS never published, which is worse than not running.
+    """
+    if not SOURCE.is_file():
+        raise CorpusUnavailable(skip_reason())
     text = SOURCE.read_text(encoding="utf-8")
     start = text.index(starts_with)
     end = text.find("\n", start)
@@ -116,20 +135,43 @@ def chunk(chunk_id: str, starts_with: str, section: str) -> EvidenceChunk:
     )
 
 
-#: One chunk per criterion, each holding the paragraph that criterion came from.
-CORPUS: dict[str, EvidenceChunk] = {
-    "42_CFR_410_33_2026_08_13_C01": chunk("c-d-1", "(d) Ordering of tests.", "Ordering of tests"),
-    "42_CFR_410_33_2026_08_13_C02": chunk("c-d-2", "(d) Ordering of tests.", "Ordering of tests"),
-    "42_CFR_410_33_2026_08_13_C03": chunk(
-        "c-b-2", "(2) The supervising physician must evidence", "Supervising physician"
+#: Which paragraph backs each criterion. Declared as data; the chunks themselves are
+#: built on demand, because building them at import time reads the restricted corpus
+#: and that is exactly what aborted collection on a clean checkout.
+_CORPUS_SPEC: tuple[tuple[str, str, str, str], ...] = (
+    ("42_CFR_410_33_2026_08_13_C01", "c-d-1", "(d) Ordering of tests.", "Ordering of tests"),
+    ("42_CFR_410_33_2026_08_13_C02", "c-d-2", "(d) Ordering of tests.", "Ordering of tests"),
+    (
+        "42_CFR_410_33_2026_08_13_C03",
+        "c-b-2",
+        "(2) The supervising physician must evidence",
+        "Supervising physician",
     ),
-    "42_CFR_410_33_2026_08_13_C04": chunk(
-        "c-c-1", "(c) Nonphysician personnel.", "Nonphysician personnel"
+    (
+        "42_CFR_410_33_2026_08_13_C04",
+        "c-c-1",
+        "(c) Nonphysician personnel.",
+        "Nonphysician personnel",
     ),
-    "42_CFR_410_33_2026_08_13_C05": chunk(
-        "c-b-1", "(b) Supervising physician. (1)", "Supervising physician"
+    (
+        "42_CFR_410_33_2026_08_13_C05",
+        "c-b-1",
+        "(b) Supervising physician. (1)",
+        "Supervising physician",
     ),
-}
+)
+
+
+def corpus() -> dict[str, EvidenceChunk]:
+    """One chunk per criterion, built from the real document on first use.
+
+    A function rather than a module constant. Importing this module must be free of
+    I/O so that a clean checkout collects the whole suite and skips what it cannot
+    run, instead of failing to collect anything at all.
+    """
+    return {
+        cid: chunk(chunk_id, starts, section) for cid, chunk_id, starts, section in _CORPUS_SPEC
+    }
 
 
 NOTE = (
@@ -144,7 +186,7 @@ class FixtureRetrieval:
     """Returns one chunk per criterion. Scope is already applied, as the port requires."""
 
     def __init__(self, corpus: dict[str, EvidenceChunk] | None = None) -> None:
-        self.corpus = CORPUS if corpus is None else corpus
+        self.corpus = globals()["corpus"]() if corpus is None else corpus
         self.calls: list[str] = []
 
     async def evidence_for(
@@ -202,7 +244,21 @@ class FakeGateway:
     model_id: str = "fixture-model"
     calls: list[ModelRequest] = field(default_factory=list)
 
-    async def call[M: BaseModel](self, request: ModelRequest, schema: type[M]) -> ModelResponse[M]:
+    @property
+    def model_for(self) -> dict[ModelRole, str]:
+        """Required by the protocol. Its absence is how the double drifted before.
+
+        `isinstance(FakeGateway(), ModelGateway)` returned False and nothing noticed,
+        because callers pass positionally and never read this. A double that does not
+        satisfy the contract it stands in for is testing a different object.
+        """
+        return dict.fromkeys(ModelRole, self.model_id)
+
+    async def call[M: BaseModel](
+        self, request: ModelRequest, schema_model: type[M]
+    ) -> ModelResponse[M]:
+        # Parameter named `schema_model`, matching the protocol. It was `schema`,
+        # which worked only because every caller passed it positionally.
         self.calls.append(request)
 
         if request.prompt_id == "intake.v1":
@@ -247,3 +303,9 @@ def _criterion_from(instructions: str) -> str:
         if line.startswith("criterion_id:"):
             return line.split(":", 1)[1].strip()
     raise AssertionError("the assessment prompt no longer names its criterion_id")
+
+
+#: Static proof that the double satisfies the contract. mypy checks this assignment;
+#: a signature or property drift becomes a type error at check time rather than an
+#: `isinstance` surprise nobody runs.
+_CONFORMS: ModelGateway = FakeGateway()

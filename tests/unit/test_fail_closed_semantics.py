@@ -268,6 +268,48 @@ def test_review_required_discards_any_tree_it_is_handed() -> None:
     assert not semantics.is_executable
 
 
+def test_an_unreviewed_corpus_and_a_misconfigured_caller_stay_distinguishable() -> None:
+    """Rule 12 and rule 13 must not collapse into each other.
+
+    **Found by `scripts/mutation_guard.py`.** Removing the `REVIEW_REQUIRED` branch
+    from `decide()` still produced `HUMAN_REVIEW` - the safety outcome held - but the
+    rule silently became 13 instead of 12, and no test noticed.
+
+    That distinction is the whole point of having two rules (ADR-024):
+
+    - **12 `POLICY_SEMANTICS_UNRESOLVED`** is a CORPUS problem. Nobody has read this
+      regulation and established its logic. Fixed by OD-19 review.
+    - **13 `POLICY_SEMANTICS_UNVERIFIED`** is a WIRING problem. The caller never
+      consulted the inventory. Fixed by fixing the caller.
+
+    Collapsed, a misconfigured deployment is indistinguishable from an honestly
+    unreviewed corpus, and the two have completely different remedies.
+    """
+    criteria = (CriterionOutcome("C1", CriterionKind.REQUIRED, Verdict.SATISFIED, True),)
+    resolved = ResolutionState(status=ResolutionStatus.RESOLVED, version_count=1)
+
+    reviewed_but_unresolved = decide(
+        criteria,
+        GuardrailState.PASSED,
+        resolved,
+        PolicySemantics.review_required(policy_id="p", policy_version="v"),
+    )
+    never_consulted = decide(
+        criteria,
+        GuardrailState.PASSED,
+        resolved,
+        PolicySemantics.unconsulted(policy_id="p", policy_version="v"),
+    )
+
+    # Both refuse, which is the safety property...
+    assert reviewed_but_unresolved.outcome is Outcome.HUMAN_REVIEW
+    assert never_consulted.outcome is Outcome.HUMAN_REVIEW
+    # ...and they say DIFFERENT things about why, which is the diagnostic one.
+    assert reviewed_but_unresolved.rule is DecisionRule.POLICY_SEMANTICS_UNRESOLVED
+    assert never_consulted.rule is DecisionRule.POLICY_SEMANTICS_UNVERIFIED
+    assert reviewed_but_unresolved.rule is not never_consulted.rule
+
+
 # ---------------------------------------------------------------------------
 # Vocabulary alignment
 # ---------------------------------------------------------------------------

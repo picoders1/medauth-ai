@@ -46,6 +46,11 @@ from app.review.ingest import (
 
 pytestmark = [pytest.mark.evaluation, pytest.mark.security]
 
+#: Only the tests that quote the regulation need the restricted corpus; the
+#: ingestion, gate and neutrality tests do not, and marking the whole module
+#: would hide them on a clean checkout.
+corpus_only = pytest.mark.corpus
+
 REPO = Path(__file__).resolve().parents[2]
 SOURCE = REPO / "data/cms/CFR-410_32-2026-08-13.md"
 PACKET = REPO / "docs/review/FOCUS-001.md"
@@ -83,6 +88,7 @@ def _blockquotes(text: str) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
+@corpus_only
 def test_every_quoted_regulation_passage_appears_verbatim_in_the_source() -> None:
     """A packet excerpt is evidence. Paraphrase in it is indistinguishable from
     misquotation, and the reviewer has no way to tell which they are reading.
@@ -103,6 +109,7 @@ def test_every_quoted_regulation_passage_appears_verbatim_in_the_source() -> Non
         )
 
 
+@corpus_only
 def test_the_c08_excerpt_stops_at_the_end_of_b4() -> None:
     """The defect this pins: the excerpt ran past (b)(4) into the portable x-ray
     section and truncated mid-word at 'place of resid'.
@@ -627,6 +634,7 @@ def _od19_builder() -> Any:
     return module
 
 
+@corpus_only
 def test_every_od19_provision_is_quoted_verbatim_from_the_source() -> None:
     """The C08 lesson, applied before the packet is handed over rather than after.
 

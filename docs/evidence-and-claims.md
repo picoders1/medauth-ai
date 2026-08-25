@@ -264,14 +264,27 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **Clinical accuracy / clinical validation** | A study with qualified clinicians | — | **Refused.** Unchanged, and nothing in this slice moves it |
 | **The retrieval configuration was chosen on evidence** | A comparison on a ready benchmark | — | **Refused.** `RETRIEVAL_BENCHMARK_NOT_READY`; the configuration is unevaluated, not selected |
 
+## Pre-Phase-12 remediation (2026-08-25)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The suite runs from a clean checkout** | A run with `data/cms/*.md` absent | simulated: corpus moved aside | **Produced** — 522 passed, 44 skipped, 0 failed. Previously aborted at collection |
+| **Corpus-dependent tests are visibly classified** | A skip reason naming the missing files | `pytest -rs` | **Produced** — the reason names the files and the acquisition command |
+| **The production gate is enforced at the runtime boundary** | A refusal on direct construction | `pytest -k blocked_gate_prevents` | **Produced** — enforced in `SliceRunner.__init__`; 4 mutations caught |
+| **A concrete `ModelGateway` exists** | A class satisfying the protocol | `app/llm/firewall_gateway.py` | **Produced** — 19 contract tests over `MockTransport`; **no provider called** |
+| **The test double satisfies the protocol** | `isinstance` and a static assignment | `mypy --strict tests/support_slice.py` | **Produced** — was `False` before this pass |
+| **Safety mutations are caught repeatably** | A harness in CI | `scripts/mutation_guard.py` | **Produced** — 11/11 caught, tree verified unchanged |
+| **The model gateway works against a real provider** | A live call | — | **NOT produced.** No model call has been made in any phase |
+| **Real model behaviour is verified** | Inference in the loop | — | **NOT produced.** `MODEL_REASONING_QUALITY_NOT_YET_EVALUATED` |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |
 |---|---|---|---|
 | **The LLM cannot emit a decision** | No approval/denial member in any model schema, plus AST-enforced import boundaries | `pytest tests/unit/test_layer_boundaries.py` | **Produced** (Phase 0) — 8 checks over 5 rules; each was shown to fail on a deliberately injected violation before being trusted |
-| **The decision surface is a pure function** | Truth-table suite passing with no model and no network | `pytest tests/unit/test_decision_table.py` | **Pending** (Phase 5) |
-| No policy → never a denial | An assertion over all verdict/guardrail combinations | Same | **Pending** (Phase 5) |
-| Policy resolution is deterministic and reproducible | Same inputs, same versions, across corpus refreshes | `pytest tests/integration/test_resolution_determinism.py` | **Pending** (Phase 1) |
+| **The decision surface is a pure function** | Truth-table suite passing with no model and no network | `pytest tests/unit/test_decision_table.py` | **Produced** — AST test asserts `app/decision` performs no I/O and imports only `app/core` |
+| No policy → never a denial | An assertion over all verdict/guardrail combinations | Same | **Produced** — row 1 returns `NEEDS_INFO`; asserted exhaustively |
+| Policy resolution is deterministic and reproducible | Same inputs, same versions, across corpus refreshes | `pytest -m integration` | **Produced** — 38 integration tests pass against PostgreSQL |
 | Recommendations are reproducible | Corpus snapshot, prompt, model and config versions on every row | Schema plus replay test | **Pending** (Phase 5/7) |
 
 ## Operations and deployment

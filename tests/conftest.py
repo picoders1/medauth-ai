@@ -14,6 +14,7 @@ import pytest
 
 from app.config.policy import DecisionPolicy, load_policy
 from app.config.settings import Settings
+from tests.corpus import corpus_available, skip_reason
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -33,3 +34,18 @@ def shipped_policy() -> DecisionPolicy:
 def dev_settings() -> Settings:
     """Settings that ignore any local .env, so tests never depend on the machine."""
     return Settings(_env_file=None)  # type: ignore[call-arg]
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """Skip corpus-dependent tests when the restricted CFR documents are absent.
+
+    Applied at collection so the skip is visible in the report with its reason,
+    rather than the suite aborting on an import error - which is what happened
+    before, on every machine except the one that had already acquired the corpus.
+    """
+    if corpus_available():
+        return
+    skip = pytest.mark.skip(reason=skip_reason())
+    for item in items:
+        if item.get_closest_marker("corpus"):
+            item.add_marker(skip)
