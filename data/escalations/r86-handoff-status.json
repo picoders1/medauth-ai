@@ -1,0 +1,75 @@
+{
+  "closure_criteria": {
+    "meets_threshold": 0.1,
+    "no_length_truncation": "required",
+    "no_runaway_whitespace": "required",
+    "not_permitted": [
+      "adjusting the threshold to match observed behaviour",
+      "changing the request shape to avoid the defect",
+      "excluding the failing cell",
+      "running the official evaluation anyway and labelling the result degraded"
+    ],
+    "registered_shape_unchanged": true,
+    "reproduces_across_trial_count": 6,
+    "returns_valid_closed_document": "required",
+    "verified_by": "scripts/r86_revalidate.py"
+  },
+  "current_gate_result": "FAIL",
+  "current_status": "VERIFIED_FAILURE_OUTSIDE_ENGINEERING_CONTROL",
+  "experiment_id": "r86-reproducer-001",
+  "failure_classification": "SCHEMA_GRAMMAR_FAILURE (R-86 signature)",
+  "failure_signature": {
+    "body_chars": [
+      2389
+    ],
+    "completion_tokens": [
+      1536
+    ],
+    "deterministic": true,
+    "document_closes": false,
+    "finish_reason": [
+      "length"
+    ],
+    "whitespace_fraction": [
+      0.9205
+    ]
+  },
+  "latest_revalidation": {
+    "configuration_matched_seal": true,
+    "file": "eval/reports/r86-revalidation/20260825T155710Z.json",
+    "result": "FAIL",
+    "timestamp": "2026-08-25T15:57:10.626143+00:00"
+  },
+  "next_allowable_repository_action": "REVALIDATE_AFTER_EXTERNAL_OWNER_RESPONSE",
+  "next_allowable_repository_action_note": "Nothing else. No model, prompt, schema, retrieval, chunking, embedding, reranking or applicability change; no scoring; no new benchmark; no forced evaluation path. The command is: MEDAUTH_LIVE_MODEL=1 uv run python scripts/r86_revalidate.py --write",
+  "observed_failure_rate": 0.5,
+  "official_evaluation": {
+    "artifacts_produced": false,
+    "experiment": "phase16-evaluation-001",
+    "gold_v2_scoring_allowed": 1,
+    "gold_v2_scoring_spent": 0,
+    "reason": "R-86_PROVIDER_GATE_FAILED",
+    "state": "BLOCKED"
+  },
+  "project_status": "ENGINEERING_READY + OFFICIAL_EVALUATION_BLOCKED_BY_R86",
+  "provider_attribution": "INDETERMINATE",
+  "provider_attribution_note": "MEDAUTH observes exactly one hop through the firewall and holds no provider credential. PROVIDER_DECODER and FIREWALL_PROXY are indistinguishable from here and neither is asserted.",
+  "registered_threshold": 0.1,
+  "reproducer_cell": "intake/gold_note/long",
+  "reproducer_cells_read_by_the_gate": [
+    "intake/gold_note/long",
+    "intake/gold_note/short"
+  ],
+  "required_owner_side_action": "Answer one question: under the registered production request shape (cell intake/gold_note/long, schema digest sha256:a89278d7f1c9eba5, model digest sha256:31d69bc24c21367e, temperature 0.0, max_tokens 1536, json_schema strict), which layer produces the non-terminating whitespace-dominated response - the provider decoder or the firewall/proxy path? Either of two checks is decisive alone: (1) the same request issued provider-side outside the firewall, or (2) a firewall-side capture of the upstream response before any proxy transformation. See docs/operations/r86-provider-escalation.md sections 9 and 10.",
+  "seal_sha256": "271127edace3d94d70445ebcc12ac658b3d4929d01541bcda1a6f3c7edee11f0",
+  "threshold_changed_since_registration": false,
+  "threshold_source": "eval.validity.ValidityRule (provider-failure-validity.v1)",
+  "trial_count": {
+    "per_cell": 6,
+    "planned_in_latest_revalidation": 12,
+    "total_in_latest_revalidation": 12,
+    "trials_dropped": 0
+  },
+  "verified_at": "2026-08-25T16:14:57.991749+00:00",
+  "verified_at_commit": "01d624fe29a636f86a6d0cbc61f026dd86331896"
+}

@@ -25,6 +25,7 @@ where we sit.
 
 | | |
 |---|---|
+| reproducer cell | **`intake/gold_note/long`** — the identifier used by the sealed manifest, the revalidation script and the gate, so a result can be cross-referenced against this document |
 | endpoint | `POST /v1/chat/completions` through the firewall, one caller key |
 | model | digest `sha256:31d69bc24c21367e` (the configured structured-output model) |
 | caller key id | `sha256:bec21976619c4fca` — a digest salted with the firewall base URL, so you can confirm "the key I issued" without the key crossing anything |
