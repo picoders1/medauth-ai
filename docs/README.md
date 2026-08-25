@@ -121,6 +121,8 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [operations/r86-provider-remediation.md](operations/r86-provider-remediation.md) — what would close it, and what would only look like it
 - [operations/r86-temperature-perturbation.md](operations/r86-temperature-perturbation.md) — one variable, six trials; **the trial that escaped still did not terminate**
 - [evaluation/r86-closure-gate.md](evaluation/r86-closure-gate.md) — **the partial fix that would have passed**, and the rule that stops it
+- [engineering/parallel-track-assessment.md](engineering/parallel-track-assessment.md) — what exists, what does not, and what R-86 actually blocks
+- [architecture/audit-trail.md](architecture/audit-trail.md) — **append-only by trigger, because the grants were inert**
 - [engineering/final-closure-audit.md](engineering/final-closure-audit.md) — **three controls this project documented and nobody called**, and what closing them did and did not buy
 - [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart

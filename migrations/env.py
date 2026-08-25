@@ -15,6 +15,7 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+from app.audit import models as _audit_models  # noqa: F401  - registers the tables
 from app.config.settings import get_settings
 from app.database.base import Base
 from app.policy import models as _policy_models  # noqa: F401  - registers the tables
