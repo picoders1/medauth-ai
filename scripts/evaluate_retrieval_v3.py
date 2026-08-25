@@ -53,9 +53,16 @@ from app.policy.models import PolicyChunk, PolicyDocument, PolicyVersion
 from app.retrieval.embed import SentenceTransformerEmbedder
 from app.retrieval.rerank import CrossEncoderReranker
 from eval.runners.retrieval_v2 import ArmScoreV2, load_questions_v2, run_arm_v2
+from eval.schema import Partition, require_scoring_budget, require_tunable
 
 REPO = Path(__file__).resolve().parents[1]
 QUESTIONS = REPO / "eval" / "datasets" / "retrieval_v3" / "questions.yaml"
+
+#: The configuration the shipped system uses, and the one every committed arm was
+#: scored under. Named so that "did the caller change a knob?" is a comparison
+#: against a constant rather than against an argparse default somebody can edit.
+FROZEN_TOP_K = 40
+FROZEN_RERANK_TOP_N = 5
 
 EMBEDDERS = ("BAAI/bge-base-en-v1.5", "BAAI/bge-small-en-v1.5")
 RERANKERS: tuple[str | None, ...] = (
@@ -307,8 +314,8 @@ def _render(
 async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="eval/reports")
-    parser.add_argument("--top-k", type=int, default=40)
-    parser.add_argument("--rerank-top-n", type=int, default=5)
+    parser.add_argument("--top-k", type=int, default=FROZEN_TOP_K)
+    parser.add_argument("--rerank-top-n", type=int, default=FROZEN_RERANK_TOP_N)
     parser.add_argument(
         "--render-only",
         metavar="DIR",
@@ -335,6 +342,20 @@ async def main() -> int:
         )
         print(f"  re-rendered {out_dir.relative_to(REPO)}/report.md from results.json")
         return 0
+
+    # R-103. Everything below this line reads a FROZEN benchmark, and until now
+    # nothing stopped it. Two different things are refused, because they are two
+    # different mistakes:
+    #
+    #   1. moving `--top-k` or `--rerank-top-n` off the frozen defaults is a SWEEP,
+    #      and a sweep on a frozen split is selection whatever the report calls it;
+    #   2. re-running the frozen arms at all spends a scoring budget that says 1/1.
+    #
+    # `--render-only` returns above and reaches neither: re-rendering prose from the
+    # committed `results.json` scores nothing.
+    if (args.top_k, args.rerank_top_n) != (FROZEN_TOP_K, FROZEN_RERANK_TOP_N):
+        require_tunable(Partition.RETRIEVAL_BENCHMARK)
+    require_scoring_budget(QUESTIONS, experiment="retrieval_v3")
 
     settings = Settings()
     policy = load_policy(settings.decision_policy_file)

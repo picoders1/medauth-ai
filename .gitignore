@@ -69,3 +69,14 @@ out/
 # is the artefact, not the input file.
 data/review/payloads/*.json
 !data/review/payloads/*.template.json
+
+# --- Local assistant / agent tooling -----------------------------------------
+# These are local working files, not project artefacts. They were previously kept
+# out of commits by .git/info/exclude, which is NOT cloned and NOT shared - so the
+# protection existed only on one machine and would have silently lapsed on a fresh
+# clone or a re-init. An ignore rule that travels with the repository is the durable
+# form of the same intent.
+.claude/
+CLAUDE.md
+.mcp.json
+.aider*

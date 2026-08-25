@@ -275,6 +275,84 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation",
         keyword="gold",
     ),
+    # -- closure audit: controls that were documented but not called ----------
+    Mutation(
+        # The defect the audit found, reproduced exactly. Before this commit the
+        # runner did not consult the gate at all and every test was green.
+        name="official-gate-not-consulted-by-the-runner",
+        rule="a runner that writes an official artefact must ask the gate first",
+        path="scripts/score_frozen_410_33.py",
+        old="        OfficialEvaluationGate.require()",
+        new="        pass  # MUTATION",
+        tests="tests/evaluation/test_schema_boundary.py",
+        keyword="gate",
+    ),
+    Mutation(
+        # The SECOND runner, not a repeat. Wiring one entry point and leaving the
+        # other is the realistic half-fix, and the discovery-based test is what makes
+        # it visible - a hand-maintained list of runners would not have this one on
+        # it either.
+        #
+        # This mutation also pins the presence check against its own first draft,
+        # which searched the source for the string "OfficialEvaluationGate" and was
+        # satisfied by the surviving IMPORT line. That draft SURVIVED this mutation.
+        # The check reads the call out of the AST now. Measured, not assumed.
+        name="official-gate-not-consulted-by-the-live-runner",
+        rule="every runner writing an official artefact must ask the gate, not just one",
+        path="scripts/run_frozen_410_33_evaluation.py",
+        old="        OfficialEvaluationGate.require()",
+        new="        pass  # MUTATION",
+        tests="tests/evaluation/test_schema_boundary.py",
+        keyword="gate",
+    ),
+    Mutation(
+        # The simplification a maintainer would actually write: "the gold split is
+        # the frozen one, everything else is fine to tune on."
+        name="only-gold-is-frozen",
+        rule="validation and the retrieval benchmarks are frozen too, not just gold",
+        path="eval/schema.py",
+        old="TUNABLE_PARTITIONS: frozenset[Partition] = frozenset({Partition.DEVELOPMENT})",
+        new=(
+            "TUNABLE_PARTITIONS: frozenset[Partition] = frozenset(  # MUTATION\n"
+            "    set(Partition) - {Partition.GOLD}\n"
+            ")"
+        ),
+        tests="tests/evaluation/test_schema_boundary.py",
+        keyword="tunable",
+    ),
+    Mutation(
+        # Restores the default that granted a free scoring to any dataset that
+        # declared no budget.
+        name="undeclared-scoring-budget-defaults-to-one",
+        rule="a dataset that declares no scoring allowance has not been granted one",
+        path="eval/schema.py",
+        old="    if allowed is None:",
+        new="    if False:  # MUTATION",
+        tests="tests/evaluation/test_schema_boundary.py",
+        keyword="undeclared",
+    ),
+    Mutation(
+        # The state the repository was actually in: the constraint lived only in the
+        # migration, `alembic check` reported it as one to REMOVE, and the next
+        # --autogenerate would have emitted a migration dropping the rule that stops
+        # an UNDATED version carrying dates.
+        name="temporal-constraint-declared-only-in-the-migration",
+        rule="a constraint a migration creates must exist in the ORM metadata too",
+        path="app/policy/models.py",
+        old='            name="temporal_status_matches_dates",',
+        new='            name="mutated_away",  # MUTATION',
+        tests="tests/unit/test_schema_metadata.py",
+        keyword="constraint",
+    ),
+    Mutation(
+        name="a-frozen-manifest-can-be-refrozen",
+        rule="a freeze that can be re-taken is not a freeze",
+        path="scripts/phase16_prerun_gate.py",
+        old='        if (OUT / "manifest.json").is_file():',
+        new="        if False:  # MUTATION",
+        tests="tests/evaluation/test_schema_boundary.py",
+        keyword="refrozen",
+    ),
 )
 
 

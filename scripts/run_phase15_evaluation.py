@@ -74,6 +74,7 @@ from app.production_gate import ProductionGate
 from app.retrieval.embed import SentenceTransformerEmbedder
 from app.retrieval.live_port import LiveRetrieval
 from app.retrieval.rerank import CrossEncoderReranker
+from eval.official_gate import EvaluationBlocked, OfficialEvaluationGate
 from eval.validity import VALIDITY_RULE_ID, ValidityRule
 from scripts.phase15_prerun_gate import evaluate as evaluate_prerun_gate
 
@@ -419,6 +420,20 @@ async def main() -> int:
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--limit", type=int, default=0, help="smoke-test a few cases")
     args = parser.parse_args()
+
+    # R-103. The gate that `eval/official_gate.py` calls itself "the sole
+    # authorisation boundary" had, until this commit, no call site anywhere outside
+    # its own tests. A boundary nobody crosses is documentation.
+    #
+    # It is checked HERE, first, before the live flag and before any dataset is
+    # opened: a run that discovers it was unauthorised after scoring has already
+    # scored. `require()` raises rather than returning a boolean because the callers
+    # that matter are scripts, and a boolean is something a script forgets.
+    try:
+        OfficialEvaluationGate.require()
+    except EvaluationBlocked as blocked:
+        print(f"  REFUSING: {blocked}", file=sys.stderr)
+        return 1
 
     if os.environ.get(LIVE_FLAG) != "1":
         print(f"  refusing: set {LIVE_FLAG}=1 to make real model calls", file=sys.stderr)

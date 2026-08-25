@@ -169,11 +169,20 @@ def _r97_is_fixed() -> tuple[bool, str]:
 
 # --------------------------------------------------------------------------- 5
 def _gold_v2_budget_permits() -> tuple[bool, str]:
-    budget = json.loads(GOLD_V2_MANIFEST.read_text())["scoring_budget"]
-    spent, allowed = budget["scorings_spent"], budget["allowed_scorings"]
-    if spent >= allowed:
-        return False, f"gold_v2 scoring budget exhausted ({spent}/{allowed})"
-    return True, f"gold_v2 scoring {spent + 1} of {allowed}, declared in ADR-029"
+    """Read through `eval.schema`, not by re-parsing the manifest here.
+
+    This function used to reach into `["scoring_budget"]["scorings_spent"]` itself,
+    and `scripts/score_retrieval_v4_baseline.py` did the same arithmetic against a
+    differently-shaped file with `dataset.get("scoring_budget", 1)` - a default that
+    would have granted a free scoring to any dataset that forgot to declare one.
+    Two implementations of "may this be scored" is how they come to disagree (R-103).
+    """
+    from eval.schema import budget_for
+
+    budget = budget_for(GOLD_V2_MANIFEST)
+    if not budget.permits_scoring:
+        return False, f"gold_v2 scoring budget exhausted ({budget.spent}/{budget.allowed})"
+    return True, f"gold_v2 scoring {budget.spent + 1} of {budget.allowed}, declared in ADR-029"
 
 
 # --------------------------------------------------------------------------- 6
@@ -469,6 +478,25 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.freeze_manifest:
+        # R-104. A freeze that can be re-taken is not a freeze. `AUTHORISATION.json`
+        # records the digest of the manifest it decided ABOUT; re-running this
+        # command would rewrite the manifest, silently invalidate that digest, and
+        # leave an authorisation pointing at a configuration nobody authorised.
+        #
+        # Refused rather than versioned, because the correct response to "the
+        # configuration changed" is a NEW experiment id with its own manifest and its
+        # own authorisation - not the old experiment wearing new numbers. There is no
+        # flag to override this; a flag would be the thing being prevented.
+        if (OUT / "manifest.json").is_file():
+            print(
+                f"  REFUSING: {(OUT / 'manifest.json').relative_to(REPO)} is already "
+                "frozen. Re-freezing would invalidate the digest recorded in "
+                "AUTHORISATION.json and silently change what was authorised. A "
+                "changed configuration needs a new experiment id, not a refreshed "
+                "freeze.",
+                file=sys.stderr,
+            )
+            return 1
         manifest = freeze_manifest()
         OUT.mkdir(parents=True, exist_ok=True)
         (OUT / "manifest.json").write_text(

@@ -238,6 +238,24 @@ class PolicyVersion(Base):
         CheckConstraint(
             "end_date IS NULL OR end_date >= effective_date", name="end_date_after_effective"
         ),
+        # Ties nullability to the status, so relaxing NOT NULL on `effective_date`
+        # for undated NCDs did not relax the schema: an UNDATED version may hold no
+        # dates at all, and a DATED one must hold a start. This is the database-level
+        # half of "an undated version is stored and never resolvable" - the other
+        # half is `in_force_on`'s explicit `temporal_status == 'DATED'` conjunct.
+        #
+        # Declared HERE as well as in migration 0003 because it existed only there.
+        # `alembic check` reported it as a constraint to be REMOVED - the metadata
+        # said it should not exist - so the next `--autogenerate` would have emitted a
+        # migration dropping it, and the guarantee that "no date" cannot become a
+        # fake date would have left in a diff nobody read as a safety change.
+        # Text identical to `TEMPORAL_CHECK` in that migration; a paraphrase here
+        # would give the same rule two spellings that agree until they do not.
+        CheckConstraint(
+            "(temporal_status = 'DATED' AND effective_date IS NOT NULL) "
+            "OR (temporal_status <> 'DATED' AND effective_date IS NULL AND end_date IS NULL)",
+            name="temporal_status_matches_dates",
+        ),
         # Resolution filters on these three together, in this order.
         Index("ix_policy_versions_temporal", "effective_date", "end_date"),
         Index("ix_policy_versions_jurisdiction", "scope", "jurisdiction"),

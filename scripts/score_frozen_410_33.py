@@ -25,11 +25,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
 from eval.metrics.statistics import wilson_interval
+from eval.official_gate import EvaluationBlocked, OfficialEvaluationGate
 
 REPO = Path(__file__).resolve().parents[1]
 #: The Phase-14 directory, and the default. Phase 15 passes `--report-dir`; both runs
@@ -603,6 +605,20 @@ def main() -> int:
         help="experiment directory to score (default: the Phase-14 run)",
     )
     args = parser.parse_args()
+
+    # R-103. The gate that `eval/official_gate.py` calls itself "the sole
+    # authorisation boundary" had, until this commit, no call site anywhere outside
+    # its own tests. A boundary nobody crosses is documentation.
+    #
+    # It is checked HERE, first, before the live flag and before any dataset is
+    # opened: a run that discovers it was unauthorised after scoring has already
+    # scored. `require()` raises rather than returning a boolean because the callers
+    # that matter are scripts, and a boolean is something a script forgets.
+    try:
+        OfficialEvaluationGate.require()
+    except EvaluationBlocked as blocked:
+        print(f"  REFUSING: {blocked}", file=sys.stderr)
+        return 1
 
     run = REPO / args.report_dir
     rows = json.loads((run / "per_case.json").read_text())

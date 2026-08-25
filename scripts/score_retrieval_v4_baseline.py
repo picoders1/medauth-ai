@@ -51,6 +51,7 @@ from app.database.engine import build_engine
 from app.retrieval.embed import SentenceTransformerEmbedder
 from app.retrieval.rerank import CrossEncoderReranker
 from eval.runners.retrieval_v2 import load_questions_v2, run_arm_v2
+from eval.schema import ScoringBudgetExhausted, require_scoring_budget
 
 REPO = Path(__file__).resolve().parents[1]
 QUESTIONS = REPO / "eval/datasets/retrieval_v4/questions.yaml"
@@ -120,12 +121,14 @@ async def main() -> int:
         return 1
 
     dataset = yaml.safe_load(QUESTIONS.read_text(encoding="utf-8"))
-    if dataset.get("scorings_spent", 0) >= dataset.get("scoring_budget", 1):
-        print(
-            "  REFUSING: retrieval_v4's scoring budget is spent; another scoring "
-            "must be declared in an ADR in advance",
-            file=sys.stderr,
-        )
+    # Read through the library boundary rather than re-implementing the comparison.
+    # The line this replaces was `dataset.get("scoring_budget", 1)` - a **default of
+    # one**, so a benchmark that declared no budget silently acquired a free scoring.
+    # `eval.schema` has no default: an undeclared allowance is zero (R-103).
+    try:
+        require_scoring_budget(QUESTIONS, experiment="retrieval_v4-baseline")
+    except ScoringBudgetExhausted as spent:
+        print(f"  REFUSING: {spent}", file=sys.stderr)
         return 1
 
     questions = load_questions_v2(QUESTIONS)
