@@ -105,6 +105,11 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/gold-v2-migration.md](evaluation/gold-v2-migration.md) — all 156 cases audited; 18 fixed, 0 relabelled, gold_v1 untouched
 - [evaluation/retrieval-v4.md](evaluation/retrieval-v4.md) — a provenance-clean benchmark and its baseline, not a winner
 - [evaluation/phase16-experiment.md](evaluation/phase16-experiment.md) — **frozen, and deliberately not authorised to run**
+- [evaluation/r86-gate-recheck.md](evaluation/r86-gate-recheck.md) — **identical conditions, identical result; the gate FAILS**
+- [evaluation/phase16-official-run.md](evaluation/phase16-official-run.md) — **14 of 15 preconditions pass; the run did not happen**
+- [evaluation/phase16-metrics.md](evaluation/phase16-metrics.md) — NOT PRODUCED, and why that is the correct entry
+- [evaluation/phase16-failure-analysis.md](evaluation/phase16-failure-analysis.md) — one failure, and it is not a case
+- [evaluation/od42-grounding-scope.md](evaluation/od42-grounding-scope.md) — what "grounding" may and may not mean here
 - [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart
 - [evaluation/model-capability-evaluation.md](evaluation/model-capability-evaluation.md) — what the decoder does, scoped to the schema tested

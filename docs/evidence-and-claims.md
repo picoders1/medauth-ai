@@ -369,6 +369,26 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **`phase16-evaluation-001` was run** | A completed run under the frozen manifest | — | **NOT produced.** The manifest is frozen and the gate STOPS on provider reliability; gold_v2's single scoring is unspent |
 | **The measurement foundation is restored** | Valid gold data, clean benchmark, pre-registered experiment, classified failures | ADR-029; the artefacts above | **Produced, with one exception stated** — provider reliability remains an external limitation |
 
+## Provider-gate closure attempt (Phase 17)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **The registered reproducer was re-run unchanged** | Live configuration compared to the pre-registration field by field, before any call | `eval/reports/r86-gate-recheck/results.json` | **Produced** — no drift across model digest, temperature, ceiling, mode, firewall path, design and threshold |
+| **R-86 persists under verified-identical conditions** | Cell-for-cell comparison with the Phase-16 run | Same | **Produced** — 6/6 in `intake/gold_note/long`, 0/42 elsewhere, identical to Phase 16 |
+| **The failure is deterministic** | Repeated observations with identical response shape | Same | **Produced** — six identical responses at temperature 0; a clean reproducer to escalate |
+| **R-86 is fixed** | A change in the decoder, evidenced by its owner | — | **Refused.** The recheck is evidence it is *not* |
+| **The responsible layer is known** | A request issued provider-side | — | **Refused.** `INDETERMINATE`, unchanged |
+| **The provider gate result** | The pre-registered rule applied, not reinterpreted | Same | **Produced** — **FAIL**, 6/12 = 0.5000 against a 0.10 ceiling |
+| **A live provider signal can gate the experiment** | An endpoint that can see the failure | — | **NOT produced.** Both candidates probed; R-86 returns HTTP 200 and is invisible to both. OD-40 stays open |
+| **`phase16-evaluation-001` was run** | A completed run under the frozen manifest | — | **NOT produced.** `NOT_AUTHORISED`; gold_v2's scoring is unspent |
+| **Every other precondition passed** | An exhaustive, non-short-circuiting check | `eval/reports/phase16-410-33/AUTHORISATION.json` | **Produced** — 14 of 15 pass; the only blocker is the provider gate |
+| **gold_v2 integrity holds** | Digests, budget, and applicability re-derived from input plus linkage | Same | **Produced** — 156 cases, gold_v1 byte-identical, no narrative-only ground truth |
+| **The frozen configuration is unchanged** | Every frozen digest against the live one | Same | **Produced** — prompts, model, applicability and gateway digests all match |
+| **The retrieval baseline matches the frozen configuration** | Baseline settings against the manifest | Same | **Produced** — R@1 24/31 under the same settings; no `SYSTEM_CONFIGURATION_DRIFT` |
+| **Any decision-quality, criterion, grounding or safety metric for this experiment** | A completed run | — | **NOT produced.** Not zero, not estimated, not carried over from an earlier run |
+| **Grounding accuracy** | Chunk-level ground truth | — | **Refused (OD-42).** Citation *validity* is reportable and is marked `GROUNDING_SCOPE_LIMITED_BY_OD42`; accuracy is `unavailable`, never `0.0` |
+| **Cost** | A price basis for the deployed model | — | **`COST_NOT_AVAILABLE`**, unchanged |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

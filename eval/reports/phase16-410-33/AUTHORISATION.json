@@ -1,0 +1,118 @@
+{
+  "authorised": false,
+  "blockers": [
+    "provider_gate"
+  ],
+  "blocking_part": "C - provider gate",
+  "checks": [
+    {
+      "detail": "FAIL: production-shape failure 6/12 = 0.5000 exceeds the pre-registered ceiling 0.10",
+      "name": "provider_gate",
+      "part": "C",
+      "passed": false
+    },
+    {
+      "detail": "the reproducer ran under the registered conditions",
+      "name": "recheck_conditions_unchanged",
+      "part": "A",
+      "passed": true
+    },
+    {
+      "detail": "gate rule provider-failure-validity.v1, manifest rule provider-failure-validity.v1",
+      "name": "validity_rule_matches_manifest",
+      "part": "C",
+      "passed": true
+    },
+    {
+      "detail": "acceptance threshold 0.1 matches the frozen 0.1",
+      "name": "threshold_unchanged",
+      "part": "C",
+      "passed": true
+    },
+    {
+      "detail": "gold_v1 ca990b804cf8fd38",
+      "name": "gold_v1_immutable",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "gold_v2 000cba13ba2a2b1f, 156 cases",
+      "name": "gold_v2_matches_its_manifest",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "frozen 000cba13ba2a2b1f, now 000cba13ba2a2b1f",
+      "name": "gold_v2_unmoved_since_the_experiment_freeze",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "scorings spent 0 of 1",
+      "name": "gold_v2_budget_unspent",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "156 cases re-derived from input plus linkage",
+      "name": "structured_applicability_provenance",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "no not-applicable case relies on prose",
+      "name": "no_narrative_only_ground_truth",
+      "part": "I",
+      "passed": true
+    },
+    {
+      "detail": "intake.v2, adjudication.v1",
+      "name": "prompt_versions",
+      "part": "E",
+      "passed": true
+    },
+    {
+      "detail": "frozen sha256:31d69bc24c21, live sha256:31d69bc24c21",
+      "name": "model_digest",
+      "part": "E",
+      "passed": true
+    },
+    {
+      "detail": "frozen sha256:34296cff9b95, live sha256:34296cff9b95",
+      "name": "applicability_version",
+      "part": "E",
+      "passed": true
+    },
+    {
+      "detail": "frozen sha256:47b96c93a407, live sha256:47b96c93a407",
+      "name": "gateway_configuration_digest",
+      "part": "E",
+      "passed": true
+    },
+    {
+      "detail": "ENGINEERING_DEFAULT_UNRESOLVED, top_k=40, rerank_top_n=5",
+      "name": "retrieval_configuration",
+      "part": "J",
+      "passed": true
+    },
+    {
+      "detail": "retrieval_v4 baseline R@1 24/31 under the same configuration",
+      "name": "retrieval_baseline_matches_the_frozen_configuration",
+      "part": "J",
+      "passed": true
+    }
+  ],
+  "consequence": "The official evaluation did NOT run. gold_v2's single scoring is unspent, and every metric the run would have produced is absent rather than estimated.",
+  "decided_at": "2026-08-25T15:44:36.744859+00:00",
+  "experiment": "phase16-evaluation-001",
+  "git_commit": "41dd2373bdf2f46308d56f1cb1f894acb99db508",
+  "manifest_digest": "sha256:b2df5f36032e3ccca52bba526b4346e84a44dbfd9361c958c38876e7c3b5259c",
+  "manifest_untouched": "The frozen manifest is not edited by this decision. An authorisation is ABOUT a manifest, not part of one; rewriting it to record a refusal would make the freeze conditional on the outcome.",
+  "not_permitted_responses": [
+    "lowering the acceptance threshold",
+    "changing the reproducer's request shape",
+    "excluding the failing cell",
+    "running anyway and labelling the result degraded"
+  ],
+  "status": "NOT_AUTHORISED"
+}
