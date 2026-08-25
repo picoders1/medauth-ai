@@ -106,6 +106,17 @@ class AbstentionReason(StrEnum):
     #: wired to adjudicate. A wiring or infrastructure fault, never a denial.
     POLICY_RESOLUTION_ERROR = "POLICY_RESOLUTION_ERROR"
 
+    #: Phase 16. The model path failed in a way attributable to the provider or the
+    #: proxy rather than to the model's answer: a timeout, a 5xx, a connection that
+    #: died, or a decoder that satisfied the grammar without ever terminating
+    #: (R-86). Routes exactly where `MODEL_SCHEMA_FAILURE` does, and is a SEPARATE
+    #: name because the two need different responses and different owners.
+    #:
+    #: `MODEL_SCHEMA_FAILURE` means the model answered and the answer was refused.
+    #: This means there was no answer to refuse. Phase 14 reported ten of these as
+    #: sixteen reasoning errors because one name covered both.
+    PROVIDER_LIMITATION = "PROVIDER_LIMITATION"
+
 
 class ScoredGate(StrEnum):
     """The state of the confidence-threshold gate.
@@ -145,6 +156,7 @@ _RULE_FOR: dict[AbstentionReason, DecisionRule] = {
         DecisionRule.RESOLUTION_INSUFFICIENT_INFORMATION
     ),
     AbstentionReason.POLICY_RESOLUTION_ERROR: DecisionRule.POLICY_RESOLUTION_ERROR,
+    AbstentionReason.PROVIDER_LIMITATION: DecisionRule.MODEL_PATH_FAILED,
 }
 
 #: The outcome each reason produces. Only ONE reason yields `NO_DECISION`, and none
@@ -163,6 +175,7 @@ _OUTCOME_FOR: dict[AbstentionReason, Outcome] = {
     AbstentionReason.POLICY_TEMPORALLY_UNRESOLVED: Outcome.HUMAN_REVIEW,
     AbstentionReason.INSUFFICIENT_APPLICABILITY_INFORMATION: Outcome.NEEDS_INFO,
     AbstentionReason.POLICY_RESOLUTION_ERROR: Outcome.HUMAN_REVIEW,
+    AbstentionReason.PROVIDER_LIMITATION: Outcome.HUMAN_REVIEW,
 }
 
 
@@ -185,6 +198,7 @@ _AUDIT_EVENT_FOR: dict[AbstentionReason, str] = {
         "abstention.insufficient_applicability_information"
     ),
     AbstentionReason.POLICY_RESOLUTION_ERROR: "abstention.policy_resolution_error",
+    AbstentionReason.PROVIDER_LIMITATION: "abstention.provider_limitation",
 }
 
 
@@ -291,6 +305,12 @@ def abstention_for(
             "policy resolution failed or returned a policy this runtime is not "
             "wired to adjudicate; this is an engineering fault. Route to a human "
             "and fix the wiring - never re-run against whatever policy was loaded"
+        ),
+        AbstentionReason.PROVIDER_LIMITATION: (
+            "the model path failed at the provider or the proxy, not in the "
+            "model's answer - there was no answer to refuse. Route to a human and "
+            "record the classification for escalation. **No prompt change fixes "
+            "this**, and re-running only re-rolls the same defect"
         ),
     }
     return AbstentionRecord(

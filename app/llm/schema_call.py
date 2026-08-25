@@ -209,7 +209,14 @@ async def structured_call[M: BaseModel](
             model=response.model,
         )
 
+    # The shape of the LAST response travels with the failure: three numbers, no
+    # content. A caller can then tell a model that answered wrongly from a decoder
+    # that never stopped, which are different defects with different owners.
+    body = response.payload or ""
     raise SchemaValidationError(
         f"{name} did not validate after {max_repair_attempts} repair attempt(s): {last_error}",
         attempts=attempts,
+        finish_reason=response.finish_reason,
+        body_chars=len(body),
+        whitespace_fraction=(sum(1 for c in body if c.isspace()) / len(body) if body else 0.0),
     )

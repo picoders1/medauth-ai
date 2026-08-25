@@ -68,8 +68,26 @@ class SchemaValidationError(LlmError):
 
     The affected criterion becomes INSUFFICIENT_EVIDENCE; the case is not
     abandoned.
+
+    `finish_reason`, `body_chars` and `whitespace_fraction` describe the SHAPE of
+    the last response - three numbers, no content. They are carried because
+    "invalid after repair" covers two failures with different owners: a model that
+    terminated and returned the wrong object, and a decoder that never terminated
+    at all (R-86). Without the shape those are the same exception, and Phase 16's
+    factorial found the second one being reported as the first.
     """
 
-    def __init__(self, detail: str, attempts: int) -> None:
+    def __init__(
+        self,
+        detail: str,
+        attempts: int,
+        *,
+        finish_reason: str | None = None,
+        body_chars: int = 0,
+        whitespace_fraction: float = 0.0,
+    ) -> None:
         self.attempts = attempts
+        self.finish_reason = finish_reason
+        self.body_chars = body_chars
+        self.whitespace_fraction = whitespace_fraction
         super().__init__(detail)

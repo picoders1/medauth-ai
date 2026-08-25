@@ -324,6 +324,9 @@ def test_the_structural_states_the_brief_requires_all_exist() -> None:
         "POLICY_TEMPORALLY_UNRESOLVED",
         "INSUFFICIENT_APPLICABILITY_INFORMATION",
         "POLICY_RESOLUTION_ERROR",
+        # Phase 16 (R-86). Splits "the model answered badly" from "there was no
+        # answer": same routing, different owner, different remedy.
+        "PROVIDER_LIMITATION",
     }
     assert {reason.value for reason in AbstentionReason} == required
 

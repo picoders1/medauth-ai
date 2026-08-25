@@ -1,0 +1,174 @@
+{
+  "analysis": "coverage re-report",
+  "claims_refused": [
+    "that either denominator alone is 'system accuracy'",
+    "that excluded cases were dropped - every one is counted and named",
+    "that a provider failure is a model error",
+    "any cost figure, absent a price basis"
+  ],
+  "cost": {
+    "completion_tokens": 20176,
+    "cost": null,
+    "prompt_tokens": 164667,
+    "status": "COST_NOT_AVAILABLE",
+    "total_tokens": 184843,
+    "what_would_change_it": "A rate card supplied by whoever holds the provider account, keyed to the model digest recorded in the experiment manifest.",
+    "why": "No price basis is recorded for this deployment. MEDAUTH reaches the provider through the firewall and holds no provider credential, no billing account and no rate card; the model id itself is a deployment value held in .env. Estimating from a public price list would attribute a rate to a model this project cannot name."
+  },
+  "coverage": {
+    "arithmetic": {
+      "assessed_plus_excluded": 26,
+      "buckets_sum_to_attempted": true
+    },
+    "attempted": 26,
+    "decision_quality": {
+      "denominator": 12,
+      "excluded": 14,
+      "note": "Measured over ASSESSED cases only. **This is not overall system accuracy** and must never be reported as one. Excluded cases are counted above and named by bucket below; none is dropped."
+    },
+    "dispositions": {
+      "ASSESSED": {
+        "attributable_to": "NONE",
+        "count": 12,
+        "enters_decision_quality_denominator": true,
+        "impact": "none - this is the measurable population",
+        "rate": {
+          "ci95": [
+            0.2876,
+            0.6454
+          ],
+          "successes": 12,
+          "total": 26,
+          "value": 0.4615
+        }
+      },
+      "CONTRADICTION": {
+        "attributable_to": "NONE - behaved as designed",
+        "count": 1,
+        "enters_decision_quality_denominator": false,
+        "impact": "reduces coverage by design; no bias",
+        "rate": {
+          "ci95": [
+            0.0068,
+            0.1889
+          ],
+          "successes": 1,
+          "total": 26,
+          "value": 0.0385
+        }
+      },
+      "DATASET_DEFECT": {
+        "attributable_to": "DATASET",
+        "count": 3,
+        "enters_decision_quality_denominator": false,
+        "impact": "reduces the population the dataset can speak about; does not bias the system's measured behaviour",
+        "rate": {
+          "ci95": [
+            0.04,
+            0.2898
+          ],
+          "successes": 3,
+          "total": 26,
+          "value": 0.1154
+        }
+      },
+      "PROVIDER_FAILURE": {
+        "attributable_to": "PROVIDER_OR_FIREWALL",
+        "count": 10,
+        "enters_decision_quality_denominator": false,
+        "impact": "reduces coverage AND biases decision quality: the lost cases are not a random subset when the failure correlates with case characteristics",
+        "rate": {
+          "ci95": [
+            0.2243,
+            0.5747
+          ],
+          "successes": 10,
+          "total": 26,
+          "value": 0.3846
+        }
+      },
+      "RETRIEVAL_FAILURE": {
+        "attributable_to": "MEDAUTH",
+        "count": 0,
+        "enters_decision_quality_denominator": false,
+        "impact": "reduces coverage and indicates an index or scope defect",
+        "rate": {
+          "ci95": [
+            0.0,
+            0.1287
+          ],
+          "successes": 0,
+          "total": 26,
+          "value": 0.0
+        }
+      },
+      "SYSTEM_FAILURE": {
+        "attributable_to": "MEDAUTH",
+        "count": 0,
+        "enters_decision_quality_denominator": false,
+        "impact": "reduces coverage and indicates an engineering defect",
+        "rate": {
+          "ci95": [
+            0.0,
+            0.1287
+          ],
+          "successes": 0,
+          "total": 26,
+          "value": 0.0
+        }
+      }
+    },
+    "headline": "operational coverage 12/26 = 0.4615; decision quality is measured over 12 assessed case(s) and is NOT overall system accuracy",
+    "operational": {
+      "assessed": 12,
+      "coverage": {
+        "ci95": [
+          0.2876,
+          0.6454
+        ],
+        "successes": 12,
+        "total": 26,
+        "value": 0.4615
+      },
+      "denominator": 26,
+      "note": "Every attempted case is here, including the ones that never reached a model. This is what the system delivered."
+    },
+    "unrecognised_dispositions": []
+  },
+  "decision_quality": {
+    "assessed_case_ids": [
+      "CASE-0041",
+      "CASE-0043",
+      "CASE-0044",
+      "CASE-0045",
+      "CASE-0051",
+      "CASE-0053",
+      "CASE-0054",
+      "CASE-0055",
+      "CASE-0059",
+      "CASE-0062",
+      "CASE-0064",
+      "CASE-0069"
+    ],
+    "correct": 4,
+    "denominator": 12,
+    "note": "Correct decisions among ASSESSED cases only. **NOT overall system accuracy.** The whole-run figure is reported beside it, over every attempted case, and neither substitutes for the other."
+  },
+  "generated_at": "2026-08-25T15:23:13.996238+00:00",
+  "git_commit": "1015216",
+  "read_only": "No model was called, no case re-decided, and nothing in the source directory was modified. This is a re-analysis of a committed record and spends no scoring budget.",
+  "source_digests": {
+    "failures.json": "sha256:96c37d5e27ee4b0bcfaf31325ff76f06b6316d23280c96fab833c180de144945",
+    "manifest.json": "sha256:17808d22e09895076055e200fcb1b116b6e83f8f26250470b8e94f48f2835b07",
+    "metrics.json": "sha256:ad94417f44f435e6b7691e128492ec49739eadcb01c06400fb360b1440595833",
+    "per_case.json": "sha256:590906f4ef36eb40aac826116c7969e70b790330ae021691307b3053bda86d2f"
+  },
+  "source_dir": "eval/reports/phase15-410-33",
+  "source_experiment": "phase15-410-33",
+  "whole_run_accuracy": {
+    "note": "Over every attempted case, provider failures counted as incorrect. This is the operational figure and understates reasoning; the decision-quality figure above overstates delivery. Both are real; neither is 'the accuracy'.",
+    "successes": 8,
+    "total": 26,
+    "value": 0.3077
+  }
+}

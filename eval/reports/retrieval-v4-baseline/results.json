@@ -1,0 +1,156 @@
+{
+  "arithmetic_checks": "passed: nDCG and MRR in [0,1], recall monotone in k, denominators consistent",
+  "arm": {
+    "by_category": {
+      "AMBIGUOUS": {
+        "excluded": 0,
+        "hit_at_1": 1,
+        "hit_at_3": 2,
+        "scored": 2
+      },
+      "CROSS_POLICY": {
+        "excluded": 0,
+        "hit_at_1": 4,
+        "hit_at_3": 4,
+        "scored": 4
+      },
+      "CROSS_VERSION": {
+        "excluded": 0,
+        "hit_at_1": 2,
+        "hit_at_3": 2,
+        "scored": 2
+      },
+      "DIRECT": {
+        "excluded": 0,
+        "hit_at_1": 5,
+        "hit_at_3": 6,
+        "scored": 6
+      },
+      "DISTRACTOR": {
+        "excluded": 0,
+        "hit_at_1": 4,
+        "hit_at_3": 4,
+        "scored": 4
+      },
+      "EXCEPTION": {
+        "excluded": 0,
+        "hit_at_1": 2,
+        "hit_at_3": 3,
+        "scored": 3
+      },
+      "HISTORICAL_VERSION": {
+        "excluded": 0,
+        "hit_at_1": 4,
+        "hit_at_3": 4,
+        "scored": 4
+      },
+      "NEGATIVE": {
+        "excluded": 0,
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "scored": 0
+      },
+      "PARAPHRASED": {
+        "excluded": 0,
+        "hit_at_1": 1,
+        "hit_at_3": 2,
+        "scored": 3
+      },
+      "PARTIAL_INFORMATION": {
+        "excluded": 0,
+        "hit_at_1": 1,
+        "hit_at_3": 3,
+        "scored": 3
+      }
+    },
+    "embedder": "BAAI/bge-base-en-v1.5",
+    "false_retrieval_rate_on_negatives": {
+      "lower": 0.565517534820642,
+      "successes": 5,
+      "total": 5,
+      "upper": 1.0
+    },
+    "latency_p50_ms": 619.44,
+    "latency_p95_ms": 736.55,
+    "mrr": 0.8683,
+    "ndcg_at_5": 0.8987,
+    "negative_denominator": 5,
+    "negative_mean_top_score": 0.5503,
+    "precision_at_3": 0.5376,
+    "ranking_denominator": 31,
+    "recall_at_1": {
+      "lower": 0.601875816016673,
+      "successes": 24,
+      "total": 31,
+      "upper": 0.8860486444505393
+    },
+    "recall_at_3": {
+      "lower": 0.8380589481983103,
+      "successes": 30,
+      "total": 31,
+      "upper": 0.9942827784810521
+    },
+    "recall_at_5": {
+      "lower": 0.8897446043813871,
+      "successes": 31,
+      "total": 31,
+      "upper": 1.0
+    },
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "resolution_accuracy": {
+      "lower": 0.8897446043813871,
+      "successes": 31,
+      "total": 31,
+      "upper": 1.0
+    },
+    "resolution_denominator": 31
+  },
+  "configuration": {
+    "chunking": "section-aware, never crossing a section boundary (Phase 1)",
+    "embedding_model": "BAAI/bge-base-en-v1.5",
+    "note": "FROZEN and identical to the Phase-15 evaluation manifest. Nothing here was selected on evidence; this run measures it, and no claim about it may be drawn from the result.",
+    "rerank_top_n": 5,
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "status": "ENGINEERING_DEFAULT_UNRESOLVED",
+    "top_k": 40
+  },
+  "dataset": {
+    "categories": {
+      "AMBIGUOUS": 2,
+      "CROSS_POLICY": 4,
+      "CROSS_VERSION": 2,
+      "DIRECT": 6,
+      "DISTRACTOR": 4,
+      "EXCEPTION": 3,
+      "HISTORICAL_VERSION": 4,
+      "NEGATIVE": 5,
+      "PARAPHRASED": 3,
+      "PARTIAL_INFORMATION": 3
+    },
+    "invalid_for_scoring": 0,
+    "path": "eval/datasets/retrieval_v4/questions.yaml",
+    "provenance_audit": "data/review/retrieval_v4_provenance.json",
+    "queries": 36,
+    "sha256": "2c18dc4fccb950fb4a7e2a0d512901aa4512262e0540864a55aaa1e6c561913b",
+    "version": "retrieval_v4"
+  },
+  "experiment": "retrieval-v4-baseline",
+  "git_commit": "101521670870839c592d9dc4a0b26b69998b6437",
+  "interpretation": {
+    "claim_permitted": "The retrieval baseline of the currently frozen configuration on a provenance-clean 36-query benchmark, with denominators and intervals.",
+    "claims_refused": [
+      "that this configuration is best, or better than any other",
+      "that a difference from retrieval_v2 or v3 is attributable to the configuration - the benchmarks differ",
+      "that 36 queries can separate arms (retrieval_v3 established they cannot at n=31)",
+      "anything about clinical accuracy"
+    ]
+  },
+  "metric_definitions": {
+    "false_retrieval_rate_on_negatives": "top-1 result on a NEGATIVE query that the query's labels call not relevant. Reported separately, with its own denominator.",
+    "implementation": "eval/runners/retrieval_v2.py, unchanged",
+    "ndcg_at_5": "graded gains, ideal = this query's own labels sorted descending. Bounded by 1 BY CONSTRUCTION, not by a clamp.",
+    "recall_at_k": "a RELEVANT section appears in the top k. Denominator excludes NEGATIVE queries, which have no relevant section to recall."
+  },
+  "python": "3.12.3",
+  "ran_at": "2026-08-25T15:21:07.099087+00:00"
+}

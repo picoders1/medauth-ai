@@ -1,0 +1,46 @@
+{
+  "cells": [
+    "flat/filler/short",
+    "flat/filler/long",
+    "flat/gold_note/short",
+    "flat/gold_note/long",
+    "intake/filler/short",
+    "intake/filler/long",
+    "intake/gold_note/short",
+    "intake/gold_note/long"
+  ],
+  "clinical_text_in_this_report": "none. Gold notes are SENT - they are synthetic by construction and already cross this boundary in every evaluation - and only their digest, character count and token counts are recorded.",
+  "experiment": "r86-factorial-001",
+  "factors": {
+    "content": [
+      "synthetic seeded filler",
+      "real gold clinical note"
+    ],
+    "length": [
+      "short",
+      "long"
+    ],
+    "schema": [
+      "flat two-field probe",
+      "production IntakeExtraction"
+    ]
+  },
+  "follows": "r86-gradient-001",
+  "held_constant": {
+    "attempts_per_observation": 1,
+    "firewall_path": "MEDAUTH -> firewall -> provider (no bypass, one caller key)",
+    "max_output_tokens": 1536,
+    "model_digest": "sha256:31d69bc24c21",
+    "structured_mode": "json_schema",
+    "temperature": 0.0
+  },
+  "hypothesis": "At least one of {schema shape, content, length} is associated with the R-86 signature. Direction is not predicted.",
+  "observations_planned": 48,
+  "prohibitions": [
+    "No cell may be dropped after seeing its result.",
+    "Causation may not be claimed from 6 trials per cell.",
+    "The responsible layer may not be inferred: provider and firewall stay indistinguishable from this side whatever the factors say."
+  ],
+  "trials_per_cell": 6,
+  "why_it_exists": "r86-gradient-001 returned 0/56 and did not support its hypothesis. Phase 15's failing arm differed from the gradient's passing arm in THREE ways simultaneously - schema shape, content and length - so no single factor was isolated. This crosses them. Written AFTER the null result and BEFORE any factorial observation."
+}

@@ -1,0 +1,487 @@
+{
+  "audit": "retrieval_v4 provenance",
+  "categories_empty": [],
+  "categories_kept": {
+    "AMBIGUOUS": 2,
+    "CROSS_POLICY": 4,
+    "CROSS_VERSION": 2,
+    "DIRECT": 6,
+    "DISTRACTOR": 4,
+    "EXCEPTION": 3,
+    "HISTORICAL_VERSION": 4,
+    "NEGATIVE": 5,
+    "PARAPHRASED": 3,
+    "PARTIAL_INFORMATION": 3
+  },
+  "chain_checked": [
+    "policy type (registry)",
+    "policy id and revision (registry)",
+    "version window contains as_of",
+    "criterion transcribed (criteria inventory)",
+    "labelled sections transcribed",
+    "relevance labels in the closed vocabulary",
+    "procedure code linked as a covered procedure",
+    "NEGATIVE queries carry no RELEVANT label"
+  ],
+  "counts": {
+    "invalid_for_scoring": 0,
+    "queries": 36,
+    "scorable": 36
+  },
+  "generated_at": "2026-08-25T15:15:47.580363+00:00",
+  "git_commit": "1015216",
+  "policy": "A query missing any link is INVALID_FOR_SCORING and is NOT reinterpreted. Guessing what a query meant is how a benchmark comes to measure a corpus nobody assembled (R-70).",
+  "source": "eval/datasets/retrieval_v3/questions.yaml",
+  "source_sha256": "eb5f30ebccd85ef110154850b8e3fc670881b765bd792cd015fea615249c69fa",
+  "verdicts": [
+    {
+      "category": "DIRECT",
+      "id": "v2-001",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DIRECT",
+      "id": "v2-002",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DIRECT",
+      "id": "v2-003",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DIRECT",
+      "id": "v2-006",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C04",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DIRECT",
+      "id": "v2-007",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARAPHRASED",
+      "id": "v2-010",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C04",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARAPHRASED",
+      "id": "v2-011",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C06",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARAPHRASED",
+      "id": "v2-012",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS E0270",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARTIAL_INFORMATION",
+      "id": "v2-020",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARTIAL_INFORMATION",
+      "id": "v2-021",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS K0012",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "PARTIAL_INFORMATION",
+      "id": "v2-022",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C01",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS E1390",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "AMBIGUOUS",
+      "id": "v2-030",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS Q0092",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "AMBIGUOUS",
+      "id": "v2-031",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "NEGATIVE",
+      "id": "v2-040",
+      "problems": [],
+      "resolved": {
+        "procedure_code": "HCPCS K0898",
+        "scored_as": "false-retrieval rate, outside the Recall denominator"
+      },
+      "scorable": true
+    },
+    {
+      "category": "NEGATIVE",
+      "id": "v2-041",
+      "problems": [],
+      "resolved": {
+        "procedure_code": "HCPCS R0070",
+        "scored_as": "false-retrieval rate, outside the Recall denominator"
+      },
+      "scorable": true
+    },
+    {
+      "category": "NEGATIVE",
+      "id": "v2-042",
+      "problems": [],
+      "resolved": {
+        "procedure_code": "HCPCS E1390",
+        "scored_as": "false-retrieval rate, outside the Recall denominator"
+      },
+      "scorable": true
+    },
+    {
+      "category": "NEGATIVE",
+      "id": "v2-043",
+      "problems": [],
+      "resolved": {
+        "procedure_code": "HCPCS K0898",
+        "scored_as": "false-retrieval rate, outside the Recall denominator"
+      },
+      "scorable": true
+    },
+    {
+      "category": "NEGATIVE",
+      "id": "v2-045",
+      "problems": [],
+      "resolved": {
+        "procedure_code": "HCPCS K0012",
+        "scored_as": "false-retrieval rate, outside the Recall denominator"
+      },
+      "scorable": true
+    },
+    {
+      "category": "HISTORICAL_VERSION",
+      "id": "v2-050",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2022_01_01_C04",
+        "policy_type": "REGULATION",
+        "policy_version": "2022-01-01",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "HISTORICAL_VERSION",
+      "id": "v2-052",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2022_01_01_C05",
+        "policy_type": "REGULATION",
+        "policy_version": "2022-01-01",
+        "procedure_code": "HCPCS E1390",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_VERSION",
+      "id": "v2-060",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2022_01_01_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2022-01-01",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_VERSION",
+      "id": "v2-061",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "EXCEPTION",
+      "id": "v2-070",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C05",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "EXCEPTION",
+      "id": "v2-071",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C05",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "EXCEPTION",
+      "id": "v2-072",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C05",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS K0012",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DISTRACTOR",
+      "id": "v2-080",
+      "problems": [],
+      "resolved": {
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS E1390",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DISTRACTOR",
+      "id": "v2-081",
+      "problems": [],
+      "resolved": {
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DISTRACTOR",
+      "id": "v2-082",
+      "problems": [],
+      "resolved": {
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DISTRACTOR",
+      "id": "v2-083",
+      "problems": [],
+      "resolved": {
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_POLICY",
+      "id": "v2-090",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C01",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_POLICY",
+      "id": "v2-091",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C01",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0070",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_POLICY",
+      "id": "v2-092",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2026_08_13_C02",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS E0270",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "CROSS_POLICY",
+      "id": "v2-093",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_33_2026_08_13_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS R0075",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "DIRECT",
+      "id": "v2-100",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_32_2026_08_13_C04",
+        "policy_type": "REGULATION",
+        "policy_version": "2026-08-13",
+        "procedure_code": "HCPCS Q0092",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "HISTORICAL_VERSION",
+      "id": "v2-101",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2022_01_01_C01",
+        "policy_type": "REGULATION",
+        "policy_version": "2022-01-01",
+        "procedure_code": "HCPCS E1390",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    },
+    {
+      "category": "HISTORICAL_VERSION",
+      "id": "v2-102",
+      "problems": [],
+      "resolved": {
+        "criterion_id": "42_CFR_410_38_2022_01_01_C03",
+        "policy_type": "REGULATION",
+        "policy_version": "2022-01-01",
+        "procedure_code": "HCPCS K0898",
+        "section_verification": "INDEX"
+      },
+      "scorable": true
+    }
+  ]
+}

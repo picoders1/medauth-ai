@@ -169,6 +169,7 @@ class LlmClient:
         headers = {"x-medauth-request-id": str(request_id)} if request_id else None
         started = asyncio.get_running_loop().time()
         last_detail = "no attempt was made"
+        last_status: int | None = None
 
         for attempt in range(1, self._max_attempts + 1):
             try:
@@ -199,6 +200,7 @@ class LlmClient:
                     )
 
                 last_detail = f"upstream returned {status}"
+                last_status = status
                 await asyncio.sleep(_backoff(attempt, response))
                 continue
 
@@ -211,8 +213,13 @@ class LlmClient:
             detail=last_detail,
             request_id=str(request_id) if request_id else None,
         )
+        # The last status is carried, not dropped. `UpstreamFailureError` has always
+        # had the field; the exhausted path never filled it, so the Phase-16 failure
+        # taxonomy could not tell a 429 from a 502 after retries were spent - both
+        # arrived as an unclassifiable "model path failed" string.
         raise UpstreamFailureError(
-            f"model path failed after {self._max_attempts} attempts: {last_detail}"
+            f"model path failed after {self._max_attempts} attempts: {last_detail}",
+            status_code=last_status,
         )
 
 

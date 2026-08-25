@@ -748,8 +748,21 @@ class SliceRunner:
         A `BLOCKED` response is never retried here or anywhere: retrying a request
         the firewall refused is an attempt to evade a security control, and a retry
         loop treating it as transient would keep trying until one got through.
+
+        **Phase 16 splits one reason into two, and changes no routing.** Both land
+        on `HUMAN_REVIEW` through rule 4. What differs is what the case says about
+        itself: `MODEL_SCHEMA_FAILURE` means the model answered and the answer was
+        refused; `PROVIDER_LIMITATION` means there was no answer to refuse. Phase 14
+        reported ten of the second as sixteen reasoning errors, because one name
+        covered both, and a provider outage read as a model that could not think.
+
+        The split is made from the classification the gateway attached - transport
+        facts only - never from anything about the content of the case.
         """
         reason = _ABSTENTION_FOR_GATEWAY[failure.outcome]
+        provider = getattr(failure, "provider", None)
+        if provider is not None and getattr(provider, "counts_toward_provider_reliability", False):
+            reason = AbstentionReason.PROVIDER_LIMITATION
         return abstention_for(
             reason,
             subjects=(failure.outcome.value,),

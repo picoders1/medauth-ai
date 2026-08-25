@@ -1,0 +1,40 @@
+{
+  "bands_words": [
+    25,
+    60,
+    120,
+    200,
+    320,
+    480,
+    700
+  ],
+  "clinical_text_in_this_report": "none - digests, counts and categories only",
+  "experiment": "r86-gradient-001",
+  "held_constant": {
+    "attempts_per_observation": 1,
+    "firewall_path": "MEDAUTH -> firewall -> provider (no bypass, one caller key)",
+    "gateway_configuration_digest": "sha256:47b96c93a407",
+    "max_output_tokens": 1536,
+    "model_digest": "sha256:31d69bc24c21",
+    "payload_seed": 20260825,
+    "prompt": "sha256:3c13a73ada48",
+    "schema": "sha256:685bdcd745a6",
+    "structured_mode": "json_schema",
+    "temperature": 0.0
+  },
+  "hypothesis": "The rate of R-86 (schema-satisfying, non-terminating responses) is associated with input length, holding model, prompt, schema, temperature, ceiling and transport constant.",
+  "observations_planned": 56,
+  "outcome_measure": "per-band provider-failure rate, and per-band R-86 signature rate (finish_reason=length AND whitespace >= 0.5)",
+  "payload": "synthetic, seeded, non-clinical filler; no note text is sent",
+  "prohibitions": [
+    "No band may be dropped after seeing its result.",
+    "No threshold may be chosen from these numbers and then presented as pre-registered.",
+    "Causation may not be claimed: length is confounded with everything that grows with it.",
+    "No regression may be fitted through seven points."
+  ],
+  "statistics": "Wilson intervals on single rates. No curve is fitted.",
+  "trials_per_band": 8,
+  "varied": [
+    "payload_length_words"
+  ]
+}

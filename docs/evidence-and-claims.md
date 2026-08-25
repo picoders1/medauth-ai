@@ -348,6 +348,27 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **R-86 is fixed** | A change in the decoder, evidenced by the provider | — | **Refused.** Not fixed. Phase 15 established it is input-length dependent; ownership is still undetermined |
 | **gold_v1's not-applicable cases are labellable from their input** | Structured input that a deterministic resolver refuses | — | **Refused (R-97).** Three cases encode non-applicability only in the narrative. Reported as `DATASET_DEFECT`, never excluded; a gold_v2 is OD-37 |
 
+## Measurement recovery (Phase 16)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **Provider failures are classified, not conflated with model errors** | A taxonomy that cannot see accuracy, with an attribution per kind | `app/llm/failure_taxonomy.py`; `pytest tests/unit/test_provider_failure_taxonomy.py` | **Produced** (Phase 16) — 11 kinds, 4 attributions; a test asserts the classifier has no accuracy parameter |
+| **R-86 is input-length dependent** | A controlled experiment varying only length | `eval/reports/r86-gradient/results.json` | **WITHDRAWN.** The Phase-15 reading is not supported: 0/56 up to 908 prompt tokens. It came from arms that varied three factors at once |
+| **R-86 needs schema + length + real content together** | A crossed factorial with per-cell denominators | `eval/reports/r86-gradient/factorial_results.json` | **Produced** (Phase 16) — 6/6 in `intake/gold_note/long`, 0/42 elsewhere; 522 filler tokens succeed where 512 clinical tokens fail |
+| **The responsible layer is the provider / the firewall** | A request issued provider-side | — | **Refused.** `PROVIDER_DECODER` and `FIREWALL_PROXY` remain indistinguishable from this side. `OUTSIDE_ENGINEERING_CONTROL` |
+| **R-86 is fixed** | A change in the decoder, evidenced by its owner | — | **Refused**, unchanged |
+| **A local mitigation for R-86 exists** | A request property that predicts the failure | — | **Refused.** No length threshold is supported: filler at 522 tokens succeeds, clinical text at 512 fails |
+| **gold_v2 encodes applicability in structured data** | Every case's state re-derived from input plus the committed linkage | `pytest tests/evaluation/test_gold_v2.py` | **Produced** (Phase 16) — 156/156, and all 156 labels reproduce under `decide()` |
+| **gold_v1 is unchanged** | Byte-identical to its manifest | Same | **Produced** — `ca990b80…`; the migration refuses to run if it moved |
+| **The retrieval benchmark's provenance is clean** | Every query's authority chain resolving against committed artefacts | `data/review/retrieval_v4_provenance.json` | **Produced** (Phase 16) — 36/36 scorable, 0 invalid, 10 categories, and the audit is proven able to fail |
+| **Retrieval baseline of the shipped configuration** | One arm, frozen configuration, correct arithmetic | `eval/reports/retrieval-v4-baseline/results.json` | **Produced** — Recall@1 0.7742 (24/31), nDCG@5 0.8987, false retrieval 5/5 on negatives |
+| **This retrieval configuration is best** | A comparison with a detectable difference | — | **Refused.** `ENGINEERING_DEFAULT_UNRESOLVED`; 36 queries cannot separate arms |
+| **Two denominators are reported, never one** | Operational coverage and decision quality side by side | `eval/reports/phase15-410-33/coverage.json` | **Produced** — 12/26 operational, 4/12 decision quality, 8/26 whole-run; none is "the accuracy" |
+| **No case is silently excluded** | Buckets summing to attempted, every case named | Same | **Produced** — six dispositions, arithmetic asserted |
+| **Cost per case** | Token counts with a price basis on the run date | — | **NOT produced — `COST_NOT_AVAILABLE`.** No price basis is recorded; MEDAUTH holds no provider account and the model id is a deployment value |
+| **`phase16-evaluation-001` was run** | A completed run under the frozen manifest | — | **NOT produced.** The manifest is frozen and the gate STOPS on provider reliability; gold_v2's single scoring is unspent |
+| **The measurement foundation is restored** | Valid gold data, clean benchmark, pre-registered experiment, classified failures | ADR-029; the artefacts above | **Produced, with one exception stated** — provider reliability remains an external limitation |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

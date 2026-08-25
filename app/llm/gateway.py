@@ -114,12 +114,33 @@ class GatewayOutcome(StrEnum):
 
 
 class GatewayFailure(Exception):
-    """The boundary failed. Carries the outcome so a caller cannot lose it."""
+    """The boundary failed. Carries the outcome so a caller cannot lose it.
 
-    def __init__(self, outcome: GatewayOutcome, detail: str) -> None:
+    `provider` is the Phase-16 diagnostic classification, and it is deliberately a
+    SECOND field rather than a replacement for `outcome`. They answer different
+    questions and are consumed by different readers:
+
+        outcome   what this case does next        7 members, all routing to a human
+        provider  whose defect this was           11 kinds, plus an attribution
+
+    Collapsing them would force routing to depend on diagnostic detail, and a case
+    would then be routed differently because a status code was more specific.
+    """
+
+    def __init__(
+        self,
+        outcome: GatewayOutcome,
+        detail: str,
+        *,
+        provider: object | None = None,
+    ) -> None:
         super().__init__(f"{outcome.value}: {detail}")
         self.outcome = outcome
         self.detail = detail
+        #: A `ProviderFailure`, or `None` where the caller built this by hand.
+        #: Typed loosely here so `app.llm.gateway` stays importable without the
+        #: taxonomy - the seam declares the interface, not the diagnosis.
+        self.provider = provider
 
 
 @dataclass(frozen=True, slots=True)

@@ -61,6 +61,11 @@ from app.core.errors import (
     UpstreamRejectedError,
 )
 from app.llm.client import LlmClient
+from app.llm.failure_taxonomy import (
+    ProviderFailure,
+    ResponseShape,
+    classify_provider_failure,
+)
 from app.llm.gateway import (
     GatewayFailure,
     GatewayOutcome,
@@ -100,6 +105,30 @@ _SYSTEM = (
     "Return the JSON as a single line with no indentation and no newlines. "
     "Emit no whitespace beyond single spaces after ':' and ','."
 )
+
+
+def _diagnose(exc: Exception) -> ProviderFailure:
+    """The diagnostic view of the same failure. Never used for routing.
+
+    `SchemaValidationError` carries the last response's shape - finish reason,
+    length, whitespace fraction - so an R-86 runaway is distinguishable here from a
+    model that terminated and answered wrongly. Those are the same
+    `GatewayOutcome.SCHEMA_INVALID` and they are not the same defect.
+    """
+    shape: ResponseShape | None = None
+    if isinstance(exc, SchemaValidationError):
+        shape = ResponseShape(
+            finish_reason=exc.finish_reason,
+            body_chars=exc.body_chars,
+            whitespace_fraction=exc.whitespace_fraction,
+            # A runaway never closes its document, so it never parses. Derived
+            # rather than passed: an unparseable body is what "did not validate
+            # after repair" means when the decoder hit the ceiling.
+            parsed_as_json=exc.finish_reason != "length",
+        )
+    return classify_provider_failure(
+        exc, status_code=getattr(exc, "status_code", None), shape=shape
+    )
 
 
 def _classify(exc: Exception) -> GatewayOutcome:
@@ -213,7 +242,11 @@ class FirewallGateway:
                 outcome=outcome.value,
                 latency_ms=round((time.perf_counter() - started) * 1000, 3),
             )
-            raise GatewayFailure(outcome, str(exc)) from exc
+            # The diagnostic classification travels beside the routing outcome.
+            # Built here because this is the only place that holds the exception
+            # AND the response shape it carries; anywhere later would be guessing
+            # from a string.
+            raise GatewayFailure(outcome, str(exc), provider=_diagnose(exc)) from exc
 
         log.info(
             "gateway.ok",

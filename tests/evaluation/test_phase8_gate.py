@@ -401,6 +401,24 @@ def test_gold_v1_is_byte_identical() -> None:
     assert len(_jsonl(SYNTHETIC)) == 222
 
 
-def test_no_gold_v2_exists_yet() -> None:
-    """Two outcomes would force one. Neither has been chosen, so none exists."""
-    assert not list((REPO / "data/gold/cases").glob("gold_v[2-9].jsonl"))
+def test_a_gold_v2_exists_and_says_what_forced_it() -> None:
+    """Phase 16 note: the expectation changed because the world did.
+
+    This asserted that NO gold_v2 existed - correct while the only thing that could
+    have forced one was an FOCUS-001 outcome nobody had chosen. R-97 forced one
+    instead: eighteen gold_v1 cases carry an applicability label unreachable from
+    their own structured input, which no relabelling of gold_v1 could fix because
+    gold_v1 is frozen.
+
+    What the test defends is unchanged - a gold version must never appear quietly -
+    so it now checks the reason rather than the absence.
+    """
+    versions = sorted((REPO / "data/gold/cases").glob("gold_v[2-9].jsonl"))
+    assert versions, "gold_v2 should exist as of Phase 16"
+    for candidate in versions:
+        manifest = candidate.parent.parent / "manifests" / f"{candidate.stem}.manifest.json"
+        spec = json.loads(manifest.read_text(encoding="utf-8"))
+        assert spec["supersedes"] == "gold_v1"
+        assert "R-97" in spec["resolves"]
+        assert len(spec["supersedes_reason"]) > 100, "the reason must be a reason, not a label"
+        assert spec["derived_from"]["immutable"] is True
