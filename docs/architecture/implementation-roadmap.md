@@ -1,7 +1,7 @@
 # Implementation Roadmap
 
-**Status:** **Phases 0-11 delivered** (HEAD `3c921a9`, 12 commits). Phase 12 is gated on the
-remediation recorded below. This document is written so a future
+**Status:** **Phases 0-11 delivered; Phase 12 IN PROGRESS.** The first live model call was
+made on 2026-08-25. This document is written so a future
 session can execute phase by phase without rediscovering the architecture.
 
 | Phase | State |
@@ -18,7 +18,7 @@ session can execute phase by phase without rediscovering the architecture.
 | — OD-19 / 410.33 | **Complete** - `8fbc46a`, `4e61b74`. Logic declared; gate READY. Not an originally planned phase |
 | 11 First AI vertical slice | **Complete** - `3c921a9`. Pipeline verified end to end; **zero model calls**, so real model behaviour is unverified |
 | Pre-12 remediation | **Complete** - CI reproducibility, runtime gate, concrete gateway, mutation harness |
-| 12 Real model activation | **Not started.** Preconditions in `docs/architecture/phase12-preconditions.md` |
+| 12 Real model activation | **IN PROGRESS.** A model has been called live: probe, smoke and a 7-scenario matrix all executed. Three defects found and fixed, one (R-86) mitigated but not eliminated. See `docs/architecture/phase12-model-activation.md`. Not marked complete - the acceptance criteria include items this phase deliberately did not attempt |
 
 An independent audit on 2026-08-25 found this table nine phases stale. It is a
 current-state document and drift in it is a defect, not a chore.

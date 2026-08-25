@@ -12,6 +12,8 @@ useful. These prove the seam behaves, not that inference works.
 
 from __future__ import annotations
 
+import asyncio
+
 import pytest
 from pydantic import BaseModel, Field
 
@@ -78,7 +80,7 @@ def test_a_role_with_no_model_is_a_startup_error_not_a_runtime_one() -> None:
         transport=json_transport(VALID),
     )
     with pytest.raises(ValueError, match="no model configured"):
-        FirewallGateway(client=client, models={ModelRole.STRUCTURED_INTAKE: "csg-small"})
+        FirewallGateway(client=client, models={ModelRole.STRUCTURED_INTAKE: "fixture-model"})
 
 
 def test_model_selection_is_configuration_and_is_reported() -> None:
@@ -104,10 +106,10 @@ async def test_a_valid_structured_response_is_returned_validated() -> None:
 
 async def test_model_identity_and_cost_propagate() -> None:
     """An audit row that cannot name the model that produced it cannot be reproduced."""
-    gateway = gateway_with(json_transport(VALID, model="csg-small-2026"))
+    gateway = gateway_with(json_transport(VALID, model="fixture-model-2026"))
     response = await gateway.call(request_for(), CriterionAssessment)
 
-    assert response.model_id == "csg-small-2026"
+    assert response.model_id == "fixture-model-2026"
     assert response.prompt_id == "adjudication.v1"
     assert response.prompt_tokens == 11
     assert response.completion_tokens == 7
@@ -139,11 +141,24 @@ async def test_instructions_and_evidence_are_sent_as_separate_turns() -> None:
 
     messages = seen[0]["messages"]
     assert isinstance(messages, list)
-    contents = [m["content"] for m in messages]
-    assert any("INSTRUCTION-MARKER" == c for c in contents)
-    assert any("EVIDENCE-MARKER" == c for c in contents)
-    # And never merged into one turn.
-    assert not any("INSTRUCTION-MARKER" in c and "EVIDENCE-MARKER" in c for c in contents)
+    by_role = {m["role"]: m["content"] for m in messages}
+
+    # The property, stated as it actually is: the half WE author is in the system
+    # role, and retrieved text is in the user role. Different roles, not merely
+    # different turns.
+    #
+    # This test previously asserted two separate `user` turns. The live path refused
+    # that shape - the upstream requires strict role alternation - and the fix moved
+    # the trusted half into `system`, which is a stronger separation rather than a
+    # weaker one. The expectation changed because the deployment did.
+    assert "INSTRUCTION-MARKER" in by_role["system"]
+    assert "EVIDENCE-MARKER" in by_role["user"]
+
+    # The rule that must never bend: retrieved text does not enter the system turn.
+    assert "EVIDENCE-MARKER" not in by_role["system"]
+    # And instructions are not smuggled into the untrusted turn either, where they
+    # would sit inside the fence and read as data quoting itself.
+    assert "INSTRUCTION-MARKER" not in by_role["user"]
 
 
 async def test_the_system_turn_frames_data_as_non_instruction() -> None:
@@ -251,6 +266,73 @@ def test_every_non_ok_outcome_routes_to_a_human_and_none_to_a_denial() -> None:
             continue
         assert outcome.routes_to_human
     assert not GatewayOutcome.BLOCKED.is_retryable
+
+
+def test_a_structured_request_has_a_token_ceiling() -> None:
+    """R-86. An unbounded structured call has no natural stopping point.
+
+    Live activation found intake calls burning 3 x 60 s and returning nothing: JSON
+    permits arbitrary whitespace between tokens, so a grammar-constrained decoder can
+    satisfy the schema forever without closing the document. 2000 tokens, 98.6% of
+    them whitespace.
+
+    The ceiling does not fix that - it converts a hang into a truncation - but a hang
+    is strictly worse: it holds the request for the full timeout, three times, before
+    the case reaches a human.
+    """
+    from app.llm.gateway import ModelRequest
+
+    assert request_for().max_output_tokens > 0
+    with pytest.raises(ValueError, match="no natural stopping point"):
+        ModelRequest(
+            role=ModelRole.STRUCTURED_ADJUDICATION,
+            prompt_id="p",
+            instructions="i",
+            evidence_block="e",
+            schema_name="S",
+            schema={"type": "object"},
+            max_output_tokens=0,
+        )
+
+
+def test_the_ceiling_reaches_the_wire() -> None:
+    """A ceiling the transport ignores is a comment."""
+    import json as _json
+
+    import httpx
+
+    seen: list[dict[str, object]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(_json.loads(request.content))
+        return json_transport(VALID).handler(request)  # type: ignore[attr-defined,no-any-return]
+
+    from app.llm.gateway import ModelRequest
+
+    req = ModelRequest(
+        role=ModelRole.STRUCTURED_ADJUDICATION,
+        prompt_id="adjudication.v1",
+        instructions="i",
+        evidence_block="e",
+        schema_name="CriterionAssessment",
+        schema={"type": "object"},
+        max_output_tokens=321,
+    )
+    asyncio.run(gateway_with(httpx.MockTransport(handler)).call(req, CriterionAssessment))
+    assert seen[0]["max_tokens"] == 321
+
+
+def test_the_compact_output_instruction_is_present() -> None:
+    """R-86's mitigation, pinned so it is not tidied away as verbosity.
+
+    It reads like a formatting preference and is not one: without it, 0/3 intake
+    calls terminated; with it, 3/3. It belongs in the system turn, where the model
+    sees it before any data.
+    """
+    from app.llm.firewall_gateway import _SYSTEM
+
+    assert "single line" in _SYSTEM
+    assert "no indentation" in _SYSTEM
 
 
 def test_the_gateway_holds_no_provider_credential() -> None:

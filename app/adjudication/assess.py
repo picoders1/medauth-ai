@@ -61,7 +61,7 @@ class CriterionRequest:
 
 async def assess_criterion(
     request: CriterionRequest, *, gateway: ModelGateway
-) -> CriterionAssessment:
+) -> tuple[CriterionAssessment, tuple[int, int]]:
     """Ask the model about one criterion. Returns a validated closed schema.
 
     Raises `GatewayFailure` on any boundary problem, deliberately un-caught here:
@@ -86,6 +86,10 @@ async def assess_criterion(
         ),
         schema_name="CriterionAssessment",
         schema=CriterionAssessment.model_json_schema(),
+        # One criterion, one small object, a two-sentence rationale. A ceiling this
+        # tight is itself a check: a response that needs more is not the shape this
+        # schema describes.
+        max_output_tokens=512,
     )
 
     response = await gateway.call(call, CriterionAssessment)
@@ -98,6 +102,8 @@ async def assess_criterion(
     # it leaves a decided assessment with nothing behind it, the assessment becomes
     # UNKNOWN: a verdict whose only support was fabricated is not a weaker verdict,
     # it is an absence of one.
+    used = (response.prompt_tokens, response.completion_tokens)
+
     if answer.assessment is not AssessmentState.UNKNOWN and not cited:
         return CriterionAssessment(
             criterion_id=request.criterion_id,
@@ -108,7 +114,7 @@ async def assess_criterion(
                 f"this criterion's evidence set (claimed {list(answer.evidence_ids)})"
             ),
             uncertainty=answer.uncertainty,
-        )
+        ), used
 
     return CriterionAssessment(
         criterion_id=request.criterion_id,
@@ -116,4 +122,4 @@ async def assess_criterion(
         evidence_ids=cited,
         rationale_summary=answer.rationale_summary,
         uncertainty=answer.uncertainty,
-    )
+    ), used

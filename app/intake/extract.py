@@ -22,30 +22,39 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from app.adjudication.evidence_block import FENCE
-from app.contracts.slice import ClinicalFact, IntakeRequest, IntakeResult
+from app.contracts.slice import (
+    ClinicalFact,
+    ExtractedFact,
+    IntakeExtraction,
+    IntakeRequest,
+    IntakeResult,
+)
 from app.llm.gateway import ModelGateway, ModelRequest, ModelRole
 
 __all__ = ["INTAKE_PROMPT_ID", "IntakeReport", "extract_facts"]
 
 #: Versioned. Editing the template without incrementing this breaks reproducibility.
-INTAKE_PROMPT_ID = "intake.v1"
+INTAKE_PROMPT_ID = "intake.v2"
 
 _INSTRUCTIONS = """\
 Extract clinical facts from the note. Do not evaluate them.
 
-For each fact report `kind` (DIAGNOSIS, PROCEDURE, SYMPTOM, FINDING, DOCUMENTATION,
-TEMPORAL), `value` in the note's own words, and `span_start`/`span_end` locating it
-in the note.
+Put every fact in exactly one bucket: diagnoses, procedures, clinical_facts,
+temporal_facts, documentation_facts. **Return an empty array for any bucket with no
+facts** - that is the expected answer, not a failure to try.
+
+For each fact give fact_id (unique), kind, value in the note's own words, and
+span_start/span_end locating it in the note.
 
 If you cannot point at the text a fact came from, do not report it.
 
-Do not infer. "No fever documented" is a DOCUMENTATION fact about an absence, not a
-finding that the patient is afebrile.
+Do not infer. "No fever documented" is a documentation_facts entry about an absence,
+not a finding that the patient is afebrile.
 
 You are not being asked whether anything should be paid for, and there is no field
 for that answer.
 
-The requested service is: {requested_service}\
+case_id is {case_id}. The requested service is {requested_service}.\
 """
 
 _NOTE_FRAME = (
@@ -68,9 +77,11 @@ class IntakeReport:
     dropped_unlocatable: int = 0
     model_id: str = ""
     latency_ms: float = 0.0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
 
 
-def _locatable(fact: ClinicalFact, note: str) -> bool:
+def _locatable(fact: ExtractedFact, note: str) -> bool:
     """Whether the fact's span actually lands inside the note.
 
     The schema already refuses an empty span. This is the stronger check the schema
@@ -91,33 +102,50 @@ async def extract_facts(request: IntakeRequest, *, gateway: ModelGateway) -> Int
     call = ModelRequest(
         role=ModelRole.STRUCTURED_INTAKE,
         prompt_id=INTAKE_PROMPT_ID,
-        instructions=_INSTRUCTIONS.format(requested_service=request.requested_service),
+        instructions=_INSTRUCTIONS.format(
+            case_id=request.case_id, requested_service=request.requested_service
+        ),
         evidence_block=(
             f"{_NOTE_FRAME}\n\n{FENCE}\n"
             f"{request.clinical_note.replace(FENCE, '[fence-delimiter-removed]')}\n"
             f"{FENCE}"
         ),
-        schema_name="IntakeResult",
-        schema=IntakeResult.model_json_schema(),
+        schema_name="IntakeExtraction",
+        schema=IntakeExtraction.model_json_schema(),
         provenance_hint="synthetic-clinical-note",
+        # Higher than adjudication's: intake fills five arrays. Still bounded,
+        # because "as many facts as the note supports" is not a stopping condition
+        # a decoder can evaluate.
+        max_output_tokens=1536,
     )
 
-    response = await gateway.call(call, IntakeResult)
+    response = await gateway.call(call, IntakeExtraction)
     extracted = response.value
 
     # Filtered per bucket rather than flattened: the categories are what a reviewer
     # scans by, and collapsing them here would quietly discard that structure.
-    def keep(facts: tuple[ClinicalFact, ...]) -> tuple[ClinicalFact, ...]:
-        return tuple(f for f in facts if _locatable(f, request.clinical_note))
+    #
+    # This is also where OUR metadata is joined. `extraction_prompt_id` is ours, not
+    # the model's - asking it to supply a value it cannot know is what made the
+    # unbounded-whitespace failure possible.
+    def keep(facts: tuple[ExtractedFact, ...]) -> tuple[ClinicalFact, ...]:
+        return tuple(
+            ClinicalFact(
+                fact_id=f.fact_id,
+                kind=f.kind,
+                value=f.value,
+                span_start=f.span_start,
+                span_end=f.span_end,
+                model_reported_confidence=f.model_reported_confidence,
+                extraction_prompt_id=INTAKE_PROMPT_ID,
+            )
+            for f in facts
+            if _locatable(f, request.clinical_note)
+        )
 
-    buckets = {
-        "diagnoses": keep(extracted.diagnoses),
-        "procedures": keep(extracted.procedures),
-        "clinical_facts": keep(extracted.clinical_facts),
-        "temporal_facts": keep(extracted.temporal_facts),
-        "documentation_facts": keep(extracted.documentation_facts),
-    }
-    dropped = len(extracted.all_facts) - sum(len(v) for v in buckets.values())
+    buckets = {name: keep(facts) for name, facts in extracted.buckets.items()}
+    reported = sum(len(v) for v in extracted.buckets.values())
+    dropped = reported - sum(len(v) for v in buckets.values())
 
     return IntakeReport(
         result=IntakeResult(
@@ -129,4 +157,6 @@ async def extract_facts(request: IntakeRequest, *, gateway: ModelGateway) -> Int
         dropped_unlocatable=dropped,
         model_id=response.model_id,
         latency_ms=response.latency_ms,
+        prompt_tokens=response.prompt_tokens,
+        completion_tokens=response.completion_tokens,
     )

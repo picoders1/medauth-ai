@@ -277,6 +277,24 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 | **The model gateway works against a real provider** | A live call | — | **NOT produced.** No model call has been made in any phase |
 | **Real model behaviour is verified** | Inference in the loop | — | **NOT produced.** `MODEL_REASONING_QUALITY_NOT_YET_EVALUATED` |
 
+## Live model activation (Phase 12, 2026-08-25)
+
+| Claim | Evidence required | How produced | Status |
+|---|---|---|---|
+| **A model has been called through the full path** | One live structured call reaching the internal contract | smoke call, `OK` 1050 ms | **Produced** — `MEDAUTH → FirewallGateway → firewall → provider` |
+| **The deployment supports strict `json_schema`** | n=5 per arm on the live path | `eval/reports/20260825T070854Z__model-capabilities/` | **Produced, scoped** — 5/5 on the probe schema. **Not** a blanket claim: the same model fails to terminate on `IntakeResult` (R-86, R-87) |
+| **`json_object` is not a usable fallback** | Schema validity under the unconstrained mode | Same | **Produced** — 5/5 returned, **0/5 schema-valid** |
+| **The deterministic engine still owns the recommendation** | No live run producing an approval or denial from the model | `eval/reports/first-slice-live/` | **Produced** — every case reached `NEEDS_INFO`, `HUMAN_REVIEW` or `NO_DECISION` |
+| **No outcome token reaches the model or its free text** | Scan of every assessment across the matrix | Same | **Produced** — zero occurrences |
+| **A firewall 403 fails closed and is not retried** | A live block, attempt count | Same | **Produced** — one real 403 in 22.6 ms, one attempt, routed to a human |
+| **Live latency and token usage** | Per-stage measurement on real calls | Same | **Produced** — decision 0.1–0.2 ms, citations 1.7–3.1 ms, 24 calls / 14,526 in / 3,370 out |
+| **Verdicts are reproducible** | Repeated identical requests | Same | **Produced, narrow** — 3/3 identical on one case. Bytes are **not** deterministic (probe) |
+| **Cost per case** | A price basis for this deployment | — | **NOT produced.** None is recorded; inventing one would be fabricated |
+| **Injection is contained** | The attack assessed and refused | Same | **Partly.** D contained structurally; E contained by the firewall — a layer with 0.1423 recall that we do not rely on; **G was never assessed at all** and is not evidence of containment |
+| **Clinical accuracy / clinical validation** | A study with qualified clinicians | — | **Refused.** No scenario carries an expected answer |
+| **Model reasoning quality** | A held-out benchmark | — | **`MODEL_REASONING_QUALITY_NOT_YET_EVALUATED`** |
+| **Retrieval configuration is justified** | A ready benchmark | — | **Refused.** `NOT_READY`, and Phase 12 tuned nothing |
+
 ## Engineering
 
 | Claim | Evidence required | How produced | Status |

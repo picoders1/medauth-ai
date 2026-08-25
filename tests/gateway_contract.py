@@ -38,12 +38,12 @@ __all__ = [
 
 #: One model per role. Configuration, not a capability claim.
 MODELS: dict[ModelRole, str] = {
-    ModelRole.STRUCTURED_INTAKE: "csg-small",
-    ModelRole.STRUCTURED_ADJUDICATION: "csg-small",
+    ModelRole.STRUCTURED_INTAKE: "fixture-model",
+    ModelRole.STRUCTURED_ADJUDICATION: "fixture-model",
 }
 
 
-def _completion(payload: str, *, model: str = "csg-small") -> dict[str, Any]:
+def _completion(payload: str, *, model: str = "fixture-model") -> dict[str, Any]:
     """An OpenAI-shaped completion carrying `payload` as its content."""
     return {
         "id": "chatcmpl-fixture",
@@ -60,7 +60,7 @@ def _completion(payload: str, *, model: str = "csg-small") -> dict[str, Any]:
     }
 
 
-def json_transport(value: object, *, model: str = "csg-small") -> httpx.MockTransport:
+def json_transport(value: object, *, model: str = "fixture-model") -> httpx.MockTransport:
     """Answers every call with `value` serialised as the structured payload."""
 
     def handler(_request: httpx.Request) -> httpx.Response:
@@ -134,7 +134,7 @@ def gateway_with(
     client = LlmClient(
         base_url="http://firewall.invalid/v1",
         api_key="test-caller-key",
-        model="csg-small",
+        model="fixture-model",
         timeout_seconds=2.0,
         max_attempts=max_attempts,
         transport=transport,

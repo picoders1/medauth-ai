@@ -108,6 +108,11 @@ class SliceOutcome:
     #: Wall-clock per stage. Measured, never estimated; absent where a stage did
     #: not run rather than recorded as zero.
     timings_ms: dict[str, float] = field(default_factory=dict)
+    #: Tokens actually consumed, summed across every model call this case made.
+    #: Measured, never estimated - a case that made no call reports zero and says so
+    #: through `model_calls`, which is a different fact from "cost nothing".
+    tokens: dict[str, int] = field(default_factory=dict)
+    model_calls: int = 0
     model_id: str = ""
 
     @property
@@ -232,8 +237,16 @@ class SliceRunner:
             )
         except GatewayFailure as failure:
             timings["intake"] = (self._clock() - started) * 1000
-            return self._abstain(case, self._gateway_abstention(failure), audit, timings, event)
+            # No response object, so no usage to report. Zero here means "nothing
+            # measurable", which is why `model_calls` is reported beside it - an
+            # abstention that spent tokens and one that spent none are different
+            # facts, and a bare 0 cannot tell them apart.
+            return self._abstain(
+                case, self._gateway_abstention(failure), audit, timings, event, model_calls=1
+            )
         timings["intake"] = (self._clock() - started) * 1000
+        tokens = {"prompt": intake.prompt_tokens, "completion": intake.completion_tokens}
+        calls = 1
 
         facts = intake.result.all_facts
         event(
@@ -265,6 +278,8 @@ class SliceRunner:
                     audit,
                     timings,
                     event,
+                    tokens=dict(tokens),
+                    model_calls=calls,
                 )
 
             entries = tuple(
@@ -275,7 +290,7 @@ class SliceRunner:
                 all_chunks[entry.chunk.chunk_id] = entry.chunk
 
             try:
-                assessment = await assess_criterion(
+                assessment, assessment_tokens = await assess_criterion(
                     CriterionRequest(
                         criterion_id=criterion.criterion_id,
                         criterion_text=criterion.authoritative_text,
@@ -290,6 +305,9 @@ class SliceRunner:
                 return self._abstain(case, self._gateway_abstention(failure), audit, timings, event)
 
             assessments.append(assessment)
+            tokens["prompt"] += assessment_tokens[0]
+            tokens["completion"] += assessment_tokens[1]
+            calls += 1
             by_evidence_id = {e.evidence_id: e for e in entries}
             cited = tuple(by_evidence_id[eid] for eid in assessment.evidence_ids)
             claims.extend((entry.chunk.chunk_id, entry.chunk.text) for entry in cited)
@@ -331,6 +349,8 @@ class SliceRunner:
                 mappings=tuple(mappings),
                 citations=report,
                 facts=facts,
+                tokens=dict(tokens),
+                model_calls=calls,
                 model_id=intake.model_id,
             )
 
@@ -363,6 +383,8 @@ class SliceRunner:
             audit=tuple(audit),
             facts=facts,
             timings_ms=timings,
+            tokens=tokens,
+            model_calls=calls,
             model_id=intake.model_id,
         )
 

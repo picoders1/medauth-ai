@@ -143,6 +143,16 @@ class ModelRequest:
     schema_name: str
     schema: dict[str, object]
     max_repair_attempts: int = 2
+    #: Hard ceiling on generated tokens. **A safety control, not a cost control.**
+    #:
+    #: The 2026-08-25 live activation found intake calls burning 3 x 60s and
+    #: returning nothing: `IntakeResult` has five unbounded arrays, and a
+    #: grammar-constrained decoder filling them has no natural stopping point. The
+    #: schema says the shape is legal, not that it is finite.
+    #:
+    #: An unbounded call does not fail fast - it ties up the request until the
+    #: timeout, three times, and the case reaches a human far later than it should.
+    max_output_tokens: int = 1024
     #: Passed to the firewall so it can distinguish user-authored text from
     #: retrieved content. Available, and NOT relied upon: the firewall's
     #: indirect-injection recall is 0.1423 and its provenance overlay ships
@@ -154,6 +164,11 @@ class ModelRequest:
             raise ValueError("every model call names a versioned prompt id")
         if not self.schema:
             raise ValueError(f"{self.prompt_id}: a call with no schema is a free-text call")
+        if self.max_output_tokens <= 0:
+            raise ValueError(
+                f"{self.prompt_id}: max_output_tokens must be positive; an unbounded "
+                "structured call has no natural stopping point"
+            )
 
 
 @dataclass(frozen=True, slots=True)

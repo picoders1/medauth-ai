@@ -61,6 +61,16 @@ class Settings(BaseSettings):
     # key; this is a revocable caller key scoped to that one gateway.
     llm_base_url: str = "http://localhost:8005/v1"
     llm_model: str = "example-model-v1"
+    #: The model that serves structured-output roles (intake, per-criterion
+    #: adjudication). Separate from `llm_model` because the two are NOT
+    #: interchangeable on this deployment, and the difference is measured rather
+    #: than assumed: the 2026-08-25 capability probe found the configured
+    #: `llm_model` rejects strict `json_schema` outright (502) while supporting
+    #: `tool_call`, and the structured-output model does the exact opposite.
+    #:
+    #: Empty means "use `llm_model`", which is correct only where one model does
+    #: both. A deployment where it does not must set this, and readiness says so.
+    llm_structured_model: str = ""
     llm_api_key: SecretStr = SecretStr("")
     llm_fail_closed: bool = True
     llm_timeout_seconds: float = 60.0

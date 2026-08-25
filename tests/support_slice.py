@@ -21,9 +21,9 @@ from pydantic import BaseModel
 
 from app.contracts.slice import (
     AssessmentState,
-    ClinicalFact,
     CriterionAssessment,
-    IntakeResult,
+    ExtractedFact,
+    IntakeExtraction,
 )
 from app.core.identity import PolicyIdentity, PolicyType
 from app.core.types import CriterionKind
@@ -206,15 +206,14 @@ class FailingRetrieval:
         raise ConnectionError("index unreachable")
 
 
-def fact(fact_id: str, kind: str, value: str, start: int, end: int) -> ClinicalFact:
-    return ClinicalFact(
-        fact_id=fact_id,
-        kind=kind,
-        value=value,
-        span_start=start,
-        span_end=end,
-        extraction_prompt_id="intake.v1",
-    )
+def fact(fact_id: str, kind: str, value: str, start: int, end: int) -> ExtractedFact:
+    """A fact as the MODEL reports it - no `extraction_prompt_id`.
+
+    That field is ours and is joined by `extract_facts`. Handing the model a schema
+    containing values it cannot know is what caused the unbounded-whitespace failure
+    found during live activation, so the double must not carry it either.
+    """
+    return ExtractedFact(fact_id=fact_id, kind=kind, value=value, span_start=start, span_end=end)
 
 
 DEFAULT_FACTS = (
@@ -235,7 +234,7 @@ class FakeGateway:
     """
 
     assessments: dict[str, AssessmentState] = field(default_factory=dict)
-    facts: tuple[ClinicalFact, ...] = DEFAULT_FACTS
+    facts: tuple[ExtractedFact, ...] = DEFAULT_FACTS
     #: Evidence ids to cite per criterion. `None` means "cite E1 when deciding".
     citations: dict[str, tuple[str, ...]] = field(default_factory=dict)
     fail_intake: GatewayOutcome | None = None
@@ -261,14 +260,12 @@ class FakeGateway:
         # which worked only because every caller passed it positionally.
         self.calls.append(request)
 
-        if request.prompt_id == "intake.v1":
+        if request.role is ModelRole.STRUCTURED_INTAKE:
             if self.fail_intake is not None:
                 raise GatewayFailure(self.fail_intake, "fixture intake failure")
-            value: Any = IntakeResult(
+            value: Any = IntakeExtraction(
                 case_id="CASE-FIXTURE",
                 clinical_facts=self.facts,
-                prompt_id="intake.v1",
-                model_id=self.model_id,
             )
         else:
             if self.fail_assessment is not None:

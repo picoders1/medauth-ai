@@ -41,6 +41,8 @@ __all__ = [
     "CriterionAssessment",
     "EvidenceMapping",
     "EvidenceReference",
+    "ExtractedFact",
+    "IntakeExtraction",
     "IntakeRequest",
     "IntakeResult",
     "SliceInput",
@@ -119,6 +121,55 @@ class ClinicalFact(_Strict):
         if self.span_end <= self.span_start:
             raise ValueError(f"{self.fact_id}: span {self.span_start}:{self.span_end} is empty")
         return self
+
+
+class ExtractedFact(_Strict):
+    """One fact AS THE MODEL REPORTS IT. The model-facing half of `ClinicalFact`.
+
+    It exists because of a defect found during live activation on 2026-08-25.
+    `IntakeResult` was handed to the model directly, and it requires `prompt_id`,
+    `model_id` and per-fact `extraction_prompt_id` - **values the model has no way
+    to know**. Under grammar-constrained decoding the model could not produce them
+    and could not stop either, because the grammar forbids terminating an incomplete
+    document. It padded with whitespace until the token ceiling: 2000 tokens, 96% of
+    them spaces, three times per case, 180 seconds, no result.
+
+    The rule that follows is worth stating plainly: **a model-facing schema must
+    contain only fields the model can actually produce.** Our metadata is joined
+    afterwards by `extract_facts`, which is where it was always coming from.
+    """
+
+    fact_id: str = Field(min_length=1)
+    kind: str = Field(min_length=1)
+    value: str = Field(min_length=1)
+    span_start: int = Field(ge=0)
+    span_end: int = Field(gt=0)
+    model_reported_confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+
+
+class IntakeExtraction(_Strict):
+    """What the intake call returns. Extraction only, and nothing we already know.
+
+    Same three-state discipline as `CriterionAssessment`: no outcome field exists
+    here either, so there is nothing for an injection to aim at.
+    """
+
+    case_id: str = Field(min_length=1)
+    diagnoses: tuple[ExtractedFact, ...] = ()
+    procedures: tuple[ExtractedFact, ...] = ()
+    clinical_facts: tuple[ExtractedFact, ...] = ()
+    temporal_facts: tuple[ExtractedFact, ...] = ()
+    documentation_facts: tuple[ExtractedFact, ...] = ()
+
+    @property
+    def buckets(self) -> dict[str, tuple[ExtractedFact, ...]]:
+        return {
+            "diagnoses": self.diagnoses,
+            "procedures": self.procedures,
+            "clinical_facts": self.clinical_facts,
+            "temporal_facts": self.temporal_facts,
+            "documentation_facts": self.documentation_facts,
+        }
 
 
 class IntakeResult(_Strict):
