@@ -118,13 +118,15 @@ class HumanReviewService:
         case = await self._cases.get(case_id, caller_id=caller_id)
 
         reviewer_id = reviewer.principal_id
+        # Optional, and recorded honestly when absent.
+        #
+        # It used to be required. That was inherited from before OD-43, when the
+        # qualification string was the only identity there was - and it is now known to
+        # be informational: it grants nothing, and nothing verifies it. A mandatory
+        # field that grants nothing and cannot be checked gets filled with "n/a", and
+        # the trail then records "n/a" as though it meant something. `NOT_STATED` is
+        # the truthful record of a reviewer who did not say.
         qualification = (stated_qualification or reviewer.stated_qualification).strip()
-        if not qualification:
-            raise ReviewRejected(
-                f"{reviewer_id}: no qualification stated. A later reader must be able "
-                "to tell who was competent to make this decision - the authenticated "
-                "identity says WHO, not on what basis."
-            )
         if action in _REQUIRE_RATIONALE and not (rationale or "").strip():
             raise ReviewRejected(
                 f"{action.value} requires a rationale. A denial or an override with no "
@@ -161,7 +163,7 @@ class HumanReviewService:
             case_id=case_id,
             recommendation_id=recommendation.id if recommendation else None,
             reviewer_id=reviewer_id,
-            reviewer_qualification=qualification,
+            reviewer_qualification=qualification or "NOT_STATED",
             # The authenticated identity, beside the name. They should agree; a row
             # where they do not is worth seeing rather than silently reconciling.
             identity_model="AUTHENTICATED_HUMAN",

@@ -26,11 +26,15 @@ from app.audit.models import HumanReviewAction, ReviewOutcome
 from app.case.lifecycle import CaseState
 
 __all__ = [
+    "AcceptRequest",
     "AuditEventResponse",
     "CaseResponse",
     "CaseStatusResponse",
     "EvidenceResponse",
+    "OverrideRequest",
     "RecommendationResponse",
+    "RequestInformationRequest",
+    "ReviewCaseResponse",
     "ReviewRequest",
     "ReviewResponse",
     "SubmitCaseRequest",
@@ -126,6 +130,37 @@ class EvidenceResponse(_Strict):
     request_id: str
 
 
+class AcceptRequest(_Strict):
+    """Accept the engine's recommendation as the disposition.
+
+    No rationale is required: agreeing with a recorded, cited, rule-derived
+    recommendation adds no information a later reader lacks. Disagreeing does, which is
+    why `OverrideRequest` requires one.
+    """
+
+    comment: str | None = Field(default=None, max_length=2000)
+    stated_qualification: str = Field(default="", max_length=512)
+
+
+class OverrideRequest(_Strict):
+    """Decide against the engine. **Rationale required, and it must say what to.**"""
+
+    override_outcome: ReviewOutcome
+    rationale: str = Field(min_length=1, max_length=4000)
+    stated_qualification: str = Field(default="", max_length=512)
+
+
+class RequestInformationRequest(_Strict):
+    """Ask the submitter for something. **What is being asked is required.**
+
+    A request for information with no statement of what is wanted returns the case to
+    the submitter with no way to satisfy it, which is a loop rather than a workflow.
+    """
+
+    requested_information: str = Field(min_length=1, max_length=4000)
+    stated_qualification: str = Field(default="", max_length=512)
+
+
 class ReviewRequest(_Strict):
     """What a reviewer submits. **It cannot name the reviewer.**
 
@@ -182,4 +217,76 @@ class AuditEventResponse(_Strict):
 class AuditTrailResponse(_Strict):
     case_id: str
     events: tuple[AuditEventResponse, ...]
+    request_id: str
+
+
+class EvidenceRefResponse(_Strict):
+    chunk_id: str
+    criterion_ids: tuple[str, ...] = ()
+    stage: str = ""
+
+
+class ReviewHistoryResponse(_Strict):
+    action: str
+    outcome: str | None
+    reviewer_principal_id: str | None
+    #: `AUTHENTICATED_HUMAN` or `LEGACY_CALLER_SUPPLIED`. Rendered so a reader can tell
+    #: how much the identity on a past decision is worth.
+    identity_model: str
+    authentication_method: str | None
+    rationale: str | None
+    recommended_outcome_at_review: str | None
+    created_at: datetime
+
+
+class ReviewCaseResponse(_Strict):
+    """The reviewer's whole picture.
+
+    `ai_recommendation` and `human_disposition` are **separate fields**. A single
+    `outcome` would let a consumer render the engine's draft as the answer, which is the
+    one thing this architecture exists to prevent.
+    """
+
+    case_id: str
+    state: CaseState
+    procedure_code: str
+    code_system: str
+    jurisdiction: str
+    date_of_service: date
+    input_sha256: str
+
+    # -- the engine's draft --------------------------------------------------
+    ai_recommendation: str | None
+    ai_recommendation_label: str = "AI-generated recommendation - not a decision"
+    decision_rule: str | None
+    abstention_reason: str | None
+    #: Why this case is in front of a person, in a sentence.
+    routing_explanation: str
+    policy_type: str | None
+    policy_id: str | None
+    policy_version: str | None
+    resolution_state: str | None
+    resolution_reason: str | None
+    contradiction_state: str | None
+    provider_failure_kind: str | None
+    confidence_state: str
+    recommended_at: datetime | None
+
+    # -- the human's decision, if one exists yet ------------------------------
+    human_disposition: str | None
+    human_disposition_label: str = "Human disposition"
+    disposition_by: str | None
+    disposition_at: datetime | None
+
+    # -- the reviewer looking at it -------------------------------------------
+    reviewer_principal_id: str
+    reviewer_qualification: str
+    #: `SELF_ASSERTED` or `NOT_STATED`. Never `VERIFIED_BY_REGISTRY` - none exists.
+    qualification_state: str
+    qualification_notice: str
+
+    evidence: tuple[EvidenceRefResponse, ...]
+    history: tuple[ReviewHistoryResponse, ...]
+    available_actions: tuple[str, ...]
+    audit_event_count: int
     request_id: str

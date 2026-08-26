@@ -331,6 +331,53 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- HITL workflow: a draft is not a decision, a claim is not a credential
+    Mutation(
+        # The interface undoing the architecture: one field, and a UI renders the
+        # engine's draft as the answer.
+        name="the-review-view-merges-draft-and-disposition",
+        rule="ai_recommendation and human_disposition are separate fields",
+        path="app/api/v1/schemas.py",
+        old='    ai_recommendation_label: str = "AI-generated recommendation - not a decision"',
+        new='    ai_recommendation_label: str = "Decision"  # MUTATION',
+        tests="tests/api/test_reviewer_workflow.py",
+        keyword="separates_the_draft",
+    ),
+    Mutation(
+        # A qualification that grants authority. Identity, qualification and competence
+        # collapse into one, which is the whole thing Part D separates.
+        name="a-stated-qualification-grants-permissions",
+        rule="stated_qualification is informational and grants nothing",
+        path="app/identity/qualification.py",
+        old="        if qualification_of(principal)",
+        new="        if True  # MUTATION",
+        # Both of these SURVIVED at first with keyword "never_reported_as_verified":
+        # that test used a principal stating nothing, so the branch never ran. The
+        # mutations found a coverage gap, not a code defect.
+        tests="tests/api/test_reviewer_workflow.py",
+        keyword="verification_state_is_exercised",
+    ),
+    Mutation(
+        # A qualification reported as verified when no registry exists.
+        name="qualification-claimed-verified-with-no-registry",
+        rule="VERIFIED_BY_REGISTRY is unreachable until a registry exists",
+        path="app/identity/qualification.py",
+        old="        QualificationState.SELF_ASSERTED",
+        new="        QualificationState.VERIFIED_BY_REGISTRY  # MUTATION",
+        tests="tests/api/test_reviewer_workflow.py",
+        keyword="verification_state_is_exercised",
+    ),
+    Mutation(
+        # The reviewer loses the reason the case reached them, and is left re-doing the
+        # engine's work rather than judging it.
+        name="the-review-view-hides-why-the-case-was-routed",
+        rule="a reviewer is always told why the case needs a person",
+        path="app/case/review_view.py",
+        old='    """Why this is in front of a person. Never empty."""',
+        new='    """MUTATION"""\n    return ""',
+        tests="tests/api/test_reviewer_workflow.py",
+        keyword="explains_why",
+    ),
     # -- OD-43: the reviewer is authenticated, not asserted -------------------
     Mutation(
         # The defect OD-43 names, restored: a service credential able to decide.

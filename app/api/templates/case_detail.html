@@ -1,0 +1,185 @@
+{#
+  One reviewer, one case. Rendered server-side; the browser holds no state and makes no
+  authorization decision.
+
+  The ORDER of the blocks is a safety property, not a layout choice. "Why this is here"
+  comes before "what the system proposed", so a reviewer reads the question before the
+  suggested answer. Anchoring on a displayed recommendation is R-04, and putting the
+  draft first would be the interface causing the risk the register names.
+#}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Case {{ view.case_id }} — MEDAUTH reviewer</title>
+  <style>
+    /* Inline, because a CDN is a runtime dependency and a third party in the page. */
+    body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; color: #111; }
+    h1, h2 { line-height: 1.25; }
+    .block { border: 1px solid #ccc; border-radius: 6px; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+    .ai { border-left: 6px solid #8a6d3b; background: #fdf9f0; }
+    .human { border-left: 6px solid #31708f; background: #f2f8fb; }
+    .why { border-left: 6px solid #555; background: #f6f6f6; }
+    .label { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: #555; margin: 0 0 .35rem; }
+    .verdict { font-size: 1.35rem; font-weight: 700; margin: 0; }
+    .muted { color: #555; font-size: .9rem; }
+    table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+    td, th { border-bottom: 1px solid #e3e3e3; padding: .4rem .5rem; text-align: left; vertical-align: top; }
+    form { display: inline-block; margin: 0 .5rem .5rem 0; }
+    textarea, select { width: 100%; font: inherit; padding: .4rem; }
+    button { font: inherit; padding: .5rem 1rem; cursor: pointer; }
+    .none { color: #666; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<h1>Case {{ view.case_id }}</h1>
+<p class="muted">
+  {{ view.procedure_code }} ({{ view.code_system }}) · date of service {{ view.date_of_service }}
+  {% if view.jurisdiction %}· {{ view.jurisdiction }}{% endif %}
+  · state <strong>{{ view.state.value }}</strong>
+</p>
+
+{# 1. WHY THIS IS IN FRONT OF YOU. Before the draft, deliberately. #}
+<div class="block why">
+  <p class="label">Why this case needs a person</p>
+  <p>{{ view.routing_explanation }}</p>
+  {% if view.abstention_reason %}<p class="muted">Abstention: <code>{{ view.abstention_reason }}</code></p>{% endif %}
+  {% if view.provider_failure_kind %}
+    <p class="muted"><strong>Provider failure:</strong> <code>{{ view.provider_failure_kind }}</code>.
+    This is an infrastructure failure, not a finding about the clinical facts.</p>
+  {% endif %}
+  {% if view.contradiction_state and view.contradiction_state != "NONE" %}
+    <p class="muted">Contradiction analysis: <code>{{ view.contradiction_state }}</code></p>
+  {% endif %}
+  {% if view.resolution_state %}
+    <p class="muted">Policy resolution: <code>{{ view.resolution_state }}</code>
+    {% if view.resolution_reason %}(<code>{{ view.resolution_reason }}</code>){% endif %}</p>
+  {% endif %}
+</div>
+
+{# 2. THE ENGINE'S DRAFT. Labelled every time it appears. #}
+<div class="block ai">
+  <p class="label">AI-generated recommendation — not a decision</p>
+  <p class="verdict">{{ view.recommendation or "none produced" }}</p>
+  <p class="muted">
+    {% if view.decision_rule %}Decision rule <code>{{ view.decision_rule }}</code> ·{% endif %}
+    confidence <code>{{ view.confidence_state }}</code>
+    {% if view.confidence_state == "UNCALIBRATED" %}(no calibrated probability exists for this system){% endif %}
+  </p>
+  <p class="muted">
+    Policy:
+    {% if view.policy_id %}
+      <strong>{{ view.policy_id }}</strong> version <strong>{{ view.policy_version }}</strong>
+      {% if view.policy_type %}({{ view.policy_type }}){% endif %}
+    {% else %}<span class="none">none resolved</span>{% endif %}
+  </p>
+  {% if view.recommended_at %}<p class="muted">Produced {{ view.recommended_at }}</p>{% endif %}
+</div>
+
+{# 3. WHAT A PERSON DECIDED. Separate block, separate heading, never merged above. #}
+<div class="block human">
+  <p class="label">Human disposition</p>
+  {% if view.human_disposition %}
+    <p class="verdict">{{ view.human_disposition }}</p>
+    <p class="muted">By <strong>{{ view.disposition_by }}</strong> at {{ view.disposition_at }}</p>
+  {% else %}
+    <p class="none">No human decision has been recorded on this case.</p>
+  {% endif %}
+</div>
+
+<h2>Evidence the recommendation was based on</h2>
+<p class="muted">
+  Read from the run's own record. Retrieval is <strong>not</strong> re-executed when this
+  page loads — that would show today's corpus for an earlier decision.
+</p>
+{% if view.evidence %}
+  <table>
+    <tr><th>Chunk</th><th>Criteria</th><th>Stage</th></tr>
+    {% for item in view.evidence %}
+      <tr><td><code>{{ item.chunk_id }}</code></td>
+          <td>{{ item.criterion_ids | join(", ") or "—" }}</td>
+          <td class="muted">{{ item.stage }}</td></tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p class="none">No evidence was recorded — this case did not reach retrieval.</p>
+{% endif %}
+
+<h2>Previous human decisions</h2>
+{% if view.history %}
+  <table>
+    <tr><th>When</th><th>Action</th><th>Outcome</th><th>Reviewer</th><th>Identity</th><th>Rationale</th></tr>
+    {% for entry in view.history %}
+      <tr>
+        <td class="muted">{{ entry.created_at }}</td>
+        <td><strong>{{ entry.action }}</strong></td>
+        <td>{{ entry.outcome or "—" }}</td>
+        <td>{{ entry.reviewer_principal_id or "—" }}</td>
+        <td class="muted">
+          {{ entry.identity_model }}
+          {%- if entry.identity_model == "LEGACY_CALLER_SUPPLIED" %} — self-declared, not authenticated{% endif %}
+        </td>
+        <td>{{ entry.rationale or "—" }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <p class="muted">Append-only. A later decision is added; it never replaces an earlier one.</p>
+{% else %}
+  <p class="none">None yet.</p>
+{% endif %}
+
+<h2>Your decision</h2>
+<p class="muted">
+  Signed in as <strong>{{ reviewer.principal_id }}</strong>
+  ({{ reviewer.authentication_method.value }}{% if reviewer.issuer %} · {{ reviewer.issuer }}{% endif %}).
+  {% if qualification %}
+    Stated qualification: “{{ qualification }}” — <strong>{{ qualification_state }}</strong>.
+    {{ qualification_notice }}
+  {% else %}
+    No qualification stated. It would be informational only in any case — it grants no permission.
+  {% endif %}
+</p>
+
+{% if "ACCEPT_RECOMMENDATION" in view.available_actions %}
+  <form method="post" action="/api/v1/cases/{{ view.case_id }}/review/accept">
+    <button type="submit">Accept the AI recommendation</button>
+  </form>
+
+  {% if may_override %}
+    <form method="post" action="/api/v1/cases/{{ view.case_id }}/review/override">
+      <p class="label">Override — a rationale is required</p>
+      <select name="override_outcome">
+        <option value="APPROVED">Approve instead</option>
+        <option value="DENIED">Deny instead</option>
+      </select>
+      <textarea name="rationale" rows="3" placeholder="Why the recommendation is wrong."></textarea>
+      <button type="submit">Record override</button>
+    </form>
+  {% else %}
+    <p class="muted">You do not hold <code>OVERRIDE_RECOMMENDATION</code>, so overriding is not offered.</p>
+  {% endif %}
+
+  <form method="post" action="/api/v1/cases/{{ view.case_id }}/review/request-info">
+    <p class="label">Request information — state what is needed</p>
+    <textarea name="requested_information" rows="3" placeholder="What the submitter must supply."></textarea>
+    <button type="submit">Return for information</button>
+  </form>
+{% else %}
+  <p class="none">
+    This case is <strong>{{ view.state.value }}</strong> and is not open for review.
+    {% if view.is_finalized %}A finalised case cannot be reopened.{% endif %}
+  </p>
+{% endif %}
+
+<p class="muted">
+  {{ view.audit_event_count }} audit events recorded ·
+  input digest <code>{{ view.input_sha256[:16] }}…</code> ·
+  request <code>{{ request_id }}</code>
+</p>
+<p class="muted">
+  Every action above posts to the API, which re-authenticates and re-authorises before
+  anything is written. This page enforces nothing.
+</p>
+
+</body>
+</html>

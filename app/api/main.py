@@ -19,6 +19,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from app.api.readiness import evaluate_readiness
+from app.api.reviewer_ui import router as ui_router
 from app.api.v1.errors import http_status_for, problem_response
 from app.api.v1.routes import router as v1_router
 from app.api.v1.security import parse_api_keys
@@ -137,6 +138,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return PlainTextResponse(generate_latest().decode(), media_type=CONTENT_TYPE_LATEST)
 
     application.include_router(v1_router)
+    # The reviewer UI. Registered after the API on purpose: it is a client of it, and
+    # it holds no authorization logic of its own.
+    application.include_router(ui_router)
     return application
 
 

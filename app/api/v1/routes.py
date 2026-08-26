@@ -29,22 +29,39 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.v1.schemas import (
+    AcceptRequest,
     AuditEventResponse,
     AuditTrailResponse,
     CaseResponse,
     CaseStatusResponse,
+    EvidenceRefResponse,
     EvidenceResponse,
+    OverrideRequest,
     RecommendationResponse,
+    RequestInformationRequest,
+    ReviewCaseResponse,
+    ReviewHistoryResponse,
     ReviewRequest,
     ReviewResponse,
     SubmitCaseRequest,
 )
 from app.api.v1.security import Caller, caller_from_headers, reviewer_from_headers
-from app.audit.models import AuditEventRow, CaseRow
+from app.audit.models import (
+    AuditEventRow,
+    CaseRow,
+    HumanReviewAction,
+    ReviewOutcome,
+)
 from app.case.lifecycle import CaseState, allowed_next
 from app.case.review import HumanReviewService
+from app.case.review_view import build_review_view
 from app.case.service import CaseService, CaseSubmission
-from app.identity.principal import Principal
+from app.identity.principal import Permission, Principal
+from app.identity.qualification import (
+    NOT_VERIFIED_NOTICE,
+    qualification_of,
+    verification_state,
+)
 
 router = APIRouter(prefix="/api/v1", tags=["cases"])
 
@@ -319,4 +336,208 @@ async def get_audit(
             for row in rows
         ),
         request_id=request_id,
+    )
+
+
+# --------------------------------------------------------------------------- review
+#
+# Three endpoints, not one with an `action` field. A reviewer accepting a recommendation
+# and a reviewer overriding it need different inputs and carry different authority, and
+# a single endpoint would have to validate "rationale required unless action == ACCEPT"
+# in prose. Here the requirement is the request model's shape.
+
+
+@router.get("/cases/{case_id}/review", response_model=ReviewCaseResponse)
+async def get_review_view(
+    case_id: str,
+    request: Request,
+    response: Response,
+    caller: CallerDep,
+    reviewer: ReviewerDep,
+    session: SessionDep,
+) -> ReviewCaseResponse:
+    """Everything a reviewer needs. **Nothing is re-run to produce it.**
+
+    Evidence comes from the audit events the original run emitted. Re-running retrieval
+    here would show today's corpus for yesterday's decision, under a heading that said
+    "supporting evidence".
+    """
+    request_id = request_id_for(request)
+    response.headers["x-medauth-request-id"] = request_id
+    reviewer.require(Permission.READ_CASE)
+
+    view = await build_review_view(session, case_id, caller_id=caller.caller_id)
+    return ReviewCaseResponse(
+        case_id=view.case_id,
+        state=view.state,
+        procedure_code=view.procedure_code,
+        code_system=view.code_system,
+        jurisdiction=view.jurisdiction,
+        date_of_service=_as_date(view.date_of_service),
+        input_sha256=view.input_sha256,
+        ai_recommendation=view.recommendation,
+        decision_rule=view.decision_rule,
+        abstention_reason=view.abstention_reason,
+        routing_explanation=view.routing_explanation,
+        policy_type=view.policy_type,
+        policy_id=view.policy_id,
+        policy_version=view.policy_version,
+        resolution_state=view.resolution_state,
+        resolution_reason=view.resolution_reason,
+        contradiction_state=view.contradiction_state,
+        provider_failure_kind=view.provider_failure_kind,
+        confidence_state=view.confidence_state,
+        recommended_at=view.recommended_at,
+        human_disposition=view.human_disposition,
+        disposition_by=view.disposition_by,
+        disposition_at=view.disposition_at,
+        reviewer_principal_id=reviewer.principal_id,
+        reviewer_qualification=qualification_of(reviewer),
+        qualification_state=verification_state(reviewer).value,
+        qualification_notice=NOT_VERIFIED_NOTICE,
+        evidence=tuple(
+            EvidenceRefResponse(chunk_id=e.chunk_id, criterion_ids=e.criterion_ids, stage=e.stage)
+            for e in view.evidence
+        ),
+        history=tuple(
+            ReviewHistoryResponse(
+                action=h.action,
+                outcome=h.outcome,
+                reviewer_principal_id=h.reviewer_principal_id,
+                identity_model=h.identity_model,
+                authentication_method=h.authentication_method,
+                rationale=h.rationale,
+                recommended_outcome_at_review=h.recommended_outcome_at_review,
+                created_at=h.created_at,
+            )
+            for h in view.history
+        ),
+        available_actions=view.available_actions,
+        audit_event_count=view.audit_event_count,
+        request_id=request_id,
+    )
+
+
+async def _record_review(
+    *,
+    case_id: str,
+    request: Request,
+    response: Response,
+    caller: Caller,
+    reviewer: Principal,
+    session: AsyncSession,
+    action: HumanReviewAction,
+    rationale: str | None,
+    override_outcome: ReviewOutcome | None,
+    stated_qualification: str,
+) -> ReviewResponse:
+    """One path to the service, shared by the three endpoints.
+
+    The endpoints differ in what they *accept*; they must not differ in what they
+    *record*, or the three would drift into three slightly different review semantics.
+    """
+    request_id = request_id_for(request)
+    response.headers["x-medauth-request-id"] = request_id
+    cases = CaseService(session)
+    event = await HumanReviewService(session, cases=cases).record(
+        case_id,
+        reviewer=reviewer,
+        caller_id=caller.caller_id,
+        request_id=request_id,
+        action=action,
+        rationale=rationale,
+        override_outcome=override_outcome,
+        stated_qualification=stated_qualification,
+    )
+    case = await cases.get(case_id, caller_id=caller.caller_id)
+    return ReviewResponse(
+        case_id=case_id,
+        action=action,
+        outcome=event.outcome,
+        reviewer_id=event.reviewer_id,
+        principal_type=str(event.principal_type),
+        authentication_method=str(event.authentication_method),
+        identity_model=event.identity_model,
+        recommended_outcome_at_review=event.recommended_outcome_at_review,
+        case_state=CaseState(case.state),
+        created_at=event.created_at,
+        request_id=request_id,
+    )
+
+
+@router.post("/cases/{case_id}/review/accept", response_model=ReviewResponse, status_code=201)
+async def accept_recommendation(
+    case_id: str,
+    body: AcceptRequest,
+    request: Request,
+    response: Response,
+    caller: CallerDep,
+    reviewer: ReviewerDep,
+    session: SessionDep,
+) -> ReviewResponse:
+    """Adopt the engine's recommendation as the human disposition."""
+    return await _record_review(
+        case_id=case_id,
+        request=request,
+        response=response,
+        caller=caller,
+        reviewer=reviewer,
+        session=session,
+        action=HumanReviewAction.APPROVE,
+        rationale=body.comment,
+        override_outcome=None,
+        stated_qualification=body.stated_qualification,
+    )
+
+
+@router.post("/cases/{case_id}/review/override", response_model=ReviewResponse, status_code=201)
+async def override_recommendation(
+    case_id: str,
+    body: OverrideRequest,
+    request: Request,
+    response: Response,
+    caller: CallerDep,
+    reviewer: ReviewerDep,
+    session: SessionDep,
+) -> ReviewResponse:
+    """Decide against the engine. Requires `OVERRIDE_RECOMMENDATION` and a rationale.
+
+    The engine's recommendation is **not** edited. This appends beside it.
+    """
+    return await _record_review(
+        case_id=case_id,
+        request=request,
+        response=response,
+        caller=caller,
+        reviewer=reviewer,
+        session=session,
+        action=HumanReviewAction.OVERRIDE,
+        rationale=body.rationale,
+        override_outcome=body.override_outcome,
+        stated_qualification=body.stated_qualification,
+    )
+
+
+@router.post("/cases/{case_id}/review/request-info", response_model=ReviewResponse, status_code=201)
+async def request_information(
+    case_id: str,
+    body: RequestInformationRequest,
+    request: Request,
+    response: Response,
+    caller: CallerDep,
+    reviewer: ReviewerDep,
+    session: SessionDep,
+) -> ReviewResponse:
+    """Return the case to the submitter with a stated request."""
+    return await _record_review(
+        case_id=case_id,
+        request=request,
+        response=response,
+        caller=caller,
+        reviewer=reviewer,
+        session=session,
+        action=HumanReviewAction.REQUEST_INFO,
+        rationale=body.requested_information,
+        override_outcome=None,
+        stated_qualification=body.stated_qualification,
     )

@@ -123,6 +123,8 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [evaluation/r86-closure-gate.md](evaluation/r86-closure-gate.md) — **the partial fix that would have passed**, and the rule that stops it
 - [engineering/parallel-track-assessment.md](engineering/parallel-track-assessment.md) — what exists, what does not, and what R-86 actually blocks
 - [architecture/audit-trail.md](architecture/audit-trail.md) — **append-only by trigger, because the grants were inert**
+- [architecture/hitl-workflow.md](architecture/hitl-workflow.md) — **why it is here comes before what was proposed**; identity, qualification and competence kept apart
+- [evaluation/human-review-metrics.md](evaluation/human-review-metrics.md) — defined before any data, and **no values reported**
 - [security/reviewer-authentication.md](security/reviewer-authentication.md) — **two identities, and an API key is never a reviewer** (OD-43)
 - [architecture/application-lifecycle.md](architecture/application-lifecycle.md) — **a recommendation is not a disposition**, proven end to end with no live provider
 - [architecture/phase-history-reconciliation.md](architecture/phase-history-reconciliation.md) — one canonical chronology; historical reports are **not** renamed
