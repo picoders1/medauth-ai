@@ -244,8 +244,19 @@ def test_langgraph_is_confined_to_the_graph_package() -> None:
 
 
 # --------------------------------------------------------------------------- 6
-def test_app_does_not_import_the_evaluation_harness() -> None:
+#: Roots production may never import. `tests` is here so a fixture gateway cannot
+#: become a production code path - see the docstring below.
+FORBIDDEN_ROOTS = frozenset({"eval", "scripts", "tests"})
+
+
+def test_app_does_not_import_the_evaluation_harness_or_the_test_doubles() -> None:
     """`eval/` and `scripts/` may construct semantics production must refuse.
+
+    `tests/` is on the same list, and for a sharper reason: `tests/support_slice.py`
+    holds `FakeGateway`, which returns whatever a caller tells it to. A production
+    module that imported it could produce a fully-formed recommendation with no model,
+    no retrieval and no firewall involved - and every downstream check would pass,
+    because the shape would be perfect. The rule is what keeps the fixture a fixture.
 
     `eval/replay.py` builds the assumed conjunction gold_v1's labels were computed
     under - the behaviour Phase 5 removed from production. It lives outside `app/`
@@ -255,10 +266,10 @@ def test_app_does_not_import_the_evaluation_harness() -> None:
     and an approval.
     """
     for module in MODULES:
-        offenders = {i for i in module.imports if i.split(".")[0] in {"eval", "scripts"}}
+        offenders = {i for i in module.imports if i.split(".")[0] in FORBIDDEN_ROOTS}
         assert not offenders, (
-            f"{module.rel} imports {sorted(offenders)}. The evaluation harness is "
-            "not importable from production code."
+            f"{module.rel} imports {sorted(offenders)}. Neither the evaluation "
+            "harness nor the test doubles are importable from production code."
         )
 
 

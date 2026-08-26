@@ -143,21 +143,23 @@ def _provider_failure_from(outcome: SliceOutcome) -> tuple[str | None, str | Non
     return None, None
 
 
-def _state_for(outcome: Outcome) -> CaseState:
-    """Where a decided case goes. Total over `Outcome` by construction.
+#: Outcomes that are a definitive clinical draft: an approval or a denial. Both are
+#: recommendations FOR A HUMAN, which is why neither can finish on its own.
+_DEFINITIVE = frozenset({Outcome.APPROVE_RECOMMENDED, Outcome.DENY_RECOMMENDED})
 
-    A denial draft routes to a **person**, not to a finished state. That is the row-5
-    ordering of the decision table showing up in the lifecycle: this system produces a
-    recommendation for a human, and `DENY_RECOMMENDED` is the case where that matters
-    most.
+
+def _state_for(outcome: Outcome) -> CaseState:
+    """Where a completed run leaves the case, before routing.
+
+    `NEEDS_INFO` is a question for the **submitter** - row 6, "the note does not say" -
+    and stops here. Everything else goes on to a person via `_route_for_review`.
     """
-    if outcome in _ROUTE_TO_HUMAN:
-        return CaseState.HUMAN_REVIEW
     if outcome is Outcome.NEEDS_INFO:
         return CaseState.NEEDS_INFO
-    if outcome is Outcome.DENY_RECOMMENDED:
-        return CaseState.HUMAN_REVIEW
-    return CaseState.RECOMMENDATION_READY
+    if outcome in _DEFINITIVE:
+        return CaseState.RECOMMENDATION_READY
+    # HUMAN_REVIEW and NO_DECISION are already a person's problem.
+    return CaseState.HUMAN_REVIEW
 
 
 class CaseService:
@@ -350,12 +352,34 @@ class CaseService:
         target = _state_for(recommendation.outcome)
         case.state = require_transition(CaseState(case.state), target)
         case.updated_at = datetime.now(UTC)
+
+        # A definitive draft is then ROUTED, as a second transition with its own event.
+        #
+        # RECOMMENDATION_READY was a dead end in the first version of this service: the
+        # state existed, the graph allowed RECOMMENDATION_READY -> HUMAN_REVIEW, and no
+        # code path ever took it. An approval or a denial would have been stranded -
+        # unreviewable, and therefore unfinalisable. Found by writing the end-to-end
+        # test, which is the only thing that would have found it.
+        #
+        # Two transitions rather than one, because they are two facts: the engine
+        # concluded, and then the case was put in front of a person. A reader of the
+        # trail can see both.
+        if target is CaseState.RECOMMENDATION_READY:
+            case.state = require_transition(CaseState(case.state), CaseState.HUMAN_REVIEW)
+            target = CaseState.HUMAN_REVIEW
+
         if target is CaseState.HUMAN_REVIEW:
             writer.record(
                 EventType.HUMAN_REVIEW_REQUESTED,
                 stage="route",
                 outcome=recommendation.outcome.value,
-                payload={"reason": "routed by outcome"},
+                payload={
+                    "reason": (
+                        "definitive draft requires a human"
+                        if recommendation.outcome in _DEFINITIVE
+                        else "abstention or provider failure"
+                    )
+                },
             )
         await self._session.commit()
         return case

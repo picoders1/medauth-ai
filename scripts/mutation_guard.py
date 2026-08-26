@@ -331,6 +331,51 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- application lifecycle: a recommendation is not a disposition ---------
+    Mutation(
+        # The edge that must not exist. Adding it makes this a system that issues
+        # determinations rather than recommendations for a human.
+        name="a-recommendation-can-finalize-itself",
+        rule="RECOMMENDATION_READY must not reach FINALIZED without a human",
+        path="app/case/lifecycle.py",
+        old="    CaseState.RECOMMENDATION_READY: frozenset({CaseState.HUMAN_REVIEW, CaseState.FAILED}),",
+        new=(
+            "    CaseState.RECOMMENDATION_READY: frozenset(  # MUTATION\n"
+            "        {CaseState.HUMAN_REVIEW, CaseState.FINALIZED, CaseState.FAILED}\n"
+            "    ),"
+        ),
+        tests="tests/unit/test_case_lifecycle.py",
+        keyword="disposition",
+    ),
+    Mutation(
+        # A finalised case that can be reopened is a decision that can be quietly
+        # replaced by a second reviewer.
+        name="a-finalized-case-can-be-reopened",
+        rule="FINALIZED and FAILED are terminal",
+        path="app/case/lifecycle.py",
+        old="    CaseState.FINALIZED: frozenset(),",
+        new="    CaseState.FINALIZED: frozenset({CaseState.HUMAN_REVIEW}),  # MUTATION",
+        tests="tests/unit/test_case_lifecycle.py",
+        keyword="terminal",
+    ),
+    Mutation(
+        # The fixture gateway reachable from production: a fully-formed recommendation
+        # with no model, no retrieval and no firewall, and every downstream check green.
+        # Mutates the PRODUCTION file, not the rule's own constant. Weakening
+        # FORBIDDEN_ROOTS was the first attempt and it SURVIVED - nothing in app/
+        # imports tests/, so a laxer rule still passes. A rule is defended by the
+        # violation failing, not by the rule being present.
+        name="production-imports-the-fixture-gateway",
+        rule="app/ may not import tests/ - the fixture must stay a fixture",
+        path="app/case/service.py",
+        old="from app.core.errors import MedauthError",
+        new=(
+            "from app.core.errors import MedauthError\n"
+            "from tests.support_slice import FakeGateway  # MUTATION"
+        ),
+        tests="tests/unit/test_layer_boundaries.py",
+        keyword="doubles",
+    ),
     # -- R-86 temperature perturbation: only one variable may differ ---------
     Mutation(
         # The way the registered reproducer could silently start running at a
