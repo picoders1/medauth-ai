@@ -331,6 +331,45 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- IdP integration: discovery is tied to the issuer, production is asymmetric
+    Mutation(
+        # The key-discovery attack: trust a jwks_uri from a document you have not tied
+        # to your expected issuer, and an attacker chooses your signing keys.
+        name="discovery-document-issuer-not-checked",
+        rule="a discovery document must advertise the issuer it was fetched for",
+        path="app/identity/authenticator.py",
+        old='    if advertised.rstrip("/") != issuer.rstrip("/"):',
+        new="    if False:  # MUTATION",
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="advertising_another_issuer",
+    ),
+    Mutation(
+        # Production accepting a symmetric signing secret: the verifier holds the key
+        # that signs, so whoever holds the config can mint a reviewer token - recorded
+        # in the audit trail as a verified human identity.
+        name="production-accepts-a-symmetric-signing-secret",
+        rule="production must verify reviewer tokens asymmetrically",
+        path="app/config/settings.py",
+        old='        if self.auth_mode == "oidc" and self.oidc_secret.get_secret_value():',
+        new="        if False:  # MUTATION",
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="symmetric_signing_secret",
+    ),
+    Mutation(
+        # Discovery failing open: an authenticator that degraded when its key source
+        # was unreachable would be least trustworthy exactly when something was wrong.
+        name="discovery-failure-falls-back-to-a-symmetric-secret",
+        rule="a discovery failure refuses reviews rather than degrading",
+        path="app/identity/wiring.py",
+        old="            except DiscoveryFailed:\n                return None",
+        new="            except DiscoveryFailed:\n                jwks_url = None  # MUTATION",
+        # SURVIVED with keyword "refuses_rather_than_degrading": that test configured
+        # no secret, so there was nothing to fall back TO and the mutation was
+        # equivalent. The dangerous combination is a failed discovery beside a
+        # configured secret, and nothing covered it.
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="fall_back_to_a_symmetric_secret",
+    ),
     # -- HITL workflow: a draft is not a decision, a claim is not a credential
     Mutation(
         # The interface undoing the architecture: one field, and a UI renders the

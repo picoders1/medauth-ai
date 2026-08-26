@@ -94,7 +94,13 @@ class Settings(BaseSettings):
     oidc_issuer: str = ""
     oidc_audience: str = ""
     oidc_jwks_url: str = ""
-    #: Symmetric alternative to a JWKS endpoint, for tests and small deployments.
+    #: Read `jwks_uri` from the provider's `.well-known/openid-configuration` instead of
+    #: configuring it by hand. Keeps a deployment provider-neutral: an issuer, and
+    #: nothing vendor-specific.
+    oidc_discovery: bool = True
+    #: Symmetric (HS256) verification. **Tests only** - the verifier holds the key that
+    #: signs, so anyone with this configuration can mint a reviewer token. Production
+    #: refuses it below.
     oidc_secret: SecretStr = SecretStr("")
     database_command_timeout_seconds: float = 5.0
 
@@ -190,6 +196,21 @@ class Settings(BaseSettings):
             failures.append(
                 "auth_mode=oidc without an issuer and an audience: a token would be "
                 "verified against nothing in particular"
+            )
+        if self.auth_mode == "oidc" and self.oidc_secret.get_secret_value():
+            # HS256 means the verifier holds the signing key. Anyone with this config
+            # can mint a valid reviewer token, which is a shared password rather than
+            # authentication - and it would be recorded in the audit trail as a
+            # verified human identity.
+            failures.append(
+                "oidc_secret is set: symmetric verification means whoever holds this "
+                "configuration can mint a reviewer token. Production must verify "
+                "asymmetrically, via discovery or an explicit JWKS endpoint"
+            )
+        if self.auth_mode == "oidc" and not (self.oidc_discovery or self.oidc_jwks_url):
+            failures.append(
+                "auth_mode=oidc with neither discovery nor a JWKS endpoint: there is "
+                "no public key to verify a signature against"
             )
         if not self.llm_api_key.get_secret_value():
             failures.append(

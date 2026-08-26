@@ -18,8 +18,10 @@ from app.config.settings import Settings
 from app.identity.authenticator import (
     _PERMISSION_FOR_ROLE,
     Authenticator,
+    DiscoveryFailed,
     OidcAuthenticator,
     StaticAuthenticator,
+    discover,
 )
 from app.identity.principal import (
     AuthenticationMethod,
@@ -62,13 +64,36 @@ def build_authenticator(settings: Settings) -> Authenticator | None:
         secret = settings.oidc_secret.get_secret_value()
         if not settings.oidc_issuer or not settings.oidc_audience:
             return None
-        if not settings.oidc_jwks_url and not secret:
+
+        jwks_url = settings.oidc_jwks_url or None
+        # Discovery is attempted whenever it is enabled and no endpoint is pinned -
+        # **regardless of whether a secret is configured**.
+        #
+        # The first version guarded this with `and not secret`, which meant a
+        # configured secret skipped discovery entirely and went straight to symmetric
+        # verification. A deployment that set both would silently downgrade from
+        # provider verification to a shared password, and every review would still
+        # succeed. Found by the test written for the mutation that survived here.
+        if not jwks_url and settings.oidc_discovery:
+            # Provider-neutral: the issuer is the only thing configured, and the
+            # jwks_uri comes from the provider's own document.
+            #
+            # A discovery failure returns None, which means reviews are refused. It
+            # does NOT fall back to a laxer verifier: an authenticator that degraded
+            # when its key source was unreachable would be least trustworthy exactly
+            # when something was wrong.
+            try:
+                jwks_url = discover(settings.oidc_issuer)
+            except DiscoveryFailed:
+                return None
+
+        if not jwks_url and not secret:
             return None
         return OidcAuthenticator(
             issuer=settings.oidc_issuer,
             audience=settings.oidc_audience,
-            jwks_url=settings.oidc_jwks_url or None,
-            secret=secret or None,
+            jwks_url=jwks_url,
+            secret=None if jwks_url else secret,
         )
 
     reviewers = parse_dev_reviewers(settings.dev_reviewers.get_secret_value())

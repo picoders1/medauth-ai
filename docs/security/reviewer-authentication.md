@@ -131,7 +131,68 @@ UI  →  OIDC/OAuth2 login  →  access token
 
 The UI never sends a reviewer identity. It sends a token, and the token decides.
 
-## 12. What this does NOT establish
+## 12. Identity-provider integration — and what "integrated" means here
+
+**No provider is named by this project.** No ADR chose one, and this phase did not.
+`discover()` reads the standard `.well-known/openid-configuration` document, so a
+deployment configures an **issuer** and nothing vendor-specific. Any conformant OIDC
+provider works.
+
+```
+MEDAUTH_OIDC_ISSUER      → .well-known/openid-configuration → jwks_uri → PyJWKClient
+MEDAUTH_OIDC_AUDIENCE    → audience check
+MEDAUTH_OIDC_DISCOVERY   → true (default)
+```
+
+**The discovery document must advertise the issuer it was fetched for.** A document
+claiming a different issuer is either misconfiguration or an attacker redirecting key
+discovery, and both are refused — trusting a `jwks_uri` you have not tied to your
+expected issuer is how discovery becomes the attack.
+
+**Discovery is fetched at startup, not per request.** A discovery call on the
+authentication path would make every review depend on the provider's availability and
+would point a request amplifier at somebody else's service.
+
+**A discovery failure refuses reviews. It never degrades.** Not to a symmetric secret,
+not to the API key. An authenticator that got laxer when its key source was unreachable
+would be least trustworthy exactly when something was wrong.
+
+**Key rotation** is `PyJWKClient`'s: an unknown `kid` triggers a refetch, so a rotation
+does not need a restart. Asserted over the library's own source, because a wrong
+assumption here fails only *during* a rotation — when every reviewer is locked out and
+nobody knows why.
+
+### A weakness this phase found and closed
+
+Production started happily with `MEDAUTH_OIDC_SECRET` set. HS256 means the **verifier
+holds the key that signs**: anyone with the application's configuration could mint a
+reviewer token, and the audit trail would record it as a verified human identity. That
+is a shared password with extra steps.
+
+Production now refuses to start with it, and refuses `auth_mode=oidc` with neither
+discovery nor a JWKS endpoint — there would be no public key to verify against. Both
+fail at startup. The symmetric path survives for tests, which need no key server.
+
+### Readiness
+
+`reviewer_identity` is a **REQUIRED** readiness check, not advisory. A deployment that
+cannot authenticate a reviewer cannot finalise any case, and every case ends at a human —
+so it is a stopped system, not a degraded one. It reports the mechanism, never a
+credential.
+
+### Four claims that are not the same claim
+
+| | status |
+|---|---|
+| provider integration **implemented** | **yes** — discovery, validation, rotation, tests |
+| provider configuration **verified against a real IdP** | **no** — no issuer has been pointed at a live provider |
+| deployment **performed** | **no** |
+| **production-ready** | **no** — see the row above and §13 |
+
+Local integration working is not enterprise SSO deployed, and this document does not
+say it is.
+
+## 13. What this does NOT establish
 
 - **No enterprise SSO is deployed.** The OIDC adapter is implemented and tested against
   a symmetric key and a JWKS client, and **no real identity provider is integrated**.

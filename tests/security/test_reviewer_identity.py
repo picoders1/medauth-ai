@@ -331,6 +331,10 @@ def client() -> Iterator[TestClient]:
         auth_mode="oidc",
         oidc_issuer=ISSUER,
         oidc_audience=AUDIENCE,
+        # Discovery OFF, explicitly: the symmetric path is the test path, and it is
+        # only reachable when discovery is disabled. A fixture that left discovery on
+        # would try to reach a non-existent issuer and get no authenticator at all.
+        oidc_discovery=False,
         oidc_secret=SECRET,
     )
     application = create_app(settings)
@@ -455,3 +459,240 @@ def test_the_static_adapter_runs_the_same_authorization_path() -> None:
         principal.require(Permission.REVIEW_CASE)
     with pytest.raises(NotAuthenticated):
         adapter.authenticate("tok-unknown")
+
+
+# --------------------------------------------------------------------------- 5
+# Real provider integration: discovery, rotation, and asymmetric-only production
+# ---------------------------------------------------------------------------
+
+
+def _discovery_document(issuer: str = ISSUER, **overrides: object) -> dict[str, object]:
+    document: dict[str, object] = {
+        "issuer": issuer,
+        "jwks_uri": f"{issuer}/protocol/openid-connect/certs",
+        "authorization_endpoint": f"{issuer}/auth",
+        "token_endpoint": f"{issuer}/token",
+    }
+    document.update(overrides)
+    return document
+
+
+def test_discovery_returns_the_advertised_jwks_uri(respx_mock: object) -> None:
+    """Provider-neutral: a deployment configures an issuer and nothing vendor-specific.
+
+    No ADR in this repository names an identity provider, and this phase does not
+    choose one. The `.well-known` document is the standard that makes that possible.
+    """
+    import httpx
+    import respx
+
+    from app.identity.authenticator import discover
+
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(f"{ISSUER}/.well-known/openid-configuration").mock(
+            return_value=httpx.Response(200, json=_discovery_document())
+        )
+        assert discover(ISSUER) == f"{ISSUER}/protocol/openid-connect/certs"
+
+
+def test_a_discovery_document_advertising_another_issuer_is_refused() -> None:
+    """**The key-discovery attack.**
+
+    A document that advertises a different issuer is either misconfiguration or an
+    attacker redirecting key discovery. Trusting a `jwks_uri` from a document you have
+    not tied to your expected issuer is how discovery becomes the attack.
+    """
+    import httpx
+    import respx
+
+    from app.identity.authenticator import DiscoveryFailed, discover
+
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(f"{ISSUER}/.well-known/openid-configuration").mock(
+            return_value=httpx.Response(
+                200,
+                json=_discovery_document(
+                    issuer="https://evil.test/", jwks_uri="https://evil.test/certs"
+                ),
+            )
+        )
+        with pytest.raises(DiscoveryFailed, match="advertises issuer"):
+            discover(ISSUER)
+
+
+def test_discovery_failure_refuses_rather_than_degrading() -> None:
+    """An authenticator that fell back when its key source was unreachable would be
+    least trustworthy exactly when something was wrong."""
+    import httpx
+    import respx
+
+    from app.config.settings import Settings
+    from app.identity.authenticator import DiscoveryFailed, discover
+    from app.identity.wiring import build_authenticator
+
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(f"{ISSUER}/.well-known/openid-configuration").mock(
+            return_value=httpx.Response(503)
+        )
+        with pytest.raises(DiscoveryFailed):
+            discover(ISSUER)
+
+        settings = Settings(  # type: ignore[call-arg]
+            _env_file=None,
+            auth_mode="oidc",
+            oidc_issuer=ISSUER,
+            oidc_audience=AUDIENCE,
+            oidc_discovery=True,
+        )
+        # None means reviews are refused outright - never that the API key stands in.
+        assert build_authenticator(settings) is None
+
+
+def test_discovery_failure_does_not_fall_back_to_a_symmetric_secret() -> None:
+    """**The dangerous combination**, which the first version of these tests missed.
+
+    Discovery failing on its own is safe: with no other key source the authenticator is
+    simply `None`. The risk is discovery failing while a symmetric secret *is*
+    configured - a deployment could then silently downgrade from asymmetric provider
+    verification to a shared password, and every review would still succeed.
+
+    A mutation setting `jwks_url = None` instead of returning survived until this test
+    existed, because the earlier case had no secret to fall back to.
+    """
+    import httpx
+    import respx
+
+    from app.config.settings import Settings
+    from app.identity.wiring import build_authenticator
+
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(f"{ISSUER}/.well-known/openid-configuration").mock(
+            return_value=httpx.Response(503)
+        )
+        settings = Settings(  # type: ignore[call-arg]
+            _env_file=None,
+            auth_mode="oidc",
+            oidc_issuer=ISSUER,
+            oidc_audience=AUDIENCE,
+            oidc_discovery=True,
+            oidc_secret=SECRET,  # present, and must NOT rescue a failed discovery
+        )
+        assert build_authenticator(settings) is None, (
+            "a failed discovery silently downgraded to symmetric verification"
+        )
+
+
+def test_a_configured_secret_alone_still_works_for_tests() -> None:
+    """The positive control: the secret path is not simply broken.
+
+    Without this, the assertion above would pass against an authenticator that could
+    never be built at all.
+    """
+    from app.config.settings import Settings
+    from app.identity.authenticator import OidcAuthenticator
+    from app.identity.wiring import build_authenticator
+
+    settings = Settings(  # type: ignore[call-arg]
+        _env_file=None,
+        auth_mode="oidc",
+        oidc_issuer=ISSUER,
+        oidc_audience=AUDIENCE,
+        oidc_discovery=False,
+        oidc_secret=SECRET,
+    )
+    built = build_authenticator(settings)
+    assert isinstance(built, OidcAuthenticator)
+    assert built.authenticate(token()).principal_id == "dr-alice"
+
+
+def test_a_document_with_no_jwks_uri_is_refused() -> None:
+    import httpx
+    import respx
+
+    from app.identity.authenticator import DiscoveryFailed, discover
+
+    with respx.mock(assert_all_called=False) as mock:
+        mock.get(f"{ISSUER}/.well-known/openid-configuration").mock(
+            return_value=httpx.Response(200, json={"issuer": ISSUER})
+        )
+        with pytest.raises(DiscoveryFailed, match="no jwks_uri"):
+            discover(ISSUER)
+
+
+def test_production_refuses_a_symmetric_signing_secret() -> None:
+    """**A weakness this phase found and closed.**
+
+    Production started happily with `oidc_secret` set. HS256 means the verifier holds
+    the key that signs, so anyone with the application's configuration could mint a
+    reviewer token - and the audit trail would record it as a verified human identity.
+    That is a shared password with extra steps, not authentication.
+    """
+    from app.core.errors import ConfigurationError
+
+    with pytest.raises(ConfigurationError, match="oidc_secret"):
+        Settings(  # type: ignore[call-arg]
+            _env_file=None,
+            environment="production",
+            llm_api_key="x",
+            api_keys="k:c",
+            trusted_proxies="10.0.0.0/8",
+            auth_mode="oidc",
+            oidc_issuer=ISSUER,
+            oidc_audience=AUDIENCE,
+            oidc_secret=SECRET,
+        )
+
+
+def test_production_refuses_oidc_with_no_key_source() -> None:
+    from app.core.errors import ConfigurationError
+
+    with pytest.raises(ConfigurationError, match="no public key"):
+        Settings(  # type: ignore[call-arg]
+            _env_file=None,
+            environment="production",
+            llm_api_key="x",
+            api_keys="k:c",
+            trusted_proxies="10.0.0.0/8",
+            auth_mode="oidc",
+            oidc_issuer=ISSUER,
+            oidc_audience=AUDIENCE,
+            oidc_discovery=False,
+        )
+
+
+def test_production_starts_with_discovery_so_the_refusals_are_not_vacuous() -> None:
+    """The positive control. A validator that refused everything would pass every
+    refusal test above and make production unstartable."""
+    settings = Settings(  # type: ignore[call-arg]
+        _env_file=None,
+        environment="production",
+        llm_api_key="x",
+        api_keys="k:c",
+        trusted_proxies="10.0.0.0/8",
+        auth_mode="oidc",
+        oidc_issuer=ISSUER,
+        oidc_audience=AUDIENCE,
+        oidc_discovery=True,
+    )
+    assert settings.is_production
+    assert not settings.oidc_secret.get_secret_value()
+
+
+def test_an_unknown_signing_key_triggers_a_refetch_not_a_refusal() -> None:
+    """Key rotation, verified rather than assumed.
+
+    `PyJWKClient` refetches the key set when a token's `kid` is not cached, which is
+    what makes rotation work without a restart. Asserted over the library's own source
+    because a wrong assumption here fails only during a rotation - at which point every
+    reviewer is locked out and nobody knows why.
+    """
+    import inspect
+
+    from jwt.jwks_client import PyJWKClient
+
+    source = inspect.getsource(PyJWKClient.get_signing_key)
+    assert "refresh" in source or "fetch_data" in source, (
+        "PyJWKClient no longer refetches on an unknown kid; rotation would lock out "
+        "every reviewer until a restart"
+    )
+    assert "lifespan" in inspect.getsource(PyJWKClient.__init__)

@@ -79,7 +79,16 @@ async def test_a_raising_probe_becomes_a_failed_check_not_a_failed_request() -> 
     """`/ready` must stay answerable when a dependency is down - that is its job."""
     report = await evaluate_readiness(settings=_settings(), policy=None, engine=None)
     names = {c.name for c in report.checks}
-    assert names == {"configuration", "decision_policy", "database", "llm_firewall"}
+    # `reviewer_identity` joined the set: a deployment that cannot authenticate a
+    # reviewer cannot finalise any case, and every case ends at a human - so it is
+    # REQUIRED rather than advisory, unlike the model path.
+    assert names == {
+        "configuration",
+        "decision_policy",
+        "database",
+        "llm_firewall",
+        "reviewer_identity",
+    }
     assert not report.ready  # decision_policy is required and was not loaded
 
 

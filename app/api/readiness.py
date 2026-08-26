@@ -88,6 +88,7 @@ async def evaluate_readiness(
     policy: DecisionPolicy | None,
     engine: AsyncEngine | None,
     llm_probe_url: str | None = None,
+    authenticator: object | None = None,
 ) -> ReadinessReport:
     """Evaluate every readiness check concurrently."""
 
@@ -120,6 +121,23 @@ async def evaluate_readiness(
             raise RuntimeError(f"health returned {response.status_code}")
         return "reachable"
 
+    async def reviewer_identity() -> str:
+        """Whether a human reviewer could authenticate at all.
+
+        **REQUIRED**, unlike the model path. A deployment that cannot authenticate a
+        reviewer cannot finalise a case, and every case ends at a human - so this is not
+        a degraded mode, it is a stopped one. Reporting READY while no review could be
+        recorded would be the readiness endpoint lying about the thing it exists for.
+
+        Reports the *mechanism*, never a credential, an issuer secret or a token.
+        """
+        if authenticator is None:
+            raise RuntimeError("no human authenticator is configured; reviews would be refused")
+        mechanism = type(authenticator).__name__
+        if settings.auth_mode == "oidc":
+            return f"{mechanism}, issuer configured, discovery={settings.oidc_discovery}"
+        return f"{mechanism} (development adapter; refused in production)"
+
     database_requirement = Requirement.REQUIRED if settings.audit_required else Requirement.ADVISORY
 
     checks = await asyncio.gather(
@@ -129,5 +147,6 @@ async def evaluate_readiness(
         # Advisory on purpose: a model-path outage must not take the reviewer
         # console down with it.
         _guarded("llm_firewall", Requirement.ADVISORY, llm_firewall),
+        _guarded("reviewer_identity", Requirement.REQUIRED, reviewer_identity),
     )
     return ReadinessReport(checks=tuple(checks))

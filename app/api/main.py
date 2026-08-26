@@ -122,6 +122,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             settings=request.app.state.settings,
             policy=getattr(request.app.state, "policy", None),
             engine=getattr(request.app.state, "engine", None),
+            authenticator=getattr(request.app.state, "authenticator", None),
         )
         return JSONResponse(status_code=report.status_code, content=report.as_dict())
 

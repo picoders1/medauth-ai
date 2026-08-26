@@ -26,6 +26,25 @@ identity provider controls; `_PERMISSION_FOR_ROLE` maps known role names onto
 permissions and **ignores anything it does not recognise**. A token asserting
 `"permissions": ["FINALIZE_CASE"]` grants nothing, because that claim is never consulted.
 
+## Discovery keeps this provider-neutral
+
+No ADR in this repository names an identity provider, and this phase does not choose
+one. `discover()` reads the standard `.well-known/openid-configuration` document and
+takes the `jwks_uri` from it, so a deployment configures an **issuer** and nothing
+vendor-specific. Any conformant OIDC provider works; none is named in code.
+
+The discovery document's own `issuer` must equal the configured one. A document that
+advertises a different issuer is either misconfiguration or an attacker redirecting key
+discovery, and both are refused - trusting a `jwks_uri` from a document you have not
+tied to your expected issuer is how key discovery becomes the attack.
+
+## Symmetric secrets are for tests, never for production
+
+`secret` verifies HS256, where the **verifier holds the key that signs**. Anyone with the
+application's configuration can mint a valid reviewer token, which is not authentication -
+it is a shared password with extra steps. It exists so tests need no key server.
+`Settings` refuses it in production; a test asserts the refusal.
+
 ## Development is refused in production
 
 `StaticAuthenticator` is constructible anywhere, but `Settings` refuses
@@ -40,6 +59,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any, Protocol
 
+import httpx
 import jwt
 from jwt import PyJWKClient
 
@@ -53,9 +73,11 @@ from app.identity.principal import (
 
 __all__ = [
     "Authenticator",
+    "DiscoveryFailed",
     "NotAuthenticated",
     "OidcAuthenticator",
     "StaticAuthenticator",
+    "discover",
 ]
 
 
@@ -86,6 +108,38 @@ _PERMISSION_FOR_ROLE: dict[str, frozenset[Permission]] = {
 #: Signature algorithms accepted. `none` is absent, and its absence is the mechanism -
 #: the classic JWT attack is a token whose header asks for it.
 _ALGORITHMS = ("RS256", "ES256", "HS256")
+
+
+class DiscoveryFailed(MedauthError):
+    """The provider's configuration document could not be used."""
+
+
+def discover(issuer: str, *, timeout_seconds: float = 5.0) -> str:
+    """Return the provider's `jwks_uri`, or raise. Provider-neutral by construction.
+
+    Fetched at startup rather than per request: a discovery call on the authentication
+    path would make every review depend on the provider's availability, and would be a
+    request amplifier pointed at somebody else's service.
+    """
+    url = f"{issuer.rstrip('/')}/.well-known/openid-configuration"
+    try:
+        response = httpx.get(url, timeout=timeout_seconds)
+        response.raise_for_status()
+        document = response.json()
+    except Exception as failure:
+        raise DiscoveryFailed(f"could not read {url}: {type(failure).__name__}") from failure
+
+    advertised = str(document.get("issuer") or "")
+    if advertised.rstrip("/") != issuer.rstrip("/"):
+        # The classic key-discovery attack: a document that points elsewhere.
+        raise DiscoveryFailed(
+            f"the discovery document advertises issuer {advertised!r}, not the "
+            f"configured {issuer!r}; a jwks_uri from an untied document is not trusted"
+        )
+    jwks_uri = str(document.get("jwks_uri") or "")
+    if not jwks_uri:
+        raise DiscoveryFailed(f"{url} advertises no jwks_uri")
+    return jwks_uri
 
 
 class Authenticator(Protocol):
