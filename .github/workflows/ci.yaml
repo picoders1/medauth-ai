@@ -80,7 +80,19 @@ jobs:
 
       - name: No compliance claims
         run: |
+          # `ci.yaml` and the test that ENFORCES this rule are both exempt: each has
+          # to quote the banned phrases in order to ban them. The exemption is by
+          # filename, not by a marker heuristic, because a bare list entry
+          # (`"hipaa compliant",`) carries no surrounding prose to match on - which is
+          # exactly why this guard had been failing since Phase 3, unnoticed until the
+          # branch was first pushed.
+          #
+          # `test_ground_truth_integrity.py` does the contextual version of this check
+          # properly: it requires a prohibiting marker within a window of the phrase.
+          # This grep is the cruder outer net over everything else.
           if grep -rIn -iE 'hipaa[ -]compliant|compliant with hipaa' \
-             --exclude-dir=.git --exclude=ci.yaml . | grep -vE 'never write|refused|Refused|must not'; then
+             --exclude-dir=.git --exclude=ci.yaml \
+             --exclude=test_ground_truth_integrity.py . \
+             | grep -vE 'never write|refused|Refused|must not'; then
             echo "::error::a compliance claim is present"; exit 1
           fi
