@@ -12,7 +12,12 @@ services:
       context: .
       dockerfile: deploy/docker/api.Dockerfile
     ports:
-      - "8010:8010"
+      # Host 8015 -> container 8010. Only the PUBLISHED port moved; 8010 is now
+      # taken by another application on the reference machine. The container is
+      # unchanged internally - the Dockerfile's EXPOSE, its healthcheck and the
+      # uvicorn bind all still use 8010, and nothing inside the network needs to
+      # know. Same host != container shape postgres already uses below.
+      - "8015:8010"
     environment:
       MEDAUTH_ENVIRONMENT: development
       MEDAUTH_DATABASE_URL: postgresql+asyncpg://medauth:medauth@postgres:5432/medauth

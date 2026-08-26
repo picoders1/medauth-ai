@@ -30,12 +30,27 @@ no cluster.
 
 ### Local — `compose.yaml`
 
-API on **8010**, PostgreSQL + pgvector on **5435**, UI on **3100**. Optional overlays:
+API published on **8015**, PostgreSQL + pgvector on **5435**, UI on **3100**. Optional overlays:
 `compose.observability.yaml` (Prometheus **9092**), `compose.langfuse.yaml` (**3200**). The firewall
 is consumed at **8005** and is not started by this stack.
 
 Ports avoid everything bound on the reference machine (3000, 5000, 5433, 5434, 5678, 8005, 8006,
-8080–8082, 8089, 9001, 9004, 9005, 9091).
+8010, 8080–8082, 8089, 9001, 9004, 9005, 9091).
+
+#### Amendment, 2026-08-26 - published API port 8010 -> 8015
+
+8010 was reclaimed for another application on the reference machine, so it moved onto the avoided
+list above and the API now publishes on **8015**.
+
+**Only the published port changed.** The container still binds **8010** internally: the Dockerfile's
+`EXPOSE`, its healthcheck and the uvicorn `--port` are unchanged, and `MEDAUTH_API_PORT` still
+defaults to 8010 because it describes the in-container bind. `compose.yaml` maps `8015:8010`, the
+same host-differs-from-container shape postgres has always used with `5435:5432`.
+
+This is deliberately the smaller change of the two available. Renumbering the container's own port
+would have touched the image, its healthcheck and every in-network reference for no gain - nothing
+inside the compose network addresses the API by a host port, so the conflict is a host-side fact and
+is fixed host-side. The production reference below publishes only at the edge and is unaffected.
 
 ### Production reference — `compose.prod.yaml`, **standalone**
 

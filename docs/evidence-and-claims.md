@@ -432,7 +432,7 @@ produced them. A figure appearing here and nowhere in `eval/reports/` or `data/`
 |---|---|---|---|
 | p50 / p95 latency | Measured on stated hardware with `n` | Benchmark run | **Pending** |
 | Cost per case | Token counts with the model id and price basis on the run date | Evaluation run | **Pending** |
-| **Runs under Docker Compose** | A stack that starts and passes readiness | `docker compose up -d && curl :8010/ready` | **Produced** (Phase 0) — API and pgvector healthy; all four readiness checks pass; container non-root, read-only rootfs, all capabilities dropped |
+| **Runs under Docker Compose** | A stack that starts and passes readiness | `docker compose up -d && curl :8015/ready` | **Produced** (Phase 0) — API and pgvector healthy; all four readiness checks pass; container non-root, read-only rootfs, all capabilities dropped |
 | **Runs on Kubernetes** | A real cluster run producing an artefact | — | **Refused until produced.** No cluster exists on the reference machine (no `kubectl`/`kind`/`minikube`/`helm`). Manifests are *authored and statically validated with `kubeconform`* — that is the permitted claim, and it is a different claim. |
 | Self-hosted on vLLM | A served model with measured latency | — | **Refused.** 4 GB VRAM cannot serve a useful model at the required context. vLLM is a documented target, not a validated one (OD-2). |
 | CI gates on evaluation regression | A workflow that fails on a metric moving beyond tolerance | `.github/workflows/evaluation.yaml` | **Pending** (Phase 9) |

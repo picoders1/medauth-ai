@@ -422,7 +422,7 @@ Full detail: [llm-firewall-integration.md](../security/llm-firewall-integration.
    Next.js reviewer console  :3100
              │
              ▼
-   MEDAUTH API (FastAPI)     :8010
+   MEDAUTH API (FastAPI)     :8015
         │            │
         │            └──▶ PostgreSQL 16 + pgvector   :5435
         │                  (policies, chunks, cases, verdicts, audit)

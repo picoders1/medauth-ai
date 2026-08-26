@@ -134,7 +134,8 @@ scripts/probe_model_capabilities.py
 1. `pyproject.toml` — PEP 621, uv, ruff/mypy/pytest config mirroring the sibling project. Extras:
    `retrieval`, `eval`, `otel`.
 2. `compose.yaml` — `pgvector/pgvector:pg16` on host **5435**; API on **8010**. The firewall is
-   *consumed*, not deployed here.
+   *consumed*, not deployed here. (The API's *published* port became **8015** on 2026-08-26 when
+   8010 was reclaimed on the reference machine; the container still binds 8010 — ADR-019 amendment.)
 3. Alembic wired; schema versioned, never auto-created.
 4. `app/core` — `CaseId`, `RequestId`, `Verdict`, `Recommendation`, `Citation`, error types,
    `normalize()` (whitespace folding + Unicode confusables, offsets preserved).

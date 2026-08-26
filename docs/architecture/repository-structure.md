@@ -117,11 +117,15 @@ decision*. Without rules 2, 3 and 5 the invariant is a convention, and conventio
 ## 4. Ports
 
 Chosen to avoid everything bound on the reference machine (3000, 5000, 5433, 5434, 5678, 8005,
-8006, 8080–8082, 8089, 9001, 9004, 9005, 9091).
+8006, 8010, 8080–8082, 8089, 9001, 9004, 9005, 9091).
+
+**8010 was the API port until 2026-08-26** and is now on that avoided list: the port was reclaimed
+for another application on the reference machine, so the API publishes on **8015** instead. Only the
+published port moved - the container still binds 8010 internally (ADR-019).
 
 | Service | Port |
 |---|---|
-| MEDAUTH API | **8010** |
+| MEDAUTH API | **8015** |
 | PostgreSQL + pgvector | **5435** |
 | Next.js reviewer console | **3100** |
 | Prometheus (optional overlay) | **9092** |

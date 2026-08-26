@@ -206,7 +206,7 @@ docs/       architecture · adr · evaluation · security · runbooks
 
 | Service | Port |
 |---|---|
-| API | 8010 |
+| API | 8015 |
 | PostgreSQL + pgvector | 5435 |
 | Reviewer console | 3100 |
 | llm-firewall (consumed) | 8005 |

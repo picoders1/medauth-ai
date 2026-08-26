@@ -28,7 +28,7 @@ test-all:  ## Everything, including integration (needs the compose stack)
 
 check: lint type test  ## What CI runs
 
-up:  ## Start the stack (API :8010, pgvector :5435)
+up:  ## Start the stack (API :8015, pgvector :5435)
 	docker compose up -d --build
 
 down:  ## Stop the stack
@@ -38,7 +38,7 @@ migrate:  ## Apply migrations
 	uv run alembic upgrade head
 
 ready:  ## Readiness report
-	@curl -s localhost:8010/ready | python3 -m json.tool
+	@curl -s localhost:8015/ready | python3 -m json.tool
 
 probe:  ## Record model capabilities (writes eval/reports/)
 	uv run python scripts/probe_model_capabilities.py
