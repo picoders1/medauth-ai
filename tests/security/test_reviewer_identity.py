@@ -678,6 +678,85 @@ def test_production_starts_with_discovery_so_the_refusals_are_not_vacuous() -> N
     assert not settings.oidc_secret.get_secret_value()
 
 
+def test_a_kid_the_provider_never_published_is_refused_not_a_500() -> None:
+    """**Regression.** Found by running a real provider's tokens through this path.
+
+    `PyJWKClientError` is not a subclass of `jwt.InvalidTokenError` - they are
+    siblings under `PyJWTError`. So until it was named in the `except`, a token
+    carrying a `kid` no key set contains escaped the handler and surfaced as an
+    unhandled exception: **HTTP 500 on an unauthenticated request**, triggerable by
+    anyone able to construct a JWT, which is anyone.
+
+    Worse than the 500 is what it distinguished. Every other refusal is the same fixed
+    message; this one was a different status code, telling a caller their `kid` was
+    unknown rather than their signature bad. That is the oracle
+    `test_the_error_does_not_say_which_check_failed` exists to deny.
+
+    The rotation test below could not have caught it. It proves an unknown `kid`
+    *triggers a refetch*; this is the branch where the refetch comes back empty.
+    """
+    import respx
+    from httpx import Response
+
+    from app.identity.authenticator import NotAuthenticated
+
+    jwks_url = f"{ISSUER}/protocol/openid-connect/certs"
+    with respx.mock:
+        # A well-formed key set that simply does not contain this token's kid.
+        respx.get(jwks_url).mock(return_value=Response(200, json={"keys": []}))
+        verifier = OidcAuthenticator(issuer=ISSUER, audience=AUDIENCE, jwks_url=jwks_url)
+        signed = jwt.encode(
+            {
+                "iss": ISSUER,
+                "aud": AUDIENCE,
+                "sub": "reviewer-1",
+                "exp": datetime.now(UTC) + timedelta(minutes=5),
+            },
+            SECRET,
+            algorithm="HS256",
+            headers={"kid": "a-kid-that-was-never-published"},
+        )
+        with pytest.raises(NotAuthenticated) as refusal:
+            verifier.authenticate(signed)
+
+    # The uniform message, not a leak of which check failed.
+    assert str(refusal.value) == "token did not verify"
+    # And the cause is preserved for the operator on the chain.
+    assert refusal.value.__cause__ is not None
+
+
+def test_an_unreachable_key_set_refuses_rather_than_erroring() -> None:
+    """Fail closed means fail toward a refusal, never toward a 500.
+
+    `PyJWKClientConnectionError` subclasses `PyJWKClientError`, so an identity
+    provider that is down now denies access instead of raising. No key, no
+    verification, no access - and the caller learns nothing about why.
+    """
+    import httpx
+    import respx
+
+    from app.identity.authenticator import NotAuthenticated
+
+    jwks_url = f"{ISSUER}/protocol/openid-connect/certs"
+    with respx.mock:
+        respx.get(jwks_url).mock(side_effect=httpx.ConnectError("provider unreachable"))
+        verifier = OidcAuthenticator(issuer=ISSUER, audience=AUDIENCE, jwks_url=jwks_url)
+        signed = jwt.encode(
+            {
+                "iss": ISSUER,
+                "aud": AUDIENCE,
+                "sub": "reviewer-1",
+                "exp": datetime.now(UTC) + timedelta(minutes=5),
+            },
+            SECRET,
+            algorithm="HS256",
+            headers={"kid": "any-kid"},
+        )
+        with pytest.raises(NotAuthenticated) as refusal:
+            verifier.authenticate(signed)
+    assert str(refusal.value) == "token did not verify"
+
+
 def test_an_unknown_signing_key_triggers_a_refetch_not_a_refusal() -> None:
     """Key rotation, verified rather than assumed.
 

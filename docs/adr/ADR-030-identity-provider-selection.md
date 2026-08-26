@@ -1,6 +1,6 @@
 # ADR-030 — Identity-provider selection is an unresolved deployment dependency
 
-**Status:** Accepted · **Date:** 2026-08-26 · **Supersedes:** nothing ·
+**Status:** Accepted, **amended 2026-08-26** · **Date:** 2026-08-26 · **Supersedes:** nothing ·
 **Related:** ADR-012 (human-in-the-loop), ADR-017 (configuration), ADR-019 (deployment),
 ADR-020 (reviewer UI), OD-43
 
@@ -80,3 +80,61 @@ The three permissions, the service-layer authorization boundary, the separation 
 identity from qualification and competence, the append-only audit, the HITL workflow,
 and the 404 anti-enumeration behaviour are all untouched. This ADR records an absence;
 it does not create an architecture.
+
+
+---
+
+## Amendment, 2026-08-26 — a provider was selected by the operator
+
+**This ADR's decision was overridden by the repository owner**, who directed that the
+phase be unblocked rather than left waiting on provider values. Recorded as their
+decision, not as a reversal this repository made on its own judgement: the reasoning
+above still stands for the case where nobody has chosen.
+
+**Selected: Keycloak 26**, run from `compose.idp.yaml` as a **non-production-only**
+overlay on host port 8090, realm `medauth-nonprod`, audience `medauth-api`.
+
+This is alternative **B** above, which this ADR rejected. The objection was that a
+throwaway container "would produce evidence about a provider nobody will deploy". That
+objection is still true and is why the claim made below is narrow. What changed is the
+balance: with no vendor forthcoming, the alternative was not a better provider but an
+indefinite block, and a boundary nobody has ever run a real token through is a boundary
+whose defects are still undiscovered. That turned out to be literally true — see the
+defect below.
+
+### What the container's constraints buy
+
+`start-dev`, in-memory H2, no HTTPS enforcement, no state across a `down`. These are
+disqualifying for production, deliberately: **this provider cannot be promoted by
+changing an environment variable.** It is a separate compose file for the same reason —
+`docker compose up` cannot start it by accident, so it cannot drift into being the
+deployment.
+
+### What it proved that the mocked tests could not
+
+`app/identity/authenticator.py` caught `jwt.InvalidTokenError`. `PyJWKClientError` is
+**not a subclass of it** — they are siblings under `PyJWTError`. So a token carrying a
+`kid` the provider never published escaped the handler and surfaced as an unhandled
+exception: **HTTP 500 on an unauthenticated request**, triggerable by anyone able to
+construct a JWT.
+
+Not an authentication bypass — access was still denied. But the 500 was a different
+answer from every other refusal's uniform 401, which told a caller their `kid` was
+unknown rather than their signature bad: the exact oracle the fixed refusal message
+exists to deny them. `PyJWKClientConnectionError` subclasses it, so an unreachable
+provider produced a 500 rather than the documented fail-closed refusal.
+
+The mocked suite could not have found it. Its rotation test proves an unknown `kid`
+*triggers a refetch*; this is the branch where the refetch comes back empty, and only
+a real key set that genuinely lacks the `kid` reaches it. Fixed, with two regression
+tests that fail against the unfixed code.
+
+**That finding is the justification for this amendment.** A provider-neutral boundary
+verified only against mocks was carrying a live defect for as long as it existed.
+
+### What is still not decided
+
+Which provider a **deployment** uses. Nothing in `app/` changed to accommodate
+Keycloak, and nothing would change for another conformant provider — the selection
+above is scoped to non-production verification. `docs/security/identity-provider-contract.md`
+remains the contract, and `scripts/verify_idp.py` remains the way to check a candidate.

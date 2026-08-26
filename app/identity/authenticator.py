@@ -62,6 +62,7 @@ from typing import Any, Protocol
 import httpx
 import jwt
 from jwt import PyJWKClient
+from jwt.exceptions import PyJWKClientError
 
 from app.core.errors import MedauthError
 from app.identity.principal import (
@@ -229,7 +230,7 @@ class OidcAuthenticator:
                     "require": ["exp", "iss", "aud", "sub"],
                 },
             )
-        except jwt.InvalidTokenError as failure:
+        except (jwt.InvalidTokenError, PyJWKClientError) as failure:
             # A FIXED message. The first version interpolated
             # `type(failure).__name__`, which is `InvalidIssuerError`,
             # `ExpiredSignatureError`, `InvalidAudienceError` - each of which names the
@@ -239,6 +240,24 @@ class OidcAuthenticator:
             # The specific cause is not lost: it travels on the exception chain
             # (`from failure`) and reaches the log with the request id attached, where
             # an operator can see it and a caller cannot.
+            #
+            # `PyJWKClientError` is caught alongside it because it is **not** a
+            # subclass of `InvalidTokenError` - both descend from `PyJWTError` as
+            # siblings. Until it was listed here, a token bearing a `kid` the provider
+            # never published escaped this handler entirely and surfaced as a 500:
+            # anyone could trigger an unauthenticated server error with a
+            # self-constructed JWT, and the 500-versus-401 difference told them their
+            # `kid` was unknown rather than their signature bad - exactly the oracle
+            # the fixed message above exists to deny them.
+            #
+            # `PyJWKClientConnectionError` subclasses it, so an unreachable JWKS
+            # endpoint now refuses too. That is the fail-closed direction: no key, no
+            # verification, no access.
+            #
+            # Found by running a real provider's tokens through this path. The mocked
+            # rotation test could not have found it - it proves an unknown `kid`
+            # triggers a refetch that *succeeds*, and this is the branch where the
+            # refetch finds nothing.
             raise NotAuthenticated("token did not verify") from failure
 
         subject = str(claims.get("sub") or "").strip()

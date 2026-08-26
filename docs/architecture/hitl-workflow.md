@@ -110,8 +110,9 @@ real queue needs it, it arrives with the code that uses it.
 
 - **No clinical validation**, and a reviewer workflow is not one.
 - **No verified credentials.** See §5.
-- **No enterprise SSO deployed.** The OIDC adapter is implemented and tested; no IdP is
-  integrated.
+- **No enterprise SSO deployed.** A *non-production* Keycloak is now integrated and
+  verified end to end with real tokens (`docs/security/nonproduction-idp.md`), which is
+  a different claim from a deployed production provider - that one is still refused.
 - **No review metrics.** `docs/evaluation/human-review-metrics.md` defines them; none
   can be reported until real review activity exists, and inventing a turnaround time
   would be the fabrication this project refuses.

@@ -1,0 +1,49 @@
+# Non-production identity provider. NEVER part of the default stack.
+#
+#     docker compose -f compose.idp.yaml up -d
+#
+# It is a separate file rather than a service in `compose.yaml` on purpose: a
+# `docker compose up` that silently also started an identity provider would make the
+# IdP a de-facto part of the deployment, which is exactly what ADR-030 refused. You
+# have to name this file to get it.
+#
+# `start-dev` is not a shortcut - it is the honest mode. It uses an in-memory H2
+# database, disables HTTPS enforcement and keeps no state across a `down`. Every one
+# of those properties is disqualifying for production, which is the point: this
+# provider CANNOT be promoted by changing an environment variable.
+#
+# The admin password comes from the environment and is never written here. See
+# `.env.example`; the real value lives in `.env`, which is gitignored.
+
+name: medauth-idp
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: medauth-nonprod-idp
+    command: ["start-dev", "--http-port=8080"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${MEDAUTH_IDP_ADMIN_USER:?set MEDAUTH_IDP_ADMIN_USER in .env}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${MEDAUTH_IDP_ADMIN_PASSWORD:?set MEDAUTH_IDP_ADMIN_PASSWORD in .env}
+      # The issuer MEDAUTH is configured with must be the issuer Keycloak stamps into
+      # `iss`. Pinning the frontend URL to the published host port keeps discovery,
+      # the token's `iss` and `MEDAUTH_OIDC_ISSUER` the same string - a mismatch here
+      # is the single most common cause of a token that verifies everywhere except
+      # against the application.
+      KC_HOSTNAME: http://localhost:8090
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+    ports:
+      # 8090 on the host. 8080-8082 are taken on the reference machine (ADR-019's
+      # avoided list), and 8010 was reclaimed - see the ADR-019 amendment.
+      - "8090:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080 && echo -e 'GET /realms/master HTTP/1.1\\nHost: localhost\\nConnection: close\\n\\n' >&3 && cat <&3 | head -1 | grep -q 200"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    # Non-production, and constrained anyway: no new privileges, and it holds nothing
+    # worth escalating to - no clinical data ever reaches it.
+    security_opt:
+      - no-new-privileges:true
