@@ -23,6 +23,7 @@ dependencies = [
     "pgvector>=0.3,<1.0",               # vector column type for SQLAlchemy (ADR-005)
     "alembic>=1.13,<2.0",               # schema is versioned, never auto-created
     "prometheus-client>=0.21,<1.0",     # /metrics exposition (ADR-018)
+    "pyjwt[crypto]>=2.9",
 ]
 
 [project.optional-dependencies]

@@ -26,7 +26,16 @@ def _settings(**overrides: object) -> Settings:
 
 
 def _production(**overrides: object) -> Settings:
-    params: dict[str, object] = {"environment": "production", "llm_api_key": "caller-key"}
+    params: dict[str, object] = {
+        "environment": "production",
+        "llm_api_key": "caller-key",
+        # OD-43: production refuses the development authenticator, because it would
+        # authenticate anybody who guessed a configured token name. A production
+        # fixture therefore has to configure a real identity boundary.
+        "auth_mode": "oidc",
+        "oidc_issuer": "https://idp.test/realms/medauth",
+        "oidc_audience": "medauth-api",
+    }
     params.update(overrides)  # an override must be able to blank a default
     return _settings(**params)
 

@@ -180,7 +180,9 @@ def test_the_only_reviewer_free_text_is_the_reviewer_s_own_rationale() -> None:
     review event is bounded."""
     table = Base.metadata.tables[HumanReviewEventRow.__tablename__]
     unbounded = {c.name for c in table.columns if isinstance(c.type, Text)}
-    assert unbounded == {"rationale", "reviewer_qualification"}
+    # `identity_issuer` joins them: an issuer URL has no useful bound and is written by
+    # the token, not by a person. It is metadata about the identity, not narrative.
+    assert unbounded == {"rationale", "reviewer_qualification", "identity_issuer"}
 
 
 # --------------------------------------------------------------------------- 3

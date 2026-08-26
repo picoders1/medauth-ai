@@ -281,6 +281,16 @@ class HumanReviewEventRow(Base):
             "action NOT IN ('DENY', 'OVERRIDE') OR (rationale IS NOT NULL AND length(rationale) > 0)",
             name="denial_and_override_require_a_rationale",
         ),
+        # An authenticated review without a principal is the defect OD-43 exists to
+        # close, so the database refuses it. Legacy rows are exempt by naming their
+        # identity model, not by being old.
+        CheckConstraint(
+            "identity_model <> 'AUTHENTICATED_HUMAN' "
+            "OR (principal_id IS NOT NULL AND principal_type = 'HUMAN' "
+            "AND authentication_method IS NOT NULL)",
+            name="authenticated_review_names_its_principal",
+        ),
+        Index("ix_human_review_events_principal_id", "principal_id"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True, default=uuid_pk)
@@ -304,6 +314,23 @@ class HumanReviewEventRow(Base):
     #: The reviewer's own words about their own decision. NOT clinical narrative, and
     #: the only free-text column in this module that a person writes.
     rationale: Mapped[str | None] = mapped_column(Text)
+
+    # -- authenticated identity (OD-43) ----------------------------------------
+    #: `AUTHENTICATED_HUMAN` or `LEGACY_CALLER_SUPPLIED`. Per row, so a reader can tell
+    #: how much the identity on it is worth. Historical rows are labelled, never
+    #: back-filled with a principal that did not exist at the time.
+    identity_model: Mapped[str] = mapped_column(
+        String(24), nullable=False, default="LEGACY_CALLER_SUPPLIED"
+    )
+    #: The authenticated subject. `reviewer_id` above is what the person called
+    #: themselves; THIS is what the system verified. Both are kept - they should agree,
+    #: and a row where they do not is worth seeing rather than silently reconciling.
+    principal_id: Mapped[str | None] = mapped_column(String(128))
+    principal_type: Mapped[str | None] = mapped_column(String(16))
+    authentication_method: Mapped[str | None] = mapped_column(String(16))
+    #: Which identity provider vouched for them. Part of "who decided", and not
+    #: reconstructible later.
+    identity_issuer: Mapped[str | None] = mapped_column(Text)
 
     #: What the engine had recommended when the reviewer acted. Denormalised on
     #: purpose: it makes "did the human agree" answerable from this row alone, and

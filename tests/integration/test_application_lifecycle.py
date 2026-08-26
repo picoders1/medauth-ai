@@ -49,6 +49,12 @@ from app.case.service import CaseService, CaseSubmission
 from app.contracts.slice import AssessmentState, CodeSystem
 from app.decision.semantics import Attestation, PolicySemantics, SemanticsOrigin
 from app.graph.slice import RunMode, SliceRunner
+from app.identity.principal import (
+    AuthenticationMethod,
+    Permission,
+    Principal,
+    PrincipalType,
+)
 from app.policy.logic_loader import load_policy_logic
 from app.production_gate import ProductionGate
 from tests.support_slice import (
@@ -65,6 +71,29 @@ pytestmark = [pytest.mark.integration, pytest.mark.security]
 CALLER = "integrator-a"
 REVIEWER = "dr-reviewer-1"
 QUALIFICATION = "Board-certified radiologist, NPI on file"
+
+
+def reviewer(principal_id: str = REVIEWER, *, can_override: bool = True) -> Principal:
+    """An authenticated human (OD-43).
+
+    The lifecycle tests use `StaticAuthenticator`-shaped principals rather than tokens:
+    they are about the lifecycle, and token validation has its own suite. The
+    authorization path is identical either way - `Principal.require()` does not know
+    which adapter produced it.
+    """
+    permissions = {Permission.READ_CASE, Permission.REVIEW_CASE, Permission.FINALIZE_CASE}
+    if can_override:
+        permissions.add(Permission.OVERRIDE_RECOMMENDATION)
+    return Principal(
+        principal_id=principal_id,
+        principal_type=PrincipalType.HUMAN,
+        authentication_method=AuthenticationMethod.DEVELOPMENT,
+        authenticated_at=datetime.now(UTC),
+        display_name=principal_id,
+        permissions=frozenset(permissions),
+        issuer="development",
+        stated_qualification=QUALIFICATION,
+    )
 
 
 # --------------------------------------------------------------------------- setup
@@ -277,8 +306,7 @@ async def test_submit_run_review_finalize(
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.APPROVE,
         )
         assert event.reviewer_id == REVIEWER
@@ -324,8 +352,7 @@ async def test_a_denial_draft_also_requires_a_human(
                 case_id,
                 caller_id=CALLER,
                 request_id=request_id,
-                reviewer_id=REVIEWER,
-                reviewer_qualification=QUALIFICATION,
+                reviewer=reviewer(),
                 action=HumanReviewAction.DENY,
             )
 
@@ -353,8 +380,7 @@ async def test_an_override_preserves_the_recommendation_it_disagreed_with(
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.OVERRIDE,
             rationale="Prior imaging in the chart resolves the open criterion.",
             override_outcome=ReviewOutcome.APPROVED,
@@ -402,8 +428,7 @@ async def test_request_information_does_not_finalize_and_keeps_the_case_reviewab
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.REQUEST_INFO,
             rationale="Please supply the prior imaging report.",
         )
@@ -432,8 +457,7 @@ async def test_request_information_does_not_finalize_and_keeps_the_case_reviewab
                 case_id,
                 caller_id=CALLER,
                 request_id=request_id,
-                reviewer_id=REVIEWER,
-                reviewer_qualification=QUALIFICATION,
+                reviewer=reviewer(),
                 action=HumanReviewAction.APPROVE,
             )
 
@@ -517,8 +541,7 @@ async def test_a_finalized_case_cannot_be_reviewed_again(
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.APPROVE,
         )
 
@@ -529,8 +552,7 @@ async def test_a_finalized_case_cannot_be_reviewed_again(
                 case_id,
                 caller_id=CALLER,
                 request_id=request_id,
-                reviewer_id="dr-reviewer-2",
-                reviewer_qualification=QUALIFICATION,
+                reviewer=reviewer("dr-reviewer-2"),
                 action=HumanReviewAction.DENY,
                 rationale="Second opinion.",
             )
@@ -583,8 +605,7 @@ async def test_a_second_run_appends_a_recommendation_rather_than_replacing_one(
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.REQUEST_INFO,
             rationale="More detail please.",
         )
@@ -636,8 +657,7 @@ async def test_another_caller_cannot_review_and_cannot_tell_the_case_exists(
                 case_id,
                 caller_id="someone-else",
                 request_id=request_id,
-                reviewer_id="intruder",
-                reviewer_qualification="none",
+                reviewer=reviewer("intruder"),
                 action=HumanReviewAction.APPROVE,
             )
 
@@ -661,8 +681,7 @@ async def test_the_lifecycle_trail_survives_every_mutation_attempt(
             case_id,
             caller_id=CALLER,
             request_id=request_id,
-            reviewer_id=REVIEWER,
-            reviewer_qualification=QUALIFICATION,
+            reviewer=reviewer(),
             action=HumanReviewAction.APPROVE,
         )
 

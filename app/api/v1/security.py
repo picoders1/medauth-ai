@@ -11,18 +11,23 @@ An API key maps to a caller id. Cases are owned by the caller that submitted the
 a route decorator, so a second entry point added later cannot reach a case by forgetting
 to decorate.
 
-## What it is NOT, stated plainly
+## Two boundaries, not one (OD-43)
+
+`caller_from_headers` establishes the **integrating system** from an API key: which
+cases may be seen. `reviewer_from_headers` establishes the **authenticated person** from
+a bearer token: who decided. They are separate dependencies returning separate types, so
+a route cannot satisfy one with the other and a service cannot mistake them.
+
+An API key alone can never review, override or finalise. `Principal.require()` refuses a
+`SERVICE` principal for those actions **before** consulting its permissions, so the
+refusal survives a permission mapping that is too generous.
+
+## What the caller boundary is still NOT
 
 - **Not a user model.** A caller is an integrating system, not a person.
-- **Not role-based.** It knows ownership and nothing else, so it cannot express "this
-  reviewer may review this specialty" - and pretending otherwise would be worse than the
-  gap.
+- **Not role-based.** It knows ownership and nothing else.
 - **Not a session.** No login, no expiry, no rotation flow. Rotation is redeploying the
   configured keys.
-- **Not an identity for the audit trail's `HUMAN` actor.** The reviewer names themselves
-  in the review body, and this boundary cannot verify that they are who they say. That
-  is a real limitation and `docs/architecture/api-v1.md` records it rather than letting
-  `reviewer_id` look authenticated.
 
 ## Keys are compared in constant time
 
@@ -37,8 +42,16 @@ import secrets
 from fastapi import Header, Request
 
 from app.core.errors import MedauthError
+from app.identity.authenticator import NotAuthenticated as TokenNotAuthenticated
+from app.identity.principal import Principal
 
-__all__ = ["Caller", "NotAuthenticated", "caller_from_headers", "parse_api_keys"]
+__all__ = [
+    "Caller",
+    "NotAuthenticated",
+    "caller_from_headers",
+    "parse_api_keys",
+    "reviewer_from_headers",
+]
 
 
 class NotAuthenticated(MedauthError):
@@ -94,3 +107,36 @@ def caller_from_headers(
         if secrets.compare_digest(key, x_api_key):
             return Caller(caller_id)
     raise NotAuthenticated("unrecognised API key")
+
+
+def reviewer_from_headers(
+    request: Request,
+    authorization: str | None = Header(default=None, alias="authorization"),
+) -> Principal:
+    """Resolve the authenticated **human**, or refuse. A FastAPI dependency.
+
+    Separate from `caller_from_headers` on purpose: an API key identifies a system and
+    can never stand in for a person. A deployment with no authenticator configured
+    refuses every review rather than falling back to the caller - the fallback is
+    exactly the defect OD-43 describes, and it would be invisible.
+    """
+    authenticator = getattr(request.app.state, "authenticator", None)
+    if authenticator is None:
+        raise NotAuthenticated(
+            "no human authenticator is configured; this deployment cannot accept "
+            "reviews. An API key identifies a system and is never a reviewer."
+        )
+    if not authorization:
+        raise NotAuthenticated("missing bearer token for a human review action")
+
+    scheme, _, token = authorization.partition(" ")
+    if scheme.lower() != "bearer" or not token.strip():
+        raise NotAuthenticated("authorization header must be a bearer token")
+
+    try:
+        principal: Principal = authenticator.authenticate(token.strip())
+    except TokenNotAuthenticated as failure:
+        # Re-raised as this module's type so the API error table has one entry to map.
+        # The message is the authenticator's, which says only that it did not verify.
+        raise NotAuthenticated(str(failure)) from failure
+    return principal

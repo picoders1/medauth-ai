@@ -38,6 +38,7 @@ from app.core.errors import (
     UpstreamFailureError,
     UpstreamRejectedError,
 )
+from app.identity.principal import NotAuthorised as PrincipalNotAuthorised
 
 __all__ = ["ApiError", "http_status_for", "problem_response"]
 
@@ -56,6 +57,9 @@ class ApiError(BaseModel):
 _STATUS: tuple[tuple[type[BaseException], int, str], ...] = (
     (NotAuthenticated, 401, "not_authenticated"),
     (CaseNotFound, 404, "case_not_found"),
+    # Identity NotAuthorised (403) before the case-service one: "we know who you are
+    # and you may not do that" is a different answer from "not your case" (404).
+    (PrincipalNotAuthorised, 403, "not_authorised"),
     (NotAuthorised, 403, "not_authorised"),
     (InvalidTransition, 409, "invalid_state_transition"),
     (ReviewRejected, 422, "review_rejected"),

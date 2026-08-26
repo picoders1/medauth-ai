@@ -331,6 +331,63 @@ MUTATIONS: tuple[Mutation, ...] = (
         tests="tests/evaluation/test_schema_boundary.py",
         keyword="undeclared",
     ),
+    # -- OD-43: the reviewer is authenticated, not asserted -------------------
+    Mutation(
+        # The defect OD-43 names, restored: a service credential able to decide.
+        name="a-service-principal-can-review",
+        rule="human-only actions are refused to SERVICE principals before permissions",
+        path="app/identity/principal.py",
+        old="        if permission in HUMAN_ONLY and not self.is_human:",
+        new="        if False:  # MUTATION",
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="however_permissioned",
+    ),
+    Mutation(
+        # A token that grants itself authority. The mapping is the authorization
+        # decision; reading the claim would make the IdP's caller the decider.
+        name="permissions-read-from-the-token",
+        rule="permissions are mapped from recognised roles, never read from claims",
+        path="app/identity/authenticator.py",
+        old="        granted |= _PERMISSION_FOR_ROLE.get(role, frozenset())",
+        new="        granted |= frozenset(Permission)  # MUTATION",
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="grant_itself",
+    ),
+    Mutation(
+        # Signature verification off. Every other check would still pass.
+        name="token-signature-not-verified",
+        rule="an unsigned or forged token is not a weakly-authenticated one",
+        path="app/identity/authenticator.py",
+        old='                    "verify_signature": True,',
+        new='                    "verify_signature": False,  # MUTATION',
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="wrong_key",
+    ),
+    Mutation(
+        # Authorization skipped in the service - the route would still "work".
+        # This SURVIVED at first with keyword "without_permission": that test uses
+        # APPROVE, where the FINALIZE_CASE check still fires and masks the missing one.
+        # REQUEST_INFO skips finalisation, so REVIEW_CASE is its ONLY guard - and
+        # nothing covered it. The mutation found the coverage gap, not a code defect.
+        name="review-authorization-not-enforced",
+        rule="REVIEW_CASE is the first check, and the only guard on REQUEST_INFO",
+        path="app/case/review.py",
+        old="        reviewer.require(Permission.REVIEW_CASE)",
+        new="        pass  # MUTATION",
+        tests="tests/security/test_reviewer_identity.py",
+        keyword="request_info_is_guarded",
+    ),
+    Mutation(
+        # The audit event stops naming the authenticated principal, so the trail is
+        # back to recording a name somebody typed.
+        name="audit-omits-the-authenticated-principal",
+        rule="a human review event records the authenticated principal",
+        path="app/case/review.py",
+        old='            identity_model="AUTHENTICATED_HUMAN",',
+        new='            identity_model="LEGACY_CALLER_SUPPLIED",  # MUTATION',
+        tests="tests/integration/test_reviewer_audit.py",
+        keyword="principal",
+    ),
     # -- application lifecycle: a recommendation is not a disposition ---------
     Mutation(
         # The edge that must not exist. Adding it makes this a system that issues

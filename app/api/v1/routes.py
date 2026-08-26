@@ -39,15 +39,19 @@ from app.api.v1.schemas import (
     ReviewResponse,
     SubmitCaseRequest,
 )
-from app.api.v1.security import Caller, caller_from_headers
+from app.api.v1.security import Caller, caller_from_headers, reviewer_from_headers
 from app.audit.models import AuditEventRow, CaseRow
 from app.case.lifecycle import CaseState, allowed_next
 from app.case.review import HumanReviewService
 from app.case.service import CaseService, CaseSubmission
+from app.identity.principal import Principal
 
 router = APIRouter(prefix="/api/v1", tags=["cases"])
 
 CallerDep = Annotated[Caller, Depends(caller_from_headers)]
+#: The authenticated HUMAN. Separate dependency from the caller, so a route
+#: cannot accidentally satisfy one with the other.
+ReviewerDep = Annotated[Principal, Depends(reviewer_from_headers)]
 
 
 def request_id_for(request: Request) -> str:
@@ -244,22 +248,28 @@ async def submit_review(
     request: Request,
     response: Response,
     caller: CallerDep,
+    reviewer: ReviewerDep,
     session: SessionDep,
 ) -> ReviewResponse:
-    """Record a human decision. Appends; never edits the recommendation."""
+    """Record a human decision. Appends; never edits the recommendation.
+
+    Two identities, deliberately: `caller` is the integrating system (which case may be
+    seen), `reviewer` is the authenticated person (who decided). Collapsing them is the
+    defect OD-43 names.
+    """
     request_id = request_id_for(request)
     response.headers["x-medauth-request-id"] = request_id
     cases = CaseService(session)
     reviews = HumanReviewService(session, cases=cases)
     event = await reviews.record(
         case_id,
+        reviewer=reviewer,
         caller_id=caller.caller_id,
         request_id=request_id,
-        reviewer_id=body.reviewer_id,
-        reviewer_qualification=body.reviewer_qualification,
         action=body.action,
         rationale=body.rationale,
         override_outcome=body.override_outcome,
+        stated_qualification=body.stated_qualification,
     )
     case = await cases.get(case_id, caller_id=caller.caller_id)
     return ReviewResponse(
@@ -267,6 +277,9 @@ async def submit_review(
         action=body.action,
         outcome=event.outcome,
         reviewer_id=event.reviewer_id,
+        principal_type=str(event.principal_type),
+        authentication_method=str(event.authentication_method),
+        identity_model=event.identity_model,
         recommended_outcome_at_review=event.recommended_outcome_at_review,
         case_state=CaseState(case.state),
         created_at=event.created_at,

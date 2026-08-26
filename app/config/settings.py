@@ -84,6 +84,18 @@ class Settings(BaseSettings):
     #: `"key:caller-id,key2:caller-b"`. Empty means the API authenticates nobody and
     #: therefore serves nobody - see app/api/v1/security.py on failing closed.
     api_keys: SecretStr = SecretStr("")
+
+    #: How human reviewers authenticate. `oidc` in production; `development` is refused
+    #: there by a validator, because shipping with it enabled would authenticate
+    #: everybody who guessed a configured name.
+    auth_mode: str = "development"
+    #: `"token:principal_id:role,..."`. Development only.
+    dev_reviewers: SecretStr = SecretStr("")
+    oidc_issuer: str = ""
+    oidc_audience: str = ""
+    oidc_jwks_url: str = ""
+    #: Symmetric alternative to a JWKS endpoint, for tests and small deployments.
+    oidc_secret: SecretStr = SecretStr("")
     database_command_timeout_seconds: float = 5.0
 
     # --- Retrieval (local encoders; never traverse the firewall, ADR-006) ----
@@ -165,6 +177,20 @@ class Settings(BaseSettings):
             )
         if self.clinical_text_logging is ClinicalTextLogging.FULL:
             failures.append("clinical_text_logging=full: clinical text must never reach a log sink")
+        if self.auth_mode != "oidc":
+            # A production deployment on the development authenticator would accept
+            # any configured token name as a clinical reviewer. That is OD-43 with
+            # extra steps, so it fails at startup rather than at the first review.
+            failures.append(
+                f"auth_mode={self.auth_mode}: human reviewers must authenticate via "
+                "OIDC in production; the development adapter authenticates by "
+                "configuration and is not an identity"
+            )
+        if self.auth_mode == "oidc" and not (self.oidc_issuer and self.oidc_audience):
+            failures.append(
+                "auth_mode=oidc without an issuer and an audience: a token would be "
+                "verified against nothing in particular"
+            )
         if not self.llm_api_key.get_secret_value():
             failures.append(
                 "llm_api_key is empty: /v1 requires a firewall caller key in production"

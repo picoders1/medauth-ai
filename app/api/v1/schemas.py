@@ -127,22 +127,38 @@ class EvidenceResponse(_Strict):
 
 
 class ReviewRequest(_Strict):
-    reviewer_id: str = Field(min_length=1, max_length=64)
-    #: Free text on purpose: this project cannot enumerate clinical credentials, and a
-    #: dropdown would imply it had.
-    reviewer_qualification: str = Field(min_length=1)
+    """What a reviewer submits. **It cannot name the reviewer.**
+
+    `reviewer_id`, `accepted_by` and `finalized_by` are absent, and their absence is the
+    mechanism (OD-43). The model is `extra="forbid"`, so a client that sends one gets a
+    422 naming the field rather than having it silently ignored - a silently-dropped
+    identity field is worse than a rejected one, because the caller believes it worked.
+
+    The reviewer's identity comes from the authenticated principal and from nowhere
+    else.
+    """
+
     action: HumanReviewAction
     #: Required for DENY and OVERRIDE. Enforced in the service and in the database.
     rationale: str | None = None
     #: An override must say what it overrode TO.
     override_outcome: ReviewOutcome | None = None
+    #: Free text on purpose: this project cannot enumerate clinical credentials, and a
+    #: dropdown would imply it had. It states the basis for a decision, NOT who made it -
+    #: the authenticated identity answers that and this cannot override it.
+    stated_qualification: str = Field(default="", max_length=512)
 
 
 class ReviewResponse(_Strict):
     case_id: str
     action: HumanReviewAction
     outcome: ReviewOutcome | None
+    #: The authenticated subject. Echoed so a caller can see whose identity was
+    #: actually recorded, which will not be a value they supplied.
     reviewer_id: str
+    principal_type: str
+    authentication_method: str
+    identity_model: str
     #: What the engine had recommended when the reviewer acted, so agreement is
     #: readable from the response alone.
     recommended_outcome_at_review: str | None

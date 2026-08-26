@@ -27,6 +27,7 @@ from app.config.settings import Settings, get_settings
 from app.core.errors import MedauthError
 from app.core.ids import new_request_id
 from app.database.engine import build_engine, build_session_factory
+from app.identity.wiring import build_authenticator
 from app.observability.logging import configure_logging
 
 __all__ = ["app", "create_app"]
@@ -73,6 +74,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     # Caller identity. Empty means the API refuses every request rather than admitting
     # everyone - an unconfigured deployment must fail closed (app/api/v1/security.py).
     application.state.api_keys = parse_api_keys(resolved.api_keys.get_secret_value())
+    # The HUMAN authenticator. `None` means reviews are refused outright - never that
+    # the API key stands in for a person (OD-43).
+    application.state.authenticator = build_authenticator(resolved)
 
     application.add_middleware(
         CORSMiddleware,

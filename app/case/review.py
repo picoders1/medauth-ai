@@ -16,6 +16,17 @@ update path here, by the append-only trigger in the database, and by
 `ON DELETE RESTRICT` on the foreign key so the recommendation cannot be removed out from
 under a decision that judged it.
 
+## The reviewer is the authenticated principal, not a request field
+
+`record()` takes a `Principal` and derives `reviewer_id` from `principal.principal_id`.
+There is **no parameter** a caller could use to name somebody else - OD-43's fix is that
+absence, not a validation rule, because a validation rule is somewhere an exception gets
+added.
+
+Authorization is enforced here rather than in the route: `REVIEW_CASE` for any decision,
+`OVERRIDE_RECOMMENDATION` additionally for an override, `FINALIZE_CASE` for anything
+that ends the case. A second entry point cannot reach this by skipping a decorator.
+
 ## Why the rationale rule lives in two places
 
 The database has a `CHECK` requiring a rationale for `DENY` and `OVERRIDE`. This service
@@ -43,6 +54,7 @@ from app.audit.writer import ActorType, AuditWriter, EventType
 from app.case.lifecycle import CaseState, require_transition
 from app.case.service import CaseService
 from app.core.errors import MedauthError
+from app.identity.principal import Permission, Principal
 
 
 class ReviewRejected(MedauthError):
@@ -79,23 +91,39 @@ class HumanReviewService:
         self,
         case_id: str,
         *,
+        reviewer: Principal,
         caller_id: str,
         request_id: str,
-        reviewer_id: str,
-        reviewer_qualification: str,
         action: HumanReviewAction,
         rationale: str | None = None,
         override_outcome: ReviewOutcome | None = None,
+        stated_qualification: str = "",
     ) -> HumanReviewEventRow:
-        """Append one review event and move the case. Raises rather than half-doing it."""
+        """Append one review event and move the case. Raises rather than half-doing it.
+
+        `reviewer` is the **authenticated** principal. There is deliberately no
+        `reviewer_id` parameter: OD-43 was that a client could name whoever it liked,
+        and the fix is that the name is no longer expressible rather than no longer
+        accepted.
+        """
+        # Authorization first, and in the service. A route-only check is a check a
+        # second entry point can miss.
+        reviewer.require(Permission.REVIEW_CASE)
+        if action is HumanReviewAction.OVERRIDE:
+            reviewer.require(Permission.OVERRIDE_RECOMMENDATION)
+        if action is not HumanReviewAction.REQUEST_INFO:
+            # Everything except REQUEST_INFO ends the case.
+            reviewer.require(Permission.FINALIZE_CASE)
+
         case = await self._cases.get(case_id, caller_id=caller_id)
 
-        if not reviewer_id.strip():
-            raise ReviewRejected("a review must name its reviewer")
-        if not reviewer_qualification.strip():
+        reviewer_id = reviewer.principal_id
+        qualification = (stated_qualification or reviewer.stated_qualification).strip()
+        if not qualification:
             raise ReviewRejected(
-                f"{reviewer_id}: no qualification recorded. A later reader must be able "
-                "to tell who was competent to make this decision."
+                f"{reviewer_id}: no qualification stated. A later reader must be able "
+                "to tell who was competent to make this decision - the authenticated "
+                "identity says WHO, not on what basis."
             )
         if action in _REQUIRE_RATIONALE and not (rationale or "").strip():
             raise ReviewRejected(
@@ -132,8 +160,15 @@ class HumanReviewService:
             request_id=request_id,
             case_id=case_id,
             recommendation_id=recommendation.id if recommendation else None,
-            reviewer_id=reviewer_id.strip(),
-            reviewer_qualification=reviewer_qualification.strip(),
+            reviewer_id=reviewer_id,
+            reviewer_qualification=qualification,
+            # The authenticated identity, beside the name. They should agree; a row
+            # where they do not is worth seeing rather than silently reconciling.
+            identity_model="AUTHENTICATED_HUMAN",
+            principal_id=reviewer.principal_id,
+            principal_type=reviewer.principal_type.value,
+            authentication_method=reviewer.authentication_method.value,
+            identity_issuer=reviewer.issuer,
             action=action,
             outcome=outcome,
             rationale=(rationale or "").strip() or None,
@@ -148,10 +183,15 @@ class HumanReviewService:
             EventType.HUMAN_DECISION_RECORDED,
             stage="review",
             actor=ActorType.HUMAN,
-            actor_id=reviewer_id.strip(),
+            actor_id=reviewer.principal_id,
             outcome=str(outcome) if outcome else None,
             payload={
                 "action": action.value,
+                "principal_id": reviewer.principal_id,
+                "principal_type": reviewer.principal_type.value,
+                "authentication_method": reviewer.authentication_method.value,
+                "identity_issuer": reviewer.issuer,
+                "identity_model": "AUTHENTICATED_HUMAN",
                 "agreed_with_engine": (
                     recommendation is not None and action is not HumanReviewAction.OVERRIDE
                 ),
@@ -174,8 +214,9 @@ class HumanReviewService:
                 EventType.CASE_FINALIZED,
                 stage="review",
                 actor=ActorType.HUMAN,
-                actor_id=reviewer_id.strip(),
+                actor_id=reviewer.principal_id,
                 outcome=str(outcome) if outcome else None,
+                payload={"principal_id": reviewer.principal_id},
             )
         await self._session.commit()
         return event

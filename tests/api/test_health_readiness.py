@@ -134,6 +134,15 @@ def test_docs_are_closed_in_production() -> None:
     from app.api.main import create_app
 
     application = create_app(
-        _settings(environment="production", llm_api_key="k", trusted_proxies="10.0.0.0/8")
+        _settings(
+            environment="production",
+            llm_api_key="k",
+            trusted_proxies="10.0.0.0/8",
+            # OD-43: production refuses the development authenticator, so a
+            # production fixture has to configure a real one.
+            auth_mode="oidc",
+            oidc_issuer="https://idp.test/",
+            oidc_audience="medauth-api",
+        )
     )
     assert application.docs_url is None

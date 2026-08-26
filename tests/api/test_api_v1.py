@@ -30,6 +30,16 @@ pytestmark = [pytest.mark.api, pytest.mark.security]
 
 ALICE_KEY = "key-alice-000000"
 BOB_KEY = "key-bob-0000000"
+DEV_TOKEN = "tok-dr-reviewer"
+
+
+def reviewing(**extra: str) -> dict[str, str]:
+    """Caller key **and** a reviewer bearer token.
+
+    Two credentials, because they answer two questions (OD-43): the key says which
+    integrator may see the case, the token says which person decided.
+    """
+    return {"x-api-key": ALICE_KEY, "authorization": f"Bearer {DEV_TOKEN}", **extra}
 
 
 def _database_url() -> str:
@@ -47,6 +57,8 @@ def client() -> Iterator[TestClient]:
         _env_file=None,
         database_url=_database_url(),
         api_keys=f"{ALICE_KEY}:alice,{BOB_KEY}:bob",
+        auth_mode="development",
+        dev_reviewers=f"{DEV_TOKEN}:dr-reviewer:medauth-senior-reviewer",
     )
     application = create_app(settings)
     engine = build_engine(settings)
@@ -132,16 +144,18 @@ def test_another_caller_cannot_tell_the_case_exists(client: TestClient) -> None:
 
 
 def test_another_caller_cannot_review_the_case(client: TestClient) -> None:
+    """Ownership still hides the case, even from an authenticated reviewer.
+
+    Two boundaries, both enforced (OD-43): Bob's key cannot see Alice's case, so the
+    404 lands before the reviewer's authority is ever consulted. Case visibility and
+    review authority are separate questions and neither substitutes for the other.
+    """
     case_id = new_case_id()
     client.post("/api/v1/cases", json=submission(case_id), headers=alice())
     response = client.post(
         f"/api/v1/cases/{case_id}/review",
-        json={
-            "reviewer_id": "intruder",
-            "reviewer_qualification": "none",
-            "action": "APPROVE",
-        },
-        headers={"x-api-key": BOB_KEY},
+        json={"action": "APPROVE", "stated_qualification": "Radiologist"},
+        headers={"x-api-key": BOB_KEY, "authorization": f"Bearer {DEV_TOKEN}"},
     )
     assert response.status_code == 404
 
@@ -234,12 +248,8 @@ def test_a_case_not_routed_to_a_human_cannot_be_reviewed(client: TestClient) -> 
     client.post("/api/v1/cases", json=submission(case_id), headers=alice())
     response = client.post(
         f"/api/v1/cases/{case_id}/review",
-        json={
-            "reviewer_id": "dr-reviewer",
-            "reviewer_qualification": "Board-certified radiologist",
-            "action": "APPROVE",
-        },
-        headers=alice(),
+        json={"action": "APPROVE", "stated_qualification": "Board-certified radiologist"},
+        headers=reviewing(),
     )
     assert response.status_code == 422
     assert response.json()["error"] == "review_rejected"
@@ -252,12 +262,8 @@ def test_a_denial_without_a_rationale_is_refused(client: TestClient) -> None:
     client.post("/api/v1/cases", json=submission(case_id), headers=alice())
     response = client.post(
         f"/api/v1/cases/{case_id}/review",
-        json={
-            "reviewer_id": "dr-reviewer",
-            "reviewer_qualification": "Board-certified radiologist",
-            "action": "DENY",
-        },
-        headers=alice(),
+        json={"action": "DENY", "stated_qualification": "Board-certified radiologist"},
+        headers=reviewing(),
     )
     assert response.status_code == 422
     assert "rationale" in response.json()["detail"].lower()
@@ -269,31 +275,28 @@ def test_an_override_without_a_rationale_is_refused(client: TestClient) -> None:
     response = client.post(
         f"/api/v1/cases/{case_id}/review",
         json={
-            "reviewer_id": "dr-reviewer",
-            "reviewer_qualification": "Board-certified radiologist",
             "action": "OVERRIDE",
             "override_outcome": "APPROVED",
+            "stated_qualification": "Board-certified radiologist",
         },
-        headers=alice(),
+        headers=reviewing(),
     )
     assert response.status_code == 422
     assert "rationale" in response.json()["detail"].lower()
 
 
-def test_a_reviewer_must_name_a_qualification(client: TestClient) -> None:
+def test_a_review_without_a_bearer_token_is_refused(client: TestClient) -> None:
+    """OD-43. This test used to check that a reviewer named a qualification; the
+    identity itself now has to be authenticated, and an API key is not one."""
     case_id = new_case_id()
     client.post("/api/v1/cases", json=submission(case_id), headers=alice())
     response = client.post(
         f"/api/v1/cases/{case_id}/review",
-        json={
-            "reviewer_id": "dr-reviewer",
-            "reviewer_qualification": "",
-            "action": "APPROVE",
-        },
+        json={"action": "APPROVE", "stated_qualification": "Radiologist"},
         headers=alice(),
     )
-    # Refused by the request schema before the service is even reached.
-    assert response.status_code == 422
+    assert response.status_code == 401
+    assert response.json()["error"] == "not_authenticated"
 
 
 def test_a_case_with_no_recommendation_says_so(client: TestClient) -> None:
