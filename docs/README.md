@@ -124,6 +124,8 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [engineering/parallel-track-assessment.md](engineering/parallel-track-assessment.md) — what exists, what does not, and what R-86 actually blocks
 - [architecture/audit-trail.md](architecture/audit-trail.md) — **append-only by trigger, because the grants were inert**
 - [architecture/application-lifecycle.md](architecture/application-lifecycle.md) — **a recommendation is not a disposition**, proven end to end with no live provider
+- [architecture/phase-history-reconciliation.md](architecture/phase-history-reconciliation.md) — one canonical chronology; historical reports are **not** renamed
+- [escalations/R-86-final-evidence-package.md](escalations/R-86-final-evidence-package.md) — the evidence matrix, and what each layer does and does not prove
 - [engineering/final-closure-audit.md](engineering/final-closure-audit.md) — **three controls this project documented and nobody called**, and what closing them did and did not buy
 - [evaluation/retrieval-configuration-decision.md](evaluation/retrieval-configuration-decision.md) — **v3 scored once; no winner forced**
 - [evaluation/first-slice-live-results.md](evaluation/first-slice-live-results.md) — **PROBE / SMOKE / MATRIX**, kept apart

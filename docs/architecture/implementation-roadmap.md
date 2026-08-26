@@ -1,8 +1,14 @@
 # Implementation Roadmap
 
-**Status:** **Phases 0-18 delivered.** The first live model call was made on 2026-08-25;
-the runtime resolves policy applicability as of Phase 15. This document is written so a
+**Status:** **P0-P19 delivered, plus eleven emergent tracks (E-1 - E-11).** The first live
+model call was made on 2026-08-25; the runtime resolves policy applicability as of P15;
+the application layer and its lifecycle landed in E-9/E-10. This document is written so a
 future session can execute phase by phase without rediscovering the architecture.
+
+**Numbering:** several later work requests reused numbers this repository had already
+spent, and several substantial tracks were never numbered at all.
+[phase-history-reconciliation.md](phase-history-reconciliation.md) is the canonical
+chronology; historical reports keep their own names and are not renamed.
 
 | Phase | State |
 |---|---|
@@ -25,9 +31,32 @@ future session can execute phase by phase without rediscovering the architecture
 | 16 Measurement recovery | **Complete.** A measurement phase, not a capability one. **R-86: the Phase-15 length hypothesis WITHDRAWN** - a controlled gradient varying only length returned 0/56 up to 908 prompt tokens; `r86-factorial-001` found it needs the conjunction of the production schema, a longer input and real clinical content (6/6 vs 0/42), deterministically. No local mitigation is evidence-based; `OUTSIDE_ENGINEERING_CONTROL`. **gold_v2** fixes R-97 - 156 cases, applicability re-derived per case, all labels reproduce, gold_v1 byte-identical. **retrieval_v4** provenance-clean 36/36 with a single-arm baseline (R@1 0.7742). **Two denominators** replace one. **`phase16-evaluation-001` frozen and NOT run**: the gate stops on provider reliability and gold_v2's scoring is unspent. Found **R-99** (the failure classifier hid R-86 from itself) and **R-100** |
 | 17 Provider-gate closure attempt | **Complete; the gate did not open.** The registered reproducer was re-run under conditions verified unchanged field by field and **reproduced R-86 cell for cell** - 6/6 in the production-shape long cell, 0/42 elsewhere, six identical responses at temperature 0. Provider gate **FAIL** at 6/12 = 0.5000 against the pre-registered 0.10 ceiling. `phase16-evaluation-001` was **NOT authorised**: 14 of 15 preconditions pass and gold_v2's single scoring is **unspent**. Both candidate live signals were probed and neither can see a defect that returns HTTP 200, so **OD-40 stays open** rather than being closed by monitoring that cannot monitor. OD-42 scoped: citation validity is reportable, grounding accuracy is `unavailable`. Found **R-101**. No threshold lowered, no cell excluded, no request shape changed |
 | 18 R-86 handoff and evaluation hold | **Complete.** The evidence is frozen into one self-verifying, exportable manifest (`r86-reproducer-001`) carrying every value an owner needs and nothing they must not receive - the caller key appears only as a salted digest. `docs/operations/r86-provider-escalation.md` states the single question and **does not answer it**; a test asserts it never attributes. `eval/official_gate.py` becomes the **sole** authorisation boundary, bypass-proof by construction: no override parameter, no environment read, asserted over its own AST, plus a sweep of every script's argparse flags. `scripts/r86_revalidate.py` ran end to end and returned FAIL, so the harness is proven rather than promised. gold_v2's scoring remains **0 of 1**. Found **R-102** |
+| 19 Freeze verification | **Complete.** `ded0e9b`. Repository frozen and verified read-only; handoff state published. |
+| E-4 Closure audit | **Complete.** `fa799c4`. Found **three controls this project documented and nobody called**: `eval/official_gate.py` had no call site (**R-103**), `--freeze-manifest` could re-take a freeze (**R-104**), and a temporal CHECK existed only in a migration so the next autogenerate would have dropped it (**R-105**). `eval/schema.py` now exists, which CLAUDE.md had named since P0 |
+| E-5 R-86 attribution | **Complete.** `778aca5`. A firewall-side upstream capture eliminates the proxy: 2389 chars at the firewall == 2389 at MEDAUTH, `decision=allow`, 4 detectors, 0 detected. Attribution `PROVIDER_SIDE`. Found **R-106** - the closure gate would have passed a partial fix that closed the document and kept padding |
+| E-6 Root-cause narrowing | **Complete.** `67dac1c`. The failing response holds ~190 non-whitespace characters and **never closes**, so the padding starts while the document is open. `r86-temperature-perturbation-001` (6 trials, one changed field) failed 6/6, and the one trial that escaped the whitespace pattern **still ran to the ceiling**. Three hypotheses NARROWED or RETIRED, none selected |
+| E-7 Sendable package | **Complete.** `5976178`. The four-file escalation referenced its own siblings by repository path; it is now one generated, self-contained document |
+| E-8 Parallel track | **Complete.** `2aaa19b`. Audit schema, append-only **by trigger** - the grants alone were inert because PostgreSQL does not bind a table's owner, and a row-level trigger missed TRUNCATE. **R-16/R-17** schema mitigations now real |
+| E-9 Application layer | **Complete.** `4d66c07`. Case lifecycle, audit runtime writer, human review service, API v1 (7 endpoints), API-key caller identity, typed error model. The error handler had been mapping **every** domain error to 503 |
+| E-10 Lifecycle closure | **Complete.** `d8dd3a8`. Full lifecycle proven end to end with a fixture runner: `APPLICATION_LIFECYCLE_VERIFIED_INDEPENDENT_OF_LIVE_PROVIDER`. Found that `RECOMMENDATION_READY` was a dead end - the edge existed and no code path took it |
+| E-11 R-86 disposition + reconciliation | **Complete.** This commit. Evidence matrix, canonical chronology, roadmap corrected, **OD-43** opened for reviewer identity. No evaluation budget spent |
 
-An independent audit on 2026-08-25 found this table nine phases stale. It is a
-current-state document and drift in it is a defect, not a chore.
+An independent audit on 2026-08-25 found this table nine phases stale, and E-11 found it
+four tracks stale again. It is a current-state document and drift in it is a defect.
+
+## Current status, by category
+
+| category | items |
+|---|---|
+| **COMPLETED** | P0-P11, P13-P19, E-1 - E-11; application lifecycle; audit trail schema + runtime |
+| **BLOCKED** | `phase16-evaluation-001` - the official 26-case evaluation. Gold_v2's single scoring is **unspent** |
+| **IN_PROGRESS** | P12 real model activation - acceptance criteria deliberately not all attempted |
+| **OUTSIDE_ENGINEERING_CONTROL** | **R-86** (provider-side, root cause not established); **OD-19** criteria review; **OD-26** NCD coverage status |
+| **DEFERRED** | retrieval configuration (`ENGINEERING_DEFAULT_UNRESOLVED`, OD-35/36); reviewer identity (**OD-43**); LCD/Article corpus (OD-21) |
+| **NOT STARTED** | LangGraph; multi-agent orchestration; reviewer UI; RBAC; Kubernetes; Langfuse; the 150-case evaluation |
+
+**LangGraph is not implemented and is not in progress.** `langgraph` is importable only
+inside `app/graph`, which currently holds the linear slice runner and no graph.
 
 **Rules that apply to every phase**
 

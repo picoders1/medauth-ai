@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -382,3 +383,50 @@ def test_the_escalation_carries_no_secret_and_no_clinical_text() -> None:
     for note in notes:
         for sentence in (s.strip() for s in note.split("\n") if len(s.strip()) > 25):
             assert sentence not in blob
+
+
+# --------------------------------------------------------------------------- E-11
+# The block, exercised rather than inspected
+# ---------------------------------------------------------------------------
+
+
+def test_an_evaluation_attempt_fails_before_the_first_gold_case() -> None:
+    """**Behavioural, not structural.** Actually invoke a scorer and watch it refuse.
+
+    Everything else in this file reads files and parses ASTs, which proves the block is
+    *declared*. This proves it *bites*: the process is started with the live flag set,
+    and it returns non-zero having produced nothing.
+
+    The two assertions that make it non-vacuous are the last ones. A refusal that still
+    wrote an artefact, or that still decremented a budget, would have stopped nothing -
+    and R-101 is exactly that failure, recorded when a runner wrote `per_case.json`
+    regardless of the gate.
+    """
+    import json
+    import subprocess
+    import sys
+
+    reports = REPO / "eval/reports/phase16-410-33"
+    before = {p.name for p in reports.iterdir()}
+    budget_path = REPO / "data/gold/manifests/gold_v2.manifest.json"
+    spent_before = json.loads(budget_path.read_text())["scoring_budget"]["scorings_spent"]
+
+    result = subprocess.run(
+        [sys.executable, "-m", "scripts.score_frozen_410_33"],
+        cwd=REPO,
+        capture_output=True,
+        text=True,
+        timeout=120,
+        env={**os.environ, "MEDAUTH_LIVE_MODEL": "1"},
+        check=False,
+    )
+
+    assert result.returncode != 0, "a scorer ran to completion while the gate was BLOCKED"
+    assert "REFUSING" in result.stderr
+    assert "BLOCKED" in result.stderr
+
+    # Nothing was produced, and nothing was spent.
+    assert {p.name for p in reports.iterdir()} == before, "the refused run left an artefact"
+    assert (
+        json.loads(budget_path.read_text())["scoring_budget"]["scorings_spent"] == spent_before
+    ), "the refused run decremented the gold budget"
