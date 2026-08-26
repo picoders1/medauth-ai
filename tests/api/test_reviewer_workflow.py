@@ -145,6 +145,72 @@ def test_no_authorization_path_reads_the_stated_qualification() -> None:
     assert "Permission" not in exported
 
 
+def test_competence_is_not_modelled_anywhere_under_app() -> None:
+    """Structural. The third concept is an absence, and absences rot silently.
+
+    Qualification has a test because there is a field to point at. Competence has
+    none, so the only thing to assert is that nothing under `app/` has grown a symbol
+    for it - no field, no enum, no scoring function, and above all nothing that could
+    stand between a principal and a permission. Written the same way the repository
+    asserts its other absences (`OUTCOME_TOKENS`, `GOLD_V1_REPLAY`): by walking the
+    tree, so a module nobody imports cannot escape it.
+
+    `docs/architecture/hitl-workflow.md` §5 says competence is not modelled. This is
+    that sentence made executable.
+    """
+    import ast
+    from pathlib import Path
+
+    app_root = Path(__file__).resolve().parents[2] / "app"
+    offenders: list[str] = []
+    for path in sorted(app_root.rglob("*.py")):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            named = getattr(node, "name", None) or getattr(node, "id", None)
+            if isinstance(node, ast.Attribute):
+                named = node.attr
+            if isinstance(named, str) and "competen" in named.lower():
+                offenders.append(f"{path.relative_to(app_root.parent)}:{node.lineno} {named}")
+    assert not offenders, (
+        "competence is not modelled, yet a symbol named for it exists: " + "; ".join(offenders)
+    )
+
+
+def test_competence_cannot_be_asserted_into_a_review(client: TestClient) -> None:
+    """A caller claiming competence is refused the field, not quietly obeyed.
+
+    The request models are closed, so `competence` is an unknown field and a 422.
+    That is the point: there is no field to ignore, which is a stronger guarantee
+    than a field that happens not to be read today.
+    """
+    case_id = new_case(client)
+    response = client.post(
+        f"/api/v1/cases/{case_id}/review/accept",
+        json={"competence": "board certified to decide this case", "competence_score": 1.0},
+        headers=headers(READONLY),
+    )
+    # 403 (unauthorised) or 422 (unknown field) - never 200. Which one fires first is
+    # not the claim; that the assertion buys nothing is.
+    assert response.status_code in {403, 422}, "a competence claim was accepted"
+
+    # And with a principal who *is* authorised, the field is refused outright.
+    #
+    # Asserting `== 422` alone would be vacuous: `new_case()` leaves the case in
+    # RECEIVED, and a review action on a RECEIVED case is *also* a 422. So the
+    # assertion is on the reason - a pydantic `extra_forbidden` on `competence`,
+    # which only the closed model can produce.
+    authorised = client.post(
+        f"/api/v1/cases/{case_id}/review/accept",
+        json={"competence": "board certified to decide this case"},
+        headers=headers(SENIOR),
+    )
+    assert authorised.status_code == 422
+    detail = authorised.json()["detail"]
+    assert isinstance(detail, list), f"the field was tolerated; refused later instead: {detail}"
+    assert [e["type"] for e in detail] == ["extra_forbidden"], detail
+    assert [e["loc"][-1] for e in detail] == ["competence"], detail
+
+
 def test_a_qualification_is_never_reported_as_verified(client: TestClient) -> None:
     """No registry exists, so `VERIFIED_BY_REGISTRY` must be unreachable."""
     case_id = new_case(client)

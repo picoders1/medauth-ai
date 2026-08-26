@@ -1,6 +1,6 @@
 # Authoritative baseline — 2026-08-26
 
-Recomputed from the working tree at `49d4c18`, not carried forward from any earlier
+Recomputed from the working tree at `6abfe58`+2, not carried forward from any earlier
 report. Every number below was produced by running the command named beside it. This
 supersedes the baseline stated in the preceding phase brief, which was stale in two
 respects recorded in §1.
@@ -32,7 +32,7 @@ The host port changed 8010 → **8015**; the container port did not.
 | surface | value | consistent |
 |---|---|---|
 | `compose.yaml` | publishes `8015:8010` | ✔ |
-| `deploy/Dockerfile` | `EXPOSE 8010`, healthcheck 8010, uvicorn 8010 | ✔ — in-container |
+| `deploy/docker/api.Dockerfile` | `EXPOSE 8010`, healthcheck 8010, uvicorn 8010 | ✔ — in-container |
 | `settings.api_port` | default `8010` | ✔ — the bind, not the publish |
 | Makefile, README, ADR-019, repository-structure | 8015 | ✔ — host-side |
 | tests | **no test references any port** | ✔ |
@@ -44,25 +44,54 @@ dated record of what was true then, and one roadmap line is annotated as histori
 
 | | |
 |---|---|
-| full suite | **1356 passed**, 2 warnings |
-| by marker | unit 638 · api 83 · security 658 · integration 79 · evaluation 516 |
-| CI subset (`unit or api or security`) | 1052 passed, 304 deselected |
+| full suite | **1358 passed**, 2 warnings |
+| by marker | unit 638 · api 85 · security 660 · integration 79 · evaluation 516 |
+| CI subset (`unit or api or security`) | 1054 passed, 304 deselected |
 | ruff check / format | clean · 417 files formatted |
 | mypy `app` | clean, 102 source files |
 | `alembic check` | no new upgrade operations |
 | `uv lock --check` | current |
 | mutation harness | **47/47 caught** |
 
-The `1052` in the prior commit message and the `1356` here are the same suite under
-two denominators — the CI subset excludes `integration` and `evaluation`.
+The CI subset and the full suite are the same suite under two denominators — the
+subset excludes `integration` and `evaluation`. Both moved by 2 in this phase: the two
+competence tests added in §5.
 
 **One CI-equivalent failure found and fixed.** The *No compliance claims* guard would
 have failed on HEAD, and had done since Phase 3 (`17434a6`) without being seen,
 because nothing was pushed until recently. The test that *enforces* the rule holds
-`"hipaa compliant",` as a bare tuple entry, and the guard's context filter matches
-prose on the line — of which a list entry has none. Exempted by filename exactly as
-`ci.yaml` already exempts itself; a file cannot ban a phrase without quoting it.
-Verified in both directions: the guard passes, and still catches an injected claim.
+`"hipaa compliant",` in a tuple of claims that must not be made — a bare list entry,
+carrying no prose for the grep's context filter to match on. Exempted by filename
+exactly as `ci.yaml` already exempts itself; a file cannot ban a phrase without
+quoting it. Verified in both directions: the guard passes, and still catches an
+injected claim.
+
+**A convention this exposed.** Two guards enforce this one rule and they accept
+different framings. `test_no_fabricated_coverage_claim_in_phase_3_docs` is contextual
+— it accepts `never`, `not`, `refus`, `forbid`, `prohibit`, `cannot`, `must not` and
+more, anywhere in a six-line window. The CI grep is line-scoped and accepts only
+`never write`, `refused`, `Refused`, `must not`. So a document framing a banned phrase
+as *"forbidden"* satisfies the test and still fails CI. Both were left as they are —
+widening the grep would loosen the outer net over every file to suit the two that are
+exempt outright. **When quoting a banned phrase in `docs/`, frame it on the same line
+with `must not`, `never write` or `refused`.**
+
+**A second defect, in the record rather than the code.** `a0f2859` rewrote the
+*evidence* column of a **Produced** claim in `docs/evidence-and-claims.md` from
+`curl :8010/ready` to `curl :8015/ready`. The Phase 0 run that produced that evidence
+used 8010; nothing was re-produced at 8015. Editing the evidence column to match a
+later configuration makes the record describe a run that did not happen — the same
+class of drift this repository's own rule forbids ("when a test's expectation changes
+because the world changed, say so rather than silently editing the assertion"). The
+row now carries the current command *and* states that the evidence predates the port
+move.
+
+**A vacuous test, caught before it was committed.** The competence API test in §5
+first asserted only `status_code == 422`. It passed — but for the wrong reason: a
+review action on a case still in `RECEIVED` is also a 422, so the assertion held with
+the request model wide open. Confirmed by injection, then rewritten to assert the
+pydantic `extra_forbidden` error on `competence` specifically, which only the closed
+model can produce. Re-injected: it now fails as it should.
 
 ## 4. Authorization — set-based and cumulative
 
@@ -124,8 +153,20 @@ Verified as absences rather than as rules:
   occurs solely in the docstring saying it is unreachable.
 
 A reviewer stating *"Chief of Radiology, 30 years"* while holding `medauth-readonly`
-is refused all three actions — the third and fifth rows of §4 are the same principal
-with the same qualification and different grants.
+is refused all three actions — two rows of §4's table are the same principal with the
+same qualification and different grants.
+
+**Competence had no executable guard, and now has two.** It was asserted in prose in
+`hitl-workflow.md` §5 and nowhere else — the weakest position an absence can be in,
+because absences rot silently. Added:
+
+- `test_competence_is_not_modelled_anywhere_under_app` — walks the AST of every module
+  under `app/` for any symbol named for competence. Written this way, like the
+  repository's other absence guards, so a module nobody imports cannot escape it.
+  Non-vacuity confirmed by injecting a `competence_score()` function: it fails.
+- `test_competence_cannot_be_asserted_into_a_review` — a caller claiming competence in
+  a review body gets `extra_forbidden`, not a tolerated field. There is nothing to
+  ignore, which is stronger than a field that happens not to be read today.
 
 ## 6. R-86 — isolated, unchanged
 
