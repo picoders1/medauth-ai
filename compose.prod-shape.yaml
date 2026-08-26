@@ -1,0 +1,165 @@
+# A LOCAL PRODUCTION-SHAPED environment. Not production, and not promotable to it.
+#
+#     bash scripts/make_local_tls.sh
+#     set -a; . ./.env; . ./.env.idp; set +a
+#     docker compose -f compose.prod-shape.yaml up -d --build
+#
+# ## What "production-shaped" means here, precisely
+#
+# It differs from `compose.idp.yaml` in the four ways that actually change the
+# security properties being tested:
+#
+#  1. Keycloak runs `start`, not `start-dev` - production mode, which refuses to boot
+#     on several configurations `start-dev` tolerates.
+#  2. Its state is in **PostgreSQL on a named volume**, so realms, users and signing
+#     keys survive a restart. In-memory storage cannot demonstrate key continuity.
+#  3. Everything is **HTTPS**, with certificates from a local CA that MEDAUTH actually
+#     verifies - full chain, hostname and expiry. No verification is disabled anywhere.
+#  4. Hosts are **names**, not the docker bridge IP: `idp.medauth.localhost` and
+#     `api.medauth.localhost` resolve to 127.0.0.1 on the host by RFC 6761, and to the
+#     host gateway inside containers via `host-gateway`. One issuer string, both sides.
+#
+# What it still is NOT: no MFA policy decision, no organisational ownership, no real
+# domain, no real certificate authority, no HA, no backups. See
+# docs/deployment/production-shape-contract.md.
+#
+# A THIRD compose file, for the same reason there was a second: `docker compose up`
+# must not start an identity provider, and now must not start a production-shaped one
+# either. You name this file or you do not get it.
+
+name: medauth-prod-shape
+
+services:
+  # ---------------------------------------------------------------- identity
+  idp-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${MEDAUTH_IDP_DB_PASSWORD:?set MEDAUTH_IDP_DB_PASSWORD in .env.idp}
+      POSTGRES_DB: keycloak
+    volumes:
+      # Named, so the realm and its signing keys outlive the container. This is the
+      # difference that makes rotation and key continuity testable at all.
+      - idp-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    security_opt: [no-new-privileges:true]
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    # `start`, not `start-dev`. Production mode: strict hostname handling, no dev
+    # conveniences, and it will refuse to start rather than silently degrade.
+    command: ["start", "--optimized=false"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${MEDAUTH_IDP_ADMIN_USER:?}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${MEDAUTH_IDP_ADMIN_PASSWORD:?}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://idp-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${MEDAUTH_IDP_DB_PASSWORD:?}
+      # The issuer Keycloak stamps into `iss`, and the only one MEDAUTH accepts.
+      KC_HOSTNAME: https://idp.medauth.localhost:8443
+      KC_HTTPS_CERTIFICATE_FILE: /etc/tls/idp.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/tls/idp.key
+      KC_HTTPS_PORT: "8443"
+      # Plain HTTP is off. Not a hardening flourish: it means a misconfiguration
+      # cannot quietly fall back to an unencrypted channel that still works.
+      KC_HTTP_ENABLED: "false"
+      KC_HEALTH_ENABLED: "true"
+    volumes:
+      - ./deploy/local-tls:/etc/tls:ro
+    ports:
+      - "8443:8443"
+    depends_on:
+      idp-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8443 && echo ok >&3"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+      start_period: 30s
+    security_opt: [no-new-privileges:true]
+
+  # ---------------------------------------------------------------- MEDAUTH
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: medauth
+      POSTGRES_PASSWORD: medauth
+      POSTGRES_DB: medauth
+    volumes:
+      - app-data:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medauth -d medauth"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    security_opt: [no-new-privileges:true]
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/docker/api.Dockerfile
+    environment:
+      MEDAUTH_ENVIRONMENT: development
+      MEDAUTH_DATABASE_URL: postgresql+asyncpg://medauth:medauth@postgres:5432/medauth
+      MEDAUTH_CLINICAL_TEXT_LOGGING: "off"
+      MEDAUTH_AUTH_MODE: oidc
+      MEDAUTH_OIDC_ISSUER: https://idp.medauth.localhost:8443/realms/medauth-nonprod
+      MEDAUTH_OIDC_AUDIENCE: medauth-api
+      MEDAUTH_OIDC_DISCOVERY: "true"
+      MEDAUTH_API_KEYS: ${MEDAUTH_API_KEYS:?}
+      # The trust anchor. This ADDS a CA; it does not disable verification. Chain
+      # building, hostname matching and expiry all still run - which is the point of
+      # using a CA rather than pinning a self-signed certificate.
+      SSL_CERT_FILE: /etc/tls/ca.crt
+      REQUESTS_CA_BUNDLE: /etc/tls/ca.crt
+    volumes:
+      - ./deploy/local-tls/ca.crt:/etc/tls/ca.crt:ro
+    extra_hosts:
+      # The same hostname the client uses, resolved to the host that publishes
+      # Keycloak's TLS port. One issuer string on both sides of the boundary.
+      - "idp.medauth.localhost:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        # NOT a convenience. `build_authenticator` performs OIDC discovery **once, at
+        # startup**, and a failure returns None - reviews are then refused until the
+        # process restarts. That is the correct fail-closed choice (an authenticator
+        # that degraded when its key source was unreachable would be least
+        # trustworthy exactly when something was wrong), and it makes provider
+        # availability at boot a genuine ordering dependency.
+        #
+        # Without this, the API came up before Keycloak, discovery failed, and the
+        # container served 401s indefinitely while `/ready` correctly reported
+        # `reviewer_identity: no human authenticator is configured`.
+        #
+        # The deployment contract therefore REQUIRES a readiness probe wired to
+        # restart on sustained unreadiness. See
+        # docs/deployment/production-shape-contract.md.
+        condition: service_healthy
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  proxy:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./deploy/nginx-prod-shape.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/local-tls:/etc/nginx/tls:ro
+    ports:
+      - "8444:8444"
+    depends_on: [api]
+    security_opt: [no-new-privileges:true]
+
+volumes:
+  idp-data:
+  app-data:

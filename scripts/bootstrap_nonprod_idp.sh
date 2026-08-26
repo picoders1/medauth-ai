@@ -53,8 +53,40 @@ api() { # method path [body]
 }
 
 # --- realm -----------------------------------------------------------------
-code=$(api POST "" "$(printf '{"realm":"%s","enabled":true,"displayName":"MEDAUTH non-production","sslRequired":"none","accessTokenLifespan":900}' "$REALM")")
+# `sslRequired` follows the transport. The plain-HTTP dev stack needs `none` or
+# Keycloak refuses non-local requests; the production-shaped stack is HTTPS-only and
+# must say `all`, so that a realm exported from here cannot be stood up on plain HTTP
+# somewhere else and still work.
+SSL_REQUIRED="${MEDAUTH_IDP_SSL_REQUIRED:-none}"
+code=$(api POST "" "$(printf '{"realm":"%s","enabled":true,"displayName":"MEDAUTH non-production","sslRequired":"%s","accessTokenLifespan":900}' "$REALM" "$SSL_REQUIRED")")
 say "realm $REALM -> HTTP $code (409 = already present)"
+
+# --- realm security policy -------------------------------------------------
+# Applied to the realm after creation so it is reproducible rather than clicked in.
+#
+# THREE CATEGORIES, kept apart deliberately:
+#
+#  * APPLICATION-REQUIRED - token lifetimes bound how long a stolen bearer token is
+#    useful, and MEDAUTH has no session of its own to revoke. 15 minutes is short
+#    enough to matter and long enough for a review.
+#  * OPERATIONAL - brute-force lockout, password policy and event logging are
+#    defensible defaults for any deployment; none is specific to this application.
+#  * ORGANISATION DECISION - **MFA is deliberately NOT enforced here.** Keycloak
+#    supports it; requiring it is a policy an organisation makes, and configuring it
+#    on a fixture realm would let "MFA is configured" be written down when what is
+#    true is "MFA is available". See docs/deployment/production-shape-contract.md.
+api PUT "/$REALM" "$(cat <<JSON
+{"realm":"$REALM","enabled":true,"sslRequired":"$SSL_REQUIRED",
+ "accessTokenLifespan":900,
+ "ssoSessionIdleTimeout":1800,
+ "ssoSessionMaxLifespan":28800,
+ "bruteForceProtected":true,"permanentLockout":false,
+ "failureFactor":5,"waitIncrementSeconds":60,"maxFailureWaitSeconds":900,
+ "passwordPolicy":"length(12) and upperCase(1) and lowerCase(1) and digits(1) and notUsername(undefined)",
+ "eventsEnabled":true,"adminEventsEnabled":true,"adminEventsDetailsEnabled":true}
+JSON
+)" >/dev/null
+say "realm security policy applied (lockout, password policy, token lifetimes, event log)"
 
 # --- client, with an audience mapper ---------------------------------------
 # Without the mapper Keycloak stamps `aud: account` and MEDAUTH rejects the token.

@@ -222,10 +222,15 @@ changing an environment variable. No refresh-token rotation policy, no session
 management, no MFA, no lockout policy has been configured or tested.
 
 **Non-production.** Four fixture identities in a throwaway realm; no directory, no
-provisioning, no deprovisioning, no rotation under load. The realm is in-memory and
-does not survive a `docker compose down`. The issuer is an **IP literal** — correct and
-stable for this machine (see §7), but a deployment with DNS should set
-`MEDAUTH_IDP_HOST` to a real name; the whole arrangement is one variable.
+provisioning, no deprovisioning, no rotation under load. This stack's realm is
+in-memory and does not survive a `docker compose down`, and its issuer is an **IP
+literal** — correct for its bridge-network topology and not a deployment identity.
+
+Both of those are addressed by the **production-shaped** stack, which is a separate
+environment rather than a change to this one: `compose.prod-shape.yaml` runs Keycloak
+in `start` mode on PostgreSQL with a named volume, over HTTPS, behind the stable
+hostname `idp.medauth.localhost`. See
+[docs/deployment/production-shape-contract.md](../deployment/production-shape-contract.md).
 
 **Production.** **No production SSO is deployed and none is claimed.** No production
 IdP is selected (ADR-030 stands for deployment). No real key rotation has been

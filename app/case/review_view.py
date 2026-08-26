@@ -167,12 +167,30 @@ def _explain(abstention_reason: str | None, resolution_reason: str | None) -> st
     for key in (abstention_reason, resolution_reason):
         if key and key in _ROUTING_EXPLANATION:
             return _ROUTING_EXPLANATION[key]
-    if abstention_reason or resolution_reason:
-        # A reason the table does not have a sentence for. Say so rather than
-        # rendering a bare enum name and letting a reviewer guess.
+    if abstention_reason:
+        # An ABSTENTION reason the table does not have a sentence for. Say so rather
+        # than rendering a bare enum name and letting a reviewer guess.
+        #
+        # Only the abstention reason reaches this branch. A resolution reason must not:
+        # most of them are *successes*. `DESIGNATED_POLICY_APPLIES` means resolution
+        # found the governing policy, and it is set on essentially every healthy run -
+        # so while this read `abstention_reason or resolution_reason`, the normal path
+        # told every reviewer "Routed for review: DESIGNATED_POLICY_APPLIES. No
+        # explanation is recorded for this reason yet." That is worse than unhelpful:
+        # it presents an ordinary case as an unexplained anomaly, and it hid the
+        # sentence below, which is the one that actually applies.
+        #
+        # Resolution *problems* do not go unexplained by this change - they arrive
+        # with an abstention reason of their own (POLICY_NOT_APPLICABLE,
+        # CONFLICTING_POLICY, POLICY_TEMPORALLY_UNRESOLVED), and the loop above
+        # already has sentences for those.
+        #
+        # Found by rendering the reviewer UI against a real case in the
+        # production-shaped stack. The existing test asserted only that the string was
+        # non-empty and longer than 40 characters, which the wrong sentence satisfied.
         return (
-            f"Routed for review: {abstention_reason or resolution_reason}. No "
-            "explanation is recorded for this reason yet."
+            f"Routed for review: {abstention_reason}. No explanation is recorded for "
+            "this reason yet."
         )
     return (
         "This case carries a definitive draft recommendation. Every recommendation "

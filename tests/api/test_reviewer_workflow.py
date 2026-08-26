@@ -292,6 +292,49 @@ def test_the_review_view_separates_the_draft_from_the_disposition(
     assert "outcome" not in body, "a merged outcome field is back"
 
 
+def test_a_successful_resolution_is_not_rendered_as_an_unexplained_routing_reason() -> None:
+    """**Regression.** The normal path must not read like an anomaly.
+
+    `DESIGNATED_POLICY_APPLIES` is what resolution reports when it *found* the
+    governing policy - it is set on essentially every healthy run. `_explain` used to
+    fall back on `abstention_reason or resolution_reason`, so a case with a definitive
+    draft and no abstention told its reviewer:
+
+        Routed for review: DESIGNATED_POLICY_APPLIES. No explanation is recorded for
+        this reason yet.
+
+    Two harms. It presents an ordinary case as something nobody has accounted for, and
+    it suppresses the sentence that does apply - the one saying a recommendation is a
+    draft and needs a human disposition. A reviewer told the system does not know why
+    they are looking at something is being primed to defer to it (R-04).
+    """
+    from app.case.review_view import _explain
+
+    explanation = _explain(None, "DESIGNATED_POLICY_APPLIES")
+    assert "DESIGNATED_POLICY_APPLIES" not in explanation, explanation
+    assert "No explanation is recorded" not in explanation, explanation
+    assert "definitive draft recommendation" in explanation, explanation
+
+
+def test_an_unknown_abstention_reason_still_says_so() -> None:
+    """The honest-unknown branch must survive the fix above, or it traded one silence
+    for another. An abstention the table has no sentence for is the case that matters:
+    the system routed a case for a reason it cannot explain, and saying so is right."""
+    from app.case.review_view import _explain
+
+    explanation = _explain("SOME_NEW_ABSTENTION_REASON", "DESIGNATED_POLICY_APPLIES")
+    assert "SOME_NEW_ABSTENTION_REASON" in explanation
+    assert "No explanation is recorded" in explanation
+
+
+def test_a_known_reason_still_wins_over_both_fallbacks() -> None:
+    """Non-vacuity for the lookup itself."""
+    from app.case.review_view import _explain
+
+    assert "documentation" in _explain("INSUFFICIENT_EVIDENCE", "DESIGNATED_POLICY_APPLIES")
+    assert "contractor discretion" in _explain(None, "POLICY_NOT_APPLICABLE")
+
+
 def test_the_review_view_always_explains_why_the_case_is_here(
     client: TestClient,
 ) -> None:
