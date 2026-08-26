@@ -200,10 +200,17 @@ def test_an_override_is_its_own_action_not_a_flag() -> None:
 
 
 def test_a_recommendation_is_not_a_disposition() -> None:
-    """`ASSESSED` and `REVIEWED` are different states. A system whose engine output
-    was its final state would be making determinations, which this one does not."""
-    assert CaseState.ASSESSED != CaseState.REVIEWED
-    assert {s.value for s in CaseState} >= {"ASSESSED", "AWAITING_REVIEW", "REVIEWED"}
+    """A system whose engine output was its final state would be making
+    determinations. The graph property is asserted in `test_case_lifecycle.py`; this
+    checks the vocabulary the rows are written with is the machine's own."""
+    from app.case.lifecycle import CaseState as MachineState
+
+    assert CaseState is MachineState, "the audit rows use a second CaseState vocabulary"
+    assert {s.value for s in CaseState} >= {
+        "RECOMMENDATION_READY",
+        "HUMAN_REVIEW",
+        "FINALIZED",
+    }
 
 
 def test_a_denial_or_override_requires_a_rationale_in_the_database() -> None:

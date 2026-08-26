@@ -59,6 +59,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import UUID as PgUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.case.lifecycle import CaseState
 from app.database.base import Base, utc_now_column, uuid_pk
 
 __all__ = [
@@ -72,26 +73,15 @@ __all__ = [
     "ReviewOutcome",
 ]
 
+#: `CaseState` lives in `app.case.lifecycle` and is imported, not redefined. It was
+#: briefly declared here too - two vocabularies for one thing, which disagree the moment
+#: somebody adds a state to one of them. The machine owns the states; this module owns
+#: the rows they are written into.
+
 #: Tables the application role may INSERT and SELECT, and nothing else. Named here so
 #: the migration, the grant test and the ORM all read the same list rather than three
 #: hand-kept copies that drift.
 APPEND_ONLY_TABLES: tuple[str, ...] = ("audit_events", "human_review_events")
-
-
-class CaseState(StrEnum):
-    """Where a case is. Advancing is the only legal direction except to `FAILED`."""
-
-    RECEIVED = "RECEIVED"
-    RUNNING = "RUNNING"
-    #: The engine produced a recommendation. Not a final disposition - a
-    #: recommendation is a draft for a human, which is the whole architecture.
-    ASSESSED = "ASSESSED"
-    #: Routed to a person: abstention, provider failure, or a denial draft.
-    AWAITING_REVIEW = "AWAITING_REVIEW"
-    #: A named reviewer acted. Terminal.
-    REVIEWED = "REVIEWED"
-    #: The run could not complete. Terminal, and never a clinical outcome.
-    FAILED = "FAILED"
 
 
 class HumanReviewAction(StrEnum):
@@ -137,7 +127,16 @@ class CaseRow(Base):
     id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True, default=uuid_pk)
     #: The caller's identifier for this case. Not a patient identifier.
     case_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    #: Bumped when a case is re-run or amended. The recommendation rows carry their own
+    #: `run_seq`; this is the case's version, so "which submission" and "which run" stay
+    #: separable questions.
+    case_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     state: Mapped[CaseState] = mapped_column(String(24), nullable=False, default=CaseState.RECEIVED)
+
+    #: The caller that submitted this case. **The authorization boundary.** Ownership is
+    #: checked in the service, not the route, so a future second entry point cannot
+    #: reach a case by skipping a decorator.
+    submitted_by: Mapped[str] = mapped_column(String(64), nullable=False)
 
     #: sha256 of the submitted payload. The payload itself is NOT stored here - this
     #: is what lets a later reader prove which input produced which recommendation

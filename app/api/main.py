@@ -19,6 +19,9 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from app.api.readiness import evaluate_readiness
+from app.api.v1.errors import http_status_for, problem_response
+from app.api.v1.routes import router as v1_router
+from app.api.v1.security import parse_api_keys
 from app.config.policy import load_policy
 from app.config.settings import Settings, get_settings
 from app.core.errors import MedauthError
@@ -67,6 +70,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         redoc_url=None,
     )
     application.state.settings = resolved
+    # Caller identity. Empty means the API refuses every request rather than admitting
+    # everyone - an unconfigured deployment must fail closed (app/api/v1/security.py).
+    application.state.api_keys = parse_api_keys(resolved.api_keys.get_secret_value())
 
     application.add_middleware(
         CORSMiddleware,
@@ -78,19 +84,27 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @application.exception_handler(MedauthError)
     async def _domain_error(request: Request, exc: MedauthError) -> JSONResponse:
-        """Disclose a type and a request id. Never a detail an attacker could use."""
-        request_id = request.headers.get("x-medauth-request-id") or new_request_id()
-        log.warning("request_failed", error=type(exc).__name__, request_id=str(request_id))
-        return JSONResponse(
-            status_code=503,
-            content={
-                "error": {
-                    "message": "The request could not be completed.",
-                    "type": "internal_error",
-                    "request_id": str(request_id),
-                }
-            },
+        """Map a domain error to the status it deserves.
+
+        This used to return **503 for every `MedauthError`** - a case that did not
+        exist, a review missing its rationale and an illegal state transition were
+        indistinguishable to a caller, and all three read as "the service is down".
+        `app/api/v1/errors.py` holds the mapping now, in one place, so a route cannot
+        pick its own status.
+
+        The log keeps the type and the request id; the response body carries a message
+        we authored. Only unmapped errors are 500, and their detail is fixed text.
+        """
+        request_id = request.headers.get("x-medauth-request-id") or str(new_request_id())
+        status, code = http_status_for(exc)
+        log.warning(
+            "request_failed",
+            error=type(exc).__name__,
+            code=code,
+            status=status,
+            request_id=request_id,
         )
+        return problem_response(request, exc, request_id=request_id)
 
     @application.get("/health", include_in_schema=False)
     async def health() -> dict[str, str]:
@@ -118,6 +132,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return PlainTextResponse("metrics disabled\n", status_code=404)
         return PlainTextResponse(generate_latest().decode(), media_type=CONTENT_TYPE_LATEST)
 
+    application.include_router(v1_router)
     return application
 
 

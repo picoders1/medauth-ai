@@ -80,6 +80,10 @@ class Settings(BaseSettings):
 
     # --- Database (ADR-005) --------------------------------------------------
     database_url: str = "postgresql+asyncpg://medauth:medauth@localhost:5435/medauth"
+
+    #: `"key:caller-id,key2:caller-b"`. Empty means the API authenticates nobody and
+    #: therefore serves nobody - see app/api/v1/security.py on failing closed.
+    api_keys: SecretStr = SecretStr("")
     database_command_timeout_seconds: float = 5.0
 
     # --- Retrieval (local encoders; never traverse the firewall, ADR-006) ----
