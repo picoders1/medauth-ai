@@ -23,7 +23,13 @@ dependencies = [
     "pgvector>=0.3,<1.0",               # vector column type for SQLAlchemy (ADR-005)
     "alembic>=1.13,<2.0",               # schema is versioned, never auto-created
     "prometheus-client>=0.21,<1.0",     # /metrics exposition (ADR-018)
-    "pyjwt[crypto]>=2.9",
+    "pyjwt[crypto]>=2.9",       # reviewer OIDC tokens: RS256/ES256 verification (OD-43)
+    # The reviewer UI imports `Jinja2Templates` at module scope, and `app.api.main`
+    # imports that router - so without this the IMAGE CANNOT START, which is exactly
+    # what happened. It ran locally only because `torch` (an optional `retrieval`
+    # extra, excluded from the image) happened to pull jinja2 in. A runtime import
+    # satisfied by somebody else's transitive dependency is not a declared dependency.
+    "jinja2>=3.1,<4.0",
 ]
 
 [project.optional-dependencies]

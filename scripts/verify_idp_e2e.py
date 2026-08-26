@@ -1,7 +1,7 @@
 """Drive MEDAUTH end to end with tokens minted by the real non-production provider.
 
     docker compose -f compose.idp.yaml up -d
-    set -a; . ./.env; set +a
+    set -a; . ./.env; . ./.env.idp; set +a
     uv run python scripts/verify_idp_e2e.py
 
 ## Why this is a script and not a test

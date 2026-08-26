@@ -26,11 +26,23 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: ${MEDAUTH_IDP_ADMIN_USER:?set MEDAUTH_IDP_ADMIN_USER in .env}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${MEDAUTH_IDP_ADMIN_PASSWORD:?set MEDAUTH_IDP_ADMIN_PASSWORD in .env}
       # The issuer MEDAUTH is configured with must be the issuer Keycloak stamps into
-      # `iss`. Pinning the frontend URL to the published host port keeps discovery,
-      # the token's `iss` and `MEDAUTH_OIDC_ISSUER` the same string - a mismatch here
-      # is the single most common cause of a token that verifies everywhere except
-      # against the application.
-      KC_HOSTNAME: http://localhost:8090
+      # `iss`. Pinning the frontend URL keeps discovery, the token's `iss` and
+      # `MEDAUTH_OIDC_ISSUER` the same string - a mismatch here is the single most
+      # common cause of a token that verifies everywhere except against the
+      # application.
+      #
+      # It is the DOCKER BRIDGE GATEWAY, not `localhost`, and that is the whole point
+      # of this setting. `localhost` names a different machine depending on who says
+      # it: on the host it is the host, and inside the API container it is that
+      # container's own loopback, where nothing listens. One issuer string has to
+      # resolve to the same endpoint from both sides, and the gateway address is the
+      # one address that already does - the host reaches it as a local interface, and
+      # every container reaches it as its default route. No hosts file, no DNS, no
+      # second network.
+      #
+      # Parameterised so a deployment with a real DNS name changes configuration
+      # rather than code. See docs/security/nonproduction-idp.md.
+      KC_HOSTNAME: http://${MEDAUTH_IDP_HOST:?set MEDAUTH_IDP_HOST in .env}:8090
       KC_HOSTNAME_STRICT: "false"
       KC_HTTP_ENABLED: "true"
     ports:

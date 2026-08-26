@@ -84,15 +84,18 @@ it does not create an architecture.
 
 ---
 
-## Amendment, 2026-08-26 — a provider was selected by the operator
+## Amendment, 2026-08-26 — a non-production provider is selected
 
-**This ADR's decision was overridden by the repository owner**, who directed that the
-phase be unblocked rather than left waiting on provider values. Recorded as their
-decision, not as a reversal this repository made on its own judgement: the reasoning
-above still stands for the case where nobody has chosen.
+**Keycloak 26 is the selected provider for MEDAUTH's non-production identity
+integration.** Realm `medauth-nonprod`, audience `medauth-api`, run from
+`compose.idp.yaml` as a non-production-only overlay on host port 8090.
 
-**Selected: Keycloak 26**, run from `compose.idp.yaml` as a **non-production-only**
-overlay on host port 8090, realm `medauth-nonprod`, audience `medauth-api`.
+**This is a project-level engineering decision, and nothing more.** It was taken when
+the alternative was an indefinite block on a boundary no real token had ever crossed.
+There is **no organisational approval, no enterprise sign-off, no procurement and no
+vendor relationship** behind it, and none is claimed anywhere in this repository. The
+decision it records is "what this project runs locally to test authentication", not
+"what an organisation has standardised on".
 
 This is alternative **B** above, which this ADR rejected. The objection was that a
 throwaway container "would produce evidence about a provider nobody will deploy". That
@@ -131,6 +134,27 @@ tests that fail against the unfixed code.
 
 **That finding is the justification for this amendment.** A provider-neutral boundary
 verified only against mocks was carrying a live defect for as long as it existed.
+
+### Containerised verification, and two more defects
+
+The first amendment verified the boundary in-process. Doing it again through the
+published port required one canonical issuer reachable from both the host and the API
+container — the two compose projects are on separate bridge networks by design, and
+`localhost` names a different machine on each side. Resolved with the docker bridge
+gateway as the issuer host, pinned via `KC_HOSTNAME`, so discovery, `jwks_uri` and the
+`iss` claim are one string. **No validation was weakened**; the alternatives that would
+have weakened it are listed and rejected in `docs/security/nonproduction-idp.md` §7.
+
+That path immediately found two more things the in-process tests could not:
+
+- **the image could not start** — jinja2 is a hard runtime requirement of the reviewer
+  UI and was declared nowhere, satisfied locally only by an optional extra the image
+  excludes;
+- **the running container was three days stale**, serving code from before the reviewer
+  work existed, because `docker compose up -d` reuses an image.
+
+Both are fixed and covered by tests. The pattern from the first amendment repeated
+exactly: each layer that had never actually been run was carrying a defect.
 
 ### What is still not decided
 

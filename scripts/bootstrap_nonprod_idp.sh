@@ -2,7 +2,7 @@
 # Bootstrap the NON-PRODUCTION Keycloak realm MEDAUTH authenticates against.
 #
 #     docker compose -f compose.idp.yaml up -d
-#     set -a; . ./.env; set +a
+#     set -a; . ./.env; . ./.env.idp; set +a
 #     bash scripts/bootstrap_nonprod_idp.sh
 #
 # Idempotent: re-running it reconciles rather than duplicating.
