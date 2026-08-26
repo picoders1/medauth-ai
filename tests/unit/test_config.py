@@ -147,3 +147,82 @@ def test_unknown_policy_field_is_rejected(tmp_path: Path) -> None:
 def test_missing_policy_file_is_fatal(tmp_path: Path) -> None:
     with pytest.raises(ConfigurationError, match="not found"):
         load_policy(tmp_path / "absent.yaml")
+
+
+# --------------------------------------------------------------------------- N
+# File-mounted secrets (ADR-019's production reference, implemented)
+# ---------------------------------------------------------------------------
+
+
+def test_medauth_secrets_dir_wires_the_mount_without_an_init_argument(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """**The test that matters, and the one that was missing.**
+
+    Passing `_secrets_dir=` to the constructor exercises *pydantic-settings*, not
+    MEDAUTH: the keyword works whether or not this application wires anything up.
+    Written that way first, the tests below passed with the support removed entirely -
+    caught by deleting it and watching nothing fail.
+
+    A deployment does not pass constructor keywords. It sets an environment variable
+    and mounts a directory, which is what this asserts.
+    """
+    (tmp_path / "MEDAUTH_API_KEYS").write_text("wired-key:wired-integrator")
+    monkeypatch.setenv("MEDAUTH_SECRETS_DIR", str(tmp_path))
+
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+
+    assert settings.api_keys.get_secret_value() == "wired-key:wired-integrator"
+
+
+def test_a_secret_can_arrive_as_a_mounted_file(tmp_path: Path) -> None:
+    """Docker secrets, Kubernetes Secret volumes, Vault agent, systemd credentials.
+
+    Every mechanism that is not "put it in the environment" delivers a directory of
+    files named for the variable. ADR-019 specified `/run/secrets/MEDAUTH_*` for the
+    production reference and nothing implemented it, so the documented production
+    secret path did not work.
+
+    The value must not be readable from the model's `repr` either - a secret that
+    arrives by a safer route and then prints itself has gained nothing.
+    """
+    (tmp_path / "MEDAUTH_API_KEYS").write_text("mounted-key:mounted-integrator")
+
+    settings = Settings(_env_file=None, _secrets_dir=str(tmp_path))  # type: ignore[call-arg]
+
+    assert settings.api_keys.get_secret_value() == "mounted-key:mounted-integrator"
+    assert "mounted-key" not in repr(settings)
+
+
+def test_the_environment_beats_a_mounted_file(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """**Recorded because it is a footgun, not because it is desirable.**
+
+    pydantic-settings resolves environment variables before file secrets. A deployment
+    that sets both gets the environment value and no warning - so during a migration
+    from env vars to mounted files, the old value silently keeps winning and the new
+    one looks applied. Set one, not both.
+
+    The environment variable is set for real here rather than passed to the
+    constructor: an init keyword tests *init* precedence, which sits above both and
+    would prove nothing about the case a deployment actually hits.
+    """
+    (tmp_path / "MEDAUTH_API_KEYS").write_text("mounted-key:mounted")
+    monkeypatch.setenv("MEDAUTH_API_KEYS", "env-key:env")
+
+    settings = Settings(_env_file=None, _secrets_dir=str(tmp_path))  # type: ignore[call-arg]
+
+    assert settings.api_keys.get_secret_value() == "env-key:env"
+
+    # And with the environment variable gone, the mounted file is used - otherwise
+    # the assertion above would also pass if file secrets never worked at all.
+    monkeypatch.delenv("MEDAUTH_API_KEYS")
+    fallback = Settings(_env_file=None, _secrets_dir=str(tmp_path))  # type: ignore[call-arg]
+    assert fallback.api_keys.get_secret_value() == "mounted-key:mounted"
+
+
+def test_no_secrets_directory_is_not_an_error(tmp_path: Path) -> None:
+    """The default path. A deployment that injects by environment is unaffected."""
+    settings = Settings(_env_file=None, _secrets_dir=str(tmp_path / "absent"))  # type: ignore[call-arg]
+    assert settings.api_keys.get_secret_value() == ""

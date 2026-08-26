@@ -20,9 +20,10 @@ start: the failure is loud and immediate instead of silent and clinical.
 from __future__ import annotations
 
 import ipaddress
+import os
 from enum import StrEnum
 from functools import lru_cache
-from typing import Self
+from typing import Any, Self
 
 from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -50,9 +51,42 @@ class Settings(BaseSettings):
         env_prefix="MEDAUTH_",
         env_file=".env",
         env_file_encoding="utf-8",
+        # File-mounted secrets, which is how every secret mechanism that is not "put
+        # it in the environment" delivers material: Docker secrets, Kubernetes
+        # `Secret` volumes, a Vault agent sidecar, systemd credentials. Each mounts a
+        # directory of files named for the variable - `/run/secrets/MEDAUTH_API_KEYS`
+        # - which is exactly the convention ADR-019 specified for the production
+        # reference and which nothing in this file had implemented.
+        #
+        # Environment variables are visible in `docker inspect`, in `/proc/<pid>/environ`
+        # to anything sharing a namespace, and in a crash dump. A mounted file is not.
+        # This does not make files mandatory: unset `MEDAUTH_SECRETS_DIR` and behaviour
+        # is exactly as before.
+        #
+        # **Precedence is the library's: environment beats file.** So a deployment
+        # that sets both gets the environment value, silently. Set one. A test asserts
+        # this direction so the surprise is recorded rather than discovered.
+        #
+        # The directory itself is resolved in `__init__`, not here - see below.
         extra="ignore",
         frozen=True,
     )
+
+    def __init__(self, **values: Any) -> None:
+        """Resolve the secrets directory from the environment, per instance.
+
+        `MEDAUTH_SECRETS_DIR` is read **here** rather than in `model_config` because a
+        class-level `os.environ.get(...)` runs once, at import. That is invisible in a
+        container, where the environment is set before the process starts - and it is
+        also untestable, since no test can set the variable before the module it is
+        importing has been imported.
+
+        Resolving per instance makes the behaviour the same in both worlds and lets a
+        test assert it. An explicit `_secrets_dir=` still wins, which is what the
+        tests use to point at a temporary directory.
+        """
+        values.setdefault("_secrets_dir", os.environ.get("MEDAUTH_SECRETS_DIR") or None)
+        super().__init__(**values)
 
     environment: Environment = Environment.DEVELOPMENT
 

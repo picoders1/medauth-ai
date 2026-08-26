@@ -57,27 +57,60 @@ is fixed host-side. The production reference below publishes only at the edge an
 Not an overlay, because **an overlay cannot un-publish a port**. Only the edge publishes; the
 database sits on an `internal: true` network; secrets arrive as mounted files at
 `/run/secrets/MEDAUTH_*`; `/ready` is the health gate, so a container that lost its security
-configuration never has traffic routed to it. Asserted by tests against the manifests.
+configuration never has traffic routed to it.
+
+> **Amendment, 2026-08-26 — this section described artefacts that do not exist.** There is no
+> `compose.prod.yaml` in this repository and no test asserts against it; the sentence "Asserted by
+> tests against the manifests" has been removed rather than left standing. What is written above is
+> the *intent* for a production reference, and it is retained as a requirement, not as a
+> description of something present.
+>
+> One part of it has since been made real: `/run/secrets/MEDAUTH_*` was specified here and
+> implemented nowhere, so the documented production secret path did not work. `Settings` now
+> resolves `MEDAUTH_SECRETS_DIR` per instance and reads file-mounted secrets, verified in the clean
+> image with the secret present only as a mounted file and absent from the environment.
+>
+> The rest — a standalone production compose file, the `internal: true` network, the un-published
+> ports — remains **unbuilt**, and building it requires a production deployment target that has not
+> been supplied. See `docs/deployment/go-live-contract.md`.
 
 ### Containers
 
 Non-root, read-only root filesystem, dropped capabilities, pinned base image digests. UI built in
 its own container with a committed lockfile.
 
-### Kubernetes — authored and statically validated
+### Kubernetes — **not authored**
 
-Deployment, Service, ConfigMap, Secret (by reference, never literal), HPA, Ingress; readiness and
-liveness probes wired to `/ready` and `/health`; resource requests and limits. Validated in CI with
-`kubeconform`.
+> **Amendment, 2026-08-26.** This section previously described the manifests below as authored and
+> `kubeconform`-validated in CI. **Neither is true.** No manifest exists anywhere in the repository,
+> and `kubeconform` appears in `.github/workflows/ci.yaml` only inside a comment listing what
+> "lands in Phase 9". It has never run.
+>
+> So the *permitted* claim recorded here — "manifests are authored and statically validated in CI" —
+> was itself unsupported, which is worse than the refused claim it was protecting against: it read
+> as the careful, honest version while being false. Corrected in
+> `docs/evidence-and-claims.md` and in CLAUDE.md's language rules.
 
-> **The claim "runs on Kubernetes" is refused** until a real cluster run produces an artefact
-> (OD-9). The permitted claim is *"Kubernetes manifests are authored and statically validated in
-> CI"* — a different and weaker statement, and the accurate one.
+The intended manifest set, if and when a Kubernetes target is chosen: Deployment, Service,
+ConfigMap, Secret (by reference, never literal), HPA, Ingress; readiness and liveness probes wired
+to `/ready` and `/health`; resource requests and limits.
+
+**No Kubernetes target has been chosen** (OD-9 remains open, and the deployment platform is an
+external dependency — see `docs/deployment/go-live-contract.md` §5). Writing manifests before a
+target exists would be inventing infrastructure.
+
+> **The claim "runs on Kubernetes" is refused**, and so is "manifests are authored". The only
+> accurate statement today is that none exist.
 
 ### CI/CD
 
 `ruff` → `mypy --strict` → `uv lock --check` → unit/api/security → integration (compose) →
 evaluation guards → `kubeconform` → image build → `trivy` → `gitleaks` (full history) → `npm audit`.
+
+> **Amendment, 2026-08-26 — this is the intended pipeline, not the current one.** `ci.yaml` runs
+> `ruff`, `mypy`, `uv lock --check`, the unit/api/security subset and the documentation guards.
+> `kubeconform`, `trivy`, `gitleaks` and `npm audit` are **not wired**, and its own first line says
+> so. Listed here as the target, not as a description of what runs.
 
 **CI never depends on a paid API.** Model-calling tests are marked and skipped unless a secret is
 configured; evaluation regression runs against committed reports, not live inference. CI must pass
