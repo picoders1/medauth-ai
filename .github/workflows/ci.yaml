@@ -23,6 +23,40 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    # 38 of the `api` and `security` tests reach a real database - the reviewer
+    # workflow, the append-only audit triggers, the case lifecycle. They are not
+    # marked `integration` because they do not need the API container or the
+    # firewall, only PostgreSQL.
+    #
+    # Until this service existed **CI could not have passed**: the same subset below
+    # failed 38 tests with ConnectionRefusedError on every run. It went unnoticed
+    # because the branch had never been pushed, which is exactly how the compliance
+    # -claim guard was also found broken.
+    #
+    # The alternative was to make those tests skip when no database is reachable, as
+    # the `integration` marker already does. Rejected: skipping is right for a corpus
+    # this repository is not allowed to redistribute, and wrong for a dependency a
+    # runner can start in seconds. It would have turned a red CI green by removing
+    # 38 security tests from it.
+    #
+    # pgvector rather than stock postgres because migration 0001 enables the
+    # extension.
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: medauth
+          POSTGRES_PASSWORD: medauth
+          POSTGRES_DB: medauth
+        ports:
+          - 5435:5432
+        options: >-
+          --health-cmd "pg_isready -U medauth"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
     steps:
       - uses: actions/checkout@v4
 
@@ -54,6 +88,19 @@ jobs:
       # descriptors, ADR-003), so this runner has none. Corpus-dependent tests skip
       # with a reason naming the missing files - `-rs` prints those reasons, so the
       # log distinguishes RUN from SKIPPED rather than showing one green tick.
+      # The tests connect to `medauth_test`, which the service does not create.
+      # Schema comes from the migrations rather than from metadata.create_all, so CI
+      # exercises the same DDL a deployment applies - including the append-only
+      # triggers, which a metadata-driven schema would silently omit.
+      - name: Database schema
+        env:
+          PGPASSWORD: medauth
+        run: |
+          psql -h localhost -p 5435 -U medauth -d medauth \
+            -c "CREATE DATABASE medauth_test"
+          MEDAUTH_DATABASE_URL="postgresql+asyncpg://medauth:medauth@localhost:5435/medauth_test" \
+            uv run alembic upgrade head
+
       - name: Test
         run: uv run pytest -m "unit or api or security" -q -rs
 

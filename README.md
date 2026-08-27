@@ -230,16 +230,26 @@ docs/       architecture · adr · evaluation · security · runbooks
 
 ## 13. Getting started
 
-### The test suite, with nothing running
+### The test suite
 
 ```bash
 uv sync --all-groups --all-extras
-uv run pytest -q                    # 1369 passed
+docker compose up -d postgres       # 38 api/security tests reach a real database
+docker exec medauth-postgres-1 psql -U medauth -d medauth -c 'CREATE DATABASE medauth_test'
+MEDAUTH_DATABASE_URL="postgresql+asyncpg://medauth:medauth@localhost:5435/medauth_test"   uv run alembic upgrade head
+
+uv run pytest -q                          # 1369 passed
 uv run python scripts/mutation_guard.py   # 47/47 mutations caught
 ```
 
-No API key, no network egress and no containers are needed. Tests that would call a model are marked
-and skipped, so a fresh clone is green.
+**No API key and no network egress are required**, and no model is ever called — tests that would
+call one are marked and skipped. A database *is* required: the reviewer workflow, the append-only
+audit triggers and the case lifecycle are verified against real PostgreSQL rather than a fake, and
+the schema comes from the migrations so the triggers are the ones a deployment gets.
+
+With nothing running at all, `uv run pytest -m "unit or evaluation"` is green (1160 passed) and the
+rest fail on connection rather than skipping — deliberately, because a database a runner can start
+in seconds is not the kind of missing dependency that should quietly reduce coverage.
 
 ### The full demonstration — a real identity provider, end to end
 

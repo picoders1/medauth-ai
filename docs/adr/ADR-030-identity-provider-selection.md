@@ -4,6 +4,12 @@
 **Related:** ADR-012 (human-in-the-loop), ADR-017 (configuration), ADR-019 (deployment),
 ADR-020 (reviewer UI), OD-43
 
+> **Read the amendment first.** The title and the Context below record the state on
+> 2026-08-26 *before* a provider was chosen, and they are kept unedited because the
+> reasoning is what an ADR is for. **Keycloak 26 has since been selected for
+> non-production** — see the amendment at the end. It remains true that no *production*
+> provider is selected, which is the part the title still describes correctly.
+
 ---
 
 ## Context
