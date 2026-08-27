@@ -628,8 +628,16 @@ MUTATIONS: tuple[Mutation, ...] = (
 )
 
 
-def _run(mutation: Mutation) -> tuple[bool, str]:
-    """Apply, test, revert. Returns (test suite failed?, detail)."""
+#: A mutation whose catching tests could not run. **Not a catch and not a survival** -
+#: the experiment did not happen. It exists because the alternative was worse in both
+#: directions: counting it as caught is a lie the first real CI run exposed, and
+#: counting it as survived would fail CI permanently over a corpus CI is forbidden to
+#: hold (ADR-003, AMA-copyright descriptors).
+NOT_VERIFIED = "NOT_VERIFIED"
+
+
+def _run(mutation: Mutation) -> tuple[bool | str, str]:
+    """Apply, test, revert. Returns (caught? | NOT_VERIFIED, detail)."""
     path = REPO / mutation.path
     original = path.read_bytes()
     text = original.decode("utf-8")
@@ -659,7 +667,25 @@ def _run(mutation: Mutation) -> tuple[bool, str]:
         # failure of the harness, not as a pass.
         if result.returncode == 5:
             return False, f"no tests selected by -k {mutation.keyword!r}"
-        return result.returncode != 0, summary
+
+        # **A skip is not a catch.** The guard used to read any non-zero exit as
+        # "a test failed, so the mutation was caught". A test that cannot run also
+        # exits non-zero, and the first genuine CI run found exactly that: on a
+        # checkout without the restricted corpus the catching test errored during
+        # setup, and `audit-omits-the-authenticated-principal` was reported CAUGHT by
+        # a run in which nothing had examined the mutation at all.
+        #
+        # That is the vacuity this repository has now found four times: a check that
+        # passes for a reason unrelated to the thing it checks. Here it was the
+        # *guard against vacuity* that was vacuous.
+        #
+        # So: if nothing failed and something was skipped, the experiment did not
+        # happen. Say so rather than choosing whichever verdict is convenient.
+        if result.returncode != 0:
+            return True, summary
+        if " skipped" in summary and " failed" not in summary:
+            return NOT_VERIFIED, summary
+        return False, summary
     finally:
         path.write_bytes(original)
 
@@ -686,12 +712,17 @@ def main() -> int:
 
     print(f"  {len(selected)} mutation(s); each must make a test fail\n")
     survived: list[Mutation] = []
+    unverified: list[Mutation] = []
     for mutation in selected:
         caught, detail = _run(mutation)
-        mark = "CAUGHT  " if caught else "SURVIVED"
+        if caught is NOT_VERIFIED:
+            mark = "NOT VER."
+            unverified.append(mutation)
+        else:
+            mark = "CAUGHT  " if caught else "SURVIVED"
+            if not caught:
+                survived.append(mutation)
         print(f"  {mark}  {mutation.name:32} {detail[:60]}")
-        if not caught:
-            survived.append(mutation)
 
     after = subprocess.run(
         ["git", "status", "--porcelain"], cwd=REPO, capture_output=True, text=True
@@ -709,7 +740,27 @@ def main() -> int:
             print(f"    {mutation.name}: {mutation.rule}", file=sys.stderr)
         return 1
 
-    print(f"  all {len(selected)} mutations caught")
+    if unverified:
+        # Loud, named, and non-fatal. A guarantee nobody could test is not a guarantee
+        # that failed - but it must never read as one that passed, so it is printed
+        # with its rule and counted separately in the summary line.
+        print(
+            f"\n  {len(unverified)} NOT VERIFIED - the catching tests could not run here:",
+            file=sys.stderr,
+        )
+        for mutation in unverified:
+            print(f"    {mutation.name}: {mutation.rule}", file=sys.stderr)
+        print(
+            "    Cause: the restricted CFR corpus is absent (ADR-003). Run "
+            "`uv run python scripts/acquire_ecfr.py` to verify these locally.",
+            file=sys.stderr,
+        )
+
+    caught = len(selected) - len(unverified)
+    if unverified:
+        print(f"  {caught} of {len(selected)} mutations caught, {len(unverified)} not verified")
+    else:
+        print(f"  all {len(selected)} mutations caught")
     return 0
 
 
