@@ -6,27 +6,44 @@ An evidence-grounded system that helps a human reviewer evaluate prior-authoriza
 against authoritative coverage-policy criteria — and that is structurally unable to make the
 decision itself.
 
-**Python 3.12+** · **Planning phase** · Evaluated exclusively on synthetic patient data
+**Python 3.12+** · **Engineering-complete** · Evaluated exclusively on synthetic patient data
 
 ---
 
 ## Status
 
-**Planning phase complete. No application code exists.** This repository currently contains
-architecture, decision records, a threat model, an evaluation methodology and a phased
-implementation roadmap. Phase 0 has not started.
+**Engineering-complete.** The system runs end to end: a case is submitted, policy is resolved by
+date of service, evidence is retrieved inside the resolved versions, per-criterion verdicts are
+adjudicated, code computes the recommendation, and a reviewer authenticated by a real identity
+provider accepts, requests information or overrides it — with every step written to an append-only
+audit trail.
 
-Every performance, accuracy and grounding figure in this project is **pending evidence**. No number
-appears anywhere here unless a committed report produces it. The ledger of what may and may not be
-claimed is [docs/evidence-and-claims.md](docs/evidence-and-claims.md).
+**Two things are deliberately *not* claimed: no production deployment, and no evaluation result.**
+The full status, with the evidence behind every line, is **[PROJECT-STATUS.md](PROJECT-STATUS.md)**.
 
 | | |
 |---|---|
-| Architecture | Documented — [docs/architecture/](docs/architecture/) |
-| Decision records | 20 ADRs — [docs/adr/](docs/adr/) |
-| Threat model | 27 threats, each becoming a test in Phase 8 — [docs/security/threat-model.md](docs/security/threat-model.md) |
-| Evaluation | Methodology fixed, **nothing measured** — [docs/evaluation/](docs/evaluation/) |
-| Implementation | Not started — [roadmap](docs/architecture/implementation-roadmap.md) |
+| Application | 102 modules · 6 migrations · **1369 tests** · **47/47 mutations caught** |
+| Decision records | 30 ADRs — [docs/adr/](docs/adr/) |
+| Threat model | 27 threats — [docs/security/threat-model.md](docs/security/threat-model.md) |
+| Identity | Real OIDC against Keycloak 26 — **non-production**; `verify_idp.py` 12/12 |
+| Production shape | HTTPS + persistent IdP + clean image, E2E **45/45** — deployment **not performed** |
+| Evaluation | **Blocked.** The 26-case run has never executed — see below |
+
+### The one thing that is blocked, and why it is not a code defect
+
+`R-86`: on the registered reproducer the model provider emits ~190 characters of JSON,
+never closes the document, and pads whitespace to the completion ceiling — **6 of 12 trials, against
+a 10% threshold.** Ruled out by measurement: the application, both directions of the gateway, output
+budget, context length, the schema alone and the content alone. A *longer* prompt with the same
+schema terminates cleanly.
+
+The decoder is behind an external provider with no administrative surface, so **MEDAUTH cannot fix
+it locally** — and the evaluation gate stays `BLOCKED` rather than being lowered to fit. `gold_v2`
+remains unspent. That decision is the point: [docs/operations/r86-provider-escalation.md](docs/operations/r86-provider-escalation.md).
+
+Every performance, accuracy and grounding figure remains **pending evidence**. No number appears
+anywhere unless a committed report produces it — [docs/evidence-and-claims.md](docs/evidence-and-claims.md).
 
 ---
 
@@ -213,8 +230,63 @@ docs/       architecture · adr · evaluation · security · runbooks
 
 ## 13. Getting started
 
-Not yet runnable. Phase 0 creates the skeleton and the compose stack. Follow
-[docs/architecture/implementation-roadmap.md](docs/architecture/implementation-roadmap.md).
+### The test suite, with nothing running
+
+```bash
+uv sync --all-groups --all-extras
+uv run pytest -q                    # 1369 passed
+uv run python scripts/mutation_guard.py   # 47/47 mutations caught
+```
+
+No API key, no network egress and no containers are needed. Tests that would call a model are marked
+and skipped, so a fresh clone is green.
+
+### The full demonstration — a real identity provider, end to end
+
+Roughly ten minutes, entirely local, no cloud account. **It does not touch the blocked evaluation
+gate or `gold_v2`, and it needs no model calls.**
+
+```bash
+# 1. non-production identity provider (a SEPARATE compose file, on purpose:
+#    `docker compose up` must never start an IdP by accident)
+docker compose -f compose.idp.yaml up -d
+set -a; . ./.env; . ./.env.idp; set +a
+bash scripts/bootstrap_nonprod_idp.sh        # realm, 3 groups, 4 fixture identities
+
+# 2. prove the provider satisfies the contract, before trusting anything
+uv run python scripts/verify_idp.py --issuer "$MEDAUTH_OIDC_ISSUER" --audience medauth-api
+
+# 3. the application
+docker compose up -d --build
+uv run alembic upgrade head
+
+# 4. the whole path: real tokens → authorization matrix → HITL → audit → 19 negative cases
+uv run python scripts/verify_idp_container_e2e.py
+```
+
+What that last command demonstrates, in order: a real RS256 token authenticates through the
+published port; `readonly` may read and nothing else; `reviewer` may accept and request information
+but **not** override; `senior-reviewer` may override; an authenticated user in no group can do
+nothing. Then it opens a case and shows the review read model — **the routing explanation renders
+above the AI recommendation**, which is labelled a draft and kept in a different field from the
+human disposition. It accepts one case, requests information on another, overrides a third, and
+shows the original AI draft surviving the disagreement. It reads the audit back: the provider's
+`sub` with its issuer, and `UPDATE`/`DELETE` refused by trigger. Finally it runs 19 negative
+authentication cases, all returning one identical `401`.
+
+### The production-shaped stack, and the safe smoke suite
+
+```bash
+bash scripts/make_local_tls.sh                        # an isolated local CA
+docker compose -f compose.prod-shape.yaml up -d --build
+uv run python scripts/production_smoke.py --api-url https://api.medauth.localhost:8444     --issuer "$MEDAUTH_OIDC_ISSUER" --audience medauth-api
+```
+
+Keycloak in production mode on persistent PostgreSQL, HTTPS with real certificate verification. The
+smoke suite runs in **safe mode** by default — ten of its twelve checks are reads or denials, and it
+writes **nothing**. The two that finalise a case run only against a case you designate with
+`--smoke-case-id`, because a smoke test that quietly finalises a case has corrupted the append-only
+record it was checking.
 
 ## 14. Engineering conventions
 

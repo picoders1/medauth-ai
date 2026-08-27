@@ -1,4 +1,10 @@
-# Authoritative baseline — 2026-08-26
+# Baseline record — 2026-08-26
+
+> **Superseded as the project's status by [PROJECT-STATUS.md](../../PROJECT-STATUS.md).**
+> This remains a **dated record**: every figure below was true when measured, at the commit
+> named beside it, and is deliberately not edited to match later counts. Editing a recorded
+> measurement to match a later one destroys the evidence that the earlier state existed —
+> which is the whole reason it was written down.
 
 Recomputed from the working tree at `6abfe58`+2, not carried forward from any earlier
 report. Every number below was produced by running the command named beside it. This

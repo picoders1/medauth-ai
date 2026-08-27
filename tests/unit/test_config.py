@@ -154,8 +154,31 @@ def test_missing_policy_file_is_fatal(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
+@pytest.fixture
+def no_ambient_api_keys(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Clear `MEDAUTH_API_KEYS` from the real environment for file-secret tests.
+
+    **Found during the closure audit, and it is the documented footgun biting its own
+    tests.** Environment beats file secrets - `test_the_environment_beats_a_mounted_file`
+    asserts exactly that. So a developer who had run
+
+        set -a; . ./.env; set +a
+
+    (which the README's demonstration section tells them to do) exported
+    `MEDAUTH_API_KEYS`, and these three tests then read the environment value instead of
+    the mounted file and failed. Green in CI, red on a machine that had followed the
+    instructions - the worst shape a test failure can take, because it looks like a
+    local mistake.
+
+    `_env_file=None` was not enough: it disables the dotenv *source*, not the process
+    environment. The isolation has to be explicit.
+    """
+    monkeypatch.delenv("MEDAUTH_API_KEYS", raising=False)
+    monkeypatch.delenv("MEDAUTH_SECRETS_DIR", raising=False)
+
+
 def test_medauth_secrets_dir_wires_the_mount_without_an_init_argument(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, no_ambient_api_keys: None
 ) -> None:
     """**The test that matters, and the one that was missing.**
 
@@ -175,7 +198,7 @@ def test_medauth_secrets_dir_wires_the_mount_without_an_init_argument(
     assert settings.api_keys.get_secret_value() == "wired-key:wired-integrator"
 
 
-def test_a_secret_can_arrive_as_a_mounted_file(tmp_path: Path) -> None:
+def test_a_secret_can_arrive_as_a_mounted_file(tmp_path: Path, no_ambient_api_keys: None) -> None:
     """Docker secrets, Kubernetes Secret volumes, Vault agent, systemd credentials.
 
     Every mechanism that is not "put it in the environment" delivers a directory of
@@ -222,7 +245,7 @@ def test_the_environment_beats_a_mounted_file(
     assert fallback.api_keys.get_secret_value() == "mounted-key:mounted"
 
 
-def test_no_secrets_directory_is_not_an_error(tmp_path: Path) -> None:
+def test_no_secrets_directory_is_not_an_error(tmp_path: Path, no_ambient_api_keys: None) -> None:
     """The default path. A deployment that injects by environment is unaffected."""
     settings = Settings(_env_file=None, _secrets_dir=str(tmp_path / "absent"))  # type: ignore[call-arg]
     assert settings.api_keys.get_secret_value() == ""

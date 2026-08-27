@@ -97,7 +97,7 @@ in for real-provider evidence.
 
 | | what it proves | result |
 |---|---|---|
-| **mocked tests** (in CI) | this repository's side of the boundary — parsing, validation options, refusals | 1360 passed |
+| **mocked tests** (in CI) | this repository's side of the boundary — parsing, validation options, refusals | see [PROJECT-STATUS.md](../../PROJECT-STATUS.md) for the current count |
 | **real OIDC** (`verify_idp.py`) | the provider is compatible: discovery, issuer, JWKS, algorithms, `kid`s, a real token | 12/12 |
 | **real E2E** (`verify_idp_e2e.py`) | the application behaves correctly on identities it did not mint | 39/39 |
 
