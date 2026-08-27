@@ -6,7 +6,7 @@
 > measurement to match a later one destroys the evidence that the earlier state existed —
 > which is the whole reason it was written down.
 
-Recomputed from the working tree at `6abfe58`+2, not carried forward from any earlier
+Recomputed from the working tree at `3e41c24`+2, not carried forward from any earlier
 report. Every number below was produced by running the command named beside it. This
 supersedes the baseline stated in the preceding phase brief, which was stale in two
 respects recorded in §1.
@@ -17,7 +17,7 @@ respects recorded in §1.
 
 | | |
 |---|---|
-| HEAD | `49d4c18` |
+| HEAD | `552b075` |
 | branch | `main`, tree clean |
 | `origin/main` | `a0f2859` — **one commit behind HEAD** |
 | reflog | linear. No resets, amends, cherry-picks or rebases |
