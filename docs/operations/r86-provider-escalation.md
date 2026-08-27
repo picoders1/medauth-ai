@@ -148,6 +148,77 @@ these — each requires access we correctly do not have.
 > Nothing about this lifts the block. The defect reproduces 6/6 and the gate still
 > reads 6/12 = 0.5000 against the pre-registered ceiling of 0.10.
 
+## 10b. The control boundary — evidenced, not asserted
+
+Every earlier phase said MEDAUTH "cannot" reach the decoder. None of them showed it.
+That distinction cost this project four phases once already: `FIREWALL_PROXY` was
+treated as outside our control when the firewall was operated by the same team and its
+append-only audit had been recording the answer the whole time. So the boundary is
+established here by measurement.
+
+### The chain, hop by hop
+
+| hop | component | controllable from this environment? | evidence |
+|---|---|---|---|
+| 1 | MEDAUTH → gateway | **yes** | `MEDAUTH_LLM_BASE_URL` points at the locally-run gateway; this repository |
+| 2 | gateway (LLM Firewall) | **yes, fully** | source tree, container and configuration all local and owned |
+| 3 | gateway → provider | **configuration only** | `FIREWALL_UPSTREAM_BASE_URL` is an external `https://` endpoint; the value can be repointed, the service behind it cannot be changed |
+| 4 | model / decoder / structured-output runtime | **no** | see below |
+
+### Why hop 4 is closed, specifically
+
+- **No administrative surface.** Through the sanctioned path, the model-info, runtime
+  and admin paths all return `404`. `/v1/models` is not even proxied — the gateway
+  answers `not_implemented`. There is no endpoint that reports a runtime
+  version, a grammar backend, or a decoding configuration, let alone sets one.
+- **No local alternative.** The reference machine has a single 4 GB GPU
+  (RTX 3050 Laptop) and **zero** inference servers running — no vLLM, SGLang, TGI,
+  llama.cpp or Ollama. OD-2 already records that this hardware cannot serve a useful
+  model at the required context. Reproducing the decoder locally is not an option that
+  was declined; it is one that does not exist.
+- **Repointing the gateway is not a fix.** Sending the registered reproducer to a
+  different model or runtime produces evidence about a different system.
+  `docs/evaluation/r86-closure-gate.md` classifies that as `NEW_SYSTEM_CONFIGURATION`,
+  and the acceptance note on the seal says closure requires the registered shape to
+  succeed rather than a different shape to be substituted.
+
+### The gateway is eliminated on the request path too
+
+`r86-firewall-capture-001` eliminated the gateway for the **response**: 2389 characters
+measured at the firewall and 2389 at MEDAUTH, `decision=allow`, four detectors, none
+detecting. Two records on opposite sides of the proxy agreeing to the character.
+
+The **request** path had not been shown the same way, and now is, by reading the
+gateway's own source:
+
+- `app/gateway/upstream.py::chat_completions(payload)` forwards with
+  `self._client.post(..., json=payload)` — the payload dictionary, verbatim.
+- The payload is **never mutated**: no assignment, `pop`, `update` or `del` against it
+  anywhere in the chat route or the gateway.
+- `response_format`, `json_schema`, `guided_*`, `strict`, `max_tokens` and
+  `temperature` appear **nowhere** in the gateway or the chat route. The firewall has no
+  structured-output handling to get wrong, because it has none at all.
+
+So the registered request reaches the provider with its schema, strictness and decoding
+parameters exactly as MEDAUTH constructed them, and the response returns unaltered. The
+gateway is not a causal candidate on either path.
+
+### What follows
+
+**MEDAUTH cannot remediate this locally, and that is now a measured statement.** Every
+remaining discriminator in §10 — decoder state, EOS eligibility, grammar state,
+token-level trace, runtime version, speculative-decoding participation — lives behind
+hop 4, and hop 4 exposes no surface that reports them and none that changes them.
+
+This is not a request for access. MEDAUTH holds a revocable caller key scoped to one
+gateway and holds no provider credential by design (ADR-016); it should not be given
+one to satisfy this investigation.
+
+*No host, address, model identifier or key appears anywhere in this document. It is an
+outbound artefact, and `test_the_escalation_carries_no_secret_and_no_clinical_text`
+reads the forbidden values from `Settings` and fails the build if one appears — which
+is how the first draft of this section was caught carrying the gateway's address.*
+
 ## 11. Acceptance criterion for closure
 
 R-86 is closed when the **registered production shape** — unchanged schema, prompt,
