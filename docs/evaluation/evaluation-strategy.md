@@ -1,6 +1,8 @@
 # Evaluation Strategy
 
-**Status:** Planning phase. **No evaluation has been run. No number in this document is a result.**
+**Status:** Harness implemented; **no evaluation has been run. No number in this document is a
+result.** The 26-case run is blocked by R-86 (`docs/evaluation/r86-status.md`), and `gold_v2`
+remains unspent.
 Every metric below is a definition and a commitment, not a finding.
 
 **The rule:** if the artefact does not exist, the claim is not made. Not softened, not hedged — not

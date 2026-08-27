@@ -21,6 +21,11 @@ audit trail.
 **Two things are deliberately *not* claimed: no production deployment, and no evaluation result.**
 The full status, with the evidence behind every line, is **[PROJECT-STATUS.md](PROJECT-STATUS.md)**.
 
+**Reading it in five minutes:** [project summary](docs/portfolio/project-summary.md) — one page ·
+[run the demo](docs/portfolio/demo-guide.md) · [evidence scorecard](docs/evidence/final-scorecard.md) ·
+[architecture decisions](docs/architecture/README.md) · [security evidence](docs/security/security-summary.md) ·
+[why the evaluation is blocked](docs/evaluation/r86-status.md)
+
 | | |
 |---|---|
 | Application | 102 modules · 6 migrations · **1369 tests** · **47/47 mutations caught** |

@@ -1,7 +1,7 @@
 # ADR-016: LLM Firewall Integration and RAG-Injection Containment
 
 **Status:** Accepted · **Date:** 2026-08-23 · **Phase:** Planning
-**Sibling project:** `/home/piai/Music/llm-firewall`
+**Sibling project:** a separate local repository
 
 ## Context
 

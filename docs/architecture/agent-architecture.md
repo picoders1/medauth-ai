@@ -1,6 +1,8 @@
 # Agent Architecture
 
-**Status:** Planning phase. No agent code exists.
+**Status:** Partially implemented. The slice runner under `app/graph` executes the pipeline
+deterministically. **No LangGraph orchestration was built** — the phase that would have added it
+was never reached, and nothing here should be read as describing a running agent graph.
 **Authoritative for:** what each step may and may not do, graph state, retry and failure semantics.
 
 ---

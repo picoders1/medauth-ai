@@ -1,6 +1,7 @@
 # Data Architecture
 
-**Status:** Planning phase. No schema or migration exists.
+**Status:** Implemented. Six migrations, head `0006_reviewer_identity`; the append-only audit is
+enforced by trigger rather than by grant.
 **Authoritative for:** the PostgreSQL schema, data classification, retention, and what is
 deliberately not stored.
 

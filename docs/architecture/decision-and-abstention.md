@@ -1,6 +1,8 @@
 # Decision Engine and Abstention
 
-**Status:** Planning phase. No thresholds exist and none may be quoted.
+**Status:** Implemented, **uncalibrated**. The decision function and the abstention gate exist
+and are tested. **No calibrated threshold exists and none may be quoted** — every recommendation
+reports `confidence_state = UNCALIBRATED`, and that remains true.
 **Authoritative for:** the decision function, the abstention gate, and the calibration protocol.
 
 ---

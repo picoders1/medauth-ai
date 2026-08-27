@@ -1,7 +1,7 @@
 # Repository Structure
 
-**Status:** Planning phase. Only `docs/`, `README.md`, `.gitignore` and `.env.example`
-exist. Everything below is the target created during Phases 0–9.
+**Status:** Built. The layout below exists — 102 modules under `app/`, 6 migrations, 62 test
+modules. It was written as a target and is now a description.
 
 ---
 

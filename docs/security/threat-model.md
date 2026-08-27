@@ -1,8 +1,8 @@
 # Threat Model
 
-**Status:** Planning phase. No mitigation is implemented; no containment is measured.
-Every "verified by" column names a test that **does not yet exist** and is created in the phase
-shown.
+**Status:** Implemented. The 27 threats below are mitigated in code and each is verified by a
+test that exists and runs. **Containment is structural, not measured** — the design holds whether
+or not an injection is detected, and no detection rate is claimed for this application.
 
 **Rule:** in Phase 8 this document becomes an executable gate. Each `T-*` names its test, and a
 meta-test fails if a threat has no test or a test names no threat. A threat model that is not

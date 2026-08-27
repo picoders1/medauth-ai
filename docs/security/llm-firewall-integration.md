@@ -1,7 +1,7 @@
 # LLM Firewall Integration
 
-**Status:** Planning phase. No integration code exists.
-**Sibling project:** `/home/piai/Music/llm-firewall` — a release-candidate OpenAI-compatible
+**Status:** Implemented. The gateway client exists and is exercised by the unit suite.
+**Sibling project:** a separate local repository — a release-candidate OpenAI-compatible
 security gateway, separately deployed and separately versioned.
 
 ---

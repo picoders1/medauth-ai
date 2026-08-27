@@ -6,10 +6,20 @@ the repository, without requiring undocumented context.
 
 | | |
 |---|---|
-| **Engineering** | **ENGINEERING-COMPLETE / PORTFOLIO-READY** |
-| **Production** | **PRODUCTION-SHAPED READY** — production deployment **not performed** |
-| **R-86 evaluation gate** | **BLOCKED — external provider dependency** |
-| **Clinical validation** | **not claimed, and none exists** |
+| **Engineering** | **PORTFOLIO-READY / ENGINEERING-COMPLETE** |
+| **Remote CI** | **VERIFIED PASS** — run `33097477139` on `4870ae3` |
+| **Production shape** | **VERIFIED** |
+| **Production deployment** | **NOT PERFORMED** |
+| **R-86 evaluation gate** | **BLOCKED — external provider limitation** |
+| **Enterprise SSO** | **NOT DEPLOYED / NOT CLAIMED** |
+| **Clinical validation** | **NOT CLAIMED**, and none exists |
+
+**Start here:** [project summary](docs/portfolio/project-summary.md) ·
+[five-minute demo](docs/portfolio/demo-guide.md) ·
+[evidence scorecard](docs/evidence/final-scorecard.md) ·
+[architecture index](docs/architecture/README.md) ·
+[security evidence](docs/security/security-summary.md) ·
+[why R-86 is blocked](docs/evaluation/r86-status.md)
 
 Every figure below was produced by a command in this repository. Nothing is carried
 forward from a previous report.
