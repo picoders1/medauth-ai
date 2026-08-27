@@ -105,7 +105,7 @@ audit / history
 | TLS trust verification | verified against a local CA; **refused** without it; **refused** on a wrong hostname |
 | secrets excluded | none in source, none in the image; `SecretStr` plus redaction at the structlog sink |
 | runtime reproducibility | clean `--no-cache` build, 37 packages, no optional extra masking a runtime dependency |
-| mutation evidence | **47/47 mutations caught** |
+| mutation evidence | **47/47 caught** where the restricted corpus is present. In CI, which cannot hold that corpus, the guard reports **37 caught, 10 not verified** and names them — it does not credit a mutation whose catching test could not run |
 
 ## 4. Authorization
 
@@ -194,6 +194,7 @@ external provider-dependent evaluation limitation, not an unresolved MEDAUTH def
 | HITL | **COMPLETE** | accept / request-info / override verified live |
 | Audit | **COMPLETE** | authenticated `sub` + issuer; `UPDATE`/`DELETE` refused |
 | Runtime | **COMPLETE** | clean `--no-cache` build; reviewer UI renders |
+| Remote CI | **PASSING** | run `33096735735` on `ab9fb3d`: every step green, none skipped. Test step **948 passed, 117 skipped** — the skips are corpus-gated (ADR-003), and the database-backed api/security tests execute against a real PostgreSQL service |
 | Real IdP | **VERIFIED NON-PRODUCTION** | Keycloak 26, `verify_idp.py` 12/12, `verify_idp_e2e.py` 39/39 |
 | Production-shaped E2E | **COMPLETE** | `verify_idp_container_e2e.py` **45/45** over HTTPS |
 | Production deployment | **NOT PERFORMED** | no platform, domain, CA or operator exists |
