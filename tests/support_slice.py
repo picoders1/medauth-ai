@@ -11,6 +11,7 @@ here verifies against the same text production would retrieve.
 
 from __future__ import annotations
 
+import unittest
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date
@@ -46,8 +47,34 @@ from app.retrieval.evidence import EvidenceChunk, content_hash
 from tests.corpus import skip_reason
 
 
-class CorpusUnavailable(RuntimeError):
-    """The restricted CFR corpus is not present. Never substituted for."""
+class CorpusUnavailable(unittest.SkipTest, RuntimeError):
+    """The restricted CFR corpus is not present. Never substituted for.
+
+    **Also a `SkipTest`, and that is the whole fix.** pytest treats
+    `unittest.SkipTest` as a skip wherever it is raised - fixture, helper or test
+    body - so a test that reaches for the corpus and cannot find it now reports
+    SKIPPED with this reason instead of ERRORED.
+
+    Found by the first real CI run. 104 corpus-dependent tests already skipped
+    correctly, because they consult `skip_reason()` through a `skipif` marker before
+    running. Fourteen did not: they call `_paragraph()` from inside a fixture, where a
+    marker cannot reach, and a raised `RuntimeError` is a failure. So CI was red on a
+    fresh checkout while every local run was green - the corpus is present on the
+    development machine, and absent everywhere else by design (ADR-003, AMA-copyright
+    descriptors).
+
+    That made CLAUDE.md's "the suite is green on a fresh clone" false for those
+    fourteen, and nothing local could have shown it.
+
+    **`RuntimeError` is kept in the bases.** Dropping it would change what any
+    `except RuntimeError` sees; nothing catches this today, and the next thing that
+    does should not be surprised by a base class that quietly narrowed.
+
+    This does not reduce coverage. Where the corpus is present - a developer who has
+    run `scripts/acquire_ecfr.py` - these tests execute exactly as before. Where it is
+    absent they were never able to run, and the only question was whether they said so
+    or fell over.
+    """
 
 
 REPO = Path(__file__).resolve().parents[1]
