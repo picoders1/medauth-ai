@@ -26,6 +26,49 @@ The request shape must not be changed to make the defect disappear. The threshol
 not be changed. The provider configuration used by the official experiment stays
 identified and sealed.
 
+## 1a. Two things this gate is repeatedly misread as
+
+Both misreadings arrived together in a revalidation request on 2026-08-27, and both
+would have unblocked the gate on evidence that says nothing about it. Recorded here
+because the wording invites them.
+
+### "6/12" is a failure RATE, not a count of satisfied requirements
+
+`eval/reports/r86-revalidation/20260825T155710Z.json` records:
+
+```json
+"production_failures": 6, "production_trials": 12,
+"production_failure_rate": 0.5, "acceptance_threshold": 0.1, "result": "FAIL"
+```
+
+Six of twelve **trials failed** — a 50% failure rate against a 10% ceiling. It is not
+"six of twelve conditions met", and there is no list of twelve requirements anywhere.
+The number twelve is condition 6 above: six trials in each of two cells.
+
+Read as a scorecard, `6/12` looks like meaningful progress toward a threshold. Read
+correctly, it is five times the maximum permitted failure rate.
+
+### R-86's "production shape" is a REQUEST shape, not a deployment environment
+
+This is the more dangerous one, because the phrase now names two unrelated things in
+this repository:
+
+| | |
+|---|---|
+| **R-86 "production-shaped reproducer"** | the production `IntakeExtraction` schema and a long gold clinical note, sent to the model provider. The cells are `intake/gold_note/long` and `intake/gold_note/short` |
+| **deployment "production-shaped environment"** | HTTPS, a canonical issuer, TLS verification, a persistent Keycloak, a clean image (`docs/deployment/production-shape-contract.md`) |
+
+They share an adjective and nothing else. R-86 is a decoder that does not terminate;
+the deployment work is about how MEDAUTH is served and who may review a case.
+
+**No amount of deployment evidence can close this gate**, and the gate is built so it
+cannot be offered any: `eval/official_gate.py` reads exactly two artefacts — the sealed
+reproducer manifest and the most recent revalidation. It has no input for TLS, an
+issuer, an image digest or a smoke result, so the question "does the production-shaped
+deployment satisfy R-86?" has no mechanism by which it could.
+
+The only thing that closes R-86 is the registered reproducer succeeding.
+
 ## 2. A defect this definition uncovered (R-106)
 
 Conditions 3 and 4 were **not enforced**. Writing them down is what exposed it.
