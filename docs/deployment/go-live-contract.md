@@ -8,9 +8,11 @@ document between this repository and whoever runs it.
 **nothing here has been organisationally approved.** Where a decision has an owner who
 has not made it, the row says so instead of guessing.
 
-**Companion:** `docs/deployment/production-shape-contract.md` records what was actually
+**Companions:** `docs/deployment/production-shape-contract.md` records what was actually
 verified in a local production-shaped environment. This one records what production
-still needs.
+still needs. `docs/operations/production-deployment-runbook.md` is the step-by-step
+execution of it, with the secret matrix, the smoke contract and the security acceptance
+criteria.
 
 ---
 
