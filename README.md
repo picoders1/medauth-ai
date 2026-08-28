@@ -32,7 +32,7 @@ person, with the whole path written to an append-only audit trail.
 | Application | **102 modules** · 6 migrations · **1369 tests** · **47/47** safety mutations caught |
 | Decision records | **30 ADRs** — [docs/adr/](docs/adr/) |
 | Threat model | **27 threats** — [docs/security/threat-model.md](docs/security/threat-model.md) |
-| Identity | Real OIDC against **Keycloak 26** (non-production); `verify_idp.py` **12/12** |
+| Identity | Real OIDC against **Keycloak 26** (non-production); `verify_idp.py` **12/12 with a token** (7 without — issuance is not checked unless you supply one) |
 | End-to-end | **45/45** through the published port, incl. 19 negative auth cases |
 
 **[PROJECT-STATUS.md](PROJECT-STATUS.md) is the single authoritative status document.** Where any
@@ -324,6 +324,20 @@ docker compose up -d postgres
 uv run alembic upgrade head
 ```
 
+Load the policy corpus. **This step is required for the full suite** and is easy to miss:
+the schema alone is not enough, because a handful of evaluation tests audit the retrieval
+chain against the ingested policy index and cannot score anything against an empty one.
+
+```bash
+uv run python scripts/ingest_cms.py        # policy documents, versions, chunks
+uv run python scripts/load_code_links.py   # curated procedure-code linkage
+```
+
+*Found by wiping the database volume and following this file from scratch: without it,
+`test_the_audit_rejects_a_broken_chain` fails on its own control query, and the failure
+looks like a broken test rather than an empty index. CI is unaffected — its selection
+excludes evaluation-marked tests.*
+
 For the test suite, create the separate test database:
 
 ```bash
@@ -400,13 +414,20 @@ draft surviving the disagreement. It reads the audit back: the provider's `sub` 
 ### The production-shaped stack
 
 ```bash
-bash scripts/make_local_tls.sh                       # an isolated local CA
+docker compose -f compose.prod-shape.yaml down -v     # REQUIRED first — see below
+bash scripts/make_local_tls.sh                        # an isolated local CA
 docker compose -f compose.prod-shape.yaml up -d --build
 
 uv run python scripts/production_smoke.py \
   --api-url https://api.medauth.localhost:8444 \
   --issuer "$MEDAUTH_OIDC_ISSUER" --audience medauth-api
 ```
+
+> **The `down -v` is not optional.** `make_local_tls.sh` writes a new CA, but Keycloak reads its
+> certificate once at startup and Compose will not recreate a service whose definition has not
+> changed — so regenerating TLS under a running stack leaves the *old* certificate being served while
+> the new CA sits on disk, and every request fails with `invalid padding`. Verified after the fix by
+> comparing the generated and served certificate serials, which now match.
 
 Keycloak in production mode on persistent PostgreSQL, HTTPS with real certificate verification. The
 smoke suite runs in **safe mode** by default — ten of its twelve checks are reads or denials and it

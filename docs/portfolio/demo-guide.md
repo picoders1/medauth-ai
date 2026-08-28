@@ -151,10 +151,17 @@ it verifies tokens, it does not mint them.
 ## 7. Tear down
 
 ```bash
+set -a; . ./.env; . ./.env.idp; set +a     # required — see below
 docker compose down
 docker compose -f compose.idp.yaml down -v
 docker compose -f compose.prod-shape.yaml down -v
 ```
+
+> **Source the environment before tearing down, not just before starting.** The IdP compose files
+> declare required variables as `${VAR:?}`, and Compose interpolates them on **every** command
+> including `down` — so a teardown in a fresh shell fails with *"required variable
+> MEDAUTH_IDP_ADMIN_USER is missing a value"* and leaves the containers running. Found by following
+> this guide in a clean shell.
 
 ## What this demonstration does not show
 
