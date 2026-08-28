@@ -54,6 +54,17 @@ classification     SCHEMA_GRAMMAR_FAILURE
 latency            ~6.5 s median
 ```
 
+**Two further properties of the body, both load-bearing:**
+
+- **~190 non-whitespace characters.** Less than any other `intake` cell in the factorial,
+  and a sixth of what the passing short cell emits (1098) while terminating cleanly in 478
+  tokens. The minimal document satisfying this schema is 110 characters compact. So it is
+  not a long answer truncated by the ceiling — it is a nearly-empty one that never closed.
+- **Byte-identical across trials.** Six trials in the factorial and six in the
+  revalidation, taken hours apart at temperature 0, produced the same 1536 completion
+  tokens, the same 2389 body characters and the same 0.9205 whitespace fraction every
+  time. Whatever the decoder is doing, it does it identically on every attempt.
+
 ## 4. Reproduction frequency
 
 **6 of 6.** Two independent runs on different days (Phase 16 and Phase 17), same

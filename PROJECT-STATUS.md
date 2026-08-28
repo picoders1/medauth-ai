@@ -14,7 +14,9 @@ the repository, without requiring undocumented context.
 | **Enterprise SSO** | **NOT DEPLOYED / NOT CLAIMED** |
 | **Clinical validation** | **NOT CLAIMED**, and none exists |
 
-**Start here:** [project summary](docs/portfolio/project-summary.md) ·
+**Start here:** [final project brief](docs/portfolio/final-project-brief.md) ·
+[interview notes](docs/portfolio/interview-notes.md) ·
+[project summary](docs/portfolio/project-summary.md) ·
 [five-minute demo](docs/portfolio/demo-guide.md) ·
 [evidence scorecard](docs/evidence/final-scorecard.md) ·
 [architecture index](docs/architecture/README.md) ·
