@@ -143,7 +143,7 @@ closure contract classifies it as `NEW_SYSTEM_CONFIGURATION`.
 | HA / DR / backups | **EXTERNAL OPERATIONS** | not performed | design and execute before production |
 | Reviewer governance | **EXTERNAL DECISION** | no owner | decide who may hold senior-reviewer |
 | Clinical validation | **OUT OF CURRENT SCOPE** | not performed | separate validation programme |
-| `data/cms/registry.yaml` | **NON-BLOCKING DEBT** | known | optional future cleanup |
+| `data/cms/registry.yaml` | **RESOLVED** | registry-relative acquisition paths | none — guarded by 4 tests |
 
 **None of the rows below "R-86" is an application defect.** They are decisions and
 operational work that belong to whoever deploys the system.

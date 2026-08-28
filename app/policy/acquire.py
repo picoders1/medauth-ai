@@ -221,6 +221,32 @@ REGISTRY_HEADER = """\
 """
 
 
+def _portable_uri(uri: str, registry_dir: Path) -> str:
+    """Local acquisition paths become registry-relative; URLs pass through.
+
+    The registry is **committed**; the documents it describes are not (ADR-003). So it
+    is read on machines that never performed the acquisition, and an absolute path from
+    the machine that did is meaningless there - it names a directory layout, not a
+    document. It also writes a developer's home directory into a tracked file for no
+    benefit.
+
+    Nothing consumes this field: it is provenance for a human, and the *canonical*
+    identity is `source_url`, which is already a public URL and is untouched here. The
+    `sha256` is what actually identifies the content.
+
+    Relative to the registry's own directory rather than to a repository root, because
+    the writer knows where it is writing and `app/` has no business computing the shape
+    of a checkout. A path outside that directory, and any URL, is left exactly as it is
+    rather than being turned into a chain of `..` that would be no more portable.
+    """
+    if "://" in uri:
+        return uri
+    try:
+        return Path(uri).resolve().relative_to(registry_dir.resolve()).as_posix()
+    except ValueError:
+        return uri
+
+
 def write_registry(entries: list[RegistryEntry], path: Path | str) -> None:
     file = Path(path)
     file.parent.mkdir(parents=True, exist_ok=True)
@@ -229,7 +255,8 @@ def write_registry(entries: list[RegistryEntry], path: Path | str) -> None:
         "document_count": len(entries),
         "synthetic_count": sum(1 for e in entries if e.synthetic),
         "documents": [
-            e.as_dict() for e in sorted(entries, key=lambda e: (e.policy_id, e.revision_id))
+            {**e.as_dict(), "source_uri": _portable_uri(e.source_uri, file.parent)}
+            for e in sorted(entries, key=lambda e: (e.policy_id, e.revision_id))
         ],
     }
     file.write_text(

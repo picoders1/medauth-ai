@@ -21,7 +21,10 @@ the repository, without requiring undocumented context.
 [evidence scorecard](docs/evidence/final-scorecard.md) ·
 [architecture index](docs/architecture/README.md) ·
 [security evidence](docs/security/security-summary.md) ·
-[why R-86 is blocked](docs/evaluation/r86-status.md)
+[why R-86 is blocked](docs/evaluation/r86-status.md) ·
+[external dependency register](docs/operations/external-dependency-register.md) ·
+[final blocker matrix](docs/operations/final-blocker-matrix.md) ·
+[R-86 closure procedure](docs/evaluation/r86-closure-procedure.md)
 
 Every figure below was produced by a command in this repository. Nothing is carried
 forward from a previous report.
