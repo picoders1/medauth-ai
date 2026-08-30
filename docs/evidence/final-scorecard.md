@@ -12,7 +12,7 @@ Every row cites something in this repository. Nothing is asserted without it.
 | Real IdP | **VERIFIED NON-PRODUCTION** | Keycloak 26 · `verify_idp.py` **12/12** · `verify_idp_e2e.py` **39/39** |
 | Production-shaped E2E | **COMPLETE** | `verify_idp_container_e2e.py` **45/45** over HTTPS, production-mode Keycloak on persistent PostgreSQL |
 | Runtime reproducibility | **COMPLETE** | clean `--no-cache` build, 37 packages, no optional-extra masking, reviewer UI renders |
-| Remote CI | **PASS** | run `33309896378` on `117409f5` (current HEAD): every step green, none skipped; Test step **952 passed, 117 skipped** |
+| Remote CI | **PASS** | run `33310007211` on `21f94bc` (final): every step green, none skipped; Test step **952 passed, 117 skipped** |
 | Mutation testing | **47/47** | where the restricted corpus is present; **37/47 with 10 named as not verified** in CI, which cannot hold it |
 | Local suite | **1373 passed** | unit 648 · api 90 · security 665 · integration 79 · evaluation 516 |
 | Static checks | **CLEAN** | ruff · format (428 files) · mypy (102 files) · `alembic check` · `uv lock --check` |

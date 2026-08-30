@@ -209,7 +209,7 @@ external provider-dependent evaluation limitation, not an unresolved MEDAUTH def
 | HITL | **COMPLETE** | accept / request-info / override verified live |
 | Audit | **COMPLETE** | authenticated `sub` + issuer; `UPDATE`/`DELETE` refused |
 | Runtime | **COMPLETE** | clean `--no-cache` build; reviewer UI renders |
-| Remote CI | **PASSING** | run `33309896378` on `117409f5` (current HEAD): every step green, none skipped. Test step **952 passed, 117 skipped** — the skips are corpus-gated (ADR-003), and the database-backed api/security tests execute against a real PostgreSQL service |
+| Remote CI | **PASSING** | run `33310007211` on `21f94bc` (final): every step green, none skipped. Test step **952 passed, 117 skipped** — the skips are corpus-gated (ADR-003), and the database-backed api/security tests execute against a real PostgreSQL service |
 | Real IdP | **VERIFIED NON-PRODUCTION** | Keycloak 26, `verify_idp.py` 12/12, `verify_idp_e2e.py` 39/39 |
 | Production-shaped E2E | **COMPLETE** | `verify_idp_container_e2e.py` **45/45** over HTTPS |
 | Production deployment | **NOT PERFORMED** | no platform, domain, CA or operator exists |
