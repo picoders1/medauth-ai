@@ -29,7 +29,7 @@ person, with the whole path written to an append-only audit trail.
 
 | | |
 |---|---|
-| Application | **102 modules** · 6 migrations · **1369 tests** · **47/47** safety mutations caught |
+| Application | **102 modules** · 6 migrations · **1373 tests** · **47/47** safety mutations caught |
 | Decision records | **30 ADRs** — [docs/adr/](docs/adr/) |
 | Threat model | **27 threats** — [docs/security/threat-model.md](docs/security/threat-model.md) |
 | Identity | Real OIDC against **Keycloak 26** (non-production); `verify_idp.py` **12/12 with a token** (7 without — issuance is not checked unless you supply one) |
@@ -606,7 +606,7 @@ Other invariants:
 ## Testing
 
 ```bash
-uv run pytest -q                          # 1369 tests
+uv run pytest -q                          # 1373 tests
 uv run pytest -m "unit or api or security"   # 1065 — the fast suite CI runs
 uv run pytest -m "unit or evaluation"        # 1160 — green with nothing running
 uv run python scripts/mutation_guard.py      # 47/47 safety mutations caught

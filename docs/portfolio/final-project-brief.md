@@ -87,7 +87,7 @@ caught in a module nobody imports.
 | Mutation testing | **47/47 caught** |
 | Production-shaped E2E | **45/45** through the published port |
 | Safe smoke | **7/7**, zero review-event rows written |
-| Remote CI | run **33168337280** — success, no non-success steps |
+| Remote CI | run **33309312387** — success, no non-success steps |
 | Static | ruff · format · mypy · alembic · `uv lock` all clean |
 
 ## The limitation, stated plainly
