@@ -203,13 +203,13 @@ external provider-dependent evaluation limitation, not an unresolved MEDAUTH def
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Application | **COMPLETE** | 102 modules, 6 migrations, 1369 tests |
+| Application | **COMPLETE** | 102 modules, 6 migrations, 1373 tests |
 | Authentication | **COMPLETE** | real RS256 tokens end to end; 19 negative cases |
 | Authorization | **COMPLETE** | matrix in §4, through the published port |
 | HITL | **COMPLETE** | accept / request-info / override verified live |
 | Audit | **COMPLETE** | authenticated `sub` + issuer; `UPDATE`/`DELETE` refused |
 | Runtime | **COMPLETE** | clean `--no-cache` build; reviewer UI renders |
-| Remote CI | **PASSING** | run `33096735735` on `ab9fb3d`: every step green, none skipped. Test step **948 passed, 117 skipped** — the skips are corpus-gated (ADR-003), and the database-backed api/security tests execute against a real PostgreSQL service |
+| Remote CI | **PASSING** | run `33168337280` on `98dc6fd` (current HEAD): every step green, none skipped. Test step **948 passed, 117 skipped** — the skips are corpus-gated (ADR-003), and the database-backed api/security tests execute against a real PostgreSQL service |
 | Real IdP | **VERIFIED NON-PRODUCTION** | Keycloak 26, `verify_idp.py` 12/12, `verify_idp_e2e.py` 39/39 |
 | Production-shaped E2E | **COMPLETE** | `verify_idp_container_e2e.py` **45/45** over HTTPS |
 | Production deployment | **NOT PERFORMED** | no platform, domain, CA or operator exists |

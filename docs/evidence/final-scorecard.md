@@ -12,9 +12,9 @@ Every row cites something in this repository. Nothing is asserted without it.
 | Real IdP | **VERIFIED NON-PRODUCTION** | Keycloak 26 · `verify_idp.py` **12/12** · `verify_idp_e2e.py` **39/39** |
 | Production-shaped E2E | **COMPLETE** | `verify_idp_container_e2e.py` **45/45** over HTTPS, production-mode Keycloak on persistent PostgreSQL |
 | Runtime reproducibility | **COMPLETE** | clean `--no-cache` build, 37 packages, no optional-extra masking, reviewer UI renders |
-| Remote CI | **PASS** | run `33097477139` on `4870ae3`: every step green, none skipped; Test step **948 passed, 117 skipped** |
+| Remote CI | **PASS** | run `33168337280` on `98dc6fd` (current HEAD): every step green, none skipped; Test step **948 passed, 117 skipped** |
 | Mutation testing | **47/47** | where the restricted corpus is present; **37/47 with 10 named as not verified** in CI, which cannot hold it |
-| Local suite | **1369 passed** | unit 644 · api 90 · security 665 · integration 79 · evaluation 516 |
+| Local suite | **1373 passed** | unit 648 · api 90 · security 665 · integration 79 · evaluation 516 |
 | Static checks | **CLEAN** | ruff · format (428 files) · mypy (102 files) · `alembic check` · `uv lock --check` |
 | Smoke suite | **7/7 safe mode** | writes zero rows, verified by row count; the two mutating checks require an operator-designated case |
 | **R-86** | **BLOCKED** | 6/12 = 50% against a 0.10 ceiling · seal intact · `gold_v1` 2/2 · `gold_v2` **0/1 unspent** |

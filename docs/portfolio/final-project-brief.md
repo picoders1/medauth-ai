@@ -83,7 +83,7 @@ caught in a module nobody imports.
 
 | | |
 |---|---|
-| Local suite | **1369 passed** (unit 644 · api 90 · security 665 · integration 79 · evaluation 516) |
+| Local suite | **1373 passed** (unit 648 · api 90 · security 665 · integration 79 · evaluation 516) |
 | Mutation testing | **47/47 caught** |
 | Production-shaped E2E | **45/45** through the published port |
 | Safe smoke | **7/7**, zero review-event rows written |

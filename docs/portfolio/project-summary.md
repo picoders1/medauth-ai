@@ -89,10 +89,10 @@ not claimed.*
 
 ## Validation
 
-**1369** local tests (unit 644 · api 90 · security 665 · integration 79 · evaluation 516) ·
+**1373** local tests (unit 648 · api 90 · security 665 · integration 79 · evaluation 516) ·
 **47/47** mutations caught · **45/45** production-shaped E2E over HTTPS against a real
 Keycloak · smoke suite **7/7** in a mode proven to write nothing · remote CI run
-**33097477139** green with database-backed api/security tests genuinely executing.
+**33168337280** green with database-backed api/security tests genuinely executing.
 
 ## Limitations
 
