@@ -5,7 +5,3 @@ export function fmt(iso: string): string {
     return iso
   }
 }
-
-export function humanize(state: string): string {
-  return state.replace(/_/g, ' ').toLowerCase()
-}

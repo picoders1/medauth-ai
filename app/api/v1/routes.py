@@ -413,6 +413,13 @@ async def get_review_view(
             for h in view.history
         ),
         available_actions=view.available_actions,
+        # The authority half, read from the granted permissions - the same source
+        # `app/api/reviewer_ui.py` gives the Jinja page. Reported, never enforced
+        # here: `HumanReviewService.record` requires each permission again before
+        # anything is written.
+        may_review=reviewer.has(Permission.REVIEW_CASE),
+        may_override=reviewer.has(Permission.OVERRIDE_RECOMMENDATION),
+        may_finalize=reviewer.has(Permission.FINALIZE_CASE),
         audit_event_count=view.audit_event_count,
         request_id=request_id,
     )

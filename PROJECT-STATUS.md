@@ -203,7 +203,8 @@ external provider-dependent evaluation limitation, not an unresolved MEDAUTH def
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Application | **COMPLETE** | 102 modules, 6 migrations, 1373 tests |
+| Application | **COMPLETE** | 102 modules, 6 migrations, 1414 backend tests |
+| Reviewer console | **NOT production-ready** | builds, type-checks, 35 frontend tests; two interfaces, and the Jinja page is the reference — [reviewer-ui.md](docs/architecture/reviewer-ui.md) |
 | Authentication | **COMPLETE** | real RS256 tokens end to end; 19 negative cases |
 | Authorization | **COMPLETE** | matrix in §4, through the published port |
 | HITL | **COMPLETE** | accept / request-info / override verified live |

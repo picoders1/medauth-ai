@@ -109,11 +109,20 @@ Enforced by **trigger**, not by grant: PostgreSQL never restricts a table's owne
 nothing else — a purge that can be aimed at particular rows is a mechanism for erasing the
 record of a specific recommendation.
 
-## Reviewer UI — [ADR-020](../adr/)
+## Reviewer UI — [reviewer-ui.md](reviewer-ui.md), [ADR-020](../adr/)
 
-Server-rendered Jinja. **No npm, no CDN, no `<script>` tag.** A CDN is a runtime
-dependency and a third party in the request path; a reviewer console is not the place for
-either.
+**Two interfaces exist**, and this section used to describe only one of them. The
+server-rendered Jinja page at `/ui/cases/{id}` is the **reference implementation of the
+reviewer safety semantics** — no npm, no CDN, no `<script>` tag, because a page that
+renders a case and four buttons should not pay R-31's supply-chain price. A React SPA also
+exists under `web/`; it is a Vite dev-time process, has no service in `compose.yaml`, and
+is **not production-ready**. Where the two disagree, the Jinja page is right and the SPA is
+the defect.
+
+Both are bound by the same three rules, asserted on both by test: neither decides anything
+(every action re-authorises server-side), neither renders the engine's draft as a decision,
+and neither shows the draft above the reason the case was routed to a person (R-04). The
+SPA holds its two credentials in memory and persists nothing.
 
 ## LLM gateway — [ADR-016](../adr/ADR-016-llm-firewall-integration.md)
 

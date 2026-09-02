@@ -1,0 +1,16 @@
+{
+  /* Tests run under Node's built-in runner with native type stripping, so they need
+     Node's types - and the app must NOT. Keeping them in a separate project stops
+     `process`, `Buffer` and friends becoming available to browser code by accident,
+     which is what adding "node" to tsconfig.app.json's `types` would have done.
+
+     `include` is all of `src` rather than just the test files: a test imports the
+     module it tests, and a project must list every file it pulls in. */
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
+    "types": ["node", "vite/client"]
+  },
+  "include": ["src"],
+  "exclude": []
+}

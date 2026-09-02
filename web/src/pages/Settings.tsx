@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { KeyRound, LogOut, ShieldCheck, UserRound } from 'lucide-react'
 import type { useSession } from '../lib/auth'
 
@@ -7,10 +7,12 @@ export function Settings({ session }: { session: ReturnType<typeof useSession> }
   const [bearer, setBearer] = useState(session.creds.bearerToken ?? '')
   const [saved, setSaved] = useState(false)
 
-  useEffect(() => {
-    setApiKey(session.creds.apiKey)
-    setBearer(session.creds.bearerToken ?? '')
-  }, [session.creds])
+  const clear = () => {
+    session.clear()
+    setApiKey('')
+    setBearer('')
+    setSaved(false)
+  }
 
   const save = (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,7 +29,9 @@ export function Settings({ session }: { session: ReturnType<typeof useSession> }
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-white">Connection settings</h1>
         <p className="mt-1 text-sm text-[#8a97b4]">
-          These live only in this browser (localStorage). MEDAUTH never stores provider credentials.
+          Held in memory for this tab only. Nothing is written to browser storage, so a reload
+          or Clear discards them and you enter them again. MEDAUTH never stores provider
+          credentials.
         </p>
       </div>
 
@@ -75,10 +79,10 @@ export function Settings({ session }: { session: ReturnType<typeof useSession> }
         <div className="flex items-center justify-between border-t border-[#1c2742] pt-4">
           <div className="flex items-center gap-2 text-xs text-[#7a88a6]">
             <ShieldCheck size={14} className="text-[#4ade80]" />
-            stored locally, browser only
+            in memory only, never persisted
           </div>
           <div className="flex gap-2">
-            <button type="button" className="btn btn-ghost" onClick={session.clear}>
+            <button type="button" className="btn btn-ghost" onClick={clear}>
               <LogOut size={15} /> Clear
             </button>
             <button type="submit" className="btn btn-primary">

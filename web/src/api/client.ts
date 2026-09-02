@@ -55,11 +55,15 @@ export class Client {
     if (!res.ok) {
       let apiError: ApiError = { status: res.status }
       try {
-        apiError = (await res.json()) as ApiError
-        apiError.status = res.status
+        apiError = { ...((await res.json()) as ApiError), status: res.status }
       } catch {
         /* non-JSON error body */
       }
+      // The request id also rides on a response header, and is present even when the
+      // body is not JSON at all (a proxy error, a truncated response). Prefer the body,
+      // fall back to the header, so the id a reviewer would quote is not lost in the
+      // cases where it is most needed.
+      apiError.request_id ??= res.headers.get('x-medauth-request-id') ?? undefined
       throw new ApiHttpError(apiError)
     }
     return (await res.json()) as T
@@ -118,11 +122,43 @@ export class Client {
   }
 }
 
+/**
+ * An error the API returned, carrying its whole envelope.
+ *
+ * The envelope is `{error, detail, request_id, case_id}` - verified against the running
+ * service. `detail` is a string on most errors and pydantic's issue list on a 422, and
+ * the previous client stringified neither, so a validation failure surfaced as the
+ * unhelpful "Request failed (HTTP 422)".
+ */
 export class ApiHttpError extends Error {
   body: ApiError
+  /** Machine-readable category, e.g. `not_authenticated`. */
+  readonly code: string | undefined
+  /** For the reviewer to quote - every audit event and log line carries the same id. */
+  readonly requestId: string | undefined
+
   constructor(body: ApiError) {
-    super(typeof body.detail === 'string' ? body.detail : `Request failed (HTTP ${body.status})`)
+    super(describe(body))
     this.name = 'ApiHttpError'
     this.body = body
+    this.code = body.error
+    this.requestId = body.request_id
   }
+}
+
+/** The most specific message the envelope supports, never a bare status. */
+export function describe(body: ApiError): string {
+  const { detail } = body
+  if (typeof detail === 'string' && detail.length > 0) return detail
+  if (Array.isArray(detail) && detail.length > 0) {
+    // "clinical_note: Field required" reads as an instruction; "HTTP 422" does not.
+    return detail
+      .map((issue) => {
+        const field = issue.loc?.filter((part) => part !== 'body').join('.')
+        return field ? `${field}: ${issue.msg}` : issue.msg
+      })
+      .join('; ')
+  }
+  if (body.error) return `${body.error} (HTTP ${body.status})`
+  return `Request failed (HTTP ${body.status})`
 }

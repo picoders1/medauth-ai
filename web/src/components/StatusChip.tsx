@@ -1,14 +1,18 @@
-import { humanize } from '../lib/format'
+import { presentState } from '../lib/lifecycle'
 
-const TONE: Record<string, string> = {
-  CREATED: 'chip-neutral',
-  SUBMITTED: 'chip-info',
-  RECOMMENDATION_READY: 'chip-info',
-  HUMAN_REVIEW: 'chip-amber',
-  FINAL_INFO: 'chip-amber',
-  CLOSED: 'chip-success',
-}
-
+/**
+ * A case's state, from the total table in `lib/lifecycle.ts`.
+ *
+ * This component previously held its own partial map keyed on state names the server
+ * does not emit (`CREATED`, `SUBMITTED`, `FINAL_INFO`, `CLOSED`), so `FAILED`,
+ * `FINALIZED`, `NEEDS_INFO`, `PROCESSING` and `RECEIVED` all fell through to a neutral
+ * grey chip. The mapping now lives in one place beside the lifecycle it mirrors.
+ */
 export function StatusChip({ state }: { state: string }) {
-  return <span className={`chip ${TONE[state] ?? 'chip-neutral'}`}>{humanize(state)}</span>
+  const presentation = presentState(state)
+  return (
+    <span className={`chip ${presentation.tone}`} title={presentation.meaning}>
+      {presentation.label}
+    </span>
+  )
 }

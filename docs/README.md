@@ -26,6 +26,7 @@ Every performance, accuracy and grounding figure in this project is **pending ev
 - [data-architecture.md](architecture/data-architecture.md) — schema, classification, retention
 - [decision-and-abstention.md](architecture/decision-and-abstention.md) — decision engine, gate, calibration
 - [repository-structure.md](architecture/repository-structure.md) — layout, dependency rules, ports
+- [reviewer-ui.md](architecture/reviewer-ui.md) — the two reviewer interfaces, which is authoritative, and what is still undecided
 - [vertical-slice-admissibility.md](architecture/vertical-slice-admissibility.md) — the eleven-condition gate; **BLOCKED**
 - [first-vertical-slice.md](architecture/first-vertical-slice.md) — the entry condition, stage by stage
 - [vertical-slice-contract.md](architecture/vertical-slice-contract.md) — the contract the first AI slice must satisfy, written before the agents

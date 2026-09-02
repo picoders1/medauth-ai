@@ -29,7 +29,8 @@ person, with the whole path written to an append-only audit trail.
 
 | | |
 |---|---|
-| Application | **102 modules** · 6 migrations · **1373 tests** · **47/47** safety mutations caught |
+| Application | **102 modules** · 6 migrations · **1414 backend tests** · **47/47** safety mutations caught |
+| Reviewer console | React SPA under `web/` · **35 frontend tests** (`node --test`, no test framework installed) · not production-ready |
 | Decision records | **30 ADRs** — [docs/adr/](docs/adr/) |
 | Threat model | **27 threats** — [docs/security/threat-model.md](docs/security/threat-model.md) |
 | Identity | Real OIDC against **Keycloak 26** (non-production); `verify_idp.py` **12/12 with a token** (7 without — issuance is not checked unless you supply one) |
@@ -266,7 +267,7 @@ User → HTTPS (terminated at a reverse proxy; the app holds no certificate)
 | HTTP client | httpx | `>=0.27,<1.0` | Pooled async client → llm-firewall |
 | Identity | PyJWT `[crypto]` | `>=2.9` | RS256/ES256 verification via JWKS |
 | Identity provider | Keycloak | `26.0` | Non-production OIDC issuer |
-| Templating | Jinja2 | `>=3.1,<4.0` | Server-rendered reviewer view — no npm, no bundler |
+| Templating | Jinja2 | `>=3.1,<4.0` | Server-rendered reviewer view at `/ui/cases/{id}` — no npm, no bundler, no `<script>` |
 | Logging | structlog | `>=24.4,<26.0` | Redaction **at the sink** |
 | Metrics | prometheus-client | `>=0.21,<1.0` | `/metrics` exposition |
 | Config | PyYAML | `>=6.0,<7.0` | Decision policy + overlays |
@@ -361,6 +362,23 @@ curl localhost:8015/ready        # or: make ready
 
 `/ready` reports four checks — configuration, decision policy, database, and the firewall
 (advisory). A container that lost its security configuration never has traffic routed to it.
+
+### The reviewer console
+
+Two reviewer interfaces exist, and only one of them is served by the stack above. The
+server-rendered Jinja page at `/ui/cases/{id}` is the **reference implementation of the
+reviewer safety semantics**. A React SPA under [`web/`](web/) covers submit, look-up and
+review; it is a development-time Vite process, has **no service in `compose.yaml`**, and is
+**not production-ready**. Where the two disagree, the Jinja page is right.
+
+```bash
+cd web && npm ci && npm run dev    # Vite on :3100, proxying /api and /ui to :8015
+```
+
+Credentials are entered in the console's Settings and held **in memory only** — nothing is
+written to browser storage, so a reload discards them.
+[docs/architecture/reviewer-ui.md](docs/architecture/reviewer-ui.md) records which is
+authoritative and what has deliberately not been decided.
 
 ### Make targets
 
@@ -606,9 +624,9 @@ Other invariants:
 ## Testing
 
 ```bash
-uv run pytest -q                          # 1373 tests
-uv run pytest -m "unit or api or security"   # 1065 — the fast suite CI runs
-uv run pytest -m "unit or evaluation"        # 1160 — green with nothing running
+uv run pytest -q                          # 1414 backend tests
+uv run pytest -m "unit or api or security"   # 1110 — the fast suite CI runs
+uv run pytest -m "unit or evaluation"        # 1188 — green with nothing running
 uv run python scripts/mutation_guard.py      # 47/47 safety mutations caught
 ```
 
@@ -632,9 +650,26 @@ restricted corpus is present it reports **47/47 caught**; in CI, which cannot ho
 reports **37 caught, 10 not verified** and names them — it does not credit a mutation whose catching
 test could not run.
 
+**The console has its own tests and its own CI job.** 35 of them, under `web/src/**/*.test.ts`,
+run on Node's built-in runner with no test framework installed. They cover what the frontend
+can check alone — the action-gating truth table, lifecycle presentation totality, error-envelope
+parsing. What they cannot check is whether the console's copy of a server vocabulary is still
+correct, because a frontend fixture only asserts what the frontend author typed; that half is in
+Python and reads *both* sources (`tests/unit/test_spa_contract_conformance.py`,
+`tests/api/test_spa_review_contract.py`). It is how a console that tested `available_actions`
+for a token the server has never emitted — silently disabling override for every reviewer —
+went unnoticed through four commits.
+
+```bash
+cd web && npm ci && npm run lint && npm run typecheck && npm test && npm run build
+```
+
 CI additionally enforces a fresh lockfile, strict typing, that no credential-shaped literal is
 committed, that no outcome token appears in a verdict-only package, and that **no compliance claim**
-is present anywhere in the tree.
+is present anywhere in the tree. The `console` job installs from `package-lock.json` with `npm ci`,
+lints, type-checks, tests, **builds**, and audits the runtime dependency tree at any severity and
+the toolchain at high — the build step exists because `web/` was committed four times in a state
+where `tsc -b` failed.
 
 ---
 

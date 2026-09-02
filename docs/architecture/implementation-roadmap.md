@@ -49,11 +49,12 @@ four tracks stale again. It is a current-state document and drift in it is a def
 | category | items |
 |---|---|
 | **COMPLETED** | P0-P11, P13-P19, E-1 - E-11; application lifecycle; audit trail schema + runtime |
+| **BUILT, NOT PRODUCTION-READY** | Reviewer UI. A server-rendered Jinja page (`/ui/cases/{id}`) is the authoritative reference behaviour; a React SPA (`web/`) has been brought into verified contract and safety parity with it. Whether both survive is undecided - [reviewer-ui.md](reviewer-ui.md) |
 | **BLOCKED** | `phase16-evaluation-001` - the official 26-case evaluation. Gold_v2's single scoring is **unspent** |
 | **IN_PROGRESS** | P12 real model activation - acceptance criteria deliberately not all attempted |
 | **OUTSIDE_ENGINEERING_CONTROL** | **R-86** (provider-side, root cause not established); **OD-19** criteria review; **OD-26** NCD coverage status |
 | **DEFERRED** | retrieval configuration (`ENGINEERING_DEFAULT_UNRESOLVED`, OD-35/36); reviewer identity (**OD-43**); LCD/Article corpus (OD-21) |
-| **NOT STARTED** | LangGraph; multi-agent orchestration; reviewer UI; RBAC; Kubernetes; Langfuse; the 150-case evaluation |
+| **NOT STARTED** | LangGraph; multi-agent orchestration; RBAC; Kubernetes; Langfuse; the 150-case evaluation |
 
 **LangGraph is not implemented and is not in progress.** `langgraph` is importable only
 inside `app/graph`, which currently holds the linear slice runner and no graph.

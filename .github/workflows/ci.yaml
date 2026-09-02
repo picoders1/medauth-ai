@@ -143,3 +143,67 @@ jobs:
              | grep -vE 'never write|refused|Refused|must not'; then
             echo "::error::a compliance claim is present"; exit 1
           fi
+
+  # The reviewer console. A separate job rather than steps appended to `check`: it
+  # needs node and not PostgreSQL, it has nothing to wait for, and keeping it apart
+  # means a frontend failure names itself in the checks list instead of appearing as
+  # a red `check` that looks like the backend broke.
+  #
+  # `check` is untouched. Every backend gate above still runs, on the same runner,
+  # with the same database.
+  #
+  # This job did not exist while `web/` was committed, and `web/` did not compile:
+  # `tsc -b` failed on a review-action token the server has never emitted, so the
+  # console had never been built by anything. That is the defect a build step in CI
+  # exists to make impossible.
+  console:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # `npm ci` and not `npm install`: it installs exactly the lockfile and fails if
+      # `package.json` and `package-lock.json` disagree, so a dependency added without
+      # committing the lock is caught here rather than resolving to something different
+      # on every machine.
+      - name: Install from the lockfile
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # `tsc -b` builds all three projects, including `tsconfig.test.json`, so the
+      # tests are type-checked as well as run.
+      - name: Type-check
+        run: npm run typecheck
+
+      # Node's own runner with native type stripping - no test framework in the
+      # dependency tree. These are the console's logic tests; the console's contract
+      # with the server is checked from the Python side in
+      # `tests/unit/test_spa_contract_conformance.py`, which reads both files.
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # Two audits with different thresholds, because the two dependency sets have
+      # different consequences. The runtime tree is what a reviewer's browser executes,
+      # so any advisory in it is worth stopping for. The toolchain runs on a developer
+      # machine and in this runner; failing the build for every low-severity advisory in
+      # a transitive build dependency would train people to ignore the step.
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=low
+
+      - name: Audit the toolchain
+        run: npm audit --audit-level=high

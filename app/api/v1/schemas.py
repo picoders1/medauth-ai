@@ -287,6 +287,24 @@ class ReviewCaseResponse(_Strict):
 
     evidence: tuple[EvidenceRefResponse, ...]
     history: tuple[ReviewHistoryResponse, ...]
+    #: What the case's **state** permits, from `allowed_next`. Not an authorization
+    #: answer: a case in HUMAN_REVIEW publishes all three regardless of who is asking.
     available_actions: tuple[str, ...]
+
+    # -- what this reviewer may do (OD-43) ------------------------------------
+    #
+    # State and authority are two different gates and the API reports them
+    # separately, because a client that had only `available_actions` would have to
+    # *infer* authority - and the only inference available is the wrong one.
+    #
+    # These mirror the flags `app/api/reviewer_ui.py` already passes to the Jinja
+    # template; the same `Principal.has()` reads the same granted permissions. They
+    # are **informational**, and nothing here enforces: `HumanReviewService.record`
+    # calls `Principal.require()` on every action, so a client that ignored these
+    # fields entirely is refused by the service exactly as before.
+    may_review: bool
+    may_override: bool
+    may_finalize: bool
+
     audit_event_count: int
     request_id: str
